@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UPGRADER</title>
 
+<!-- Telegram Mini App API -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <style>
 *{
   box-sizing:border-box;
@@ -1093,7 +1096,7 @@ button{
   text-transform:uppercase;
 }
 
-.telegram-login-button{
+.telegram-account-button{
   display:flex;
   align-items:center;
   justify-content:center;
@@ -1754,15 +1757,12 @@ button{
           Авторизация через Telegram
         </div>
 
-       <a
-  class="profile-button telegram-login-button"
-  id="telegramLoginButton"
-  href="https://t.me/saintbetWbot"
-  target="_blank"
-  rel="noopener noreferrer"
+       <div
+  class="profile-button telegram-account-button"
+  id="telegramAccountButton"
 >
-  ВОЙТИ ЧЕРЕЗ TELEGRAM
-</a>
+  <span id="telegramAccountStatus">ПОДКЛЮЧЕНИЕ TELEGRAM...</span>
+</div>
 
         <div
           class="profile-cooldown"
@@ -2060,12 +2060,19 @@ function loadProfileData(){
     profile = {
       username,
       lastUsernameChange:0,
-      telegramUsername:''
+      telegramUsername:'',
+      telegramId:'',
+      telegramFirstName:'',
+      telegramLastName:''
     };
 
     users[username] = {
       balance:10,
-      inventory:[]
+      inventory:[],
+      telegramUsername:'',
+      telegramId:'',
+      telegramFirstName:'',
+      telegramLastName:''
     };
 
   }else if(
@@ -2074,7 +2081,11 @@ function loadProfileData(){
 
     users[profile.username] = {
       balance:10,
-      inventory:[]
+      inventory:[],
+      telegramUsername:'',
+      telegramId:'',
+      telegramFirstName:'',
+      telegramLastName:''
     };
 
   }
@@ -2110,7 +2121,10 @@ function saveProfileData(){
   users[profile.username] = {
     balance,
     inventory,
-    telegramUsername: normalizeUsername(profile?.telegramUsername || '')
+    telegramUsername: normalizeUsername(profile?.telegramUsername || ''),
+    telegramId: String(profile?.telegramId || ''),
+    telegramFirstName: String(profile?.telegramFirstName || ''),
+    telegramLastName: String(profile?.telegramLastName || '')
   };
 
   localStorage.setItem(
@@ -2125,30 +2139,61 @@ function saveProfileData(){
 
 }
 
+function getTelegramUser(){
+
+  // Telegram WebApp передаёт данные пользователя, когда сайт открыт
+  // именно внутри Telegram Mini App.
+  const tg = window.Telegram && window.Telegram.WebApp
+    ? window.Telegram.WebApp
+    : null;
+
+  if(!tg){
+    return null;
+  }
+
+  try{
+    tg.ready();
+    tg.expand();
+  }catch(e){}
+
+  return tg.initDataUnsafe?.user || null;
+
+}
+
 function getTelegramUsername(){
 
-  // DEMO: для теста можно открыть сайт с ?tg_username=saintEzz7.
-  // В реальном проекте это значение должен подтверждать backend/Telegram Login,
-  // потому что обычный HTML не может безопасно узнать Telegram username посетителя.
-  const params = new URLSearchParams(window.location.search);
-  const fromUrl = normalizeUsername(params.get('tg_username') || '');
+  const telegramUser = getTelegramUser();
 
-  if(fromUrl){
-    profile.telegramUsername = fromUrl;
+  if(telegramUser){
+    const username = normalizeUsername(telegramUser.username || '');
+
+    profile.telegramUsername = username;
+    profile.telegramId = String(telegramUser.id || '');
+    profile.telegramFirstName = String(telegramUser.first_name || '');
+    profile.telegramLastName = String(telegramUser.last_name || '');
+
     if(profile.username && users[profile.username]){
-      users[profile.username].telegramUsername = fromUrl;
+      users[profile.username].telegramUsername = username;
+      users[profile.username].telegramId = String(telegramUser.id || '');
+      users[profile.username].telegramFirstName = String(telegramUser.first_name || '');
+      users[profile.username].telegramLastName = String(telegramUser.last_name || '');
     }
+
     localStorage.setItem(
       'upgrader_telegram_username_v1',
-      fromUrl
+      username
     );
-    return fromUrl;
+
+    localStorage.setItem(
+      'upgrader_telegram_id_v1',
+      String(telegramUser.id || '')
+    );
+
+    return username;
   }
 
   return normalizeUsername(
-    profile?.telegramUsername ||
-    localStorage.getItem('upgrader_telegram_username_v1') ||
-    ''
+    profile?.telegramUsername || ''
   );
 
 }
@@ -2163,6 +2208,7 @@ function isAdmin(){
 
 function renderProfile(){
 
+  const telegramUser = getTelegramUser();
   const telegramUsername = getTelegramUsername();
 
   const usernameEl =
@@ -2177,28 +2223,81 @@ function renderProfile(){
   const cooldown =
     document.getElementById('profileCooldown');
 
+  const accountStatus =
+    document.getElementById('telegramAccountStatus');
+
   const adminPanel =
     document.getElementById('adminPanel');
 
-  if(usernameEl){
-    usernameEl.textContent =
+  if(telegramUser){
+
+    const firstName =
+      String(telegramUser.first_name || '').trim();
+
+    const lastName =
+      String(telegramUser.last_name || '').trim();
+
+    const fullName =
+      [firstName,lastName].filter(Boolean).join(' ') || 'Telegram пользователь';
+
+    const displayName =
       telegramUsername
         ? '@' + telegramUsername
-        : 'TELEGRAM';
-  }
+        : fullName;
 
-  if(avatarEl){
-    avatarEl.textContent =
-      telegramUsername
-        ? telegramUsername.charAt(0).toUpperCase()
-        : 'TG';
-  }
+    if(usernameEl){
+      usernameEl.textContent = displayName;
+    }
 
-  if(metaEl){
-    metaEl.textContent =
-      telegramUsername
-        ? 'Telegram аккаунт подключён'
-        : 'Авторизация через Telegram';
+    if(avatarEl){
+      avatarEl.textContent =
+        (firstName || telegramUsername || 'T')
+          .charAt(0)
+          .toUpperCase();
+    }
+
+    if(metaEl){
+      metaEl.textContent =
+        telegramUsername
+          ? 'TELEGRAM • ' + fullName
+          : 'TELEGRAM • ' + fullName;
+    }
+
+    if(accountStatus){
+      accountStatus.textContent =
+        '✓ АККАУНТ TELEGRAM ПОДКЛЮЧЁН';
+    }
+
+    if(cooldown){
+      cooldown.textContent =
+        telegramUser.id
+          ? 'Telegram ID: ' + telegramUser.id
+          : 'Аккаунт определён Telegram';
+    }
+
+  }else{
+
+    if(usernameEl){
+      usernameEl.textContent = 'ОТКРОЙТЕ В TELEGRAM';
+    }
+
+    if(avatarEl){
+      avatarEl.textContent = 'TG';
+    }
+
+    if(metaEl){
+      metaEl.textContent = 'MINI APP НЕ ОТКРЫТ В TELEGRAM';
+    }
+
+    if(accountStatus){
+      accountStatus.textContent =
+        'ОТКРОЙТЕ SAINTBET В TELEGRAM';
+    }
+
+    if(cooldown){
+      cooldown.textContent =
+        'Аккаунт Telegram появится автоматически после открытия Mini App.';
+    }
   }
 
   if(isAdmin()){
@@ -2212,16 +2311,14 @@ function renderProfile(){
       adminName.textContent = '@' + telegramUsername;
     }
 
-    cooldown.textContent =
-      'Администратор • полный доступ';
+    if(cooldown && telegramUser){
+      cooldown.textContent =
+        'Администратор • полный доступ • ID: ' + telegramUser.id;
+    }
 
   }else{
 
     adminPanel.hidden = true;
-
-    cooldown.textContent = telegramUsername
-      ? 'Telegram подключён.'
-      : 'Нажми «ВОЙТИ ЧЕРЕЗ TELEGRAM».';
 
   }
 
@@ -3565,6 +3662,15 @@ function filterItems(){
 /* =========================================================
    START
 ========================================================= */
+
+// Инициализируем Telegram Mini App до загрузки профиля,
+// чтобы сразу определить аккаунт пользователя.
+if(window.Telegram && window.Telegram.WebApp){
+  try{
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+  }catch(e){}
+}
 
 loadProfileData();
 
