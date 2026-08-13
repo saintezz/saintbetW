@@ -1093,6 +1093,14 @@ button{
   text-transform:uppercase;
 }
 
+.telegram-login-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-sizing:border-box;
+}
+
 .profile-button,
 .admin-button{
   width:100%;
@@ -1736,23 +1744,25 @@ button{
           class="profile-username"
           id="profileUsername"
         >
-          @user
+          TELEGRAM
         </div>
 
         <div
           class="profile-meta"
           id="profileMeta"
         >
-          Имя пользователя
+          Авторизация через Telegram
         </div>
 
-        <button
-          class="profile-button"
-          type="button"
-          onclick="changeUsername()"
-        >
-          ИЗМЕНИТЬ USERNAME
-        </button>
+       <a
+  class="profile-button telegram-login-button"
+  id="telegramLoginButton"
+  href="https://t.me/saintbetWbot"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  ВОЙТИ ЧЕРЕЗ TELEGRAM
+</a>
 
         <div
           class="profile-cooldown"
@@ -1781,7 +1791,7 @@ button{
         <input
           class="admin-input"
           id="adminUsername"
-          placeholder="@username"
+          placeholder="@telegram_username"
           maxlength="40"
         >
 
@@ -1812,62 +1822,6 @@ button{
     </div>
 
   </section>
-
-</div>
-
-<!-- USERNAME MODAL -->
-
-<div
-  class="username-modal"
-  id="usernameModal"
-  hidden
->
-
-  <div class="username-modal-box">
-
-    <div class="username-modal-title">
-      ИЗМЕНИТЬ USERNAME
-    </div>
-
-    <div class="username-modal-subtitle">
-      Можно использовать любые символы • до 40 символов
-    </div>
-
-    <input
-      class="username-modal-input"
-      id="usernameInput"
-      maxlength="40"
-      autocomplete="off"
-      spellcheck="false"
-      placeholder="@username"
-    >
-
-    <div
-      class="username-modal-error"
-      id="usernameModalError"
-    ></div>
-
-    <div class="username-modal-actions">
-
-      <button
-        type="button"
-        class="username-modal-cancel"
-        onclick="closeUsernameModal()"
-      >
-        ОТМЕНА
-      </button>
-
-      <button
-        type="button"
-        class="username-modal-save"
-        onclick="saveUsernameFromModal()"
-      >
-        СОХРАНИТЬ
-      </button>
-
-    </div>
-
-  </div>
 
 </div>
 
@@ -2105,7 +2059,8 @@ function loadProfileData(){
 
     profile = {
       username,
-      lastUsernameChange:0
+      lastUsernameChange:0,
+      telegramUsername:''
     };
 
     users[username] = {
@@ -2154,7 +2109,8 @@ function saveProfileData(){
 
   users[profile.username] = {
     balance,
-    inventory
+    inventory,
+    telegramUsername: normalizeUsername(profile?.telegramUsername || '')
   };
 
   localStorage.setItem(
@@ -2169,78 +2125,91 @@ function saveProfileData(){
 
 }
 
-function isAdmin(){
+function getTelegramUsername(){
 
-  if(
-    !profile ||
-    !profile.username
-  ){
+  // DEMO: для теста можно открыть сайт с ?tg_username=saintEzz7.
+  // В реальном проекте это значение должен подтверждать backend/Telegram Login,
+  // потому что обычный HTML не может безопасно узнать Telegram username посетителя.
+  const params = new URLSearchParams(window.location.search);
+  const fromUrl = normalizeUsername(params.get('tg_username') || '');
 
-    return false;
-
+  if(fromUrl){
+    profile.telegramUsername = fromUrl;
+    if(profile.username && users[profile.username]){
+      users[profile.username].telegramUsername = fromUrl;
+    }
+    localStorage.setItem(
+      'upgrader_telegram_username_v1',
+      fromUrl
+    );
+    return fromUrl;
   }
 
-  const admins =
-    new Set([
-      'saint',
-      'mrbarsik',
-      'barsik'
-    ]);
-
-  return admins.has(
-    normalizeUsername(
-      profile.username
-    )
+  return normalizeUsername(
+    profile?.telegramUsername ||
+    localStorage.getItem('upgrader_telegram_username_v1') ||
+    ''
   );
+
+}
+
+function isAdmin(){
+
+  const telegramUsername = getTelegramUsername();
+
+  return telegramUsername === 'saintezz7';
 
 }
 
 function renderProfile(){
 
-  const username =
-    profile?.username || 'user';
+  const telegramUsername = getTelegramUsername();
 
-  document
-    .getElementById(
-      'profileUsername'
-    )
-    .textContent =
-      '@' + username;
+  const usernameEl =
+    document.getElementById('profileUsername');
 
-  document
-    .getElementById(
-      'profileAvatar'
-    )
-    .textContent =
-      username
-        .charAt(0)
-        .toUpperCase();
+  const avatarEl =
+    document.getElementById('profileAvatar');
+
+  const metaEl =
+    document.getElementById('profileMeta');
 
   const cooldown =
-    document.getElementById(
-      'profileCooldown'
-    );
+    document.getElementById('profileCooldown');
 
   const adminPanel =
-    document.getElementById(
-      'adminPanel'
-    );
+    document.getElementById('adminPanel');
+
+  if(usernameEl){
+    usernameEl.textContent =
+      telegramUsername
+        ? '@' + telegramUsername
+        : 'TELEGRAM';
+  }
+
+  if(avatarEl){
+    avatarEl.textContent =
+      telegramUsername
+        ? telegramUsername.charAt(0).toUpperCase()
+        : 'TG';
+  }
+
+  if(metaEl){
+    metaEl.textContent =
+      telegramUsername
+        ? 'Telegram аккаунт подключён'
+        : 'Авторизация через Telegram';
+  }
 
   if(isAdmin()){
 
-    adminPanel.hidden =
-      false;
+    adminPanel.hidden = false;
 
     const adminName =
-      document.getElementById(
-        'adminName'
-      );
+      document.getElementById('adminName');
 
     if(adminName){
-
-      adminName.textContent =
-        '@' + username;
-
+      adminName.textContent = '@' + telegramUsername;
     }
 
     cooldown.textContent =
@@ -2248,228 +2217,13 @@ function renderProfile(){
 
   }else{
 
-    adminPanel.hidden =
-      true;
+    adminPanel.hidden = true;
 
-    const last =
-      Number(
-        profile?.lastUsernameChange || 0
-      );
-
-    if(!last){
-
-      cooldown.textContent =
-        'Username можно изменить сейчас.';
-
-    }else{
-
-      const next =
-        new Date(last);
-
-      next.setMonth(
-        next.getMonth() + 2
-      );
-
-      if(
-        Date.now() >=
-        next.getTime()
-      ){
-
-        cooldown.textContent =
-          'Username можно изменить сейчас.';
-
-      }else{
-
-        cooldown.textContent =
-          'Следующая смена: ' +
-          next.toLocaleDateString(
-            'ru-RU'
-          );
-
-      }
-
-    }
+    cooldown.textContent = telegramUsername
+      ? 'Telegram подключён.'
+      : 'Нажми «ВОЙТИ ЧЕРЕЗ TELEGRAM».';
 
   }
-
-}
-
-function changeUsername(){
-
-  if(!profile){
-    return;
-  }
-
-  const last =
-    Number(
-      profile.lastUsernameChange || 0
-    );
-
-  if(last){
-
-    const next =
-      new Date(last);
-
-    next.setMonth(
-      next.getMonth() + 2
-    );
-
-    if(
-      Date.now() <
-      next.getTime()
-    ){
-
-      alert(
-        'Username можно менять только раз в 2 месяца.\n' +
-        'Следующая смена: ' +
-        next.toLocaleDateString('ru-RU')
-      );
-
-      return;
-
-    }
-
-  }
-
-  const modal =
-    document.getElementById(
-      'usernameModal'
-    );
-
-  const input =
-    document.getElementById(
-      'usernameInput'
-    );
-
-  const error =
-    document.getElementById(
-      'usernameModalError'
-    );
-
-  if(!modal || !input){
-
-    alert(
-      'Не удалось открыть окно изменения username.'
-    );
-
-    return;
-
-  }
-
-  error.textContent = '';
-
-  input.value =
-    '@' + profile.username;
-
-  modal.hidden =
-    false;
-
-  setTimeout(()=>{
-
-    input.focus();
-    input.select();
-
-  },0);
-
-}
-
-function closeUsernameModal(){
-
-  const modal =
-    document.getElementById(
-      'usernameModal'
-    );
-
-  if(modal){
-
-    modal.hidden =
-      true;
-
-  }
-
-}
-
-function saveUsernameFromModal(){
-
-  if(!profile){
-    return;
-  }
-
-  const input =
-    document.getElementById(
-      'usernameInput'
-    );
-
-  const error =
-    document.getElementById(
-      'usernameModalError'
-    );
-
-  const entered =
-    input ? input.value : '';
-
-  const nextUsername =
-    entered
-      .trim()
-      .replace(/^@+/, '');
-
-  if(
-    !nextUsername ||
-    nextUsername.length > 40
-  ){
-
-    error.textContent =
-      'Username должен содержать от 1 до 40 символов.';
-
-    input.focus();
-
-    return;
-
-  }
-
-  const existingUser =
-    Object.keys(users).find(
-      key =>
-        normalizeUsername(key) ===
-        normalizeUsername(nextUsername)
-    );
-
-  if(
-    normalizeUsername(nextUsername) !==
-      normalizeUsername(profile.username) &&
-    existingUser
-  ){
-
-    error.textContent =
-      'Этот username уже занят.';
-
-    input.focus();
-
-    return;
-
-  }
-
-  const oldUsername =
-    profile.username;
-
-  users[nextUsername] = {
-    balance,
-    inventory
-  };
-
-  delete users[oldUsername];
-
-  profile.username =
-    nextUsername;
-
-  profile.lastUsernameChange =
-    Date.now();
-
-  saveProfileData();
-
-  renderProfile();
-
-  closeUsernameModal();
 
 }
 
@@ -2509,7 +2263,7 @@ function grantBones(){
   if(!validUsername(username)){
 
     message.textContent =
-      'Укажи корректный @username.';
+      'Укажи корректный Telegram @username.';
 
     return;
 
@@ -2530,8 +2284,8 @@ function grantBones(){
   const targetUsername =
     Object.keys(users).find(
       key =>
-        normalizeUsername(key) ===
-        username
+        normalizeUsername(key) === username ||
+        normalizeUsername(users[key]?.telegramUsername) === username
     );
 
   if(
@@ -2540,7 +2294,7 @@ function grantBones(){
   ){
 
     message.textContent =
-      'Пользователь не найден на этом браузере.';
+      'Пользователь не найден на этом браузере. Сначала он должен открыть сайт и авторизоваться.';
 
     return;
 
@@ -2552,9 +2306,8 @@ function grantBones(){
     ) + amount;
 
   if(
-    normalizeUsername(
-      profile.username
-    ) === username
+    normalizeUsername(profile.username) === username ||
+    normalizeUsername(profile.telegramUsername) === username
   ){
 
     balance =
