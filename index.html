@@ -19,11 +19,30 @@ html,body{
 
 body{
   font-family:Arial,Helvetica,sans-serif;
+
   background:
-    radial-gradient(circle at 50% 8%,rgba(200,200,200,.15),transparent 30%),
-    radial-gradient(circle at 10% 80%,rgba(180,180,180,.1),transparent 28%),
-    radial-gradient(circle at 90% 65%,rgba(200,200,200,.1),transparent 32%),
-    linear-gradient(180deg,#0a0a0a 0%,#000 48%,#050505 100%);
+    radial-gradient(
+      circle at 50% 8%,
+      rgba(200,200,200,.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      rgba(180,180,180,.1),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 65%,
+      rgba(200,200,200,.1),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #0a0a0a 0%,
+      #000 48%,
+      #050505 100%
+    );
+
   background-attachment:fixed;
 }
 
@@ -109,9 +128,15 @@ button{
 
 .top-area{
   display:grid;
-  grid-template-columns:minmax(190px,1fr) 330px minmax(190px,1fr);
+
+  grid-template-columns:
+    minmax(190px,1fr)
+    330px
+    minmax(190px,1fr);
+
   align-items:start;
   justify-content:center;
+
   gap:18px;
 
   max-width:1050px;
@@ -125,9 +150,11 @@ button{
 
 .side-title{
   color:#ccc;
+
   font-size:9px;
   letter-spacing:2px;
   font-weight:900;
+
   margin-bottom:13px;
 
   text-shadow:
@@ -137,6 +164,7 @@ button{
 .slot{
   width:160px;
   height:124px;
+
   margin:auto;
 
   border:1px solid rgba(100,100,100,.25);
@@ -192,9 +220,11 @@ button{
 
 .slot-text{
   color:#c8f6fb;
+
   font-size:9px;
   letter-spacing:1px;
   font-weight:800;
+
   line-height:1.5;
 }
 
@@ -215,14 +245,19 @@ button{
   border-radius:50%;
 
   position:relative;
+
   margin-top:0;
 
   --wheel-chance:30;
 
   background:
     conic-gradient(
-      #10df4b 0 calc(var(--wheel-chance) * 1%),
-      #d91f2f calc(var(--wheel-chance) * 1%) 100%
+      #10df4b
+      0 calc(var(--wheel-chance) * 1%),
+
+      #d91f2f
+      calc(var(--wheel-chance) * 1%)
+      100%
     );
 
   border:5px solid #ccc;
@@ -240,6 +275,7 @@ button{
   inset:10px;
 
   border-radius:50%;
+
   border:1px solid rgba(255,218,65,.38);
 
   background:
@@ -280,6 +316,7 @@ button{
 
 .pointer-wrap{
   position:absolute;
+
   z-index:4;
   inset:0;
 
@@ -323,12 +360,15 @@ button{
 
 .wheel-center{
   position:absolute;
+
   z-index:5;
   inset:0;
 
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   flex-direction:column;
 }
 
@@ -345,6 +385,7 @@ button{
 .wheel-chance{
   font-size:31px;
   font-weight:900;
+
   color:#e8eef4;
 }
 
@@ -371,14 +412,17 @@ button{
   height:8px;
 
   border-bottom:1px solid #d8e0e4;
+
   border-radius:0 0 9px 9px;
 }
 
 .controls{
   display:flex;
+
   align-items:center;
 
   margin-top:14px;
+
   gap:7px;
 }
 
@@ -447,6 +491,7 @@ button{
     );
 
   color:#ff8b35;
+
   font-size:21px;
 
   cursor:pointer;
@@ -471,7 +516,9 @@ button{
   display:grid;
 
   grid-template-columns:
-    1fr 1fr 1fr;
+    1fr
+    1fr
+    1fr;
 
   gap:12px;
 
@@ -522,21 +569,23 @@ button{
     0 0 12px rgba(100,100,100,.25);
 }
 
+/* ЧЁРНО-БЕЛАЯ ОБЛАСТЬ ЦЕЛЕЙ */
+
 .target-panel{
   background:
     linear-gradient(
       145deg,
-      rgba(30,30,30,.95),
-      rgba(10,10,10,.98)
+      rgba(35,35,35,.95),
+      rgba(8,8,8,.98)
     ) !important;
 }
 
 .target-panel .panel-title{
-  border-left-color:#35a9ff;
+  border-left-color:#aaa;
 }
 
 .shop-title{
-  border-left-color:#00e996;
+  border-left-color:#aaa;
 }
 
 .inventory-status{
@@ -552,9 +601,9 @@ button{
 
   margin-top:14px;
 
-  border:1px solid #00885e;
+  border:1px solid #555;
 
-  background:#0b1714;
+  background:#111;
 
   min-height:110px;
 
@@ -572,6 +621,7 @@ button{
 
 .selected-number{
   font-size:17px;
+
   font-weight:900;
 
   color:#e7edf1;
@@ -579,13 +629,14 @@ button{
   text-align:center;
 
   max-width:90%;
+
   line-height:1.25;
 }
 
 .selected-caption{
   font-size:9px;
 
-  color:#00d888;
+  color:#aaa;
 
   letter-spacing:2px;
 
@@ -665,6 +716,8 @@ button{
   position:relative;
 
   border-radius:10px !important;
+
+  color:#fff;
 }
 
 .item:hover{
@@ -694,7 +747,9 @@ button{
   color:#d9e0e5;
 
   font-size:11px;
+
   line-height:1.25;
+
   font-weight:800;
 }
 
@@ -704,6 +759,7 @@ button{
   color:#ffd52a;
 
   font-size:12px;
+
   font-weight:900;
 }
 
@@ -713,7 +769,9 @@ button{
 
 .shop-items{
   display:flex;
+
   flex-direction:column;
+
   gap:6px;
 }
 
@@ -734,7 +792,8 @@ button{
   display:grid;
 
   grid-template-columns:
-    minmax(0,1fr) auto;
+    minmax(0,1fr)
+    auto;
 
   grid-template-rows:
     auto auto;
@@ -756,6 +815,7 @@ button{
   color:#d9e0e5;
 
   font-size:10px;
+
   font-weight:800;
 
   line-height:1.2;
@@ -772,6 +832,7 @@ button{
   color:#ffd52a;
 
   font-size:11px;
+
   font-weight:900;
 
   grid-column:1;
@@ -809,6 +870,7 @@ button{
   color:#00e996 !important;
 
   font-size:9px;
+
   font-weight:900;
 
   cursor:pointer;
@@ -854,7 +916,8 @@ button{
   display:grid;
 
   grid-template-columns:
-    minmax(0,1fr) auto;
+    minmax(0,1fr)
+    auto;
 
   align-items:center;
 
@@ -924,6 +987,7 @@ button{
   color:#ff7882 !important;
 
   font-size:8px;
+
   font-weight:900;
 
   cursor:pointer;
@@ -1009,6 +1073,7 @@ button{
 
 .profile-username{
   font-size:18px;
+
   font-weight:900;
 
   color:#e4feff;
@@ -1047,6 +1112,7 @@ button{
   color:#fff;
 
   font-size:10px;
+
   font-weight:900;
 
   letter-spacing:1.2px;
@@ -1272,7 +1338,8 @@ button{
   display:grid;
 
   grid-template-columns:
-    1fr 1fr;
+    1fr
+    1fr;
 
   gap:8px;
 
@@ -1287,6 +1354,7 @@ button{
   cursor:pointer;
 
   font-size:11px;
+
   font-weight:900;
 }
 
@@ -1330,6 +1398,7 @@ button{
 
   .top-area{
     grid-template-columns:1fr;
+
     gap:14px;
   }
 
@@ -1372,12 +1441,14 @@ button{
 
   .upgrade{
     min-width:155px;
+
     font-size:15px;
   }
 
   .inventory-item{
     grid-template-columns:
-      minmax(0,1fr) auto;
+      minmax(0,1fr)
+      auto;
 
     gap:6px;
   }
@@ -1389,7 +1460,8 @@ button{
 
   .shop-item{
     grid-template-columns:
-      minmax(0,1fr) auto;
+      minmax(0,1fr)
+      auto;
 
     column-gap:6px;
   }
@@ -1449,19 +1521,26 @@ button{
           id="sourceSlot"
           onclick="focusInventory()"
         >
-          <div class="slot-icon">↓</div>
+
+          <div class="slot-icon">
+            ↓
+          </div>
 
           <div class="slot-text">
             ВЫБРАТЬ ИЗ<br>
             ИНВЕНТАРЯ
           </div>
+
         </div>
 
       </div>
 
       <div class="center">
 
-        <div class="wheel" id="wheel">
+        <div
+          class="wheel"
+          id="wheel"
+        >
 
           <div class="tick-ring"></div>
 
@@ -1469,7 +1548,9 @@ button{
             class="pointer-wrap"
             id="pointerWrap"
           >
+
             <div class="pointer"></div>
+
           </div>
 
           <div class="wheel-center">
@@ -1734,11 +1815,76 @@ button{
 
 </div>
 
+<!-- USERNAME MODAL -->
+
+<div
+  class="username-modal"
+  id="usernameModal"
+  hidden
+>
+
+  <div class="username-modal-box">
+
+    <div class="username-modal-title">
+      ИЗМЕНИТЬ USERNAME
+    </div>
+
+    <div class="username-modal-subtitle">
+      Можно использовать любые символы • до 40 символов
+    </div>
+
+    <input
+      class="username-modal-input"
+      id="usernameInput"
+      maxlength="40"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="@username"
+    >
+
+    <div
+      class="username-modal-error"
+      id="usernameModalError"
+    ></div>
+
+    <div class="username-modal-actions">
+
+      <button
+        type="button"
+        class="username-modal-cancel"
+        onclick="closeUsernameModal()"
+      >
+        ОТМЕНА
+      </button>
+
+      <button
+        type="button"
+        class="username-modal-save"
+        onclick="saveUsernameFromModal()"
+      >
+        СОХРАНИТЬ
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 <script>
 
-/* =========================
+/* =========================================================
    ITEMS
-========================= */
+   ПОРЯДОК:
+   0 La Grande
+   1 Bananito
+   2 Money Money Puggy
+   3 Tang Tang Keletang
+   4 Garama and Madundung
+   5 Cerberus
+   6 Dragon Cannelloni
+   7 Skibidi toilet
+========================================================= */
 
 const items = [
 
@@ -1784,6 +1930,10 @@ const items = [
 
 ];
 
+/* =========================================================
+   VARIABLES
+========================================================= */
+
 let balance = 10;
 
 let inventory = [];
@@ -1796,9 +1946,9 @@ let spinning = false;
 
 let pointerRotation = 0;
 
-/* =========================
+/* =========================================================
    PROFILE
-========================= */
+========================================================= */
 
 const PROFILE_KEY =
   'upgrader_profile_v2';
@@ -1941,7 +2091,9 @@ function isAdmin(){
     !profile ||
     !profile.username
   ){
+
     return false;
+
   }
 
   const admins =
@@ -2359,96 +2511,164 @@ function grantBones(){
 
 }
 
-/* =========================
-   UPGRADE CHANCES
-========================= */
+/* =========================================================
+   ШАНСЫ АПГРЕЙДА
+=========================================================
+
+   Старые шансы сохранены.
+
+   НОВЫЕ ШАНСЫ:
+
+   La Grande -> Cerberus       1%
+   Bananito -> Cerberus        4%
+   Money Money Puggy -> Cerberus 10%
+   Tang Tang Keletang -> Cerberus 14%
+   Garama -> Cerberus          29%
+
+   Dragon -> Cerberus          0%
+   Skibidi -> Cerberus         0%
+
+   Cerberus -> Dragon          10%
+
+   Dragon -> Skibidi           5%
+   Garama -> Skibidi           1%
+
+   Остальные -> Skibidi        0%
+========================================================= */
 
 const upgradeChances = {
 
-  /* La Grande */
+  /* LA GRANDE */
 
   0:{
+
     0:100,
+
     1:19.7,
+
     2:9.7,
+
     3:4.7,
+
     4:2.7,
+
     5:1,
+
     6:0,
+
     7:0
+
   },
 
-  /* Bananito */
+  /* BANANITO */
 
   1:{
+
     1:100,
+
     2:49.7,
+
     3:38.7,
+
     4:14.7,
+
     5:4,
-    6:0.2,
+
+    6:4.7,
+
     7:0
+
   },
 
-  /* Money Money Puggy */
+  /* MONEY MONEY PUGGY */
 
   2:{
+
     2:100,
+
     3:59.7,
+
     4:24.7,
+
     5:10,
-    6:0.7,
+
+    6:9.7,
+
     7:0
+
   },
 
-  /* Tang */
+  /* TANG TANG KELETANG */
 
   3:{
+
     3:100,
+
     4:54.7,
+
     5:14,
-    6:1.7,
+
+    6:19.7,
+
     7:0
+
   },
 
-  /* Garama */
+  /* GARAMA */
 
   4:{
+
     4:100,
+
     5:29,
+
     6:5,
+
     7:1
+
   },
 
-  /* Cerberus */
+  /* CERBERUS */
 
   5:{
+
     5:100,
+
     6:10,
+
     7:0
+
   },
 
-  /* Dragon */
+  /* DRAGON */
 
   6:{
+
     6:100,
+
     5:0,
+
     7:5
+
   },
 
-  /* Skibidi */
+  /* SKIBIDI */
 
   7:{
+
     7:100,
+
     5:0,
+
     6:0
+
   }
 
 };
 
-/* =========================
+/* =========================================================
    DOM
-========================= */
+========================================================= */
 
 const itemGrid =
   document.getElementById(
@@ -2520,9 +2740,9 @@ const balanceEl =
     'balance'
   );
 
-/* =========================
+/* =========================================================
    SHOP
-========================= */
+========================================================= */
 
 function renderShop(){
 
@@ -2581,9 +2801,9 @@ function renderShop(){
 
 }
 
-/* =========================
+/* =========================================================
    INVENTORY
-========================= */
+========================================================= */
 
 function renderInventory(){
 
@@ -2709,9 +2929,9 @@ function renderInventory(){
 
 }
 
-/* =========================
+/* =========================================================
    SELL
-========================= */
+========================================================= */
 
 function sellItem(slotIndex){
 
@@ -2722,7 +2942,9 @@ function sellItem(slotIndex){
   if(
     inventory[slotIndex] === undefined
   ){
+
     return;
+
   }
 
   const itemIndex =
@@ -2781,9 +3003,9 @@ function sellItem(slotIndex){
 
 }
 
-/* =========================
+/* =========================================================
    TARGETS
-========================= */
+========================================================= */
 
 function renderTargets(){
 
@@ -2804,7 +3026,9 @@ function renderTargets(){
           .toLowerCase()
           .includes(query)
       ){
+
         return;
+
       }
 
       const b =
@@ -2845,9 +3069,9 @@ function renderTargets(){
 
 }
 
-/* =========================
+/* =========================================================
    RENDER ALL
-========================= */
+========================================================= */
 
 function renderAll(){
 
@@ -2864,9 +3088,9 @@ function renderAll(){
 
 }
 
-/* =========================
+/* =========================================================
    BUY
-========================= */
+========================================================= */
 
 function buyItem(index){
 
@@ -2914,9 +3138,9 @@ function buyItem(index){
 
 }
 
-/* =========================
+/* =========================================================
    SELECT SOURCE
-========================= */
+========================================================= */
 
 function selectSource(slotIndex){
 
@@ -2927,7 +3151,9 @@ function selectSource(slotIndex){
   if(
     inventory[slotIndex] === undefined
   ){
+
     return;
+
   }
 
   sourceItem =
@@ -2954,11 +3180,11 @@ function selectSource(slotIndex){
     'selected'
   );
 
-  sourceSlot.innerHTML = `
+  /*
+    БЕЗ КАРТИНОК И БЕЗ РОМБОВ
+  */
 
-    <div class="slot-icon">
-      ◆
-    </div>
+  sourceSlot.innerHTML = `
 
     <div class="slot-text">
 
@@ -2983,9 +3209,9 @@ function selectSource(slotIndex){
 
 }
 
-/* =========================
+/* =========================================================
    SELECT TARGET
-========================= */
+========================================================= */
 
 function selectTarget(index){
 
@@ -3007,11 +3233,11 @@ function selectTarget(index){
     'selected'
   );
 
-  targetSlot.innerHTML = `
+  /*
+    БЕЗ КАРТИНОК И БЕЗ РОМБОВ
+  */
 
-    <div class="slot-icon">
-      ◆
-    </div>
+  targetSlot.innerHTML = `
 
     <div class="slot-text">
 
@@ -3036,9 +3262,9 @@ function selectTarget(index){
 
 }
 
-/* =========================
+/* =========================================================
    CLEAR SOURCE
-========================= */
+========================================================= */
 
 function clearSourceDisplay(){
 
@@ -3068,9 +3294,9 @@ function clearSourceDisplay(){
 
 }
 
-/* =========================
+/* =========================================================
    FOCUS
-========================= */
+========================================================= */
 
 function focusInventory(){
 
@@ -3100,9 +3326,9 @@ function focusTargets(){
 
 }
 
-/* =========================
+/* =========================================================
    GET CHANCE
-========================= */
+========================================================= */
 
 function getUpgradeChance(){
 
@@ -3110,7 +3336,9 @@ function getUpgradeChance(){
     sourceItem === null ||
     targetItem === null
   ){
+
     return 0;
+
   }
 
   const sourceIndex =
@@ -3132,9 +3360,9 @@ function getUpgradeChance(){
 
 }
 
-/* =========================
+/* =========================================================
    UPDATE WHEEL
-========================= */
+========================================================= */
 
 function updateDisplayedChance(){
 
@@ -3151,9 +3379,9 @@ function updateDisplayedChance(){
 
 }
 
-/* =========================
+/* =========================================================
    UPDATE TOP
-========================= */
+========================================================= */
 
 function updateTop(){
 
@@ -3203,9 +3431,9 @@ function updateTop(){
 
 }
 
-/* =========================
+/* =========================================================
    UPGRADE
-========================= */
+========================================================= */
 
 function upgrade(){
 
@@ -3266,9 +3494,17 @@ function upgrade(){
   upgradeBtn.textContent =
     'ПРОКАЧКА...';
 
+  /*
+    Результат определяется здесь.
+  */
+
   const win =
     Math.random() * 100 <
     chance;
+
+  /*
+    Положение стрелки.
+  */
 
   const greenAngle =
     chance * 3.6;
@@ -3332,7 +3568,7 @@ function upgrade(){
   setTimeout(()=>{
 
     /* =========================
-       WIN
+       ПОБЕДА
     ========================= */
 
     if(win){
@@ -3361,11 +3597,11 @@ function upgrade(){
         'selected'
       );
 
-      sourceSlot.innerHTML = `
+      /*
+        БЕЗ РОМБОВ И КАРТИНОК
+      */
 
-        <div class="slot-icon">
-          ◆
-        </div>
+      sourceSlot.innerHTML = `
 
         <div class="slot-text">
 
@@ -3391,12 +3627,10 @@ function upgrade(){
         wonItem.name +
         ' получен!';
 
-      renderAll();
-
     }
 
     /* =========================
-       LOSS
+       ПРОИГРЫШ
     ========================= */
 
     else{
@@ -3439,9 +3673,9 @@ function upgrade(){
 
 }
 
-/* =========================
+/* =========================================================
    RANDOM TARGET
-========================= */
+========================================================= */
 
 function randomTarget(){
 
@@ -3458,9 +3692,9 @@ function randomTarget(){
 
 }
 
-/* =========================
+/* =========================================================
    SEARCH
-========================= */
+========================================================= */
 
 function filterItems(){
 
@@ -3468,9 +3702,9 @@ function filterItems(){
 
 }
 
-/* =========================
+/* =========================================================
    START
-========================= */
+========================================================= */
 
 loadProfileData();
 
@@ -3479,62 +3713,6 @@ renderAll();
 updateTop();
 
 </script>
-
-<!-- USERNAME MODAL -->
-
-<div
-  class="username-modal"
-  id="usernameModal"
-  hidden
->
-
-  <div class="username-modal-box">
-
-    <div class="username-modal-title">
-      ИЗМЕНИТЬ USERNAME
-    </div>
-
-    <div class="username-modal-subtitle">
-      Можно использовать любые символы • до 40 символов
-    </div>
-
-    <input
-      class="username-modal-input"
-      id="usernameInput"
-      maxlength="40"
-      autocomplete="off"
-      spellcheck="false"
-      placeholder="@username"
-    >
-
-    <div
-      class="username-modal-error"
-      id="usernameModalError"
-    ></div>
-
-    <div class="username-modal-actions">
-
-      <button
-        type="button"
-        class="username-modal-cancel"
-        onclick="closeUsernameModal()"
-      >
-        ОТМЕНА
-      </button>
-
-      <button
-        type="button"
-        class="username-modal-save"
-        onclick="saveUsernameFromModal()"
-      >
-        СОХРАНИТЬ
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
 
 </body>
 </html>
