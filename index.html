@@ -525,16 +525,14 @@ button{
 .target-panel{
   background:
     linear-gradient(
-      135deg,
-      rgba(255,255,255,.11),
-      rgba(255,255,255,.035) 55%,
-      rgba(150,150,150,.045)
-    ),
-    rgba(30,30,30,.55) !important;
+      145deg,
+      rgba(30,30,30,.95),
+      rgba(10,10,10,.98)
+    ) !important;
 }
 
 .target-panel .panel-title{
-  border-left-color:#ffd900;
+  border-left-color:#35a9ff;
 }
 
 .shop-title{
@@ -570,17 +568,6 @@ button{
 
 .selected-card.show{
   display:flex;
-}
-
-.selected-image{
-  width:70px;
-  height:70px;
-
-  object-fit:contain;
-
-  margin-bottom:8px;
-
-  image-rendering:pixelated;
 }
 
 .selected-number{
@@ -680,17 +667,6 @@ button{
   border-radius:10px !important;
 }
 
-.item-image{
-  width:55px;
-  height:55px;
-
-  object-fit:contain;
-
-  margin-bottom:3px;
-
-  image-rendering:pixelated;
-}
-
 .item:hover{
   border-color:rgba(150,150,150,.55);
 
@@ -758,7 +734,7 @@ button{
   display:grid;
 
   grid-template-columns:
-    48px minmax(0,1fr) auto;
+    minmax(0,1fr) auto;
 
   grid-template-rows:
     auto auto;
@@ -776,20 +752,6 @@ button{
   border-radius:10px;
 }
 
-.shop-item-image{
-  width:40px;
-  height:40px;
-
-  object-fit:contain;
-
-  grid-row:1 / span 2;
-  grid-column:1;
-
-  margin:0;
-
-  image-rendering:pixelated;
-}
-
 .shop-item-name{
   color:#d9e0e5;
 
@@ -800,7 +762,7 @@ button{
 
   text-align:left;
 
-  grid-column:2;
+  grid-column:1;
   grid-row:1;
 
   min-width:0;
@@ -812,7 +774,7 @@ button{
   font-size:11px;
   font-weight:900;
 
-  grid-column:2;
+  grid-column:1;
   grid-row:2;
 
   margin-top:4px;
@@ -833,7 +795,7 @@ button{
 }
 
 .buy-item{
-  grid-column:3;
+  grid-column:2;
   grid-row:1 / span 2;
 
   height:30px;
@@ -892,7 +854,7 @@ button{
   display:grid;
 
   grid-template-columns:
-    35px minmax(0,1fr) auto;
+    minmax(0,1fr) auto;
 
   align-items:center;
 
@@ -923,17 +885,6 @@ button{
   border-color:#fff;
 
   background:#201e0d;
-}
-
-.inventory-item-image{
-  width:35px;
-  height:35px;
-
-  object-fit:contain;
-
-  flex-shrink:0;
-
-  image-rendering:pixelated;
 }
 
 .inventory-item-info{
@@ -1426,7 +1377,7 @@ button{
 
   .inventory-item{
     grid-template-columns:
-      35px minmax(0,1fr) auto;
+      minmax(0,1fr) auto;
 
     gap:6px;
   }
@@ -1438,14 +1389,9 @@ button{
 
   .shop-item{
     grid-template-columns:
-      43px minmax(0,1fr) auto;
+      minmax(0,1fr) auto;
 
     column-gap:6px;
-  }
-
-  .shop-item-image{
-    width:38px;
-    height:38px;
   }
 
   .buy-item{
@@ -1536,7 +1482,7 @@ button{
               class="wheel-chance"
               id="wheelChance"
             >
-              30%
+              0%
             </div>
 
             <div class="center-symbol"></div>
@@ -1794,67 +1740,46 @@ button{
    ITEMS
 ========================= */
 
-/*
-  ВАЖНО:
-  index.html находится в корне GitHub Pages,
-  картинки находятся в папке img.
-
-  Поэтому используем:
-  ./img/Название.png
-*/
-
 const items = [
 
   {
     name:'La Grande Combination',
-    price:1,
-    image:'./img/Grande.png'
+    price:1
   },
 
   {
     name:'Bananito',
-    price:7,
-    image:'./img/Bananchik.png'
+    price:7
   },
 
   {
     name:'Money Money Puggy',
-    price:17,
-    image:'./img/Mops.png'
+    price:17
   },
 
   {
     name:'Tang Tang Keletang',
-    price:30,
-    image:'./img/TangTangKeletang.png'
+    price:30
   },
 
   {
     name:'Garama and Madundung',
-    price:50,
-    image:'./img/Garama.png'
+    price:50
   },
-
-  /*
-    Cerberus теперь сразу после Garama.
-  */
 
   {
     name:'Cerberus',
-    price:175,
-    image:'./img/Cerberus.png'
+    price:175
   },
 
   {
     name:'Dragon Cannelloni',
-    price:1250,
-    image:'./img/Dragon.png'
+    price:1250
   },
 
   {
     name:'Skibidi toilet',
-    price:15000,
-    image:'./img/SkibidiToilet.png'
+    price:15000
   }
 
 ];
@@ -2438,22 +2363,6 @@ function grantBones(){
    UPGRADE CHANCES
 ========================= */
 
-/*
-  Порядок предметов:
-
-  0 = La Grande Combination
-  1 = Bananito
-  2 = Money Money Puggy
-  3 = Tang Tang Keletang
-  4 = Garama and Madundung
-  5 = Cerberus
-  6 = Dragon Cannelloni
-  7 = Skibidi toilet
-
-  Старые шансы сохранены.
-  Новые шансы добавлены отдельно.
-*/
-
 const upgradeChances = {
 
   /* La Grande */
@@ -2464,14 +2373,8 @@ const upgradeChances = {
     2:9.7,
     3:4.7,
     4:2.7,
-
-    /* La Grande -> Cerberus */
     5:1,
-
-    /* La Grande -> Dragon */
-    6:1.7,
-
-    /* La Grande -> Skibidi */
+    6:0,
     7:0
   },
 
@@ -2482,14 +2385,8 @@ const upgradeChances = {
     2:49.7,
     3:38.7,
     4:14.7,
-
-    /* Bananito -> Cerberus */
     5:4,
-
-    /* Bananito -> Dragon */
-    6:4.7,
-
-    /* Bananito -> Skibidi */
+    6:0.2,
     7:0
   },
 
@@ -2499,14 +2396,8 @@ const upgradeChances = {
     2:100,
     3:59.7,
     4:24.7,
-
-    /* Money Money Puggy -> Cerberus */
     5:10,
-
-    /* Money Money Puggy -> Dragon */
-    6:9.7,
-
-    /* Money Money Puggy -> Skibidi */
+    6:0.7,
     7:0
   },
 
@@ -2515,14 +2406,8 @@ const upgradeChances = {
   3:{
     3:100,
     4:54.7,
-
-    /* Tang -> Cerberus */
     5:14,
-
-    /* Tang -> Dragon */
-    6:19.7,
-
-    /* Tang -> Skibidi */
+    6:1.7,
     7:0
   },
 
@@ -2530,14 +2415,8 @@ const upgradeChances = {
 
   4:{
     4:100,
-
-    /* Garama -> Cerberus */
     5:29,
-
-    /* Garama -> Dragon */
     6:5,
-
-    /* Garama -> Skibidi */
     7:1
   },
 
@@ -2545,11 +2424,7 @@ const upgradeChances = {
 
   5:{
     5:100,
-
-    /* Cerberus -> Dragon */
     6:10,
-
-    /* Cerberus -> Skibidi */
     7:0
   },
 
@@ -2557,11 +2432,7 @@ const upgradeChances = {
 
   6:{
     6:100,
-
-    /* Dragon -> Cerberus */
     5:0,
-
-    /* Dragon -> Skibidi */
     7:5
   },
 
@@ -2569,9 +2440,8 @@ const upgradeChances = {
 
   7:{
     7:100,
-
-    /* Skibidi -> Cerberus */
-    5:0
+    5:0,
+    6:0
   }
 
 };
@@ -2673,18 +2543,6 @@ function renderShop(){
         balance >= item.price;
 
       row.innerHTML = `
-
-        ${
-          item.image
-            ? `
-              <img
-                class="shop-item-image"
-                src="${item.image}"
-                alt="${item.name}"
-              >
-            `
-            : ''
-        }
 
         <div class="shop-item-name">
           ${item.name}
@@ -2797,18 +2655,6 @@ function renderInventory(){
         );
 
       row.innerHTML = `
-
-        ${
-          item.image
-            ? `
-              <img
-                class="inventory-item-image"
-                src="${item.image}"
-                alt="${item.name}"
-              >
-            `
-            : ''
-        }
 
         <div class="inventory-item-info">
 
@@ -2979,18 +2825,6 @@ function renderTargets(){
 
       b.innerHTML = `
 
-        ${
-          item.image
-            ? `
-              <img
-                class="item-image"
-                src="${item.image}"
-                alt="${item.name}"
-              >
-            `
-            : ''
-        }
-
         <div class="item-name">
           ${item.name}
         </div>
@@ -3116,38 +2950,6 @@ function selectSource(slotIndex){
     'show'
   );
 
-  const selectedImageEl =
-    selectedCard.querySelector(
-      '.selected-image'
-    );
-
-  if(selectedImageEl){
-    selectedImageEl.remove();
-  }
-
-  if(item.image){
-
-    const img =
-      document.createElement(
-        'img'
-      );
-
-    img.className =
-      'selected-image';
-
-    img.src =
-      item.image;
-
-    img.alt =
-      item.name;
-
-    selectedCard.insertBefore(
-      img,
-      selectedCard.firstChild
-    );
-
-  }
-
   sourceSlot.classList.add(
     'selected'
   );
@@ -3155,23 +2957,7 @@ function selectSource(slotIndex){
   sourceSlot.innerHTML = `
 
     <div class="slot-icon">
-
-      ${
-        item.image
-          ? `
-            <img
-              src="${item.image}"
-              style="
-                width:50px;
-                height:50px;
-                object-fit:contain;
-                image-rendering:pixelated;
-              "
-            >
-          `
-          : '◆'
-      }
-
+      ◆
     </div>
 
     <div class="slot-text">
@@ -3224,23 +3010,7 @@ function selectTarget(index){
   targetSlot.innerHTML = `
 
     <div class="slot-icon">
-
-      ${
-        item.image
-          ? `
-            <img
-              src="${item.image}"
-              style="
-                width:50px;
-                height:50px;
-                object-fit:contain;
-                image-rendering:pixelated;
-              "
-            >
-          `
-          : '◆'
-      }
-
+      ◆
     </div>
 
     <div class="slot-text">
@@ -3562,7 +3332,7 @@ function upgrade(){
   setTimeout(()=>{
 
     /* =========================
-       ПОБЕДА
+       WIN
     ========================= */
 
     if(win){
@@ -3580,118 +3350,12 @@ function upgrade(){
       const wonItem =
         items[targetIndex];
 
-      const inventoryList =
-        document.getElementById(
-          'inventoryList'
-        );
-
-      const inventoryRow =
-        inventoryList &&
-        inventoryList.children[
-          sourceSlotIndex
-        ];
-
-      if(inventoryRow){
-
-        inventoryRow.className =
-          'inventory-item selected';
-
-        inventoryRow.innerHTML = `
-
-          ${
-            wonItem.image
-              ? `
-                <img
-                  class="inventory-item-image"
-                  src="${wonItem.image}"
-                  alt="${wonItem.name}"
-                >
-              `
-              : ''
-          }
-
-          <div class="inventory-item-info">
-
-            <div class="inventory-item-name">
-              ${wonItem.name}
-            </div>
-
-            <div class="inventory-item-price">
-              ${wonItem.price} 🦴
-            </div>
-
-          </div>
-
-          <button
-            type="button"
-            class="sell-item"
-          >
-            ПРОДАТЬ
-          </button>
-
-        `;
-
-        inventoryRow.onclick =
-          () =>
-            selectSource(
-              sourceSlotIndex
-            );
-
-        inventoryRow
-          .querySelector(
-            '.sell-item'
-          )
-          .onclick =
-            e => {
-
-              e.stopPropagation();
-
-              sellItem(
-                sourceSlotIndex
-              );
-
-            };
-
-      }
-
       selectedNumber.textContent =
         wonItem.name;
 
       selectedCard.classList.add(
         'show'
       );
-
-      const selectedImageEl =
-        selectedCard.querySelector(
-          '.selected-image'
-        );
-
-      if(selectedImageEl){
-        selectedImageEl.remove();
-      }
-
-      if(wonItem.image){
-
-        const img =
-          document.createElement(
-            'img'
-          );
-
-        img.className =
-          'selected-image';
-
-        img.src =
-          wonItem.image;
-
-        img.alt =
-          wonItem.name;
-
-        selectedCard.insertBefore(
-          img,
-          selectedCard.firstChild
-        );
-
-      }
 
       sourceSlot.classList.add(
         'selected'
@@ -3700,23 +3364,7 @@ function upgrade(){
       sourceSlot.innerHTML = `
 
         <div class="slot-icon">
-
-          ${
-            wonItem.image
-              ? `
-                <img
-                  src="${wonItem.image}"
-                  style="
-                    width:50px;
-                    height:50px;
-                    object-fit:contain;
-                    image-rendering:pixelated;
-                  "
-                >
-              `
-              : '◆'
-          }
-
+          ◆
         </div>
 
         <div class="slot-text">
@@ -3743,10 +3391,12 @@ function upgrade(){
         wonItem.name +
         ' получен!';
 
+      renderAll();
+
     }
 
     /* =========================
-       ПРОИГРЫШ
+       LOSS
     ========================= */
 
     else{
