@@ -24,21 +24,31 @@ if not BOT_TOKEN:
 
 
 # =========================================================
-# ХРАНИЛИЩЕ ПРИВЯЗОК
+# НАСТРОЙКИ
+# =========================================================
+
+BOT_USERNAME = "saintbetWbot"
+
+# Сколько живёт код привязки
+CODE_LIFETIME = 10 * 60
+
+
+# =========================================================
+# ХРАНИЛИЩЕ КОДОВ
 # =========================================================
 
 links = {}
 
 # links[code] = {
-#     "telegram_id": 123456789,
-#     "username": "username",
-#     "first_name": "Name",
+#     "telegram_id": None,
+#     "username": "",
+#     "first_name": "",
 #     "created_at": 1234567890
 # }
 
 
 # =========================================================
-# FLASK API
+# FLASK
 # =========================================================
 
 app = Flask(__name__)
@@ -46,29 +56,16 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+
     return jsonify({
         "status": "ok",
         "service": "SaintBet Telegram Auth"
     })
 
 
-@app.route("/api/link/<code>", methods=["GET"])
-def get_link(code):
-
-    data = links.get(code)
-
-    if not data:
-        return jsonify({
-            "linked": False
-        })
-
-    return jsonify({
-        "linked": True,
-        "telegram_id": data["telegram_id"],
-        "username": data["username"],
-        "first_name": data["first_name"]
-    })
-
+# =========================================================
+# СОЗДАТЬ КОД
+# =========================================================
 
 @app.route("/api/create-code", methods=["GET"])
 def create_code():
@@ -83,12 +80,59 @@ def create_code():
     }
 
     return jsonify({
-        "code": code
+        "success": True,
+        "code": code,
+        "bot_url": f"https://t.me/{BOT_USERNAME}?start={code}"
     })
 
 
 # =========================================================
-# TELEGRAM
+# ПРОВЕРИТЬ КОД
+# =========================================================
+
+@app.route("/api/link/<code>", methods=["GET"])
+def get_link(code):
+
+    data = links.get(code)
+
+    if not data:
+
+        return jsonify({
+            "linked": False
+        })
+
+
+    # Проверяем срок действия кода
+
+    if time.time() - data["created_at"] > CODE_LIFETIME:
+
+        links.pop(code, None)
+
+        return jsonify({
+            "linked": False,
+            "expired": True
+        })
+
+
+    # Telegram ещё не привязан
+
+    if not data["telegram_id"]:
+
+        return jsonify({
+            "linked": False
+        })
+
+
+    return jsonify({
+        "linked": True,
+        "telegram_id": data["telegram_id"],
+        "username": data["username"],
+        "first_name": data["first_name"]
+    })
+
+
+# =========================================================
+# TELEGRAM /START
 # =========================================================
 
 async def start(
@@ -101,7 +145,6 @@ async def start(
     if not user:
         return
 
-    args = context.args
 
     username = (
         user.username
@@ -115,74 +158,114 @@ async def start(
         else ""
     )
 
-    # -----------------------------------------------------
-    # Если пользователь пришёл просто по /start
-    # -----------------------------------------------------
 
-    if not args:
+    # =====================================================
+    # ПРОСТОЙ /START БЕЗ КОДА
+    # =====================================================
+
+    if not context.args:
 
         await update.message.reply_text(
             "👋 Добро пожаловать в SaintBet!\n\n"
-            "Чтобы привязать Telegram к аккаунту сайта, "
-            "нажми кнопку «Войти через Telegram» на сайте."
+            "Чтобы привязать Telegram к сайту, "
+            "открой SaintBet и нажми "
+            "«ВОЙТИ ЧЕРЕЗ TELEGRAM»."
         )
 
         return
 
-    code = args[0]
 
-    # -----------------------------------------------------
-    # Проверяем код
-    # -----------------------------------------------------
+    # =====================================================
+    # ПОЛУЧАЕМ КОД
+    # =====================================================
 
-    if code not in links:
+    code = context.args[0]
+
+    data = links.get(code)
+
+
+    if not data:
 
         await update.message.reply_text(
-            "❌ Код привязки недействителен "
-            "или уже истёк.\n\n"
-            "Вернись на сайт SaintBet и нажми "
-            "«Войти через Telegram» ещё раз."
+            "❌ Код привязки недействителен.\n\n"
+            "Вернись на сайт SaintBet и "
+            "нажми «ВОЙТИ ЧЕРЕЗ TELEGRAM» ещё раз."
         )
 
         return
 
-    # -----------------------------------------------------
-    # Сохраняем Telegram
-    # -----------------------------------------------------
+
+    # =====================================================
+    # ПРОВЕРЯЕМ СРОК
+    # =====================================================
+
+    if time.time() - data["created_at"] > CODE_LIFETIME:
+
+        links.pop(code, None)
+
+        await update.message.reply_text(
+            "❌ Код привязки истёк.\n\n"
+            "Вернись на сайт SaintBet и "
+            "создай новую привязку."
+        )
+
+        return
+
+
+    # =====================================================
+    # СОХРАНЯЕМ TELEGRAM
+    # =====================================================
 
     links[code] = {
+
         "telegram_id": user.id,
+
         "username": username,
+
         "first_name": first_name,
-        "created_at": time.time()
+
+        "created_at": data["created_at"]
+
     }
 
-    # -----------------------------------------------------
-    # Ответ пользователю
-    # -----------------------------------------------------
+
+    # =====================================================
+    # ОТОБРАЖАЕМ ИМЯ
+    # =====================================================
 
     if username:
 
-        telegram_text = (
-            f"@{username}"
-        )
+        telegram_name = "@" + username
 
     else:
 
-        telegram_text = (
-            first_name or "Telegram пользователь"
+        telegram_name = (
+            first_name
+            or "Telegram пользователь"
         )
 
+
+    # =====================================================
+    # ОТВЕТ
+    # =====================================================
+
     await update.message.reply_text(
+
         "✅ АККАУНТ ПРИВЯЗАН!\n\n"
-        "Ваш Telegram успешно привязан к SaintBet.\n\n"
-        f"👤 Telegram: {telegram_text}\n\n"
-        "Теперь можете вернуться на сайт."
+
+        "Ваш Telegram аккаунт успешно "
+        "привязан к SaintBet.\n\n"
+
+        f"👤 Telegram: {telegram_name}\n\n"
+
+        "Теперь вернитесь на сайт.\n"
+        "Через несколько секунд ваш аккаунт "
+        "отобразится в профиле."
     )
 
 
 # =========================================================
-# TELEGRAM APPLICATION
+# ЗАПУСК TELEGRAM
 # =========================================================
 
 def run_bot():
@@ -208,7 +291,7 @@ def run_bot():
 
 
 # =========================================================
-# START
+# ЗАПУСК SERVER
 # =========================================================
 
 if __name__ == "__main__":
@@ -220,6 +303,7 @@ if __name__ == "__main__":
         )
     )
 
+
     bot_thread = threading.Thread(
         target=run_bot,
         daemon=True
@@ -227,10 +311,12 @@ if __name__ == "__main__":
 
     bot_thread.start()
 
+
     logging.info(
         "SaintBet API started on port %s",
         port
     )
+
 
     app.run(
         host="0.0.0.0",
