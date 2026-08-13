@@ -1956,6 +1956,13 @@ const PROFILE_KEY =
 const USERS_KEY =
   'upgrader_users_v2';
 
+/*
+  Если игрок начал апгрейд и обновил страницу во время прокрутки,
+  предмет, поставленный на апгрейд, должен исчезнуть из инвентаря.
+*/
+const PENDING_UPGRADE_KEY =
+  'upgrader_pending_upgrade_v1';
+
 let profile = null;
 
 let users = {};
@@ -1982,6 +1989,77 @@ function normalizeUsername(value){
 function validUsername(value){
 
   return /^[a-z0-9_]{3,20}$/.test(value);
+
+}
+
+function removePendingUpgradeOnReload(){
+
+  let pending = null;
+
+  try{
+
+    pending =
+      JSON.parse(
+        localStorage.getItem(
+          PENDING_UPGRADE_KEY
+        ) || 'null'
+      );
+
+  }catch(e){
+
+    pending = null;
+
+  }
+
+  if(
+    !pending ||
+    !pending.username ||
+    !Number.isInteger(pending.slotIndex)
+  ){
+
+    localStorage.removeItem(
+      PENDING_UPGRADE_KEY
+    );
+
+    return;
+
+  }
+
+  const pendingUsername =
+    normalizeUsername(
+      pending.username
+    );
+
+  const currentUsername =
+    normalizeUsername(
+      profile?.username || ''
+    );
+
+  if(
+    pendingUsername !== currentUsername
+  ){
+
+    return;
+
+  }
+
+  if(
+    pending.slotIndex >= 0 &&
+    pending.slotIndex < inventory.length
+  ){
+
+    inventory.splice(
+      pending.slotIndex,
+      1
+    );
+
+    saveProfileData();
+
+  }
+
+  localStorage.removeItem(
+    PENDING_UPGRADE_KEY
+  );
 
 }
 
@@ -2057,6 +2135,12 @@ function loadProfileData(){
     )
       ? users[profile.username].inventory
       : [];
+
+  /*
+    Важно: проверяем pending upgrade ДО первого сохранения профиля.
+    Иначе после перезагрузки старый инвентарь мог бы снова записаться.
+  */
+  removePendingUpgradeOnReload();
 
   saveProfileData();
 
@@ -3488,6 +3572,22 @@ function upgrade(){
   spinning =
     true;
 
+  /*
+    Сразу помечаем предмет как находящийся на апгрейде.
+    Если страницу обновить во время 1.8-секундной анимации,
+    при следующей загрузке этот предмет будет удалён из инвентаря.
+  */
+  localStorage.setItem(
+    PENDING_UPGRADE_KEY,
+    JSON.stringify({
+      username: profile?.username || '',
+      slotIndex: sourceSlotIndex,
+      sourceIndex,
+      targetIndex,
+      startedAt: Date.now()
+    })
+  );
+
   upgradeBtn.disabled =
     true;
 
@@ -3566,6 +3666,13 @@ function upgrade(){
     'deg)';
 
   setTimeout(()=>{
+
+    /*
+      Анимация закончилась — апгрейд завершён, поэтому pending больше не нужен.
+    */
+    localStorage.removeItem(
+      PENDING_UPGRADE_KEY
+    );
 
     /* =========================
        ПОБЕДА
