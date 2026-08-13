@@ -217,7 +217,7 @@ button{
   position:relative;
   margin-top:0;
 
-  --wheel-chance:30;
+  --wheel-chance:0;
 
   background:
     conic-gradient(
@@ -522,19 +522,21 @@ button{
     0 0 12px rgba(100,100,100,.25);
 }
 
-/* ЧЁРНО-БЕЛАЯ ОБЛАСТЬ ЦЕЛЕЙ */
+/* ЧЁРНО-БЕЛАЯ ОБЛАСТЬ ЦЕЛЕЙ — ВОЗВРАЩЕНА */
 
 .target-panel{
   background:
     linear-gradient(
-      145deg,
-      rgba(42,42,42,.95),
-      rgba(8,8,8,.98)
-    ) !important;
+      135deg,
+      rgba(255,255,255,.11),
+      rgba(255,255,255,.035) 55%,
+      rgba(150,150,150,.045)
+    ),
+    rgba(30,30,30,.55) !important;
 }
 
 .target-panel .panel-title{
-  border-left-color:#fff;
+  border-left-color:#ffd900;
 }
 
 .shop-title{
@@ -1536,7 +1538,7 @@ button{
               class="wheel-chance"
               id="wheelChance"
             >
-              30%
+              0%
             </div>
 
             <div class="center-symbol"></div>
@@ -1794,67 +1796,65 @@ button{
    ITEMS
 
    ПОРЯДОК:
-   0 La Grande
-   1 Bananito
-   2 Money Money Puggy
-   3 Tang Tang Keletang
-   4 Garama
-   5 Cerberus
-   6 Dragon
-   7 Skibidi
-
-   Cerberus находится сразу после Garama.
+   Grande
+   Bananito
+   Money Money Puggy
+   Tang
+   Garama
+   Cerberus
+   Dragon
+   Skibidi
 ========================= */
 
 const items = [
 
- {
-  name:'La Grande Combination',
-  price:1,
-  image:'img/Grande.png'
-},
+  {
+    name:'La Grande Combination',
+    price:1,
+    image:'img/Grande.png'
+  },
 
-{
-  name:'Bananito',
-  price:7,
-  image:'img/Bananchik.png'
-},
+  {
+    name:'Bananito',
+    price:7,
+    image:'img/Bananchik.png'
+  },
 
-{
-  name:'Money Money Puggy',
-  price:17,
-  image:'img/Mops.png'
-},
+  {
+    name:'Money Money Puggy',
+    price:17,
+    image:'img/Mops.png'
+  },
 
-{
-  name:'Tang Tang Keletang',
-  price:30,
-  image:'img/TangTangKeletang.png'
-},
+  {
+    name:'Tang Tang Keletang',
+    price:30,
+    image:'img/TangTangKeletang.png'
+  },
 
-{
-  name:'Garama and Madundung',
-  price:50,
-  image:'img/Garama.png'
-},
+  {
+    name:'Garama and Madundung',
+    price:50,
+    image:'img/Garama.png'
+  },
 
-{
-  name:'Cerberus',
-  price:175,
-  image:'img/Cerberus.png'
-},
+  {
+    name:'Cerberus',
+    price:175,
+    image:'img/Cerberus.png'
+  },
 
-{
-  name:'Dragon Cannelloni',
-  price:1250,
-  image:'img/Dragon.png'
-},
+  {
+    name:'Dragon Cannelloni',
+    price:1250,
+    image:'img/Dragon.png'
+  },
 
-{
-  name:'Skibidi toilet',
-  price:15000,
-  image:'img/SkibidiToilet.png'
-}
+  {
+    name:'Skibidi toilet',
+    price:15000,
+    image:'img/SkibidiToilet.png'
+  }
 
 ];
 
@@ -2435,25 +2435,37 @@ function grantBones(){
 
 /* =========================
    UPGRADE CHANCES
+=========================
 
-   СТАРЫЕ ШАНСЫ СОХРАНЕНЫ.
+   ИНДЕКСЫ:
 
-   Новые:
+   0 = La Grande
+   1 = Bananito
+   2 = Money Money Puggy
+   3 = Tang
+   4 = Garama
+   5 = Cerberus
+   6 = Dragon
+   7 = Skibidi
+
+   Новые шансы:
+
    La Grande -> Cerberus = 1%
    Bananito -> Cerberus = 4%
    Money Money Puggy -> Cerberus = 10%
-   Tang Tang Keletang -> Cerberus = 14%
+   Tang -> Cerberus = 14%
    Garama -> Cerberus = 29%
-
    Dragon -> Cerberus = 0%
    Skibidi -> Cerberus = 0%
 
    Dragon -> Skibidi = 5%
    Garama -> Skibidi = 1%
+   остальные -> Skibidi = 0%
 
    Cerberus -> Dragon = 10%
 
-   Остальные старые шансы не меняются.
+   Старые шансы остальных переходов
+   сохранены.
 ========================= */
 
 const upgradeChances = {
@@ -2462,26 +2474,18 @@ const upgradeChances = {
 
   0:{
     0:100,
-
-    /* старый шанс La Grande -> Bananito */
     1:19.7,
-
-    /* старый шанс La Grande -> Money Money Puggy */
     2:9.7,
-
-    /* старый шанс La Grande -> Tang */
     3:4.7,
-
-    /* старый шанс La Grande -> Garama */
     4:2.7,
 
-    /* новое */
+    /* НОВОЕ */
     5:1,
 
-    /* Dragon */
-    6:0,
+    /* Старый Grande -> Dragon */
+    6:1.7,
 
-    /* Skibidi */
+    /* НОВОЕ */
     7:0
   },
 
@@ -2489,19 +2493,17 @@ const upgradeChances = {
 
   1:{
     1:100,
-
-    /* старые */
     2:49.7,
     3:38.7,
     4:14.7,
 
-    /* новое Bananito -> Cerberus */
+    /* НОВОЕ */
     5:4,
 
-    /* Dragon */
-    6:0,
+    /* Старый Bananito -> Dragon */
+    6:4.7,
 
-    /* Skibidi */
+    /* НОВОЕ */
     7:0
   },
 
@@ -2509,47 +2511,47 @@ const upgradeChances = {
 
   2:{
     2:100,
-
-    /* старые */
     3:59.7,
     4:24.7,
 
-    /* новое */
+    /* НОВОЕ */
     5:10,
 
-    /* Dragon */
-    6:0,
+    /* Старый Money -> Dragon */
+    6:9.7,
 
-    /* Skibidi */
+    /* НОВОЕ */
     7:0
   },
 
-  /* Tang Tang Keletang */
+  /* Tang */
 
   3:{
     3:100,
-
-    /* старый */
     4:54.7,
 
-    /* новое */
+    /* НОВОЕ */
     5:14,
 
-    /* старые/сохранённые направления */
+    /* Старый Tang -> Dragon */
     6:19.7,
+
+    /* НОВОЕ */
     7:0
   },
 
-  /* Garama and Madundung */
+  /* Garama */
 
   4:{
     4:100,
 
-    /* старый Garama -> Dragon = 5% */
+    /* Старый Garama -> Dragon */
     6:5,
 
-    /* новое */
+    /* НОВОЕ */
     5:29,
+
+    /* НОВОЕ */
     7:1
   },
 
@@ -2558,26 +2560,26 @@ const upgradeChances = {
   5:{
     5:100,
 
-    /* НОВОЕ Cerberus -> Dragon */
+    /* НОВОЕ */
     6:10,
 
-    /* СТАРЫЙ шанс Cerberus -> Skibidi */
-    7:2.7
+    /* НОВОЕ: остальные на Skibidi = 0 */
+    7:0
   },
 
-  /* Dragon Cannelloni */
+  /* Dragon */
 
   6:{
     6:100,
 
-    /* НОВОЕ Dragon -> Cerberus */
+    /* Dragon -> Cerberus = 0% */
     5:0,
 
-    /* НОВОЕ Dragon -> Skibidi */
+    /* НОВОЕ */
     7:5
   },
 
-  /* Skibidi toilet */
+  /* Skibidi */
 
   7:{
     7:100,
