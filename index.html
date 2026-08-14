@@ -67,17 +67,22 @@ button{
 }
 
 /* =========================
-   BALANCE
+   TOP NAV BAR & BALANCE
 ========================= */
 
-.balance{
-  position:absolute;
-  left:16px;
-  top:15px;
-  z-index:20;
+.top-nav-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+  position:relative;
+  z-index:30;
+}
 
-  min-width:150px;
-  padding:10px 14px;
+.balance{
+  min-width:145px;
+  padding:10px 15px;
 
   border:1px solid rgba(150,150,150,.28);
   border-radius:12px;
@@ -93,6 +98,8 @@ button{
     0 0 25px rgba(150,150,150,.08);
 
   backdrop-filter:blur(10px);
+  display:inline-flex;
+  align-items:center;
 }
 
 .balance span{
@@ -100,6 +107,60 @@ button{
   font-size:10px;
   letter-spacing:1.5px;
   margin:0 4px;
+}
+
+.top-shop-button{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:10px 18px;
+  border:1px solid rgba(255,215,0,.45);
+  border-radius:12px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(45,38,15,.95),
+      rgba(22,20,15,.98)
+    );
+  color:#ffd700;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  cursor:pointer;
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.4),
+    0 0 25px rgba(255,215,0,.18);
+  backdrop-filter:blur(10px);
+  transition:all .18s ease;
+}
+
+.top-shop-button:hover{
+  border-color:#ffe033;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(65,55,20,.98),
+      rgba(30,28,18,.98)
+    );
+  box-shadow:
+    0 10px 30px rgba(255,215,0,.35),
+    inset 0 0 15px rgba(255,215,0,.15);
+  transform:translateY(-1px);
+  color:#fff;
+}
+
+.top-shop-icon{
+  font-size:16px;
+}
+
+.top-shop-count{
+  background:#ffd700;
+  color:#000;
+  font-size:10px;
+  font-weight:900;
+  padding:2px 7px;
+  border-radius:12px;
+  box-shadow:0 0 10px rgba(255,215,0,.6);
 }
 
 /* =========================
@@ -1391,20 +1452,589 @@ button{
 }
 
 /* =========================
+   WITHDRAW SHOP MODAL
+========================= */
+
+.withdraw-modal{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  background:rgba(0,0,0,.82);
+  backdrop-filter:blur(10px);
+}
+
+.withdraw-modal[hidden]{
+  display:none;
+}
+
+.withdraw-modal-box{
+  width:min(680px, 100%);
+  max-height:88vh;
+  display:flex;
+  flex-direction:column;
+  border:1px solid rgba(255,215,0,.38);
+  border-radius:18px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(60,50,15,.6),
+      transparent 55%
+    ),
+    linear-gradient(
+      165deg,
+      #1e1c18 0%,
+      #121212 60%,
+      #0a0a0a 100%
+    );
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.85),
+    0 0 50px rgba(255,215,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.1);
+  overflow:hidden;
+  animation:modalPop .25s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes modalPop{
+  from{
+    transform:scale(.94) translateY(10px);
+    opacity:0;
+  }
+  to{
+    transform:scale(1) translateY(0);
+    opacity:1;
+  }
+}
+
+.withdraw-modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px 14px;
+  border-bottom:1px solid rgba(150,150,150,.15);
+  background:rgba(20,20,20,.6);
+}
+
+.withdraw-modal-title-area{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.withdraw-modal-badge{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#ffd700;
+  text-transform:uppercase;
+}
+
+.withdraw-modal-title{
+  margin:0;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.withdraw-modal-close{
+  width:34px;
+  height:34px;
+  border:1px solid rgba(150,150,150,.25);
+  border-radius:10px;
+  background:rgba(30,30,30,.8);
+  color:#aaa;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.15s;
+}
+
+.withdraw-modal-close:hover{
+  border-color:#fff;
+  color:#fff;
+  background:#444;
+}
+
+.withdraw-modal-subbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 20px;
+  background:rgba(25,25,20,.5);
+  border-bottom:1px solid rgba(150,150,150,.1);
+  font-size:11px;
+  color:#aaa;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.withdraw-modal-subbar b{
+  color:#ffd700;
+}
+
+.withdraw-modal-body{
+  padding:16px 20px;
+  overflow-y:auto;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* ADMIN PANEL IN SHOP */
+.withdraw-admin-panel{
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(45,35,10,.75),
+      rgba(20,20,20,.9)
+    );
+  padding:12px;
+  margin-bottom:8px;
+}
+
+.withdraw-admin-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.withdraw-admin-tag{
+  color:#ffd700;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.withdraw-admin-add-toggle{
+  padding:6px 12px;
+  border:1px solid rgba(255,215,0,.4);
+  border-radius:8px;
+  background:rgba(255,215,0,.15);
+  color:#ffd700;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.withdraw-admin-add-toggle:hover{
+  background:rgba(255,215,0,.3);
+  color:#fff;
+}
+
+.withdraw-admin-form{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,215,0,.2);
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.withdraw-admin-form-row{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:8px;
+}
+
+.withdraw-admin-input{
+  height:34px;
+  padding:0 10px;
+  border:1px solid rgba(150,150,150,.3);
+  border-radius:8px;
+  background:rgba(15,15,15,.9);
+  color:#fff;
+  font-size:11px;
+  outline:none;
+}
+
+.withdraw-admin-input:focus{
+  border-color:#ffd700;
+}
+
+.withdraw-admin-form-actions{
+  display:flex;
+  gap:8px;
+}
+
+.withdraw-admin-submit-btn{
+  flex:1;
+  height:34px;
+  border:1px solid #ffd700;
+  border-radius:8px;
+  background:linear-gradient(135deg, #ffd700, #c49e00);
+  color:#000;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.withdraw-admin-submit-btn:hover{
+  filter:brightness(1.1);
+}
+
+.withdraw-admin-msg{
+  font-size:10px;
+  min-height:14px;
+  color:#8dd9dc;
+}
+
+/* ITEMS IN WITHDRAW MODAL */
+.withdraw-items-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.withdraw-item-row{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:12px 14px;
+  border:1px solid rgba(150,150,150,.18);
+  border-radius:12px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(35,35,35,.85),
+      rgba(15,15,15,.95)
+    );
+  transition:all .18s ease;
+  position:relative;
+}
+
+.withdraw-item-row:hover{
+  border-color:rgba(255,215,0,.4);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(45,42,30,.9),
+      rgba(20,20,20,.98)
+    );
+  box-shadow:0 0 20px rgba(255,215,0,.08);
+}
+
+.withdraw-item-row.out-of-stock{
+  opacity:.65;
+  border-color:rgba(100,100,100,.15);
+}
+
+.withdraw-item-main{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.withdraw-item-text-line{
+  font-size:13px;
+  font-weight:800;
+  color:#f0f4f8;
+  line-height:1.35;
+  letter-spacing:.3px;
+}
+
+.withdraw-item-text-line .highlight-stock{
+  color:#79c9e0;
+  font-weight:700;
+  font-size:11px;
+}
+
+.withdraw-item-text-line .highlight-price{
+  color:#ffd700;
+  font-weight:900;
+}
+
+.withdraw-item-btn-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.withdraw-btn{
+  height:32px;
+  padding:0 14px;
+  border:1px solid rgba(0,233,150,.5);
+  border-radius:8px;
+  background:linear-gradient(135deg, rgba(0,70,50,.8), rgba(0,35,25,.95));
+  color:#00e996;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.5px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:.15s;
+}
+
+.withdraw-btn:hover{
+  background:linear-gradient(135deg, rgba(0,100,70,.9), rgba(0,50,35,.98));
+  border-color:#00e996;
+  box-shadow:0 0 15px rgba(0,233,150,.25);
+  color:#fff;
+}
+
+.withdraw-btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+  border-color:rgba(100,100,100,.3);
+  background:rgba(30,30,30,.7);
+  color:#888;
+}
+
+/* ADMIN ITEM CONTROLS */
+.withdraw-item-admin-controls{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:8px 10px;
+  border-top:1px solid rgba(150,150,150,.12);
+  background:rgba(0,0,0,.35);
+  border-radius:8px;
+  font-size:10px;
+  flex-wrap:wrap;
+}
+
+.admin-stock-control{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.admin-stock-control span{
+  color:#bbb;
+}
+
+.admin-mini-btn{
+  width:26px;
+  height:24px;
+  border:1px solid rgba(150,150,150,.3);
+  border-radius:6px;
+  background:rgba(40,40,40,.9);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:.12s;
+}
+
+.admin-mini-btn:hover{
+  border-color:#ffd700;
+  color:#ffd700;
+  background:#333;
+}
+
+.admin-delete-item-btn{
+  height:24px;
+  padding:0 9px;
+  border:1px solid rgba(255,80,90,.4);
+  border-radius:6px;
+  background:rgba(80,20,30,.6);
+  color:#ff7882;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.12s;
+}
+
+.admin-delete-item-btn:hover{
+  background:rgba(120,25,40,.9);
+  border-color:#ff5060;
+  color:#fff;
+}
+
+.withdraw-modal-footer{
+  padding:12px 20px;
+  border-top:1px solid rgba(150,150,150,.12);
+  background:rgba(15,15,15,.7);
+}
+
+.withdraw-note{
+  color:#6ca5b5;
+  font-size:10px;
+  line-height:1.45;
+  text-align:center;
+}
+
+/* CONFIRM MODAL */
+.withdraw-confirm-modal{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(10px);
+}
+
+.withdraw-confirm-modal[hidden]{
+  display:none;
+}
+
+.withdraw-confirm-box{
+  width:min(440px, 100%);
+  padding:22px;
+  border:1px solid rgba(255,215,0,.4);
+  border-radius:16px;
+  background:
+    linear-gradient(
+      165deg,
+      #24221c 0%,
+      #141414 70%,
+      #0d0d0d 100%
+    );
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.9),
+    0 0 45px rgba(255,215,0,.2);
+  animation:modalPop .2s cubic-bezier(.16,1,.3,1);
+}
+
+.confirm-header-tag{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#ffd700;
+  margin-bottom:4px;
+  text-align:center;
+}
+
+.confirm-title{
+  font-size:17px;
+  font-weight:900;
+  color:#fff;
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.confirm-item-card{
+  padding:12px;
+  border:1px solid rgba(255,215,0,.25);
+  border-radius:10px;
+  background:rgba(30,28,20,.6);
+  margin-bottom:14px;
+  text-align:center;
+}
+
+.confirm-item-title{
+  font-size:14px;
+  font-weight:900;
+  color:#fff;
+}
+
+.confirm-item-cost{
+  font-size:13px;
+  font-weight:900;
+  color:#ffd700;
+  margin-top:4px;
+}
+
+.confirm-form-group{
+  margin-bottom:10px;
+}
+
+.confirm-form-label{
+  display:block;
+  font-size:10px;
+  font-weight:800;
+  color:#9ab5c0;
+  margin-bottom:5px;
+}
+
+.confirm-input{
+  width:100%;
+  height:36px;
+  padding:0 11px;
+  border:1px solid rgba(150,150,150,.25);
+  border-radius:8px;
+  background:rgba(18,18,18,.9);
+  color:#fff;
+  font-size:12px;
+  outline:none;
+}
+
+.confirm-input:focus{
+  border-color:#ffd700;
+  box-shadow:0 0 10px rgba(255,215,0,.15);
+}
+
+.confirm-error{
+  font-size:10px;
+  color:#ff6b77;
+  min-height:16px;
+  margin:4px 0 8px;
+  text-align:center;
+}
+
+.confirm-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:6px;
+}
+
+.confirm-submit-btn{
+  height:38px;
+  border:1px solid #00e996;
+  border-radius:8px;
+  background:linear-gradient(135deg, #00b374, #00774d);
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.confirm-submit-btn:hover{
+  filter:brightness(1.15);
+  box-shadow:0 0 15px rgba(0,233,150,.3);
+}
+
+.confirm-cancel-btn{
+  height:38px;
+  border:1px solid rgba(150,150,150,.3);
+  border-radius:8px;
+  background:#222;
+  color:#bbb;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.confirm-cancel-btn:hover{
+  color:#fff;
+  background:#333;
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
 @media(max-width:850px){
 
-  .balance{
-    position:relative;
-
-    left:auto;
-    top:auto;
-
-    width:max-content;
-
-    margin-bottom:10px;
+  .top-nav-bar{
+    flex-wrap:wrap;
+    justify-content:space-between;
   }
 
   .top-area{
@@ -1439,6 +2069,30 @@ button{
 }
 
 @media(max-width:520px){
+
+  .top-nav-bar{
+    gap:8px;
+  }
+
+  .balance{
+    min-width:auto;
+    padding:8px 12px;
+    font-size:12px;
+  }
+
+  .top-shop-button{
+    padding:8px 12px;
+    font-size:11px;
+    gap:6px;
+  }
+
+  .withdraw-admin-form-row{
+    grid-template-columns:1fr;
+  }
+
+  .withdraw-item-text-line{
+    font-size:11px;
+  }
 
   .items{
     grid-template-columns:
@@ -1512,9 +2166,22 @@ button{
 
 <div class="app">
 
-  <div class="balance">
-    🦴 <span>БАЛАНС:</span>
-    <b id="balance">10</b> 🦴
+  <div class="top-nav-bar">
+    <div class="balance">
+      🦴 <span>БАЛАНС:</span>
+      <b id="balance">10</b> 🦴
+    </div>
+
+    <button
+      class="top-shop-button"
+      id="openWithdrawShopBtn"
+      type="button"
+      onclick="openWithdrawShopModal()"
+    >
+      <span class="top-shop-icon">🏪</span>
+      <span class="top-shop-title">МАГАЗИН ВЫВОДА</span>
+      <span class="top-shop-count" id="topShopCountBadge">10</span>
+    </button>
   </div>
 
   <section class="game">
@@ -1817,11 +2484,119 @@ button{
           id="adminMessage"
         ></div>
 
+        <!-- ADMIN SHOP MANAGEMENT SHORTCUT -->
+        <div style="margin-top:14px; padding-top:10px; border-top:1px solid rgba(150,150,150,.2);">
+          <div class="admin-subtitle" style="margin-bottom:6px; color:#ffd700;">
+            Управление предложениями магазина
+          </div>
+          <button
+            class="admin-button"
+            type="button"
+            style="background:linear-gradient(135deg, #ffd700, #c49e00); color:#000;"
+            onclick="openWithdrawShopModal()"
+          >
+            🏪 ОТКРЫТЬ МАГАЗИН И РЕДАКТИРОВАТЬ
+          </button>
+        </div>
+
       </div>
 
     </div>
 
   </section>
+
+  <!-- WITHDRAW SHOP MODAL -->
+  <div class="withdraw-modal" id="withdrawShopModal" hidden>
+    <div class="withdraw-modal-box">
+
+      <div class="withdraw-modal-header">
+        <div class="withdraw-modal-title-area">
+          <div class="withdraw-modal-badge">ВЫВОД BRAINROT</div>
+          <h2 class="withdraw-modal-title">🏪 МАГАЗИН ВЫВОДА</h2>
+        </div>
+        <button class="withdraw-modal-close" type="button" onclick="closeWithdrawShopModal()">✕</button>
+      </div>
+
+      <div class="withdraw-modal-subbar">
+        <div>Твой баланс: <b id="withdrawShopBalance">10</b> 🦴</div>
+        <div>Всего браинротов: <b id="withdrawShopStockCount">10</b></div>
+      </div>
+
+      <div class="withdraw-modal-body">
+
+        <!-- ADMIN TOOLS (VISIBLE ONLY TO @saintezz7) -->
+        <div class="withdraw-admin-panel" id="withdrawAdminPanel" hidden>
+          <div class="withdraw-admin-head">
+            <div class="withdraw-admin-tag">⚓ УПРАВЛЕНИЕ МАГАЗИНОМ (@saintezz7)</div>
+            <button class="withdraw-admin-add-toggle" id="adminAddToggleBtn" type="button" onclick="toggleAdminAddForm()">＋ Добавить браинрота</button>
+          </div>
+
+          <form class="withdraw-admin-form" id="withdrawAdminAddForm" onsubmit="handleAdminAddBrainrot(event)" hidden>
+            <div class="withdraw-admin-form-row">
+              <input type="text" id="newBrainrotName" class="withdraw-admin-input" placeholder="Название браинрота" required>
+              <input type="number" id="newBrainrotPrice" class="withdraw-admin-input" placeholder="Цена (🦴)" min="1" step="1" required>
+              <input type="number" id="newBrainrotStock" class="withdraw-admin-input" placeholder="На складе (шт)" min="0" step="1" required>
+            </div>
+            <div class="withdraw-admin-form-actions">
+              <button type="submit" class="withdraw-admin-submit-btn">ДОБАВИТЬ ПРЕДЛОЖЕНИЕ</button>
+              <button type="button" class="withdraw-admin-add-toggle" onclick="toggleAdminAddForm(false)">Отмена</button>
+            </div>
+            <div class="withdraw-admin-msg" id="adminAddFormMsg"></div>
+          </form>
+        </div>
+
+        <!-- BRAINROT OFFERS LIST -->
+        <div class="withdraw-items-list" id="withdrawItemsList">
+          <!-- Populated by JavaScript -->
+        </div>
+
+      </div>
+
+      <div class="withdraw-modal-footer">
+        <div class="withdraw-note">
+          ℹ️ При нажатии <b>ВЫВЕСТИ</b> с баланса списываются кости и резервируется браинрот на складе.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONFIRM WITHDRAWAL DIALOG -->
+  <div class="withdraw-confirm-modal" id="withdrawConfirmModal" hidden>
+    <div class="withdraw-confirm-box">
+      <div class="confirm-header-tag">ОФОРМЛЕНИЕ ВЫВОДА</div>
+      <div class="confirm-title">Подтверждение заявки</div>
+
+      <div class="confirm-item-card">
+        <div class="confirm-item-title" id="confirmItemName">—</div>
+        <div class="confirm-item-cost" id="confirmItemPrice">— 🦴</div>
+      </div>
+
+      <form id="withdrawConfirmForm" onsubmit="submitBrainrotWithdrawal(event)">
+        <div class="confirm-form-group">
+          <label class="confirm-form-label" for="confirmRobloxNick">Никнейм в Roblox:</label>
+          <input type="text" id="confirmRobloxNick" class="confirm-input" placeholder="Твой ник в Roblox" required>
+        </div>
+
+        <div class="confirm-form-group">
+          <label class="confirm-form-label" for="confirmReadyTime">Удобное время получения (МСК):</label>
+          <input type="text" id="confirmReadyTime" class="confirm-input" placeholder="Например: Сегодня в 19:00" required>
+        </div>
+
+        <div class="confirm-form-group">
+          <label class="confirm-form-label" for="confirmComment">Комментарий (необязательно):</label>
+          <input type="text" id="confirmComment" class="confirm-input" placeholder="Дополнительно">
+        </div>
+
+        <div class="confirm-error" id="confirmError"></div>
+
+        <div class="confirm-actions">
+          <button type="submit" class="confirm-submit-btn" id="confirmSubmitBtn">ПОДТВЕРДИТЬ ВЫВОД</button>
+          <button type="button" class="confirm-cancel-btn" onclick="closeWithdrawConfirmModal()">ОТМЕНА</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
 </div>
 
@@ -2274,9 +3049,458 @@ function getTelegramUsername(){
 function isAdmin(){
 
   const telegramUsername = getTelegramUsername();
+  const currentUsername = normalizeUsername(profile?.username || '');
 
-  return telegramUsername === 'saintezz7';
+  return telegramUsername === 'saintezz7' || currentUsername === 'saintezz7';
 
+}
+
+/* =========================================================
+   WITHDRAWAL BRAINROT SHOP & ADMIN SYSTEM (@saintezz7)
+========================================================= */
+
+const defaultWithdrawShopItems = [
+  { id: 1, name: "Ventoliero Pavonero", price: 40, stock: 2 },
+  { id: 2, name: "Ketchuru and Musturu", price: 40, stock: 1 },
+  { id: 3, name: "La Summer Grande", price: 30, stock: 2 },
+  { id: 4, name: "Sand Sand Sand", price: 15, stock: 2 },
+  { id: 5, name: "Ketupat Kepat", price: 25, stock: 2 },
+  { id: 6, name: "Los Tangsitos", price: 40, stock: 2 },
+  { id: 7, name: "Los Fruits", price: 19, stock: 1 },
+  { id: 8, name: "La Ginger Sekolah", price: 45, stock: 1 },
+  { id: 9, name: "Esok Sekolah", price: 10, stock: 1 },
+  { id: 10, name: "La Jolly Grande", price: 50, stock: 1 }
+];
+
+const WITHDRAW_SHOP_STORAGE_KEY = 'withdraw_shop_items_v2';
+let withdrawShopItems = [];
+let pendingWithdrawItemId = null;
+
+function saveWithdrawShopItems(){
+  try{
+    localStorage.setItem(WITHDRAW_SHOP_STORAGE_KEY, JSON.stringify(withdrawShopItems));
+  }catch(e){
+    console.error('Ошибка сохранения магазина:', e);
+  }
+}
+
+async function loadWithdrawShopItems(){
+  try{
+    const response = await fetch(API_URL + '/api/shop/items');
+    if(response.ok){
+      const data = await response.json();
+      if(data.success && Array.isArray(data.items) && data.items.length > 0){
+        withdrawShopItems = data.items;
+        saveWithdrawShopItems();
+        renderWithdrawShopModal();
+        updateWithdrawShopBadge();
+        return;
+      }
+    }
+  }catch(e){
+    console.warn('Сервер недоступен, загружаем локальные данные магазина:', e);
+  }
+
+  try{
+    const stored = JSON.parse(localStorage.getItem(WITHDRAW_SHOP_STORAGE_KEY) || 'null');
+    if(Array.isArray(stored) && stored.length > 0){
+      withdrawShopItems = stored;
+    }else{
+      withdrawShopItems = JSON.parse(JSON.stringify(defaultWithdrawShopItems));
+      saveWithdrawShopItems();
+    }
+  }catch(e){
+    withdrawShopItems = JSON.parse(JSON.stringify(defaultWithdrawShopItems));
+  }
+
+  renderWithdrawShopModal();
+  updateWithdrawShopBadge();
+}
+
+function updateWithdrawShopBadge(){
+  const countBadge = document.getElementById('topShopCountBadge');
+  const countInModal = document.getElementById('withdrawShopStockCount');
+
+  const totalStock = withdrawShopItems.reduce((acc, item) => acc + (Number(item.stock) || 0), 0);
+  const totalTypes = withdrawShopItems.length;
+
+  if(countBadge){
+    countBadge.textContent = totalStock > 0 ? totalTypes : '0';
+  }
+  if(countInModal){
+    countInModal.textContent = `${totalTypes} предл. (${totalStock} шт.)`;
+  }
+}
+
+function openWithdrawShopModal(){
+  const modal = document.getElementById('withdrawShopModal');
+  if(!modal) return;
+  modal.hidden = false;
+  renderWithdrawShopModal();
+}
+
+function closeWithdrawShopModal(){
+  const modal = document.getElementById('withdrawShopModal');
+  if(modal){
+    modal.hidden = true;
+  }
+}
+
+function toggleAdminAddForm(force){
+  const form = document.getElementById('withdrawAdminAddForm');
+  const btn = document.getElementById('adminAddToggleBtn');
+  if(!form) return;
+
+  const willShow = force !== undefined ? force : form.hidden;
+  form.hidden = !willShow;
+  if(btn){
+    btn.textContent = willShow ? '✕ Закрыть форму' : '＋ Добавить браинрота';
+  }
+  if(willShow){
+    const nameInput = document.getElementById('newBrainrotName');
+    if(nameInput) nameInput.focus();
+  }
+}
+
+function renderWithdrawShopModal(){
+  const balanceEl = document.getElementById('withdrawShopBalance');
+  if(balanceEl){
+    balanceEl.textContent = balance;
+  }
+
+  const adminSection = document.getElementById('withdrawAdminPanel');
+  const userIsAdmin = isAdmin();
+  if(adminSection){
+    adminSection.hidden = !userIsAdmin;
+  }
+
+  const listContainer = document.getElementById('withdrawItemsList');
+  if(!listContainer) return;
+  listContainer.innerHTML = '';
+
+  if(withdrawShopItems.length === 0){
+    listContainer.innerHTML = `
+      <div style="text-align:center; padding:30px 10px; color:#888; font-size:12px;">
+        В данный момент предложений нет.
+      </div>
+    `;
+    updateWithdrawShopBadge();
+    return;
+  }
+
+  withdrawShopItems.forEach(item => {
+    const stock = Number(item.stock || 0);
+    const price = Number(item.price || 0);
+    const inStock = stock > 0;
+    const canAfford = balance >= price;
+
+    const row = document.createElement('div');
+    row.className = `withdraw-item-row ${inStock ? '' : 'out-of-stock'}`;
+
+    // Строго по требованию: Название - X костей (Y на складе)
+    const exactLine = `${item.name} - <span class="highlight-price">${price} костей</span> <span class="highlight-stock">(${stock} на складе)</span>`;
+
+    let buttonHtml = '';
+    if(!inStock){
+      buttonHtml = `<button class="withdraw-btn" disabled>НЕТ НА СКЛАДЕ</button>`;
+    }else if(!canAfford){
+      buttonHtml = `<button class="withdraw-btn" onclick="openWithdrawConfirmModal(${item.id})">ВЫВЕСТИ (${price} 🦴)</button>`;
+    }else{
+      buttonHtml = `<button class="withdraw-btn" onclick="openWithdrawConfirmModal(${item.id})">ВЫВЕСТИ</button>`;
+    }
+
+    let adminControlsHtml = '';
+    if(userIsAdmin){
+      adminControlsHtml = `
+        <div class="withdraw-item-admin-controls">
+          <div class="admin-stock-control">
+            <span>На складе:</span>
+            <button type="button" class="admin-mini-btn" title="Уменьшить количество" onclick="changeWithdrawShopItemStock(${item.id}, -1)">−</button>
+            <b style="color:#ffd700; min-width:20px; text-align:center;">${stock}</b>
+            <button type="button" class="admin-mini-btn" title="Увеличить количество" onclick="changeWithdrawShopItemStock(${item.id}, 1)">＋</button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button type="button" class="admin-mini-btn" style="width:auto; padding:0 8px;" title="Изменить цену" onclick="promptEditPrice(${item.id})">✏️ Цена</button>
+            <button type="button" class="admin-delete-item-btn" title="Удалить браинрота" onclick="deleteWithdrawShopItem(${item.id})">🗑 Удалить</button>
+          </div>
+        </div>
+      `;
+    }
+
+    row.innerHTML = `
+      <div class="withdraw-item-main">
+        <div class="withdraw-item-text-line">
+          ${exactLine}
+        </div>
+        <div class="withdraw-item-btn-wrap">
+          ${buttonHtml}
+        </div>
+      </div>
+      ${adminControlsHtml}
+    `;
+
+    listContainer.appendChild(row);
+  });
+
+  updateWithdrawShopBadge();
+}
+
+function promptEditPrice(itemId){
+  if(!isAdmin()) return;
+  const item = withdrawShopItems.find(i => i.id === itemId);
+  if(!item) return;
+
+  const newPriceStr = prompt(`Укажите новую цену для "${item.name}" в костях:`, item.price);
+  if(newPriceStr === null) return;
+
+  const newPrice = Math.floor(Number(newPriceStr));
+  if(isNaN(newPrice) || newPrice < 0){
+    alert('Некорректная цена');
+    return;
+  }
+
+  updateWithdrawShopItemPrice(itemId, newPrice);
+}
+
+function changeWithdrawShopItemStock(itemId, delta){
+  if(!isAdmin()) return;
+  const item = withdrawShopItems.find(i => i.id === itemId);
+  if(!item) return;
+
+  item.stock = Math.max(0, Number(item.stock || 0) + delta);
+  saveWithdrawShopItems();
+  syncWithdrawItemWithServer('update', item);
+  renderWithdrawShopModal();
+}
+
+function updateWithdrawShopItemPrice(itemId, newPrice){
+  if(!isAdmin()) return;
+  const item = withdrawShopItems.find(i => i.id === itemId);
+  if(!item) return;
+
+  item.price = newPrice;
+  saveWithdrawShopItems();
+  syncWithdrawItemWithServer('update', item);
+  renderWithdrawShopModal();
+}
+
+function deleteWithdrawShopItem(itemId){
+  if(!isAdmin()) return;
+  const item = withdrawShopItems.find(i => i.id === itemId);
+  const itemName = item ? item.name : 'этот предмет';
+
+  if(!confirm(`Удалить "${itemName}" из магазина вывода?`)){
+    return;
+  }
+
+  withdrawShopItems = withdrawShopItems.filter(i => i.id !== itemId);
+  saveWithdrawShopItems();
+  syncWithdrawItemWithServer('delete', { id: itemId });
+  renderWithdrawShopModal();
+}
+
+function handleAdminAddBrainrot(e){
+  e.preventDefault();
+  if(!isAdmin()) return;
+
+  const nameInput = document.getElementById('newBrainrotName');
+  const priceInput = document.getElementById('newBrainrotPrice');
+  const stockInput = document.getElementById('newBrainrotStock');
+  const msgEl = document.getElementById('adminAddFormMsg');
+
+  const name = nameInput.value.trim();
+  const price = Math.floor(Number(priceInput.value));
+  const stock = Math.floor(Number(stockInput.value));
+
+  if(!name){
+    if(msgEl) msgEl.textContent = 'Укажите название браинрота';
+    return;
+  }
+  if(isNaN(price) || price < 0){
+    if(msgEl) msgEl.textContent = 'Укажите корректную цену';
+    return;
+  }
+  if(isNaN(stock) || stock < 0){
+    if(msgEl) msgEl.textContent = 'Укажите корректное количество';
+    return;
+  }
+
+  const newItem = {
+    id: Date.now(),
+    name,
+    price,
+    stock
+  };
+
+  withdrawShopItems.push(newItem);
+  saveWithdrawShopItems();
+  syncWithdrawItemWithServer('add', newItem);
+
+  nameInput.value = '';
+  priceInput.value = '';
+  stockInput.value = '';
+  if(msgEl){
+    msgEl.innerHTML = `<span style="color:#00e996;">✓ "${name}" успешно добавлен в магазин!</span>`;
+    setTimeout(() => { if(msgEl) msgEl.textContent = ''; }, 3000);
+  }
+
+  renderWithdrawShopModal();
+}
+
+async function syncWithdrawItemWithServer(action, payload){
+  try{
+    if(action === 'add'){
+      await fetch(API_URL + '/api/shop/items', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }else if(action === 'update'){
+      await fetch(API_URL + `/api/shop/items/${payload.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }else if(action === 'delete'){
+      await fetch(API_URL + `/api/shop/items/${payload.id}`, {
+        method: 'DELETE'
+      });
+    }
+  }catch(e){
+    console.warn('Синхронизация с сервером не удалась, изменения сохранены локально:', e);
+  }
+}
+
+// =========================================================
+// WITHDRAWAL CONFIRMATION & ORDER FLOW
+// =========================================================
+
+function openWithdrawConfirmModal(itemId){
+  const item = withdrawShopItems.find(i => i.id === itemId);
+  if(!item) return;
+
+  if(item.stock < 1){
+    alert('Этого браинрота нет в наличии на складе.');
+    return;
+  }
+
+  if(balance < item.price){
+    alert(`Недостаточно костей для вывода. Нужно ${item.price} 🦴, у вас ${balance} 🦴.`);
+    return;
+  }
+
+  pendingWithdrawItemId = itemId;
+
+  const modal = document.getElementById('withdrawConfirmModal');
+  const nameEl = document.getElementById('confirmItemName');
+  const priceEl = document.getElementById('confirmItemPrice');
+  const nickInput = document.getElementById('confirmRobloxNick');
+  const errorEl = document.getElementById('confirmError');
+
+  if(nameEl) nameEl.textContent = `${item.name} (${item.stock} на складе)`;
+  if(priceEl) priceEl.textContent = `${item.price} 🦴`;
+  if(errorEl) errorEl.textContent = '';
+
+  if(nickInput){
+    nickInput.value = localStorage.getItem('upgrader_roblox_nick_v1') || '';
+  }
+
+  if(modal) modal.hidden = false;
+}
+
+function closeWithdrawConfirmModal(){
+  const modal = document.getElementById('withdrawConfirmModal');
+  if(modal) modal.hidden = true;
+  pendingWithdrawItemId = null;
+}
+
+async function submitBrainrotWithdrawal(e){
+  e.preventDefault();
+  if(!pendingWithdrawItemId) return;
+
+  const item = withdrawShopItems.find(i => i.id === pendingWithdrawItemId);
+  if(!item){
+    closeWithdrawConfirmModal();
+    return;
+  }
+
+  const nickInput = document.getElementById('confirmRobloxNick');
+  const timeInput = document.getElementById('confirmReadyTime');
+  const commentInput = document.getElementById('confirmComment');
+  const errorEl = document.getElementById('confirmError');
+  const submitBtn = document.getElementById('confirmSubmitBtn');
+
+  const robloxNick = (nickInput ? nickInput.value : '').trim();
+  const readyTime = (timeInput ? timeInput.value : '').trim();
+  const comment = (commentInput ? commentInput.value : '').trim();
+
+  if(!robloxNick){
+    if(errorEl) errorEl.textContent = 'Укажите ваш Roblox никнейм.';
+    return;
+  }
+
+  if(!readyTime){
+    if(errorEl) errorEl.textContent = 'Укажите удобное время получения.';
+    return;
+  }
+
+  if(balance < item.price){
+    if(errorEl) errorEl.textContent = 'Недостаточно костей на балансе.';
+    return;
+  }
+
+  if(item.stock < 1){
+    if(errorEl) errorEl.textContent = 'Товар закончился на складе.';
+    return;
+  }
+
+  if(submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'ОФОРМЛЕНИЕ...';
+  }
+
+  localStorage.setItem('upgrader_roblox_nick_v1', robloxNick);
+
+  balance -= item.price;
+  item.stock = Math.max(0, item.stock - 1);
+
+  saveProfileData();
+  saveWithdrawShopItems();
+
+  try{
+    const telegramId = profile?.telegramId || 'local_user';
+    await fetch(API_URL + '/api/shop/withdraw', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        telegram_id: String(telegramId),
+        shop_item_id: item.id,
+        roblox_name: robloxNick,
+        ready_time: readyTime,
+        comment: comment
+      })
+    });
+  }catch(err){
+    console.warn('Сервер вывода недоступен, заявка зафиксирована локально:', err);
+  }
+
+  closeWithdrawConfirmModal();
+  renderAll();
+  renderWithdrawShopModal();
+
+  if(instruction){
+    instruction.innerHTML = `
+      <span style="color:#00e996; font-weight:900;">ЗАЯВКА НА ВЫВОД ПРИНЯТА!</span><br>
+      <b>${item.name}</b> зарезервирован для <b>${robloxNick}</b>.
+    `;
+  }
+
+  alert(`✅ Заявка на вывод браинрота "${item.name}" успешно оформлена!\nСписано: ${item.price} 🦴.\nОстаток на складе: ${item.stock} шт.`);
+
+  if(submitBtn){
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'ПОДТВЕРДИТЬ ВЫВОД';
+  }
 }
 
 function renderProfile(){
@@ -2301,6 +3525,9 @@ function renderProfile(){
 
   const adminPanel =
     document.getElementById('adminPanel');
+
+  const withdrawAdminPanel =
+    document.getElementById('withdrawAdminPanel');
 
   if(telegramUser){
 
@@ -2373,25 +3600,29 @@ function renderProfile(){
     }
   }
 
-  if(isAdmin()){
+  const userIsAdmin = isAdmin();
 
-    adminPanel.hidden = false;
+  if(adminPanel){
+    adminPanel.hidden = !userIsAdmin;
+  }
+
+  if(withdrawAdminPanel){
+    withdrawAdminPanel.hidden = !userIsAdmin;
+  }
+
+  if(userIsAdmin){
 
     const adminName =
       document.getElementById('adminName');
 
     if(adminName){
-      adminName.textContent = '@' + telegramUsername;
+      adminName.textContent = '@' + (telegramUsername || profile?.username || 'saintezz7');
     }
 
     if(cooldown && telegramUser){
       cooldown.textContent =
-        'Администратор • полный доступ • ID: ' + telegramUser.id;
+        'Администратор @saintezz7 • полный доступ • ID: ' + telegramUser.id;
     }
-
-  }else{
-
-    adminPanel.hidden = true;
 
   }
 
@@ -3093,6 +4324,8 @@ function renderAll(){
 
   renderProfile();
 
+  renderWithdrawShopModal();
+
 }
 
 /* =========================================================
@@ -3750,6 +4983,9 @@ loadProfileData();
 renderAll();
 
 updateTop();
+
+// Загружаем товары магазина вывода
+loadWithdrawShopItems();
 
 // Сохраняем Telegram-пользователя в общей базе.
 syncUserWithServer();
