@@ -227,7 +227,8 @@ button{
 
 .slot{
   width:160px;
-  height:124px;
+  min-height:124px;
+  padding:10px 8px;
 
   margin:auto;
 
@@ -282,6 +283,22 @@ button{
     0 0 18px rgba(150,150,150,.35);
 }
 
+.slot-item-img-container{
+  width:58px;
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:6px;
+}
+
+.slot-item-img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));
+}
+
 .slot-text{
   color:#c8f6fb;
 
@@ -289,7 +306,8 @@ button{
   letter-spacing:1px;
   font-weight:800;
 
-  line-height:1.5;
+  line-height:1.4;
+  text-align:center;
 }
 
 /* =========================
@@ -664,12 +682,18 @@ button{
   display:none;
 
   margin-top:14px;
+  padding:12px 10px;
 
   border:1px solid #555;
 
-  background:#111;
+  background:
+    linear-gradient(
+      145deg,
+      #1c1c1c,
+      #0d0d0d
+    );
 
-  min-height:110px;
+  min-height:120px;
 
   align-items:center;
   justify-content:center;
@@ -677,14 +701,31 @@ button{
   flex-direction:column;
 
   border-radius:12px;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.6);
 }
 
 .selected-card.show{
   display:flex;
 }
 
+.selected-card-img-container{
+  width:58px;
+  height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:6px;
+}
+
+.selected-card-img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.7));
+}
+
 .selected-number{
-  font-size:17px;
+  font-size:15px;
 
   font-weight:900;
 
@@ -702,7 +743,7 @@ button{
 
   color:#aaa;
 
-  letter-spacing:2px;
+  letter-spacing:1.5px;
 
   margin-top:5px;
 }
@@ -750,7 +791,7 @@ button{
 }
 
 .item{
-  min-height:82px;
+  min-height:104px;
 
   border:1px solid rgba(150,150,150,.16);
 
@@ -762,7 +803,7 @@ button{
       rgba(150,150,150,.045)
     );
 
-  padding:9px 6px 7px;
+  padding:8px 5px 6px;
 
   display:flex;
 
@@ -787,10 +828,10 @@ button{
 .item:hover{
   border-color:rgba(150,150,150,.55);
 
-  transform:translateY(-1px);
+  transform:translateY(-2px);
 
   box-shadow:
-    0 0 18px rgba(150,150,150,.08);
+    0 4px 18px rgba(150,150,150,.15);
 }
 
 .item.selected{
@@ -804,25 +845,54 @@ button{
     );
 
   box-shadow:
-    0 0 20px rgba(200,200,200,.12);
+    0 0 20px rgba(200,200,200,.2);
+}
+
+.target-item-img-container{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:4px;
+}
+
+.target-item-img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
+  transition:transform .18s ease;
+}
+
+.item:hover .target-item-img{
+  transform:scale(1.1);
+}
+
+.item.selected .target-item-img{
+  transform:scale(1.12);
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.45));
 }
 
 .item-name{
   color:#d9e0e5;
 
-  font-size:11px;
+  font-size:10px;
 
-  line-height:1.25;
+  line-height:1.2;
 
   font-weight:800;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .item-price{
-  margin-top:7px;
+  margin-top:4px;
 
   color:#ffd52a;
 
-  font-size:12px;
+  font-size:11px;
 
   font-weight:900;
 }
@@ -840,7 +910,7 @@ button{
 }
 
 .shop-item{
-  min-height:64px;
+  min-height:56px;
 
   border:1px solid rgba(150,150,150,.16);
 
@@ -851,20 +921,11 @@ button{
       rgba(15,15,15,.9)
     );
 
-  padding:7px 8px;
+  padding:6px 8px;
 
-  display:grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    auto;
-
-  grid-template-rows:
-    auto auto;
-
-  column-gap:8px;
-
+  display:flex;
   align-items:center;
+  gap:9px;
 
   cursor:pointer;
 
@@ -873,6 +934,34 @@ button{
   position:relative;
 
   border-radius:10px;
+}
+
+.shop-item-img-container{
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  padding:2px;
+}
+
+.shop-item-img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
+}
+
+.shop-item-info{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
 .shop-item-name{
@@ -886,10 +975,9 @@ button{
 
   text-align:left;
 
-  grid-column:1;
-  grid-row:1;
-
-  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .shop-item-price{
@@ -899,10 +987,8 @@ button{
 
   font-weight:900;
 
-  grid-column:1;
-  grid-row:2;
-
-  margin-top:4px;
+  margin-top:3px;
+  text-align:left;
 }
 
 .shop-item:hover{
@@ -920,9 +1006,7 @@ button{
 }
 
 .buy-item{
-  grid-column:2;
-  grid-row:1 / span 2;
-
+  flex-shrink:0;
   height:30px;
 
   padding:0 10px;
@@ -975,16 +1059,10 @@ button{
       rgba(15,15,15,.9)
     );
 
-  padding:8px;
+  padding:6px 8px;
 
-  display:grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    auto;
-
+  display:flex;
   align-items:center;
-
   gap:9px;
 
   cursor:pointer;
@@ -992,6 +1070,26 @@ button{
   border-radius:10px;
 
   transition:.15s;
+}
+
+.inventory-item-img-container{
+  width:40px;
+  height:40px;
+  border-radius:8px;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  padding:2px;
+}
+
+.inventory-item-img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
 }
 
 .inventory-item:hover{
@@ -1015,7 +1113,11 @@ button{
 }
 
 .inventory-item-info{
+  flex:1;
   min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
 .inventory-item-name{
@@ -1026,6 +1128,10 @@ button{
   font-weight:800;
 
   line-height:1.2;
+
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .inventory-item-price{
@@ -1039,6 +1145,7 @@ button{
 }
 
 .sell-item{
+  flex-shrink:0;
   height:30px;
 
   padding:0 9px;
@@ -2619,45 +2726,121 @@ const items = [
 
   {
     name:'La Grande Combination',
-    price:1
+    price:1,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Grande.png',
+    localImage:'Grande.png'
   },
 
   {
     name:'Bananito',
-    price:7
+    price:7,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Bananchik.png',
+    localImage:'Bananchik.png'
   },
 
   {
     name:'Money Money Puggy',
-    price:17
+    price:17,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Mops.png',
+    localImage:'Mops.png'
   },
 
   {
     name:'Tang Tang Keletang',
-    price:30
+    price:30,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/TangTangKeletang.png',
+    localImage:'TangTangKeletang.png'
   },
 
   {
     name:'Garama and Madundung',
-    price:50
+    price:50,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Garama.png',
+    localImage:'Garama.png'
   },
 
   {
     name:'Cerberus',
-    price:175
+    price:175,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Cerberus.png',
+    localImage:'Cerberus.png'
   },
 
   {
     name:'Dragon Cannelloni',
-    price:1250
+    price:1250,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Dragon.png',
+    localImage:'Dragon.png'
   },
 
   {
     name:'Skibidi toilet',
-    price:15000
+    price:15000,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Skibidi.png',
+    localImage:'Skibidi.png'
   }
 
 ];
+
+/* =========================================================
+   IMAGE URL & FALLBACK HELPERS
+========================================================= */
+
+function resolveItemImageUrl(url){
+  if(!url) return '';
+  const raw = String(url).trim();
+  // Автоматическое преобразование ссылок GitHub blob в raw.githubusercontent.com для тегов <img>
+  if(raw.includes('github.com') && raw.includes('/blob/')){
+    return raw.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+  }
+  return raw;
+}
+
+function handleItemImageError(imgEl, fallbackFilename){
+  if(!imgEl) return;
+  const attempts = Number(imgEl.getAttribute('data-err-count') || '0');
+  imgEl.setAttribute('data-err-count', attempts + 1);
+
+  const filename = fallbackFilename || (imgEl.src ? imgEl.src.split('/').pop().split('?')[0] : '');
+  if(!filename) return;
+
+  const candidateSources = [
+    `image/${filename}`,
+    `./image/${filename}`,
+    `../image/${filename}`,
+    `${filename}`,
+    `../${filename}`,
+    `https://raw.githubusercontent.com/saintezz/saintbetW/main/image/${filename}`,
+    `https://github.com/saintezz/saintbetW/raw/main/image/${filename}`
+  ];
+
+  if(attempts < candidateSources.length){
+    const nextSrc = candidateSources[attempts];
+    if(nextSrc && imgEl.src !== nextSrc){
+      imgEl.src = nextSrc;
+      return;
+    }
+  }
+
+  imgEl.style.opacity = '0.35';
+}
+
+function renderItemImage(item, className = 'item-thumb'){
+  if(!item) return '';
+  const src = resolveItemImageUrl(item.image || item.localImage || '');
+  const local = item.localImage || (item.image ? item.image.split('/').pop().split('?')[0] : '');
+  return `
+    <div class="${className}-container">
+      <img
+        src="${src}"
+        alt="${item.name}"
+        class="${className}"
+        loading="lazy"
+        onerror="handleItemImageError(this, '${local}')"
+      />
+    </div>
+  `;
+}
 
 /* =========================================================
    VARIABLES
@@ -4002,12 +4185,15 @@ function renderShop(){
 
       row.innerHTML = `
 
-        <div class="shop-item-name">
-          ${item.name}
-        </div>
+        ${renderItemImage(item, 'shop-item-img')}
 
-        <div class="shop-item-price">
-          ${item.price} 🦴
+        <div class="shop-item-info">
+          <div class="shop-item-name">
+            ${item.name}
+          </div>
+          <div class="shop-item-price">
+            ${item.price} 🦴
+          </div>
         </div>
 
         <button
@@ -4067,8 +4253,17 @@ function renderInventory(){
       'show'
     );
 
-    selectedNumber.textContent =
-      '—';
+    selectedCard.innerHTML = `
+      <div
+        class="selected-number"
+        id="selectedNumber"
+      >
+        —
+      </div>
+      <div class="selected-caption">
+        ВЫБРАННЫЙ ПРЕДМЕТ
+      </div>
+    `;
 
     return;
 
@@ -4114,16 +4309,15 @@ function renderInventory(){
 
       row.innerHTML = `
 
-        <div class="inventory-item-info">
+        ${renderItemImage(item, 'inventory-item-img')}
 
+        <div class="inventory-item-info">
           <div class="inventory-item-name">
             ${item.name}
           </div>
-
           <div class="inventory-item-price">
             ${item.price} 🦴
           </div>
-
         </div>
 
         <button
@@ -4287,6 +4481,8 @@ function renderTargets(){
 
       b.innerHTML = `
 
+        ${renderItemImage(item, 'target-item-img')}
+
         <div class="item-name">
           ${item.name}
         </div>
@@ -4409,8 +4605,18 @@ function selectSource(slotIndex){
     return;
   }
 
-  selectedNumber.textContent =
-    item.name;
+  selectedCard.innerHTML = `
+    ${renderItemImage(item, 'selected-card-img')}
+    <div
+      class="selected-number"
+      id="selectedNumber"
+    >
+      ${item.name}
+    </div>
+    <div class="selected-caption">
+      ВЫБРАННЫЙ ПРЕДМЕТ • ${item.price} 🦴
+    </div>
+  `;
 
   selectedCard.classList.add(
     'show'
@@ -4420,11 +4626,9 @@ function selectSource(slotIndex){
     'selected'
   );
 
-  /*
-    БЕЗ КАРТИНОК И БЕЗ РОМБОВ
-  */
-
   sourceSlot.innerHTML = `
+
+    ${renderItemImage(item, 'slot-item-img')}
 
     <div class="slot-text">
 
@@ -4473,11 +4677,9 @@ function selectTarget(index){
     'selected'
   );
 
-  /*
-    БЕЗ КАРТИНОК И БЕЗ РОМБОВ
-  */
-
   targetSlot.innerHTML = `
+
+    ${renderItemImage(item, 'slot-item-img')}
 
     <div class="slot-text">
 
@@ -4512,8 +4714,17 @@ function clearSourceDisplay(){
     'show'
   );
 
-  selectedNumber.textContent =
-    '—';
+  selectedCard.innerHTML = `
+    <div
+      class="selected-number"
+      id="selectedNumber"
+    >
+      —
+    </div>
+    <div class="selected-caption">
+      ВЫБРАННЫЙ ПРЕДМЕТ
+    </div>
+  `;
 
   sourceSlot.classList.remove(
     'selected'
@@ -4849,8 +5060,18 @@ function upgrade(){
       const wonItem =
         items[targetIndex];
 
-      selectedNumber.textContent =
-        wonItem.name;
+      selectedCard.innerHTML = `
+        ${renderItemImage(wonItem, 'selected-card-img')}
+        <div
+          class="selected-number"
+          id="selectedNumber"
+        >
+          ${wonItem.name}
+        </div>
+        <div class="selected-caption">
+          ВЫБРАННЫЙ ПРЕДМЕТ • ${wonItem.price} 🦴
+        </div>
+      `;
 
       selectedCard.classList.add(
         'show'
@@ -4860,11 +5081,9 @@ function upgrade(){
         'selected'
       );
 
-      /*
-        БЕЗ РОМБОВ И КАРТИНОК
-      */
-
       sourceSlot.innerHTML = `
+
+        ${renderItemImage(wonItem, 'slot-item-img')}
 
         <div class="slot-text">
 
