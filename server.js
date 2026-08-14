@@ -1,4 +1,4 @@
-const express = require("express");
+  const express = require("express");
 const cors = require("cors");
 const Database = require("better-sqlite3");
 const crypto = require("crypto");
@@ -53,6 +53,42 @@ db.exec(`
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
 `);
+
+// Магазин вывода (Brainrot предложения)
+db.exec(`
+    CREATE TABLE IF NOT EXISTS shop_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        price INTEGER NOT NULL,
+        stock INTEGER NOT NULL DEFAULT 1,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
+// Инициализация стандартных предложений, если таблица пуста
+try {
+    const shopCount = db.prepare("SELECT COUNT(*) as count FROM shop_items").get();
+    if (shopCount && shopCount.count === 0) {
+        const insertShopItem = db.prepare("INSERT INTO shop_items (name, price, stock) VALUES (?, ?, ?)");
+        const defaultShop = [
+            { name: "Ventoliero Pavonero", price: 40, stock: 2 },
+            { name: "Ketchuru and Musturu", price: 40, stock: 1 },
+            { name: "La Summer Grande", price: 30, stock: 2 },
+            { name: "Sand Sand Sand", price: 15, stock: 2 },
+            { name: "Ketupat Kepat", price: 25, stock: 2 },
+            { name: "Los Tangsitos", price: 40, stock: 2 },
+            { name: "Los Fruits", price: 19, stock: 1 },
+            { name: "La Ginger Sekolah", price: 45, stock: 1 },
+            { name: "Esok Sekolah", price: 10, stock: 1 },
+            { name: "La Jolly Grande", price: 50, stock: 1 }
+        ];
+        for (const item of defaultShop) {
+            insertShopItem.run(item.name, item.price, item.stock);
+        }
+    }
+} catch (e) {
+    console.error("Ошибка инициализации shop_items:", e);
+}
 
 // =========================================================
 // TELEGRAM INIT DATA
@@ -836,6 +872,260 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
 
         console.error(error);
 
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// SHOP (WITHDRAWAL OFFERS) API
+// =========================================================
+
+// Получить все товары для вывода
+app.get("/api/shop/items", (req, res) => {
+    try {
+        const items = db.prepare(`
+            SELECT *
+            FROM shop_items
+            ORDER BY id ASC
+        `).all();
+
+        res.json({
+            success: true,
+            items
+        });
+    } catch (error) {
+        console.error("Ошибка получения товаров:", error);
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// Добавить новый товар (Admin)
+app.post("/api/shop/items", (req, res) => {
+    try {
+        const { name, price, stock } = req.body;
+
+        if (!name || !name.trim()) {
+            return res.status(400).json({
+                success: false,
+                error: "Укажите название браинрота"
+            });
+        }
+
+        const itemPrice = Number(price);
+        const itemStock = Number(stock !== undefined ? stock : 1);
+
+        if (isNaN(itemPrice) || itemPrice < 0) {
+            return res.status(400).json({
+                success: false,
+                error: "Укажите корректную цену"
+            });
+        }
+
+        const result = db.prepare(`
+            INSERT INTO shop_items (name, price, stock)
+            VALUES (?, ?, ?)
+        `).run(name.trim(), itemPrice, isNaN(itemStock) || itemStock < 0 ? 0 : itemStock);
+
+        const newItem = db.prepare(`
+            SELECT * FROM shop_items WHERE id = ?
+        `).get(result.lastInsertRowid);
+
+        res.json({
+            success: true,
+            item: newItem,
+            message: "Браинрот добавлен в магазин"
+        });
+    } catch (error) {
+        console.error("Ошибка добавления товара:", error);
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// Обновить товар (Admin - цена / количество / название)
+app.put("/api/shop/items/:id", (req, res) => {
+    try {
+        const itemId = Number(req.params.id);
+        const { name, price, stock } = req.body;
+
+        const existing = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
+        if (!existing) {
+            return res.status(404).json({
+                success: false,
+                error: "Товар не найден"
+            });
+        }
+
+        const newName = name !== undefined ? name.trim() : existing.name;
+        const newPrice = price !== undefined ? Number(price) : existing.price;
+        const newStock = stock !== undefined ? Number(stock) : existing.stock;
+
+        db.prepare(`
+            UPDATE shop_items
+            SET name = ?, price = ?, stock = ?
+            WHERE id = ?
+        `).run(newName, newPrice, Math.max(0, newStock), itemId);
+
+        const updatedItem = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
+
+        res.json({
+            success: true,
+            item: updatedItem,
+            message: "Товар обновлён"
+        });
+    } catch (error) {
+        console.error("Ошибка обновления товара:", error);
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// Удалить товар (Admin)
+app.delete("/api/shop/items/:id", (req, res) => {
+    try {
+        const itemId = Number(req.params.id);
+
+        const result = db.prepare(`DELETE FROM shop_items WHERE id = ?`).run(itemId);
+
+        if (result.changes === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "Товар не найден"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Предложение удалено из магазина"
+        });
+    } catch (error) {
+        console.error("Ошибка удаления товара:", error);
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// Оформить вывод браинрота из магазина
+app.post("/api/shop/withdraw", (req, res) => {
+    try {
+        const {
+            telegram_id,
+            shop_item_id,
+            roblox_name,
+            ready_time,
+            comment
+        } = req.body;
+
+        if (!telegram_id || !shop_item_id) {
+            return res.status(400).json({
+                success: false,
+                error: "telegram_id и shop_item_id обязательны"
+            });
+        }
+
+        if (!roblox_name || !roblox_name.trim()) {
+            return res.status(400).json({
+                success: false,
+                error: "Укажите Roblox ник"
+            });
+        }
+
+        if (!ready_time || !ready_time.trim()) {
+            return res.status(400).json({
+                success: false,
+                error: "Укажите время получения"
+            });
+        }
+
+        const telegramId = String(telegram_id);
+        const item = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(Number(shop_item_id));
+
+        if (!item) {
+            return res.status(404).json({
+                success: false,
+                error: "Товар не найден в магазине"
+            });
+        }
+
+        if (item.stock < 1) {
+            return res.status(400).json({
+                success: false,
+                error: "Этого браинрота нет в наличии на складе"
+            });
+        }
+
+        const user = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
+        if (!user || user.balance < item.price) {
+            return res.status(400).json({
+                success: false,
+                error: "Недостаточно костей для вывода"
+            });
+        }
+
+        const tx = db.transaction(() => {
+            // Списываем кости
+            db.prepare(`
+                UPDATE users
+                SET balance = balance - ?,
+                    roblox_name = COALESCE(?, roblox_name)
+                WHERE telegram_id = ?
+            `).run(item.price, roblox_name.trim(), telegramId);
+
+            // Уменьшаем остаток на складе
+            db.prepare(`
+                UPDATE shop_items
+                SET stock = stock - 1
+                WHERE id = ?
+            `).run(item.id);
+
+            // Создаём запись в заявках на вывод
+            const commentText = `Магазин: ${item.name}${comment && comment.trim() ? ' | ' + comment.trim() : ''}`;
+            const wRes = db.prepare(`
+                INSERT INTO withdrawals (
+                    telegram_id,
+                    item_id,
+                    roblox_name,
+                    ready_time,
+                    comment
+                )
+                VALUES (?, ?, ?, ?, ?)
+            `).run(
+                telegramId,
+                item.id,
+                roblox_name.trim(),
+                ready_time.trim(),
+                commentText
+            );
+
+            return wRes.lastInsertRowid;
+        });
+
+        const withdrawalId = tx();
+        const updatedUser = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
+        const updatedItem = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(item.id);
+
+        res.json({
+            success: true,
+            withdrawal_id: withdrawalId,
+            user: updatedUser,
+            item: updatedItem,
+            message: `Заявка на вывод ${item.name} успешно создана!`
+        });
+
+    } catch (error) {
+        console.error("Ошибка вывода товара:", error);
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
