@@ -65,9 +65,9 @@ button{
   z-index:1;
 }
 
-/* =========================
-   TOP NAV BAR & BALANCE
-========================= */
+/* =========================================================
+   TOP
+========================================================= */
 
 .top-nav-bar{
   display:flex;
@@ -175,9 +175,9 @@ button{
   box-shadow:0 0 10px rgba(255,215,0,.6);
 }
 
-/* =========================
+/* =========================================================
    GAME
-========================= */
+========================================================= */
 
 .game{
   min-height:430px;
@@ -312,10 +312,9 @@ button{
 
   object-fit:contain;
 
-  filter:
-    drop-shadow(
-      0 4px 10px rgba(0,0,0,.6)
-    );
+  filter:drop-shadow(
+    0 4px 10px rgba(0,0,0,.6)
+  );
 }
 
 .slot-text{
@@ -332,9 +331,9 @@ button{
   text-align:center;
 }
 
-/* =========================
+/* =========================================================
    WHEEL
-========================= */
+========================================================= */
 
 .center{
   display:flex;
@@ -466,6 +465,7 @@ button{
   position:absolute;
 
   z-index:5;
+
   inset:0;
 
   display:flex;
@@ -478,9 +478,11 @@ button{
 
 .wheel-label{
   font-size:9px;
+
   letter-spacing:3px;
 
   color:#78808a;
+
   font-weight:900;
 
   margin-bottom:8px;
@@ -488,6 +490,7 @@ button{
 
 .wheel-chance{
   font-size:31px;
+
   font-weight:900;
 
   color:#e8eef4;
@@ -564,8 +567,7 @@ button{
 }
 
 .upgrade:hover{
-  transform:
-    translateY(-2px);
+  transform:translateY(-2px);
 
   background:
     linear-gradient(
@@ -620,9 +622,9 @@ button{
   margin-top:76px;
 }
 
-/* =========================
+/* =========================================================
    LOWER
-========================= */
+========================================================= */
 
 .lower{
   display:grid;
@@ -823,9 +825,9 @@ button{
     0 0 25px rgba(120,120,120,.08);
 }
 
-/* =========================
-   TARGET ITEMS
-========================= */
+/* =========================================================
+   TARGET STYLE
+========================================================= */
 
 .items{
   display:grid;
@@ -837,7 +839,7 @@ button{
 }
 
 .item{
-  min-height:104px;
+  min-height:112px;
 
   border:
     1px solid
@@ -851,7 +853,7 @@ button{
       rgba(150,150,150,.045)
     );
 
-  padding:8px 5px 6px;
+  padding:8px 5px 7px;
 
   display:flex;
 
@@ -909,7 +911,7 @@ button{
   align-items:center;
   justify-content:center;
 
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
 
 .target-item-img{
@@ -967,20 +969,21 @@ button{
   font-weight:900;
 }
 
-/* =========================
-   SHOP
-========================= */
+/* =========================================================
+   SHOP LIKE TARGET
+========================================================= */
 
 .shop-items{
-  display:flex;
+  display:grid;
 
-  flex-direction:column;
+  grid-template-columns:
+    repeat(3,1fr);
 
-  gap:6px;
+  gap:7px;
 }
 
 .shop-item{
-  min-height:56px;
+  min-height:135px;
 
   border:
     1px solid
@@ -988,49 +991,54 @@ button{
 
   background:
     linear-gradient(
-      145deg,
-      rgba(35,35,35,.75),
-      rgba(15,15,15,.9)
+      135deg,
+      rgba(255,255,255,.11),
+      rgba(255,255,255,.035) 55%,
+      rgba(150,150,150,.045)
     );
 
-  padding:6px 8px;
+  padding:7px 6px;
 
   display:flex;
 
-  align-items:center;
+  flex-direction:column;
 
-  gap:9px;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
 
   cursor:pointer;
 
-  transition:.15s;
+  transition:.15s ease;
 
   position:relative;
 
   border-radius:10px;
 }
 
+.shop-item:hover{
+  border-color:
+    rgba(150,150,150,.55);
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 4px 18px
+    rgba(150,150,150,.15);
+}
+
 .shop-item-img-container{
-  width:40px;
-  height:40px;
-
-  border-radius:8px;
-
-  background:
-    rgba(0,0,0,.45);
-
-  border:
-    1px solid
-    rgba(255,255,255,.08);
+  width:58px;
+  height:58px;
 
   display:flex;
 
   align-items:center;
   justify-content:center;
 
-  flex-shrink:0;
-
-  padding:2px;
+  margin-bottom:5px;
 }
 
 .shop-item-img{
@@ -1041,18 +1049,25 @@ button{
 
   filter:
     drop-shadow(
-      0 2px 6px rgba(0,0,0,.5)
+      0 2px 7px rgba(0,0,0,.6)
     );
+
+  transition:
+    transform .18s ease;
+}
+
+.shop-item:hover .shop-item-img{
+  transform:scale(1.1);
 }
 
 .shop-item-info{
-  flex:1;
-
-  min-width:0;
+  width:100%;
 
   display:flex;
 
   flex-direction:column;
+
+  align-items:center;
 
   justify-content:center;
 }
@@ -1060,89 +1075,90 @@ button{
 .shop-item-name{
   color:#d9e0e5;
 
-  font-size:10px;
+  font-size:9px;
 
   font-weight:800;
 
   line-height:1.2;
 
-  text-align:left;
-
-  white-space:nowrap;
+  max-width:100%;
 
   overflow:hidden;
 
   text-overflow:ellipsis;
+
+  white-space:nowrap;
 }
 
 .shop-item-price{
   color:#ffd52a;
 
-  font-size:11px;
+  font-size:10px;
 
   font-weight:900;
 
   margin-top:3px;
-
-  text-align:left;
 }
 
-.shop-item:hover{
-  border-color:
-    rgba(150,150,150,.55);
+.buy-item{
+  width:100%;
+
+  height:27px;
+
+  margin-top:6px;
+
+  padding:0 4px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.22) !important;
+
+  border-radius:8px !important;
 
   background:
     linear-gradient(
       145deg,
-      rgba(50,50,50,.82),
-      rgba(20,20,20,.95)
-    );
+      #272727,
+      #111
+    ) !important;
 
-  box-shadow:
-    0 0 18px
-    rgba(150,150,150,.08);
-}
-
-.buy-item{
-  flex-shrink:0;
-
-  height:30px;
-
-  padding:0 10px;
-
-  border:
-    1px solid
-    #006a4d !important;
-
-  background:
-    #0c1715 !important;
-
-  color:
-    #00e996 !important;
+  color:#fff !important;
 
   font-size:9px;
 
   font-weight:900;
 
+  letter-spacing:.7px;
+
   cursor:pointer;
 
-  white-space:nowrap;
+  transition:.15s ease;
 }
 
 .buy-item:hover{
+  border-color:#fff !important;
+
   background:
-    #0e211b !important;
+    linear-gradient(
+      145deg,
+      #363636,
+      #161616
+    ) !important;
+
+  box-shadow:
+    0 0 15px
+    rgba(255,255,255,.1);
 }
 
 .buy-item:disabled{
-  opacity:.3;
+  opacity:.35;
 
   cursor:not-allowed;
 }
 
-/* =========================
+/* =========================================================
    INVENTORY
-========================= */
+========================================================= */
 
 .inventory-list{
   display:flex;
@@ -1290,8 +1306,7 @@ button{
   background:
     rgba(80,20,25,.65) !important;
 
-  color:
-    #ff7882 !important;
+  color:#ff7882 !important;
 
   font-size:8px;
 
@@ -1306,15 +1321,14 @@ button{
   background:
     rgba(120,25,35,.8) !important;
 
-  border-color:
-    #ff5b68 !important;
+  border-color:#ff5b68 !important;
 
   color:#fff !important;
 }
 
-/* =========================
+/* =========================================================
    PROFILE
-========================= */
+========================================================= */
 
 .profile-panel{
   position:relative;
@@ -1408,9 +1422,12 @@ button{
 
 .telegram-account-button{
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   text-decoration:none;
+
   box-sizing:border-box;
 }
 
@@ -1555,9 +1572,9 @@ button{
   line-height:1.4;
 }
 
-/* =========================
-   WITHDRAW SHOP MODAL
-========================= */
+/* =========================================================
+   WITHDRAW SHOP
+========================================================= */
 
 .withdraw-modal{
   position:fixed;
@@ -2258,9 +2275,9 @@ button{
   text-align:center;
 }
 
-/* =========================
+/* =========================================================
    CONFIRM
-========================= */
+========================================================= */
 
 .withdraw-confirm-modal{
   position:fixed;
@@ -2519,9 +2536,9 @@ button{
   background:#333;
 }
 
-/* =========================
+/* =========================================================
    RESPONSIVE
-========================= */
+========================================================= */
 
 @media(max-width:850px){
 
@@ -2558,6 +2575,11 @@ button{
   .panel{
     min-height:280px;
   }
+
+  .shop-items{
+    grid-template-columns:
+      repeat(4,1fr);
+  }
 }
 
 @media(max-width:520px){
@@ -2591,6 +2613,11 @@ button{
       repeat(2,1fr);
   }
 
+  .shop-items{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
   .wheel{
     width:190px;
     height:190px;
@@ -2598,7 +2625,6 @@ button{
 
   .upgrade{
     min-width:155px;
-
     font-size:15px;
   }
 
@@ -2612,7 +2638,7 @@ button{
   }
 
   .shop-item{
-    column-gap:6px;
+    min-height:130px;
   }
 
   .buy-item{
@@ -2657,10 +2683,19 @@ button{
   <div class="top-nav-bar">
 
     <div class="balance">
+
       🦴
-      <span>БАЛАНС:</span>
-      <b id="balance">10</b>
+
+      <span>
+        БАЛАНС:
+      </span>
+
+      <b id="balance">
+        10
+      </b>
+
       🦴
+
     </div>
 
     <button
@@ -2814,8 +2849,6 @@ button{
 
   <section class="lower">
 
-    <!-- INVENTORY -->
-
     <div
       class="panel"
       id="inventoryPanel"
@@ -2852,8 +2885,6 @@ button{
 
     </div>
 
-    <!-- SHOP -->
-
     <div
       class="panel shop-panel"
       id="shopPanel"
@@ -2869,8 +2900,6 @@ button{
       ></div>
 
     </div>
-
-    <!-- TARGET -->
 
     <div
       class="panel target-panel"
@@ -2894,8 +2923,6 @@ button{
       ></div>
 
     </div>
-
-    <!-- PROFILE -->
 
     <div
       class="panel profile-panel"
@@ -2948,8 +2975,6 @@ button{
         ></div>
 
       </div>
-
-      <!-- ADMIN -->
 
       <div
         class="admin-panel"
@@ -3044,8 +3069,6 @@ button{
     </div>
 
   </section>
-
-  <!-- WITHDRAW SHOP MODAL -->
 
   <div
     class="withdraw-modal"
@@ -3171,7 +3194,9 @@ button{
 
             </div>
 
-            <div class="withdraw-admin-form-actions">
+            <div
+              class="withdraw-admin-form-actions"
+            >
 
               <button
                 type="submit"
@@ -3221,8 +3246,6 @@ button{
     </div>
 
   </div>
-
-  <!-- CONFIRM WITHDRAWAL -->
 
   <div
     class="withdraw-confirm-modal"
@@ -3355,22 +3378,7 @@ button{
 <script>
 
 /* =========================================================
-   ПОРЯДОК ПО ЦЕНЕ
-
-   0  La Grande Combination       1
-   1  Bananito                    7
-   2  Money Money Puggy          17
-   3  Tang Tang Keletang         30
-   4  Garama and Madundung       50
-   5  Cash or Card               50
-   6  Burguro and Fryuro         55
-   7  Cangurato Gelato          100
-   8  Capitano Moby             150
-   9  Cerberus                  175
-   10 Dragon Cannelloni        1250
-   11 Skibidi toilet          15000
-   12 Meowl                   20000
-   13 Strawberry Elephant     25000
+   ITEMS
 ========================================================= */
 
 const items = [
@@ -3411,23 +3419,24 @@ const items = [
   },
 
   {
-    name:'Cash or Card',
-    price:50
-  },
-
-  {
     name:'Burguro and Fryuro',
-    price:55
+    price:55,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Burger.png',
+    localImage:'Burger.png'
   },
 
   {
     name:'Cangurato Gelato',
-    price:100
+    price:100,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Kenguru.png',
+    localImage:'Kenguru.png'
   },
 
   {
     name:'Capitano Moby',
-    price:150
+    price:150,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/capitan.png',
+    localImage:'capitan.png'
   },
 
   {
@@ -3452,13 +3461,10 @@ const items = [
   },
 
   {
-    name:'Meowl',
-    price:20000
-  },
-
-  {
     name:'Strawberry Elephant',
-    price:25000
+    price:25000,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/slon.png',
+    localImage:'slon.png'
   }
 
 ];
@@ -3494,7 +3500,6 @@ function resolveItemImageUrl(url){
   }
 
   return raw;
-
 }
 
 function handleItemImageError(
@@ -3510,7 +3515,8 @@ function handleItemImageError(
     Number(
       imgEl.getAttribute(
         'data-err-count'
-      ) || '0'
+      ) ||
+      '0'
     );
 
   imgEl.setAttribute(
@@ -3534,21 +3540,13 @@ function handleItemImageError(
   }
 
   const candidateSources = [
-
     `image/${filename}`,
-
     `./image/${filename}`,
-
     `../image/${filename}`,
-
     `${filename}`,
-
     `../${filename}`,
-
     `https://raw.githubusercontent.com/saintezz/saintbetW/main/image/${filename}`,
-
     `https://github.com/saintezz/saintbetW/raw/main/image/${filename}`
-
   ];
 
   if(
@@ -3572,12 +3570,10 @@ function handleItemImageError(
       return;
 
     }
-
   }
 
   imgEl.style.opacity =
     '0.35';
-
 }
 
 function renderItemImage(
@@ -3643,30 +3639,18 @@ function renderItemImage(
       />
     </div>
   `;
-
 }
 
 /* =========================================================
    VARIABLES
 ========================================================= */
 
-let balance =
-  10;
-
-let inventory =
-  [];
-
-let sourceItem =
-  null;
-
-let targetItem =
-  null;
-
-let spinning =
-  false;
-
-let pointerRotation =
-  0;
+let balance = 10;
+let inventory = [];
+let sourceItem = null;
+let targetItem = null;
+let spinning = false;
+let pointerRotation = 0;
 
 /* =========================================================
    PROFILE
@@ -3681,26 +3665,20 @@ const USERS_KEY =
 const PENDING_UPGRADE_KEY =
   'upgrader_pending_upgrade_v1';
 
-let profile =
-  null;
-
-let users =
-  {};
+let profile = null;
+let users = {};
 
 function makeUsername(){
 
   return 'user' +
     Math.floor(
       100000 +
-      Math.random() *
-      900000
+      Math.random() * 900000
     );
 
 }
 
-function normalizeUsername(
-  value
-){
+function normalizeUsername(value){
 
   return String(
     value || ''
@@ -3714,21 +3692,17 @@ function normalizeUsername(
 
 }
 
-function validUsername(
-  value
-){
+function validUsername(value){
 
-  return /^[a-z0-9_]{3,20}$/
-    .test(
-      value
-    );
+  return /^[a-z0-9_]{3,20}$/.test(
+    value
+  );
 
 }
 
 function removePendingUpgradeOnReload(){
 
-  let pending =
-    null;
+  let pending = null;
 
   try{
 
@@ -3742,8 +3716,7 @@ function removePendingUpgradeOnReload(){
 
   }catch(e){
 
-    pending =
-      null;
+    pending = null;
 
   }
 
@@ -3818,8 +3791,7 @@ function loadProfileData(){
 
   }catch(e){
 
-    users =
-      {};
+    users = {};
 
   }
 
@@ -3835,8 +3807,7 @@ function loadProfileData(){
 
   }catch(e){
 
-    profile =
-      null;
+    profile = null;
 
   }
 
@@ -3849,35 +3820,21 @@ function loadProfileData(){
       makeUsername();
 
     profile = {
-
       username,
-
       lastUsernameChange:0,
-
       telegramUsername:'',
-
       telegramId:'',
-
       telegramFirstName:'',
-
       telegramLastName:''
-
     };
 
     users[username] = {
-
       balance:10,
-
       inventory:[],
-
       telegramUsername:'',
-
       telegramId:'',
-
       telegramFirstName:'',
-
       telegramLastName:''
-
     };
 
   }else if(
@@ -3889,19 +3846,12 @@ function loadProfileData(){
     users[
       profile.username
     ] = {
-
       balance:10,
-
       inventory:[],
-
       telegramUsername:'',
-
       telegramId:'',
-
       telegramFirstName:'',
-
       telegramLastName:''
-
     };
 
   }
@@ -3910,8 +3860,7 @@ function loadProfileData(){
     Number(
       users[
         profile.username
-      ].balance ??
-      10
+      ].balance ?? 10
     );
 
   inventory =
@@ -3940,9 +3889,7 @@ function saveProfileData(){
   users[
     profile.username
   ] = {
-
     balance,
-
     inventory,
 
     telegramUsername:
@@ -3968,7 +3915,6 @@ function saveProfileData(){
         profile?.telegramLastName ||
         ''
       )
-
   };
 
   localStorage.setItem(
@@ -4014,7 +3960,7 @@ function getTelegramUser(){
 }
 
 /* =========================================================
-   DATABASE API
+   SERVER
 ========================================================= */
 
 const API_URL =
@@ -4049,36 +3995,30 @@ async function syncUserWithServer(){
 
     profile.telegramId =
       String(
-        telegramUser.id ||
-        ''
+        telegramUser.id || ''
       );
 
     profile.telegramUsername =
       normalizeUsername(
-        telegramUser.username ||
-        ''
+        telegramUser.username || ''
       );
 
     profile.telegramFirstName =
       String(
-        telegramUser.first_name ||
-        ''
+        telegramUser.first_name || ''
       );
 
     profile.telegramLastName =
       String(
-        telegramUser.last_name ||
-        ''
+        telegramUser.last_name || ''
       );
 
     saveProfileData();
 
     const response =
       await fetch(
-        API_URL +
-        '/api/user',
+        API_URL + '/api/user',
         {
-
           method:'POST',
 
           headers:{
@@ -4088,7 +4028,6 @@ async function syncUserWithServer(){
 
           body:
             JSON.stringify({
-
               telegram_id:
                 String(
                   telegramUser.id
@@ -4096,27 +4035,20 @@ async function syncUserWithServer(){
 
               username:
                 normalizeUsername(
-                  telegramUser.username ||
-                  ''
+                  telegramUser.username || ''
                 ),
 
               first_name:
                 String(
-                  telegramUser.first_name ||
-                  ''
+                  telegramUser.first_name || ''
                 ),
 
-              roblox_name:
-                null
-
+              roblox_name:null
             })
-
         }
       );
 
-    if(
-      !response.ok
-    ){
+    if(!response.ok){
 
       throw new Error(
         'HTTP ' +
@@ -4157,8 +4089,7 @@ function getTelegramUsername(){
 
     const username =
       normalizeUsername(
-        telegramUser.username ||
-        ''
+        telegramUser.username || ''
       );
 
     profile.telegramUsername =
@@ -4166,20 +4097,17 @@ function getTelegramUsername(){
 
     profile.telegramId =
       String(
-        telegramUser.id ||
-        ''
+        telegramUser.id || ''
       );
 
     profile.telegramFirstName =
       String(
-        telegramUser.first_name ||
-        ''
+        telegramUser.first_name || ''
       );
 
     profile.telegramLastName =
       String(
-        telegramUser.last_name ||
-        ''
+        telegramUser.last_name || ''
       );
 
     if(
@@ -4198,24 +4126,21 @@ function getTelegramUsername(){
         profile.username
       ].telegramId =
         String(
-          telegramUser.id ||
-          ''
+          telegramUser.id || ''
         );
 
       users[
         profile.username
       ].telegramFirstName =
         String(
-          telegramUser.first_name ||
-          ''
+          telegramUser.first_name || ''
         );
 
       users[
         profile.username
       ].telegramLastName =
         String(
-          telegramUser.last_name ||
-          ''
+          telegramUser.last_name || ''
         );
 
     }
@@ -4228,18 +4153,15 @@ function getTelegramUsername(){
     localStorage.setItem(
       'upgrader_telegram_id_v1',
       String(
-        telegramUser.id ||
-        ''
+        telegramUser.id || ''
       )
     );
 
     return username;
-
   }
 
   return normalizeUsername(
-    profile?.telegramUsername ||
-    ''
+    profile?.telegramUsername || ''
   );
 
 }
@@ -4251,8 +4173,7 @@ function isAdmin(){
 
   const currentUsername =
     normalizeUsername(
-      profile?.username ||
-      ''
+      profile?.username || ''
     );
 
   return (
@@ -4345,11 +4266,8 @@ const defaultWithdrawShopItems = [
 const WITHDRAW_SHOP_STORAGE_KEY =
   'withdraw_shop_items_v2';
 
-let withdrawShopItems =
-  [];
-
-let pendingWithdrawItemId =
-  null;
+let withdrawShopItems = [];
+let pendingWithdrawItemId = null;
 
 function saveWithdrawShopItems(){
 
@@ -4383,9 +4301,7 @@ async function loadWithdrawShopItems(){
         '/api/shop/items'
       );
 
-    if(
-      response.ok
-    ){
+    if(response.ok){
 
       const data =
         await response.json();
@@ -4433,9 +4349,7 @@ async function loadWithdrawShopItems(){
       );
 
     if(
-      Array.isArray(
-        stored
-      ) &&
+      Array.isArray(stored) &&
       stored.length > 0
     ){
 
@@ -4598,7 +4512,9 @@ function toggleAdminAddForm(
       );
 
     if(nameInput){
+
       nameInput.focus();
+
     }
 
   }
@@ -4647,7 +4563,8 @@ function renderWithdrawShopModal(){
     '';
 
   if(
-    withdrawShopItems.length === 0
+    withdrawShopItems.length ===
+    0
   ){
 
     listContainer.innerHTML = `
@@ -4674,14 +4591,12 @@ function renderWithdrawShopModal(){
 
       const stock =
         Number(
-          item.stock ||
-          0
+          item.stock || 0
         );
 
       const price =
         Number(
-          item.price ||
-          0
+          item.price || 0
         );
 
       const inStock =
@@ -4705,8 +4620,7 @@ function renderWithdrawShopModal(){
       const exactLine =
         `${item.name} - <span class="highlight-price">${price} костей</span> <span class="highlight-stock">(${stock} на складе)</span>`;
 
-      let buttonHtml =
-        '';
+      let buttonHtml = '';
 
       if(!inStock){
 
@@ -4736,8 +4650,7 @@ function renderWithdrawShopModal(){
 
       }
 
-      let adminControlsHtml =
-        '';
+      let adminControlsHtml = '';
 
       if(userIsAdmin){
 
@@ -4757,8 +4670,7 @@ function renderWithdrawShopModal(){
               <button
                 type="button"
                 class="admin-mini-btn"
-                title="Уменьшить количество"
-                onclick="changeWithdrawShopItemStock(${item.id}, -1)"
+                onclick="changeWithdrawShopItemStock(${item.id},-1)"
               >
                 −
               </button>
@@ -4776,8 +4688,7 @@ function renderWithdrawShopModal(){
               <button
                 type="button"
                 class="admin-mini-btn"
-                title="Увеличить количество"
-                onclick="changeWithdrawShopItemStock(${item.id}, 1)"
+                onclick="changeWithdrawShopItemStock(${item.id},1)"
               >
                 ＋
               </button>
@@ -4799,7 +4710,6 @@ function renderWithdrawShopModal(){
                   width:auto;
                   padding:0 8px;
                 "
-                title="Изменить цену"
                 onclick="promptEditPrice(${item.id})"
               >
                 ✏️ Цена
@@ -4808,7 +4718,6 @@ function renderWithdrawShopModal(){
               <button
                 type="button"
                 class="admin-delete-item-btn"
-                title="Удалить браинрот"
                 onclick="deleteWithdrawShopItem(${item.id})"
               >
                 🗑 Удалить
@@ -4822,13 +4731,19 @@ function renderWithdrawShopModal(){
       }
 
       row.innerHTML = `
-        <div class="withdraw-item-main">
+        <div
+          class="withdraw-item-main"
+        >
 
-          <div class="withdraw-item-text-line">
+          <div
+            class="withdraw-item-text-line"
+          >
             ${exactLine}
           </div>
 
-          <div class="withdraw-item-btn-wrap">
+          <div
+            class="withdraw-item-btn-wrap"
+          >
             ${buttonHtml}
           </div>
 
@@ -4859,8 +4774,7 @@ function promptEditPrice(
   const item =
     withdrawShopItems.find(
       i =>
-        i.id ===
-        itemId
+        i.id === itemId
     );
 
   if(!item){
@@ -4918,8 +4832,7 @@ function changeWithdrawShopItemStock(
   const item =
     withdrawShopItems.find(
       i =>
-        i.id ===
-        itemId
+        i.id === itemId
     );
 
   if(!item){
@@ -4930,8 +4843,7 @@ function changeWithdrawShopItemStock(
     Math.max(
       0,
       Number(
-        item.stock ||
-        0
+        item.stock || 0
       ) +
       delta
     );
@@ -4959,8 +4871,7 @@ function updateWithdrawShopItemPrice(
   const item =
     withdrawShopItems.find(
       i =>
-        i.id ===
-        itemId
+        i.id === itemId
     );
 
   if(!item){
@@ -4992,8 +4903,7 @@ function deleteWithdrawShopItem(
   const item =
     withdrawShopItems.find(
       i =>
-        i.id ===
-        itemId
+        i.id === itemId
     );
 
   const itemName =
@@ -5006,14 +4916,15 @@ function deleteWithdrawShopItem(
       `Удалить "${itemName}" из магазина вывода?`
     )
   ){
+
     return;
+
   }
 
   withdrawShopItems =
     withdrawShopItems.filter(
       i =>
-        i.id !==
-        itemId
+        i.id !== itemId
     );
 
   saveWithdrawShopItems();
@@ -5079,8 +4990,10 @@ function handleAdminAddBrainrot(
   if(!name){
 
     if(msgEl){
+
       msgEl.textContent =
         'Укажите название браинрота';
+
     }
 
     return;
@@ -5093,8 +5006,10 @@ function handleAdminAddBrainrot(
   ){
 
     if(msgEl){
+
       msgEl.textContent =
         'Укажите корректную цену';
+
     }
 
     return;
@@ -5107,8 +5022,10 @@ function handleAdminAddBrainrot(
   ){
 
     if(msgEl){
+
       msgEl.textContent =
         'Укажите корректное количество';
+
     }
 
     return;
@@ -5116,16 +5033,10 @@ function handleAdminAddBrainrot(
   }
 
   const newItem = {
-
-    id:
-      Date.now(),
-
+    id:Date.now(),
     name,
-
     price,
-
     stock
-
   };
 
   withdrawShopItems.push(
@@ -5139,14 +5050,9 @@ function handleAdminAddBrainrot(
     newItem
   );
 
-  nameInput.value =
-    '';
-
-  priceInput.value =
-    '';
-
-  stockInput.value =
-    '';
+  nameInput.value = '';
+  priceInput.value = '';
+  stockInput.value = '';
 
   if(msgEl){
 
@@ -5165,8 +5071,7 @@ function handleAdminAddBrainrot(
       () => {
 
         if(msgEl){
-          msgEl.textContent =
-            '';
+          msgEl.textContent = '';
         }
 
       },
@@ -5187,15 +5092,13 @@ async function syncWithdrawItemWithServer(
   try{
 
     if(
-      action ===
-      'add'
+      action === 'add'
     ){
 
       await fetch(
         API_URL +
         '/api/shop/items',
         {
-
           method:'POST',
 
           headers:{
@@ -5207,20 +5110,17 @@ async function syncWithdrawItemWithServer(
             JSON.stringify(
               payload
             )
-
         }
       );
 
     }else if(
-      action ===
-      'update'
+      action === 'update'
     ){
 
       await fetch(
         API_URL +
         `/api/shop/items/${payload.id}`,
         {
-
           method:'PUT',
 
           headers:{
@@ -5232,13 +5132,11 @@ async function syncWithdrawItemWithServer(
             JSON.stringify(
               payload
             )
-
         }
       );
 
     }else if(
-      action ===
-      'delete'
+      action === 'delete'
     ){
 
       await fetch(
@@ -5273,8 +5171,7 @@ function openWithdrawConfirmModal(
   const item =
     withdrawShopItems.find(
       i =>
-        i.id ===
-        itemId
+        i.id === itemId
     );
 
   if(!item){
@@ -5294,8 +5191,7 @@ function openWithdrawConfirmModal(
   }
 
   if(
-    balance <
-    item.price
+    balance < item.price
   ){
 
     alert(
@@ -5350,8 +5246,7 @@ function openWithdrawConfirmModal(
 
   if(errorEl){
 
-    errorEl.textContent =
-      '';
+    errorEl.textContent = '';
 
   }
 
@@ -5546,7 +5441,6 @@ async function submitBrainrotWithdrawal(
     );
 
   saveProfileData();
-
   saveWithdrawShopItems();
 
   try{
@@ -5560,7 +5454,6 @@ async function submitBrainrotWithdrawal(
         API_URL +
         '/api/shop/withdraw',
         {
-
           method:'POST',
 
           headers:{
@@ -5589,14 +5482,14 @@ async function submitBrainrotWithdrawal(
                 comment
 
             })
-
         }
       );
 
     const data =
-      await response.json().catch(
-        () => ({})
-      );
+      await response.json()
+        .catch(
+          () => ({})
+        );
 
     if(
       !response.ok ||
@@ -5619,7 +5512,6 @@ async function submitBrainrotWithdrawal(
       1;
 
     saveProfileData();
-
     saveWithdrawShopItems();
 
     if(errorEl){
@@ -5647,7 +5539,6 @@ async function submitBrainrotWithdrawal(
   closeWithdrawConfirmModal();
 
   renderAll();
-
   renderWithdrawShopModal();
 
   if(instruction){
@@ -5661,7 +5552,9 @@ async function submitBrainrotWithdrawal(
       >
         ЗАЯВКА НА ВЫВОД ПРИНЯТА!
       </span>
+
       <br>
+
       <b>${item.name}</b>
       зарезервирован для
       <b>${robloxNick}</b>.
@@ -5726,14 +5619,12 @@ function renderProfile(){
 
     const firstName =
       String(
-        telegramUser.first_name ||
-        ''
+        telegramUser.first_name || ''
       ).trim();
 
     const lastName =
       String(
-        telegramUser.last_name ||
-        ''
+        telegramUser.last_name || ''
       ).trim();
 
     const fullName =
@@ -5747,8 +5638,7 @@ function renderProfile(){
 
     const displayName =
       telegramUsername
-        ? '@' +
-          telegramUsername
+        ? '@' + telegramUsername
         : fullName;
 
     if(usernameEl){
@@ -5876,7 +5766,7 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ADMIN GRANT BONES
+   ADMIN
 ========================================================= */
 
 async function grantBones(){
@@ -5946,7 +5836,6 @@ async function grantBones(){
         API_URL +
         '/api/admin/grant-bones',
         {
-
           method:'POST',
 
           headers:{
@@ -5959,7 +5848,6 @@ async function grantBones(){
               username,
               amount
             })
-
         }
       );
 
@@ -5995,15 +5883,25 @@ async function grantBones(){
 }
 
 /* =========================================================
-   ПОЛНЫЕ ШАНСЫ
-   ВСЕ ЦЕЛИ ИДУТ ПО ЦЕНЕ
+   FULL UPGRADE CHANCES
+
+   0  La Grande Combination       1
+   1  Bananito                    7
+   2  Money Money Puggy          17
+   3  Tang Tang Keletang         30
+   4  Garama and Madundung       50
+   5  Burguro and Fryuro         55
+   6  Cangurato Gelato          100
+   7  Capitano Moby             150
+   8  Cerberus                  175
+   9  Dragon Cannelloni        1250
+   10 Skibidi toilet          15000
+   11 Strawberry Elephant     25000
 ========================================================= */
 
 const upgradeChances = {
 
-  /* =========================================================
-     0. LA GRANDE COMBINATION — 1
-  ========================================================= */
+  /* La Grande */
 
   0:{
 
@@ -6013,21 +5911,17 @@ const upgradeChances = {
     2:15,
     3:8,
     4:4,
-    5:4,
-    6:3,
-    7:2,
-    8:1,
-    9:0.5,
+    5:3,
+    6:2,
+    7:1,
+    8:0.5,
+    9:0,
     10:0,
-    11:0,
-    12:0,
-    13:0
+    11:0
 
   },
 
-  /* =========================================================
-     1. BANANITO — 7
-  ========================================================= */
+  /* Bananito */
 
   1:{
 
@@ -6038,21 +5932,17 @@ const upgradeChances = {
     2:55,
     3:35,
     4:20,
-    5:20,
-    6:15,
-    7:8,
-    8:5,
-    9:3,
-    10:1,
-    11:0,
-    12:0,
-    13:0
+    5:15,
+    6:8,
+    7:5,
+    8:3,
+    9:1,
+    10:0,
+    11:0
 
   },
 
-  /* =========================================================
-     2. MONEY MONEY PUGGY — 17
-  ========================================================= */
+  /* Money Money Puggy */
 
   2:{
 
@@ -6063,21 +5953,17 @@ const upgradeChances = {
 
     3:65,
     4:35,
-    5:35,
-    6:25,
-    7:15,
-    8:10,
-    9:6,
-    10:2,
-    11:0,
-    12:0,
-    13:0
+    5:25,
+    6:15,
+    7:10,
+    8:6,
+    9:2,
+    10:0,
+    11:0
 
   },
 
-  /* =========================================================
-     3. TANG TANG KELETANG — 30
-  ========================================================= */
+  /* Tang Tang Keletang */
 
   3:{
 
@@ -6088,27 +5974,17 @@ const upgradeChances = {
     3:100,
 
     4:55,
-    5:55,
-    6:40,
-    7:25,
-    8:15,
-    9:10,
-    10:4,
-    11:1,
-    12:0,
-    13:0
+    5:40,
+    6:25,
+    7:15,
+    8:10,
+    9:4,
+    10:1,
+    11:0
 
   },
 
-  /* =========================================================
-     4. GARAMA AND MADUNDUNG — 50
-
-     ЗАДАННЫЕ ТОБОЙ ШАНСЫ:
-     Cash or Card        100%
-     Burguro and Fryuro   70%
-     Cangurato Gelato     20%
-     Capitano Moby        10%
-  ========================================================= */
+  /* Garama */
 
   4:{
 
@@ -6119,21 +5995,17 @@ const upgradeChances = {
 
     4:100,
 
-    5:100,
-    6:70,
-    7:20,
-    8:10,
-    9:5,
-    10:2,
-    11:0.5,
-    12:0,
-    13:0
+    5:70,
+    6:20,
+    7:10,
+    8:5,
+    9:2,
+    10:0.5,
+    11:0
 
   },
 
-  /* =========================================================
-     5. CASH OR CARD — 50
-  ========================================================= */
+  /* Burguro */
 
   5:{
 
@@ -6145,20 +6017,16 @@ const upgradeChances = {
 
     5:100,
 
-    6:55,
+    6:45,
     7:25,
-    8:15,
-    9:8,
-    10:3,
-    11:1,
-    12:0,
-    13:0
+    8:12,
+    9:5,
+    10:1.5,
+    11:0.5
 
   },
 
-  /* =========================================================
-     6. BURGURO AND FRYURO — 55
-  ========================================================= */
+  /* Cangurato */
 
   6:{
 
@@ -6171,19 +6039,15 @@ const upgradeChances = {
 
     6:100,
 
-    7:45,
-    8:25,
-    9:12,
-    10:5,
-    11:1.5,
-    12:0.5,
-    13:0
+    7:40,
+    8:20,
+    9:8,
+    10:2,
+    11:0.5
 
   },
 
-  /* =========================================================
-     7. CANGURATO GELATO — 100
-  ========================================================= */
+  /* Capitano */
 
   7:{
 
@@ -6197,18 +6061,14 @@ const upgradeChances = {
 
     7:100,
 
-    8:40,
-    9:20,
-    10:8,
-    11:2,
-    12:0.5,
-    13:0
+    8:35,
+    9:12,
+    10:3,
+    11:1
 
   },
 
-  /* =========================================================
-     8. CAPITANO MOBY — 150
-  ========================================================= */
+  /* Cerberus */
 
   8:{
 
@@ -6223,17 +6083,13 @@ const upgradeChances = {
 
     8:100,
 
-    9:35,
-    10:12,
-    11:3,
-    12:1,
-    13:0
+    9:18,
+    10:5,
+    11:1
 
   },
 
-  /* =========================================================
-     9. CERBERUS — 175
-  ========================================================= */
+  /* Dragon */
 
   9:{
 
@@ -6249,16 +6105,14 @@ const upgradeChances = {
 
     9:100,
 
-    10:18,
-    11:5,
-    12:1,
-    13:0
+    10:12,
+
+    /* было 0.5%, теперь +2 процентных пункта */
+    11:2.5
 
   },
 
-  /* =========================================================
-     10. DRAGON CANNELLONI — 1250
-  ========================================================= */
+  /* Skibidi */
 
   10:{
 
@@ -6275,15 +6129,12 @@ const upgradeChances = {
 
     10:100,
 
-    11:12,
-    12:3,
-    13:0.5
+    /* повышено с 2% до 5% */
+    11:5
 
   },
 
-  /* =========================================================
-     11. SKIBIDI TOILET — 15000
-  ========================================================= */
+  /* Strawberry Elephant */
 
   11:{
 
@@ -6299,59 +6150,7 @@ const upgradeChances = {
     9:0,
     10:0,
 
-    11:100,
-
-    12:10,
-    13:2
-
-  },
-
-  /* =========================================================
-     12. MEOWL — 20000
-  ========================================================= */
-
-  12:{
-
-    0:0,
-    1:0,
-    2:0,
-    3:0,
-    4:0,
-    5:0,
-    6:0,
-    7:0,
-    8:0,
-    9:0,
-    10:0,
-    11:0,
-
-    12:100,
-
-    13:5
-
-  },
-
-  /* =========================================================
-     13. STRAWBERRY ELEPHANT — 25000
-  ========================================================= */
-
-  13:{
-
-    0:0,
-    1:0,
-    2:0,
-    3:0,
-    4:0,
-    5:0,
-    6:0,
-    7:0,
-    8:0,
-    9:0,
-    10:0,
-    11:0,
-    12:0,
-
-    13:100
+    11:100
 
   }
 
@@ -6460,13 +6259,19 @@ function renderShop(){
           'shop-item-img'
         )}
 
-        <div class="shop-item-info">
+        <div
+          class="shop-item-info"
+        >
 
-          <div class="shop-item-name">
+          <div
+            class="shop-item-name"
+          >
             ${item.name}
           </div>
 
-          <div class="shop-item-price">
+          <div
+            class="shop-item-price"
+          >
             ${item.price} 🦴
           </div>
 
@@ -6607,7 +6412,9 @@ function renderInventory(){
           'inventory-item-img'
         )}
 
-        <div class="inventory-item-info">
+        <div
+          class="inventory-item-info"
+        >
 
           <div
             class="inventory-item-name"
@@ -6688,9 +6495,7 @@ function sellItem(
       slotIndex
     ] === undefined
   ){
-
     return;
-
   }
 
   const itemIndex =
@@ -6812,11 +6617,15 @@ function renderTargets(){
           'target-item-img'
         )}
 
-        <div class="item-name">
+        <div
+          class="item-name"
+        >
           ${item.name}
         </div>
 
-        <div class="item-price">
+        <div
+          class="item-price"
+        >
           ${item.price} 🦴
         </div>
 
@@ -6847,13 +6656,9 @@ function renderAll(){
     balance;
 
   renderShop();
-
   renderInventory();
-
   renderTargets();
-
   renderProfile();
-
   renderWithdrawShopModal();
 
 }
@@ -6930,9 +6735,7 @@ function selectSource(
       slotIndex
     ] === undefined
   ){
-
     return;
-
   }
 
   sourceItem =
@@ -7007,7 +6810,6 @@ function selectSource(
   `;
 
   renderInventory();
-
   updateTop();
 
 }
@@ -7065,7 +6867,6 @@ function selectTarget(
   `;
 
   renderTargets();
-
   updateTop();
 
 }
@@ -7088,7 +6889,9 @@ function clearSourceDisplay(){
       —
     </div>
 
-    <div class="selected-caption">
+    <div
+      class="selected-caption"
+    >
       ВЫБРАННЫЙ ПРЕДМЕТ
     </div>
 
@@ -7100,11 +6903,15 @@ function clearSourceDisplay(){
 
   sourceSlot.innerHTML = `
 
-    <div class="slot-icon">
+    <div
+      class="slot-icon"
+    >
       ↓
     </div>
 
-    <div class="slot-text">
+    <div
+      class="slot-text"
+    >
       ВЫБРАТЬ ИЗ<br>
       ИНВЕНТАРЯ
     </div>
@@ -7152,10 +6959,8 @@ function focusTargets(){
 function getUpgradeChance(){
 
   if(
-    sourceItem ===
-      null ||
-    targetItem ===
-      null
+    sourceItem === null ||
+    targetItem === null
   ){
 
     return 0;
@@ -7200,8 +7005,7 @@ function updateDisplayedChance(){
     getUpgradeChance();
 
   wheelChance.textContent =
-    chance +
-    '%';
+    chance + '%';
 
   wheel.style.setProperty(
     '--wheel-chance',
@@ -7239,9 +7043,7 @@ function updateTop(){
       !source ||
       !target
     ){
-
       return;
-
     }
 
     const chance =
@@ -7282,8 +7084,7 @@ function upgrade(){
   }
 
   if(
-    sourceItem ===
-    null
+    sourceItem === null
   ){
 
     instruction.textContent =
@@ -7296,8 +7097,7 @@ function upgrade(){
   }
 
   if(
-    targetItem ===
-    null
+    targetItem === null
   ){
 
     instruction.textContent =
@@ -7334,9 +7134,7 @@ function upgrade(){
     !source ||
     !target
   ){
-
     return;
-
   }
 
   const chance =
@@ -7348,21 +7146,14 @@ function upgrade(){
   localStorage.setItem(
     PENDING_UPGRADE_KEY,
     JSON.stringify({
-
       username:
-        profile?.username ||
-        '',
-
+        profile?.username || '',
       slotIndex:
         sourceSlotIndex,
-
       sourceIndex,
-
       targetIndex,
-
       startedAt:
         Date.now()
-
     })
   );
 
@@ -7373,13 +7164,11 @@ function upgrade(){
     'ПРОКАЧКА...';
 
   const win =
-    Math.random() *
-    100 <
+    Math.random() * 100 <
     chance;
 
   const greenAngle =
-    chance *
-    3.6;
+    chance * 3.6;
 
   let finalAngle;
 
@@ -7388,8 +7177,7 @@ function upgrade(){
   ){
 
     finalAngle =
-      Math.random() *
-      360;
+      Math.random() * 360;
 
   }else if(
     chance <= 0
@@ -7398,8 +7186,7 @@ function upgrade(){
     finalAngle =
       greenAngle +
       8 +
-      Math.random() *
-      344;
+      Math.random() * 344;
 
   }else if(
     win
@@ -7410,15 +7197,13 @@ function upgrade(){
       Math.random() *
       Math.max(
         1,
-        greenAngle -
-        6
+        greenAngle - 6
       );
 
   }else{
 
     const redSize =
-      360 -
-      greenAngle;
+      360 - greenAngle;
 
     finalAngle =
       greenAngle +
@@ -7426,20 +7211,17 @@ function upgrade(){
       Math.random() *
       Math.max(
         1,
-        redSize -
-        6
+        redSize - 6
       );
 
   }
 
   pointerRotation =
     Math.ceil(
-      pointerRotation /
-      360
+      pointerRotation / 360
     ) *
     360 +
-    5 *
-    360 +
+    5 * 360 +
     finalAngle;
 
   pointerWrap.style.transform =
@@ -7571,9 +7353,7 @@ function upgrade(){
         'ПРОКАЧАТЬ ›';
 
     },
-
     1800
-
   );
 
 }
@@ -7619,7 +7399,6 @@ if(
   try{
 
     window.Telegram.WebApp.ready();
-
     window.Telegram.WebApp.expand();
 
   }catch(e){}
