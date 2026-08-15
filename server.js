@@ -65,6 +65,18 @@ db.exec(`
     )
 `);
 
+// Уведомления для администратора
+db.exec(`
+    CREATE TABLE IF NOT EXISTS admin_notifications (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT NOT NULL,
+        message TEXT NOT NULL,
+        data TEXT,
+        is_read INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
 // Инициализация стандартных предложений, если таблица пуста
 try {
     const shopCount = db.prepare("SELECT COUNT(*) as count FROM shop_items").get();
@@ -82,7 +94,6 @@ try {
             { name: "Esok Sekolah", price: 10, stock: 1 },
             { name: "La Jolly Grande", price: 50, stock: 1 }
         ];
-
         for (const item of defaultShop) {
             insertShopItem.run(item.name, item.price, item.stock);
         }
@@ -699,6 +710,49 @@ app.post("/api/withdrawals", (req, res) => {
                 : null
         );
 
+        // Создаём уведомление для администратора
+        const user = db.prepare(`
+            SELECT username, first_name FROM users WHERE telegram_id = ?
+        `).get(telegramId);
+
+        const telegramUsername = user?.username || telegramId;
+        const firstName = user?.first_name || 'Пользователь';
+
+        const notificationMessage = `
+📦 НОВАЯ ЗАЯВКА НА ВЫВОД!
+
+👤 Пользователь: @${telegramUsername} (${firstName})
+🆔 Telegram ID: ${telegramId}
+🎯 Предмет: ID ${Number(finalItemId)}
+👤 Roblox ник: ${roblox_name.trim()}
+⏰ Время получения: ${ready_time.trim()}
+💬 Комментарий: ${comment ? comment.trim() : '—'}
+📅 Создана: ${new Date().toLocaleString('ru-RU')}
+        `.trim();
+
+        db.prepare(`
+            INSERT INTO admin_notifications (
+                type,
+                message,
+                data
+            )
+            VALUES (?, ?, ?)
+        `).run(
+            'withdrawal',
+            notificationMessage,
+            JSON.stringify({
+                withdrawal_id: result.lastInsertRowid,
+                telegram_id: telegramId,
+                username: telegramUsername,
+                first_name: firstName,
+                item_id: Number(finalItemId),
+                roblox_name: roblox_name.trim(),
+                ready_time: ready_time.trim(),
+                comment: comment ? comment.trim() : null,
+                created_at: new Date().toISOString()
+            })
+        );
+
         res.json({
             success: true,
             withdrawal_id: result.lastInsertRowid,
@@ -736,6 +790,135 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
         res.json({
             success: true,
             withdrawals
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// ADMIN - GET NOTIFICATIONS
+// =========================================================
+
+app.get("/api/admin/notifications", (req, res) => {
+
+    try {
+
+        const notifications = db.prepare(`
+            SELECT *
+            FROM admin_notifications
+            ORDER BY id DESC
+            LIMIT 100
+        `).all();
+
+        res.json({
+            success: true,
+            notifications
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// ADMIN - GET UNREAD NOTIFICATIONS COUNT
+// =========================================================
+
+app.get("/api/admin/notifications/unread/count", (req, res) => {
+
+    try {
+
+        const result = db.prepare(`
+            SELECT COUNT(*) as count
+            FROM admin_notifications
+            WHERE is_read = 0
+        `).get();
+
+        res.json({
+            success: true,
+            count: result?.count || 0
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// ADMIN - MARK NOTIFICATION AS READ
+// =========================================================
+
+app.post("/api/admin/notifications/read/:id", (req, res) => {
+
+    try {
+
+        const notificationId = Number(req.params.id);
+
+        const result = db.prepare(`
+            UPDATE admin_notifications
+            SET is_read = 1
+            WHERE id = ?
+        `).run(notificationId);
+
+        if (result.changes === 0) {
+            return res.status(404).json({
+                success: false,
+                error: "Уведомление не найдено"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Уведомление отмечено как прочитанное"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// ADMIN - MARK ALL NOTIFICATIONS AS READ
+// =========================================================
+
+app.post("/api/admin/notifications/read-all", (req, res) => {
+
+    try {
+
+        db.prepare(`
+            UPDATE admin_notifications
+            SET is_read = 1
+        `).run();
+
+        res.json({
+            success: true,
+            message: "Все уведомления отмечены как прочитанные"
         });
 
     } catch (error) {
@@ -864,9 +1047,116 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
             });
         }
 
+        // Создаём уведомление об изменении статуса
+        const withdrawal = db.prepare(`
+            SELECT w.*, u.username, u.first_name
+            FROM withdrawals w
+            LEFT JOIN users u ON u.telegram_id = w.telegram_id
+            WHERE w.id = ?
+        `).get(Number(withdrawal_id));
+
+        if (withdrawal) {
+            const statusLabels = {
+                pending: '⏳ Ожидает',
+                processing: '🔄 В обработке',
+                completed: '✅ Завершена',
+                rejected: '❌ Отклонена'
+            };
+
+            const notificationMessage = `
+📋 ИЗМЕНЕНИЕ СТАТУСА ЗАЯВКИ #${withdrawal.id}
+
+👤 Пользователь: @${withdrawal.username || withdrawal.telegram_id} (${withdrawal.first_name || 'Пользователь'})
+📦 Предмет: ID ${withdrawal.item_id}
+🔄 Новый статус: ${statusLabels[status] || status}
+📅 Обновлено: ${new Date().toLocaleString('ru-RU')}
+            `.trim();
+
+            db.prepare(`
+                INSERT INTO admin_notifications (
+                    type,
+                    message,
+                    data
+                )
+                VALUES (?, ?, ?)
+            `).run(
+                'status_update',
+                notificationMessage,
+                JSON.stringify({
+                    withdrawal_id: withdrawal.id,
+                    status: status,
+                    telegram_id: withdrawal.telegram_id,
+                    username: withdrawal.username,
+                    updated_at: new Date().toISOString()
+                })
+            );
+        }
+
         res.json({
             success: true,
             message: "Статус изменён"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// ADMIN - GRANT BONES
+// =========================================================
+
+app.post("/api/admin/grant-bones", (req, res) => {
+
+    try {
+
+        const { username, amount } = req.body;
+
+        if (!username) {
+            return res.status(400).json({
+                success: false,
+                error: "Укажите username"
+            });
+        }
+
+        if (!amount || amount < 1) {
+            return res.status(400).json({
+                success: false,
+                error: "Количество должно быть больше 0"
+            });
+        }
+
+        const user = db.prepare(`
+            SELECT * FROM users WHERE username = ?
+        `).get(username);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                error: "Пользователь не найден"
+            });
+        }
+
+        db.prepare(`
+            UPDATE users
+            SET balance = balance + ?
+            WHERE id = ?
+        `).run(Number(amount), user.id);
+
+        const updatedUser = db.prepare(`
+            SELECT * FROM users WHERE id = ?
+        `).get(user.id);
+
+        res.json({
+            success: true,
+            message: `Выдано ${amount} костей пользователю @${username}`,
+            user: updatedUser
         });
 
     } catch (error) {
@@ -931,18 +1221,10 @@ app.post("/api/shop/items", (req, res) => {
         const result = db.prepare(`
             INSERT INTO shop_items (name, price, stock)
             VALUES (?, ?, ?)
-        `).run(
-            name.trim(),
-            itemPrice,
-            isNaN(itemStock) || itemStock < 0
-                ? 0
-                : itemStock
-        );
+        `).run(name.trim(), itemPrice, isNaN(itemStock) || itemStock < 0 ? 0 : itemStock);
 
         const newItem = db.prepare(`
-            SELECT *
-            FROM shop_items
-            WHERE id = ?
+            SELECT * FROM shop_items WHERE id = ?
         `).get(result.lastInsertRowid);
 
         res.json({
@@ -950,14 +1232,8 @@ app.post("/api/shop/items", (req, res) => {
             item: newItem,
             message: "Браинрот добавлен в магазин"
         });
-
     } catch (error) {
-
-        console.error(
-            "Ошибка добавления товара:",
-            error
-        );
-
+        console.error("Ошибка добавления товара:", error);
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -971,12 +1247,7 @@ app.put("/api/shop/items/:id", (req, res) => {
         const itemId = Number(req.params.id);
         const { name, price, stock } = req.body;
 
-        const existing = db.prepare(`
-            SELECT *
-            FROM shop_items
-            WHERE id = ?
-        `).get(itemId);
-
+        const existing = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
         if (!existing) {
             return res.status(404).json({
                 success: false,
@@ -984,54 +1255,25 @@ app.put("/api/shop/items/:id", (req, res) => {
             });
         }
 
-        const newName =
-            name !== undefined
-                ? name.trim()
-                : existing.name;
-
-        const newPrice =
-            price !== undefined
-                ? Number(price)
-                : existing.price;
-
-        const newStock =
-            stock !== undefined
-                ? Number(stock)
-                : existing.stock;
+        const newName = name !== undefined ? name.trim() : existing.name;
+        const newPrice = price !== undefined ? Number(price) : existing.price;
+        const newStock = stock !== undefined ? Number(stock) : existing.stock;
 
         db.prepare(`
             UPDATE shop_items
-            SET
-                name = ?,
-                price = ?,
-                stock = ?
+            SET name = ?, price = ?, stock = ?
             WHERE id = ?
-        `).run(
-            newName,
-            newPrice,
-            Math.max(0, newStock),
-            itemId
-        );
+        `).run(newName, newPrice, Math.max(0, newStock), itemId);
 
-        const updatedItem = db.prepare(`
-            SELECT *
-            FROM shop_items
-            WHERE id = ?
-        `).get(itemId);
+        const updatedItem = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
 
         res.json({
             success: true,
             item: updatedItem,
             message: "Товар обновлён"
         });
-
     } catch (error) {
-
-        console.error(
-            "Ошибка обновления товара:",
-            error
-        );
-
+        console.error("Ошибка обновления товара:", error);
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -1044,10 +1286,7 @@ app.delete("/api/shop/items/:id", (req, res) => {
     try {
         const itemId = Number(req.params.id);
 
-        const result = db.prepare(`
-            DELETE FROM shop_items
-            WHERE id = ?
-        `).run(itemId);
+        const result = db.prepare(`DELETE FROM shop_items WHERE id = ?`).run(itemId);
 
         if (result.changes === 0) {
             return res.status(404).json({
@@ -1060,14 +1299,8 @@ app.delete("/api/shop/items/:id", (req, res) => {
             success: true,
             message: "Предложение удалено из магазина"
         });
-
     } catch (error) {
-
-        console.error(
-            "Ошибка удаления товара:",
-            error
-        );
-
+        console.error("Ошибка удаления товара:", error);
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -1089,8 +1322,7 @@ app.post("/api/shop/withdraw", (req, res) => {
         if (!telegram_id || !shop_item_id) {
             return res.status(400).json({
                 success: false,
-                error:
-                    "telegram_id и shop_item_id обязательны"
+                error: "telegram_id и shop_item_id обязательны"
             });
         }
 
@@ -1104,69 +1336,43 @@ app.post("/api/shop/withdraw", (req, res) => {
         if (!ready_time || !ready_time.trim()) {
             return res.status(400).json({
                 success: false,
-                error:
-                    "Укажите время получения"
+                error: "Укажите время получения"
             });
         }
 
         const telegramId = String(telegram_id);
-
-        const item = db.prepare(`
-            SELECT *
-            FROM shop_items
-            WHERE id = ?
-        `).get(
-            Number(shop_item_id)
-        );
+        const item = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(Number(shop_item_id));
 
         if (!item) {
             return res.status(404).json({
                 success: false,
-                error:
-                    "Товар не найден в магазине"
+                error: "Товар не найден в магазине"
             });
         }
 
         if (item.stock < 1) {
             return res.status(400).json({
                 success: false,
-                error:
-                    "Этого браинрота нет в наличии на складе"
+                error: "Этого браинрота нет в наличии на складе"
             });
         }
 
-        const user = db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
-        `).get(telegramId);
-
+        const user = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
         if (!user || user.balance < item.price) {
             return res.status(400).json({
                 success: false,
-                error:
-                    "Недостаточно костей для вывода"
+                error: "Недостаточно костей для вывода"
             });
         }
 
         const tx = db.transaction(() => {
-
             // Списываем кости
             db.prepare(`
                 UPDATE users
-                SET
-                    balance = balance - ?,
-                    roblox_name =
-                        COALESCE(
-                            ?,
-                            roblox_name
-                        )
+                SET balance = balance - ?,
+                    roblox_name = COALESCE(?, roblox_name)
                 WHERE telegram_id = ?
-            `).run(
-                item.price,
-                roblox_name.trim(),
-                telegramId
-            );
+            `).run(item.price, roblox_name.trim(), telegramId);
 
             // Уменьшаем остаток на складе
             db.prepare(`
@@ -1176,14 +1382,7 @@ app.post("/api/shop/withdraw", (req, res) => {
             `).run(item.id);
 
             // Создаём запись в заявках на вывод
-            const commentText =
-                `Магазин: ${item.name}${
-                    comment && comment.trim()
-                        ? " | " +
-                          comment.trim()
-                        : ""
-                }`;
-
+            const commentText = `Магазин: ${item.name}${comment && comment.trim() ? ' | ' + comment.trim() : ''}`;
             const wRes = db.prepare(`
                 INSERT INTO withdrawals (
                     telegram_id,
@@ -1206,63 +1405,49 @@ app.post("/api/shop/withdraw", (req, res) => {
 
         const withdrawalId = tx();
 
-        const updatedUser = db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
-        `).get(telegramId);
+        // Создаём уведомление для администратора о новом выводе из магазина
+        const username = user?.username || telegramId;
+        const firstName = user?.first_name || 'Пользователь';
 
-        const updatedItem = db.prepare(`
-            SELECT *
-            FROM shop_items
-            WHERE id = ?
-        `).get(item.id);
+        const notificationMessage = `
+🏪 НОВАЯ ЗАЯВКА НА ВЫВОД ИЗ МАГАЗИНА!
 
-        res.json({
-            success: true,
-            withdrawal_id: withdrawalId,
-            user: updatedUser,
-            item: updatedItem,
-            message:
-                `Заявка на вывод ${item.name} успешно создана!`
-        });
+👤 Пользователь: @${username} (${firstName})
+🆔 Telegram ID: ${telegramId}
+🎯 Браинрот: ${item.name} (ID: ${item.id})
+💰 Стоимость: ${item.price} 🦴
+👤 Roblox ник: ${roblox_name.trim()}
+⏰ Время получения: ${ready_time.trim()}
+💬 Комментарий: ${comment ? comment.trim() : '—'}
+📅 Создана: ${new Date().toLocaleString('ru-RU')}
+📦 Остаток на складе: ${item.stock - 1} шт.
+        `.trim();
 
-    } catch (error) {
-
-        console.error(
-            "Ошибка вывода товара:",
-            error
+        db.prepare(`
+            INSERT INTO admin_notifications (
+                type,
+                message,
+                data
+            )
+            VALUES (?, ?, ?)
+        `).run(
+            'shop_withdrawal',
+            notificationMessage,
+            JSON.stringify({
+                withdrawal_id: withdrawalId,
+                shop_item_id: item.id,
+                shop_item_name: item.name,
+                price: item.price,
+                telegram_id: telegramId,
+                username: username,
+                first_name: firstName,
+                roblox_name: roblox_name.trim(),
+                ready_time: ready_time.trim(),
+                comment: comment ? comment.trim() : null,
+                remaining_stock: item.stock - 1,
+                created_at: new Date().toISOString()
+            })
         );
 
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ERROR HANDLER
-// =========================================================
-
-app.use((error, req, res, next) => {
-
-    console.error(error);
-
-    res.status(500).json({
-        success: false,
-        error: "Внутренняя ошибка сервера"
-    });
-});
-
-// =========================================================
-// START
-// =========================================================
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(
-        `Server started on port ${PORT}`
-    );
-});
+        const updatedUser = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
+        const updatedItem = db.prepare("SELECT * FROM
