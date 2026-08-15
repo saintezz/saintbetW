@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SaintBet выигрывай, прокачивай, выводи</title>
 
-<!-- Telegram Mini App API -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
@@ -98,6 +97,7 @@ button{
     0 0 25px rgba(150,150,150,.08);
 
   backdrop-filter:blur(10px);
+
   display:inline-flex;
   align-items:center;
 }
@@ -114,38 +114,50 @@ button{
   align-items:center;
   gap:9px;
   padding:10px 18px;
+
   border:1px solid rgba(255,215,0,.45);
   border-radius:12px;
+
   background:
     linear-gradient(
       135deg,
       rgba(45,38,15,.95),
       rgba(22,20,15,.98)
     );
+
   color:#ffd700;
+
   font-size:13px;
   font-weight:900;
   letter-spacing:1px;
+
   cursor:pointer;
+
   box-shadow:
     0 8px 25px rgba(0,0,0,.4),
     0 0 25px rgba(255,215,0,.18);
+
   backdrop-filter:blur(10px);
+
   transition:all .18s ease;
 }
 
 .top-shop-button:hover{
   border-color:#ffe033;
+
   background:
     linear-gradient(
       135deg,
       rgba(65,55,20,.98),
       rgba(30,28,18,.98)
     );
+
   box-shadow:
     0 10px 30px rgba(255,215,0,.35),
     inset 0 0 15px rgba(255,215,0,.15);
+
   transform:translateY(-1px);
+
   color:#fff;
 }
 
@@ -286,27 +298,37 @@ button{
 .slot-item-img-container{
   width:58px;
   height:58px;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   margin-bottom:6px;
 }
 
 .slot-item-img{
   max-width:100%;
   max-height:100%;
+
   object-fit:contain;
-  filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));
+
+  filter:
+    drop-shadow(
+      0 4px 10px rgba(0,0,0,.6)
+    );
 }
 
 .slot-text{
   color:#c8f6fb;
 
   font-size:9px;
+
   letter-spacing:1px;
+
   font-weight:800;
 
   line-height:1.4;
+
   text-align:center;
 }
 
@@ -336,7 +358,6 @@ button{
     conic-gradient(
       #10df4b
       0 calc(var(--wheel-chance) * 1%),
-
       #d91f2f
       calc(var(--wheel-chance) * 1%)
       100%
@@ -405,7 +426,8 @@ button{
   transform:rotate(0deg);
 
   transition:
-    transform 1.8s cubic-bezier(.12,.78,.16,1);
+    transform 1.8s
+    cubic-bezier(.12,.78,.16,1);
 }
 
 .pointer{
@@ -512,7 +534,9 @@ button{
   height:44px;
   min-width:180px;
 
-  border:1px solid rgba(200,200,200,.18);
+  border:
+    1px solid
+    rgba(200,200,200,.18);
 
   background:
     linear-gradient(
@@ -534,11 +558,14 @@ button{
 
 .upgrade.ready{
   color:#fff;
-  border-color:rgba(255,255,255,.32);
+
+  border-color:
+    rgba(255,255,255,.32);
 }
 
 .upgrade:hover{
-  transform:translateY(-2px);
+  transform:
+    translateY(-2px);
 
   background:
     linear-gradient(
@@ -562,7 +589,9 @@ button{
   width:44px;
   height:44px;
 
-  border:1px solid rgba(200,200,200,.18);
+  border:
+    1px solid
+    rgba(200,200,200,.18);
 
   background:
     linear-gradient(
@@ -585,6 +614,7 @@ button{
   color:#6ca5b5;
 
   font-size:11px;
+
   line-height:1.45;
 
   margin-top:76px;
@@ -612,7 +642,10 @@ button{
 
   padding:10px;
 
-  border:1px solid rgba(150,150,150,.16);
+  border:
+    1px solid
+    rgba(150,150,150,.16);
+
   border-radius:20px;
 
   background:
@@ -638,7 +671,9 @@ button{
   color:#ccc;
 
   font-size:10px;
+
   letter-spacing:2px;
+
   font-weight:900;
 
   border-left:3px solid #ffd900;
@@ -650,8 +685,6 @@ button{
   text-shadow:
     0 0 12px rgba(100,100,100,.25);
 }
-
-/* ЧЁРНО-БЕЛАЯ ОБЛАСТЬ ЦЕЛЕЙ */
 
 .target-panel{
   background:
@@ -701,7 +734,9 @@ button{
   flex-direction:column;
 
   border-radius:12px;
-  box-shadow:inset 0 0 20px rgba(0,0,0,.6);
+
+  box-shadow:
+    inset 0 0 20px rgba(0,0,0,.6);
 }
 
 .selected-card.show{
@@ -711,17 +746,24 @@ button{
 .selected-card-img-container{
   width:58px;
   height:58px;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   margin-bottom:6px;
 }
 
 .selected-card-img{
   max-width:100%;
   max-height:100%;
+
   object-fit:contain;
-  filter:drop-shadow(0 4px 10px rgba(0,0,0,.7));
+
+  filter:
+    drop-shadow(
+      0 4px 10px rgba(0,0,0,.7)
+    );
 }
 
 .selected-number{
@@ -752,9 +794,12 @@ button{
   width:100%;
   height:29px;
 
-  border:1px solid rgba(150,150,150,.13);
+  border:
+    1px solid
+    rgba(150,150,150,.13);
 
-  background:rgba(25,25,25,.48);
+  background:
+    rgba(25,25,25,.48);
 
   color:#fff;
 
@@ -770,7 +815,8 @@ button{
 }
 
 .search:focus{
-  border-color:rgba(150,150,150,.65);
+  border-color:
+    rgba(150,150,150,.65);
 
   box-shadow:
     0 0 0 3px rgba(150,150,150,.12),
@@ -793,7 +839,9 @@ button{
 .item{
   min-height:104px;
 
-  border:1px solid rgba(150,150,150,.16);
+  border:
+    1px solid
+    rgba(150,150,150,.16);
 
   background:
     linear-gradient(
@@ -826,12 +874,15 @@ button{
 }
 
 .item:hover{
-  border-color:rgba(150,150,150,.55);
+  border-color:
+    rgba(150,150,150,.55);
 
-  transform:translateY(-2px);
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 4px 18px rgba(150,150,150,.15);
+    0 4px 18px
+    rgba(150,150,150,.15);
 }
 
 .item.selected{
@@ -845,24 +896,35 @@ button{
     );
 
   box-shadow:
-    0 0 20px rgba(200,200,200,.2);
+    0 0 20px
+    rgba(200,200,200,.2);
 }
 
 .target-item-img-container{
   width:48px;
   height:48px;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   margin-bottom:4px;
 }
 
 .target-item-img{
   max-width:100%;
   max-height:100%;
+
   object-fit:contain;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
-  transition:transform .18s ease;
+
+  filter:
+    drop-shadow(
+      0 2px 6px rgba(0,0,0,.5)
+    );
+
+  transition:
+    transform .18s ease;
 }
 
 .item:hover .target-item-img{
@@ -871,7 +933,12 @@ button{
 
 .item.selected .target-item-img{
   transform:scale(1.12);
-  filter:drop-shadow(0 0 8px rgba(255,255,255,.45));
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(255,255,255,.45)
+    );
 }
 
 .item-name{
@@ -882,8 +949,11 @@ button{
   line-height:1.2;
 
   font-weight:800;
+
   max-width:100%;
+
   overflow:hidden;
+
   text-overflow:ellipsis;
 }
 
@@ -912,7 +982,9 @@ button{
 .shop-item{
   min-height:56px;
 
-  border:1px solid rgba(150,150,150,.16);
+  border:
+    1px solid
+    rgba(150,150,150,.16);
 
   background:
     linear-gradient(
@@ -924,7 +996,9 @@ button{
   padding:6px 8px;
 
   display:flex;
+
   align-items:center;
+
   gap:9px;
 
   cursor:pointer;
@@ -939,28 +1013,47 @@ button{
 .shop-item-img-container{
   width:40px;
   height:40px;
+
   border-radius:8px;
-  background:rgba(0,0,0,.45);
-  border:1px solid rgba(255,255,255,.08);
+
+  background:
+    rgba(0,0,0,.45);
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   flex-shrink:0;
+
   padding:2px;
 }
 
 .shop-item-img{
   max-width:100%;
   max-height:100%;
+
   object-fit:contain;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
+
+  filter:
+    drop-shadow(
+      0 2px 6px rgba(0,0,0,.5)
+    );
 }
 
 .shop-item-info{
   flex:1;
+
   min-width:0;
+
   display:flex;
+
   flex-direction:column;
+
   justify-content:center;
 }
 
@@ -976,7 +1069,9 @@ button{
   text-align:left;
 
   white-space:nowrap;
+
   overflow:hidden;
+
   text-overflow:ellipsis;
 }
 
@@ -988,11 +1083,13 @@ button{
   font-weight:900;
 
   margin-top:3px;
+
   text-align:left;
 }
 
 .shop-item:hover{
-  border-color:rgba(150,150,150,.55);
+  border-color:
+    rgba(150,150,150,.55);
 
   background:
     linear-gradient(
@@ -1002,20 +1099,26 @@ button{
     );
 
   box-shadow:
-    0 0 18px rgba(150,150,150,.08);
+    0 0 18px
+    rgba(150,150,150,.08);
 }
 
 .buy-item{
   flex-shrink:0;
+
   height:30px;
 
   padding:0 10px;
 
-  border:1px solid #006a4d !important;
+  border:
+    1px solid
+    #006a4d !important;
 
-  background:#0c1715 !important;
+  background:
+    #0c1715 !important;
 
-  color:#00e996 !important;
+  color:
+    #00e996 !important;
 
   font-size:9px;
 
@@ -1027,11 +1130,13 @@ button{
 }
 
 .buy-item:hover{
-  background:#0e211b !important;
+  background:
+    #0e211b !important;
 }
 
 .buy-item:disabled{
   opacity:.3;
+
   cursor:not-allowed;
 }
 
@@ -1050,7 +1155,9 @@ button{
 }
 
 .inventory-item{
-  border:1px solid rgba(150,150,150,.16);
+  border:
+    1px solid
+    rgba(150,150,150,.16);
 
   background:
     linear-gradient(
@@ -1062,7 +1169,9 @@ button{
   padding:6px 8px;
 
   display:flex;
+
   align-items:center;
+
   gap:9px;
 
   cursor:pointer;
@@ -1075,25 +1184,41 @@ button{
 .inventory-item-img-container{
   width:40px;
   height:40px;
+
   border-radius:8px;
-  background:rgba(0,0,0,.45);
-  border:1px solid rgba(255,255,255,.08);
+
+  background:
+    rgba(0,0,0,.45);
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   flex-shrink:0;
+
   padding:2px;
 }
 
 .inventory-item-img{
   max-width:100%;
   max-height:100%;
+
   object-fit:contain;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));
+
+  filter:
+    drop-shadow(
+      0 2px 6px rgba(0,0,0,.5)
+    );
 }
 
 .inventory-item:hover{
-  border-color:rgba(150,150,150,.55);
+  border-color:
+    rgba(150,150,150,.55);
 
   background:
     linear-gradient(
@@ -1103,7 +1228,8 @@ button{
     );
 
   box-shadow:
-    0 0 18px rgba(150,150,150,.08);
+    0 0 18px
+    rgba(150,150,150,.08);
 }
 
 .inventory-item.selected{
@@ -1114,9 +1240,13 @@ button{
 
 .inventory-item-info{
   flex:1;
+
   min-width:0;
+
   display:flex;
+
   flex-direction:column;
+
   justify-content:center;
 }
 
@@ -1130,7 +1260,9 @@ button{
   line-height:1.2;
 
   white-space:nowrap;
+
   overflow:hidden;
+
   text-overflow:ellipsis;
 }
 
@@ -1146,16 +1278,20 @@ button{
 
 .sell-item{
   flex-shrink:0;
+
   height:30px;
 
   padding:0 9px;
 
-  border:1px solid rgba(220,70,80,.45) !important;
+  border:
+    1px solid
+    rgba(220,70,80,.45) !important;
 
   background:
     rgba(80,20,25,.65) !important;
 
-  color:#ff7882 !important;
+  color:
+    #ff7882 !important;
 
   font-size:8px;
 
@@ -1170,7 +1306,8 @@ button{
   background:
     rgba(120,25,35,.8) !important;
 
-  border-color:#ff5b68 !important;
+  border-color:
+    #ff5b68 !important;
 
   color:#fff !important;
 }
@@ -1184,7 +1321,8 @@ button{
 }
 
 .profile-title{
-  border-left-color:#2ce6d2 !important;
+  border-left-color:
+    #2ce6d2 !important;
 }
 
 .profile-card{
@@ -1200,7 +1338,9 @@ button{
 
   padding:12px;
 
-  border:1px solid rgba(100,100,100,.16);
+  border:
+    1px solid
+    rgba(100,100,100,.16);
 
   border-radius:12px;
 
@@ -1225,6 +1365,7 @@ button{
   justify-content:center;
 
   font-size:24px;
+
   font-weight:900;
 
   color:#000;
@@ -1237,7 +1378,8 @@ button{
     );
 
   box-shadow:
-    0 0 24px rgba(150,150,150,.22);
+    0 0 24px
+    rgba(150,150,150,.22);
 
   margin-bottom:10px;
 }
@@ -1279,7 +1421,9 @@ button{
 
   margin-top:14px;
 
-  border:1px solid rgba(150,150,150,.3);
+  border:
+    1px solid
+    rgba(150,150,150,.3);
 
   background:
     linear-gradient(
@@ -1304,7 +1448,8 @@ button{
   filter:brightness(1.12);
 
   box-shadow:
-    0 0 20px rgba(150,150,150,.13);
+    0 0 20px
+    rgba(150,150,150,.13);
 }
 
 .profile-cooldown{
@@ -1326,7 +1471,9 @@ button{
 
   padding:12px;
 
-  border:1px solid rgba(150,150,150,.3);
+  border:
+    1px solid
+    rgba(150,150,150,.3);
 
   border-radius:12px;
 
@@ -1358,6 +1505,7 @@ button{
 
 .admin-input{
   width:100%;
+
   height:32px;
 
   margin-top:7px;
@@ -1366,11 +1514,14 @@ button{
 
   outline:none;
 
-  border:1px solid rgba(100,100,100,.2);
+  border:
+    1px solid
+    rgba(100,100,100,.2);
 
   border-radius:7px;
 
-  background:rgba(20,20,20,.9);
+  background:
+    rgba(20,20,20,.9);
 
   color:#fff;
 
@@ -1405,172 +1556,26 @@ button{
 }
 
 /* =========================
-   USERNAME MODAL
-========================= */
-
-.username-modal{
-  position:fixed;
-
-  inset:0;
-
-  z-index:9999;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  padding:20px;
-
-  background:
-    rgba(0,8,14,.72);
-
-  backdrop-filter:blur(8px);
-}
-
-.username-modal[hidden]{
-  display:none;
-}
-
-.username-modal-box{
-  width:min(420px,100%);
-
-  padding:24px;
-
-  border:1px solid rgba(150,150,150,.35);
-
-  border-radius:16px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #2a2a2a,
-      #0f0f0f
-    );
-
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.5),
-    0 0 35px rgba(150,150,150,.12);
-}
-
-.username-modal-title{
-  color:#fff;
-
-  font-size:16px;
-
-  font-weight:900;
-
-  letter-spacing:1.5px;
-
-  text-align:center;
-}
-
-.username-modal-subtitle{
-  margin:8px 0 16px;
-
-  color:#79aeba;
-
-  font-size:11px;
-
-  text-align:center;
-}
-
-.username-modal-input{
-  width:100%;
-  height:44px;
-
-  padding:0 13px;
-
-  border:1px solid rgba(100,100,100,.3);
-
-  border-radius:9px;
-
-  outline:none;
-
-  background:#1a1a1a;
-
-  color:#fff;
-
-  font-size:14px;
-}
-
-.username-modal-input:focus{
-  border-color:#fff;
-
-  box-shadow:
-    0 0 18px rgba(150,150,150,.12);
-}
-
-.username-modal-error{
-  min-height:18px;
-
-  margin-top:8px;
-
-  color:#ff7580;
-
-  font-size:11px;
-
-  text-align:center;
-}
-
-.username-modal-actions{
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    1fr;
-
-  gap:8px;
-
-  margin-top:6px;
-}
-
-.username-modal-actions button{
-  height:40px;
-
-  border-radius:9px;
-
-  cursor:pointer;
-
-  font-size:11px;
-
-  font-weight:900;
-}
-
-.username-modal-cancel{
-  border:1px solid rgba(100,160,175,.25);
-
-  background:#06202d;
-
-  color:#9ac5cf;
-}
-
-.username-modal-save{
-  border:1px solid rgba(150,150,150,.4);
-
-  background:
-    linear-gradient(
-      135deg,
-      #999,
-      #666
-    );
-
-  color:#000;
-}
-
-/* =========================
    WITHDRAW SHOP MODAL
 ========================= */
 
 .withdraw-modal{
   position:fixed;
+
   inset:0;
+
   z-index:99999;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   padding:16px;
-  background:rgba(0,0,0,.82);
+
+  background:
+    rgba(0,0,0,.82);
+
   backdrop-filter:blur(10px);
 }
 
@@ -1579,12 +1584,20 @@ button{
 }
 
 .withdraw-modal-box{
-  width:min(680px, 100%);
+  width:min(680px,100%);
+
   max-height:88vh;
+
   display:flex;
+
   flex-direction:column;
-  border:1px solid rgba(255,215,0,.38);
+
+  border:
+    1px solid
+    rgba(255,215,0,.38);
+
   border-radius:18px;
+
   background:
     radial-gradient(
       circle at 50% 0%,
@@ -1597,91 +1610,156 @@ button{
       #121212 60%,
       #0a0a0a 100%
     );
+
   box-shadow:
     0 25px 80px rgba(0,0,0,.85),
     0 0 50px rgba(255,215,0,.18),
     inset 0 1px 0 rgba(255,255,255,.1);
+
   overflow:hidden;
-  animation:modalPop .25s cubic-bezier(.16,1,.3,1);
+
+  animation:
+    modalPop
+    .25s
+    cubic-bezier(.16,1,.3,1);
 }
 
 @keyframes modalPop{
   from{
-    transform:scale(.94) translateY(10px);
+    transform:
+      scale(.94)
+      translateY(10px);
+
     opacity:0;
   }
+
   to{
-    transform:scale(1) translateY(0);
+    transform:
+      scale(1)
+      translateY(0);
+
     opacity:1;
   }
 }
 
 .withdraw-modal-header{
   display:flex;
+
   align-items:center;
   justify-content:space-between;
-  padding:16px 20px 14px;
-  border-bottom:1px solid rgba(150,150,150,.15);
-  background:rgba(20,20,20,.6);
+
+  padding:
+    16px
+    20px
+    14px;
+
+  border-bottom:
+    1px solid
+    rgba(150,150,150,.15);
+
+  background:
+    rgba(20,20,20,.6);
 }
 
 .withdraw-modal-title-area{
   display:flex;
+
   flex-direction:column;
+
   gap:2px;
 }
 
 .withdraw-modal-badge{
   font-size:9px;
+
   font-weight:900;
+
   letter-spacing:2px;
+
   color:#ffd700;
+
   text-transform:uppercase;
 }
 
 .withdraw-modal-title{
   margin:0;
+
   font-size:18px;
+
   font-weight:900;
+
   letter-spacing:1px;
+
   color:#fff;
+
   display:flex;
+
   align-items:center;
+
   gap:8px;
 }
 
 .withdraw-modal-close{
   width:34px;
   height:34px;
-  border:1px solid rgba(150,150,150,.25);
+
+  border:
+    1px solid
+    rgba(150,150,150,.25);
+
   border-radius:10px;
-  background:rgba(30,30,30,.8);
+
+  background:
+    rgba(30,30,30,.8);
+
   color:#aaa;
+
   font-size:16px;
+
   font-weight:900;
+
   cursor:pointer;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   transition:.15s;
 }
 
 .withdraw-modal-close:hover{
   border-color:#fff;
+
   color:#fff;
+
   background:#444;
 }
 
 .withdraw-modal-subbar{
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
-  padding:10px 20px;
-  background:rgba(25,25,20,.5);
-  border-bottom:1px solid rgba(150,150,150,.1);
+
+  padding:
+    10px
+    20px;
+
+  background:
+    rgba(25,25,20,.5);
+
+  border-bottom:
+    1px solid
+    rgba(150,150,150,.1);
+
   font-size:11px;
+
   color:#aaa;
+
   flex-wrap:wrap;
+
   gap:6px;
 }
 
@@ -1690,82 +1768,137 @@ button{
 }
 
 .withdraw-modal-body{
-  padding:16px 20px;
+  padding:
+    16px
+    20px;
+
   overflow-y:auto;
+
   flex:1;
+
   display:flex;
+
   flex-direction:column;
+
   gap:10px;
 }
 
-/* ADMIN PANEL IN SHOP */
 .withdraw-admin-panel{
-  border:1px solid rgba(255,215,0,.35);
+  border:
+    1px solid
+    rgba(255,215,0,.35);
+
   border-radius:12px;
+
   background:
     linear-gradient(
       145deg,
       rgba(45,35,10,.75),
       rgba(20,20,20,.9)
     );
+
   padding:12px;
+
   margin-bottom:8px;
 }
 
 .withdraw-admin-head{
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
   gap:10px;
 }
 
 .withdraw-admin-tag{
   color:#ffd700;
+
   font-size:11px;
+
   font-weight:900;
+
   letter-spacing:1px;
 }
 
 .withdraw-admin-add-toggle{
-  padding:6px 12px;
-  border:1px solid rgba(255,215,0,.4);
+  padding:
+    6px
+    12px;
+
+  border:
+    1px solid
+    rgba(255,215,0,.4);
+
   border-radius:8px;
-  background:rgba(255,215,0,.15);
+
+  background:
+    rgba(255,215,0,.15);
+
   color:#ffd700;
+
   font-size:10px;
+
   font-weight:900;
+
   cursor:pointer;
+
   transition:.15s;
 }
 
 .withdraw-admin-add-toggle:hover{
-  background:rgba(255,215,0,.3);
+  background:
+    rgba(255,215,0,.3);
+
   color:#fff;
 }
 
 .withdraw-admin-form{
   margin-top:10px;
+
   padding-top:10px;
-  border-top:1px solid rgba(255,215,0,.2);
+
+  border-top:
+    1px solid
+    rgba(255,215,0,.2);
+
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
 }
 
 .withdraw-admin-form-row{
   display:grid;
-  grid-template-columns:2fr 1fr 1fr;
+
+  grid-template-columns:
+    2fr
+    1fr
+    1fr;
+
   gap:8px;
 }
 
 .withdraw-admin-input{
   height:34px;
+
   padding:0 10px;
-  border:1px solid rgba(150,150,150,.3);
+
+  border:
+    1px solid
+    rgba(150,150,150,.3);
+
   border-radius:8px;
-  background:rgba(15,15,15,.9);
+
+  background:
+    rgba(15,15,15,.9);
+
   color:#fff;
+
   font-size:11px;
+
   outline:none;
 }
 
@@ -1775,18 +1908,34 @@ button{
 
 .withdraw-admin-form-actions{
   display:flex;
+
   gap:8px;
 }
 
 .withdraw-admin-submit-btn{
   flex:1;
+
   height:34px;
-  border:1px solid #ffd700;
+
+  border:
+    1px solid
+    #ffd700;
+
   border-radius:8px;
-  background:linear-gradient(135deg, #ffd700, #c49e00);
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffd700,
+      #c49e00
+    );
+
   color:#000;
+
   font-size:10px;
+
   font-weight:900;
+
   cursor:pointer;
 }
 
@@ -1796,130 +1945,216 @@ button{
 
 .withdraw-admin-msg{
   font-size:10px;
+
   min-height:14px;
+
   color:#8dd9dc;
 }
 
-/* ITEMS IN WITHDRAW MODAL */
 .withdraw-items-list{
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
 }
 
 .withdraw-item-row{
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
-  padding:12px 14px;
-  border:1px solid rgba(150,150,150,.18);
+
+  padding:
+    12px
+    14px;
+
+  border:
+    1px solid
+    rgba(150,150,150,.18);
+
   border-radius:12px;
+
   background:
     linear-gradient(
       145deg,
       rgba(35,35,35,.85),
       rgba(15,15,15,.95)
     );
+
   transition:all .18s ease;
+
   position:relative;
 }
 
 .withdraw-item-row:hover{
-  border-color:rgba(255,215,0,.4);
+  border-color:
+    rgba(255,215,0,.4);
+
   background:
     linear-gradient(
       145deg,
       rgba(45,42,30,.9),
       rgba(20,20,20,.98)
     );
-  box-shadow:0 0 20px rgba(255,215,0,.08);
+
+  box-shadow:
+    0 0 20px
+    rgba(255,215,0,.08);
 }
 
 .withdraw-item-row.out-of-stock{
   opacity:.65;
-  border-color:rgba(100,100,100,.15);
+
+  border-color:
+    rgba(100,100,100,.15);
 }
 
 .withdraw-item-main{
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
   gap:10px;
+
   flex-wrap:wrap;
 }
 
 .withdraw-item-text-line{
   font-size:13px;
+
   font-weight:800;
+
   color:#f0f4f8;
+
   line-height:1.35;
+
   letter-spacing:.3px;
 }
 
 .withdraw-item-text-line .highlight-stock{
   color:#79c9e0;
+
   font-weight:700;
+
   font-size:11px;
 }
 
 .withdraw-item-text-line .highlight-price{
   color:#ffd700;
+
   font-weight:900;
 }
 
 .withdraw-item-btn-wrap{
   display:flex;
+
   align-items:center;
+
   gap:8px;
 }
 
 .withdraw-btn{
   height:32px;
-  padding:0 14px;
-  border:1px solid rgba(0,233,150,.5);
+
+  padding:
+    0
+    14px;
+
+  border:
+    1px solid
+    rgba(0,233,150,.5);
+
   border-radius:8px;
-  background:linear-gradient(135deg, rgba(0,70,50,.8), rgba(0,35,25,.95));
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,70,50,.8),
+      rgba(0,35,25,.95)
+    );
+
   color:#00e996;
+
   font-size:10px;
+
   font-weight:900;
+
   letter-spacing:.5px;
+
   cursor:pointer;
+
   white-space:nowrap;
+
   transition:.15s;
 }
 
 .withdraw-btn:hover{
-  background:linear-gradient(135deg, rgba(0,100,70,.9), rgba(0,50,35,.98));
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,100,70,.9),
+      rgba(0,50,35,.98)
+    );
+
   border-color:#00e996;
-  box-shadow:0 0 15px rgba(0,233,150,.25);
+
+  box-shadow:
+    0 0 15px
+    rgba(0,233,150,.25);
+
   color:#fff;
 }
 
 .withdraw-btn:disabled{
   opacity:.4;
+
   cursor:not-allowed;
-  border-color:rgba(100,100,100,.3);
-  background:rgba(30,30,30,.7);
+
+  border-color:
+    rgba(100,100,100,.3);
+
+  background:
+    rgba(30,30,30,.7);
+
   color:#888;
 }
 
-/* ADMIN ITEM CONTROLS */
 .withdraw-item-admin-controls{
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
   gap:8px;
-  padding:8px 10px;
-  border-top:1px solid rgba(150,150,150,.12);
-  background:rgba(0,0,0,.35);
+
+  padding:
+    8px
+    10px;
+
+  border-top:
+    1px solid
+    rgba(150,150,150,.12);
+
+  background:
+    rgba(0,0,0,.35);
+
   border-radius:8px;
+
   font-size:10px;
+
   flex-wrap:wrap;
 }
 
 .admin-stock-control{
   display:flex;
+
   align-items:center;
+
   gap:6px;
 }
 
@@ -1930,67 +2165,120 @@ button{
 .admin-mini-btn{
   width:26px;
   height:24px;
-  border:1px solid rgba(150,150,150,.3);
+
+  border:
+    1px solid
+    rgba(150,150,150,.3);
+
   border-radius:6px;
-  background:rgba(40,40,40,.9);
+
+  background:
+    rgba(40,40,40,.9);
+
   color:#fff;
+
   font-size:12px;
+
   font-weight:900;
+
   cursor:pointer;
+
   display:inline-flex;
+
   align-items:center;
   justify-content:center;
+
   transition:.12s;
 }
 
 .admin-mini-btn:hover{
   border-color:#ffd700;
+
   color:#ffd700;
+
   background:#333;
 }
 
 .admin-delete-item-btn{
   height:24px;
-  padding:0 9px;
-  border:1px solid rgba(255,80,90,.4);
+
+  padding:
+    0
+    9px;
+
+  border:
+    1px solid
+    rgba(255,80,90,.4);
+
   border-radius:6px;
-  background:rgba(80,20,30,.6);
+
+  background:
+    rgba(80,20,30,.6);
+
   color:#ff7882;
+
   font-size:9px;
+
   font-weight:900;
+
   cursor:pointer;
+
   transition:.12s;
 }
 
 .admin-delete-item-btn:hover{
-  background:rgba(120,25,40,.9);
+  background:
+    rgba(120,25,40,.9);
+
   border-color:#ff5060;
+
   color:#fff;
 }
 
 .withdraw-modal-footer{
-  padding:12px 20px;
-  border-top:1px solid rgba(150,150,150,.12);
-  background:rgba(15,15,15,.7);
+  padding:
+    12px
+    20px;
+
+  border-top:
+    1px solid
+    rgba(150,150,150,.12);
+
+  background:
+    rgba(15,15,15,.7);
 }
 
 .withdraw-note{
   color:#6ca5b5;
+
   font-size:10px;
+
   line-height:1.45;
+
   text-align:center;
 }
 
-/* CONFIRM MODAL */
+/* =========================
+   CONFIRM
+========================= */
+
 .withdraw-confirm-modal{
   position:fixed;
+
   inset:0;
+
   z-index:999999;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   padding:16px;
-  background:rgba(0,0,0,.85);
+
+  background:
+    rgba(0,0,0,.85);
+
   backdrop-filter:blur(10px);
 }
 
@@ -1999,10 +2287,16 @@ button{
 }
 
 .withdraw-confirm-box{
-  width:min(440px, 100%);
+  width:min(440px,100%);
+
   padding:22px;
-  border:1px solid rgba(255,215,0,.4);
+
+  border:
+    1px solid
+    rgba(255,215,0,.4);
+
   border-radius:16px;
+
   background:
     linear-gradient(
       165deg,
@@ -2010,48 +2304,75 @@ button{
       #141414 70%,
       #0d0d0d 100%
     );
+
   box-shadow:
     0 25px 80px rgba(0,0,0,.9),
     0 0 45px rgba(255,215,0,.2);
-  animation:modalPop .2s cubic-bezier(.16,1,.3,1);
+
+  animation:
+    modalPop
+    .2s
+    cubic-bezier(.16,1,.3,1);
 }
 
 .confirm-header-tag{
   font-size:9px;
+
   font-weight:900;
+
   letter-spacing:2px;
+
   color:#ffd700;
+
   margin-bottom:4px;
+
   text-align:center;
 }
 
 .confirm-title{
   font-size:17px;
+
   font-weight:900;
+
   color:#fff;
+
   text-align:center;
+
   margin-bottom:12px;
 }
 
 .confirm-item-card{
   padding:12px;
-  border:1px solid rgba(255,215,0,.25);
+
+  border:
+    1px solid
+    rgba(255,215,0,.25);
+
   border-radius:10px;
-  background:rgba(30,28,20,.6);
+
+  background:
+    rgba(30,28,20,.6);
+
   margin-bottom:14px;
+
   text-align:center;
 }
 
 .confirm-item-title{
   font-size:14px;
+
   font-weight:900;
+
   color:#fff;
 }
 
 .confirm-item-cost{
   font-size:13px;
+
   font-weight:900;
+
   color:#ffd700;
+
   margin-top:4px;
 }
 
@@ -2061,75 +2382,140 @@ button{
 
 .confirm-form-label{
   display:block;
+
   font-size:10px;
+
   font-weight:800;
+
   color:#9ab5c0;
+
   margin-bottom:5px;
 }
 
 .confirm-input{
   width:100%;
+
   height:36px;
+
   padding:0 11px;
-  border:1px solid rgba(150,150,150,.25);
+
+  border:
+    1px solid
+    rgba(150,150,150,.25);
+
   border-radius:8px;
-  background:rgba(18,18,18,.9);
+
+  background:
+    rgba(18,18,18,.9);
+
   color:#fff;
+
   font-size:12px;
+
   outline:none;
 }
 
 .confirm-input:focus{
   border-color:#ffd700;
-  box-shadow:0 0 10px rgba(255,215,0,.15);
+
+  box-shadow:
+    0 0 10px
+    rgba(255,215,0,.15);
 }
 
 .confirm-error{
   font-size:10px;
+
   color:#ff6b77;
+
   min-height:16px;
-  margin:4px 0 8px;
+
+  margin:
+    4px
+    0
+    8px;
+
   text-align:center;
 }
 
 .confirm-actions{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
   gap:10px;
+
   margin-top:6px;
 }
 
 .confirm-submit-btn{
   height:38px;
-  border:1px solid #00e996;
+
+  border:
+    1px solid
+    #00e996;
+
   border-radius:8px;
-  background:linear-gradient(135deg, #00b374, #00774d);
+
+  background:
+    linear-gradient(
+      135deg,
+      #00b374,
+      #00774d
+    );
+
   color:#fff;
+
   font-size:11px;
+
   font-weight:900;
+
   cursor:pointer;
+
   transition:.15s;
 }
 
 .confirm-submit-btn:hover{
   filter:brightness(1.15);
-  box-shadow:0 0 15px rgba(0,233,150,.3);
+
+  box-shadow:
+    0 0 15px
+    rgba(0,233,150,.3);
+}
+
+.confirm-submit-btn:disabled{
+  opacity:.55;
+
+  cursor:not-allowed;
 }
 
 .confirm-cancel-btn{
   height:38px;
-  border:1px solid rgba(150,150,150,.3);
+
+  border:
+    1px solid
+    rgba(150,150,150,.3);
+
   border-radius:8px;
+
   background:#222;
+
   color:#bbb;
+
   font-size:11px;
+
   font-weight:900;
+
   cursor:pointer;
+
   transition:.15s;
 }
 
 .confirm-cancel-btn:hover{
   color:#fff;
+
   background:#333;
 }
 
@@ -2146,7 +2532,6 @@ button{
 
   .top-area{
     grid-template-columns:1fr;
-
     gap:14px;
   }
 
@@ -2218,10 +2603,6 @@ button{
   }
 
   .inventory-item{
-    grid-template-columns:
-      minmax(0,1fr)
-      auto;
-
     gap:6px;
   }
 
@@ -2231,10 +2612,6 @@ button{
   }
 
   .shop-item{
-    grid-template-columns:
-      minmax(0,1fr)
-      auto;
-
     column-gap:6px;
   }
 
@@ -2245,7 +2622,10 @@ button{
 }
 
 *{
-  scrollbar-color:#147e91 #03131e;
+  scrollbar-color:
+    #147e91
+    #03131e;
+
   scrollbar-width:thin;
 }
 
@@ -2266,6 +2646,7 @@ button{
 
   border-radius:10px;
 }
+
 </style>
 </head>
 
@@ -2274,9 +2655,12 @@ button{
 <div class="app">
 
   <div class="top-nav-bar">
+
     <div class="balance">
-      🦴 <span>БАЛАНС:</span>
-      <b id="balance">10</b> 🦴
+      🦴
+      <span>БАЛАНС:</span>
+      <b id="balance">10</b>
+      🦴
     </div>
 
     <button
@@ -2285,10 +2669,24 @@ button{
       type="button"
       onclick="openWithdrawShopModal()"
     >
-      <span class="top-shop-icon">🏪</span>
-      <span class="top-shop-title">МАГАЗИН ВЫВОДА</span>
-      <span class="top-shop-count" id="topShopCountBadge">10</span>
+
+      <span class="top-shop-icon">
+        🏪
+      </span>
+
+      <span class="top-shop-title">
+        МАГАЗИН ВЫВОДА
+      </span>
+
+      <span
+        class="top-shop-count"
+        id="topShopCountBadge"
+      >
+        10
+      </span>
+
     </button>
+
   </div>
 
   <section class="game">
@@ -2531,12 +2929,18 @@ button{
           Авторизация через Telegram
         </div>
 
-       <div
-  class="profile-button telegram-account-button"
-  id="telegramAccountButton"
->
-  <span id="telegramAccountStatus">ПОДКЛЮЧЕНИЕ TELEGRAM...</span>
-</div>
+        <div
+          class="profile-button telegram-account-button"
+          id="telegramAccountButton"
+        >
+
+          <span
+            id="telegramAccountStatus"
+          >
+            ПОДКЛЮЧЕНИЕ TELEGRAM...
+          </span>
+
+        </div>
 
         <div
           class="profile-cooldown"
@@ -2554,8 +2958,13 @@ button{
       >
 
         <div class="admin-title">
+
           ⚓ ADMIN •
-          <span id="adminName">@saint</span>
+
+          <span id="adminName">
+            @saint
+          </span>
+
         </div>
 
         <div class="admin-subtitle">
@@ -2591,19 +3000,43 @@ button{
           id="adminMessage"
         ></div>
 
-        <!-- ADMIN SHOP MANAGEMENT SHORTCUT -->
-        <div style="margin-top:14px; padding-top:10px; border-top:1px solid rgba(150,150,150,.2);">
-          <div class="admin-subtitle" style="margin-bottom:6px; color:#ffd700;">
+        <div
+          style="
+            margin-top:14px;
+            padding-top:10px;
+            border-top:
+              1px solid
+              rgba(150,150,150,.2);
+          "
+        >
+
+          <div
+            class="admin-subtitle"
+            style="
+              margin-bottom:6px;
+              color:#ffd700;
+            "
+          >
             Управление предложениями магазина
           </div>
+
           <button
             class="admin-button"
             type="button"
-            style="background:linear-gradient(135deg, #ffd700, #c49e00); color:#000;"
+            style="
+              background:
+                linear-gradient(
+                  135deg,
+                  #ffd700,
+                  #c49e00
+                );
+              color:#000;
+            "
             onclick="openWithdrawShopModal()"
           >
             🏪 ОТКРЫТЬ МАГАЗИН И РЕДАКТИРОВАТЬ
           </button>
+
         </div>
 
       </div>
@@ -2613,96 +3046,308 @@ button{
   </section>
 
   <!-- WITHDRAW SHOP MODAL -->
-  <div class="withdraw-modal" id="withdrawShopModal" hidden>
+
+  <div
+    class="withdraw-modal"
+    id="withdrawShopModal"
+    hidden
+  >
+
     <div class="withdraw-modal-box">
 
       <div class="withdraw-modal-header">
+
         <div class="withdraw-modal-title-area">
-          <div class="withdraw-modal-badge">ВЫВОД BRAINROT</div>
-          <h2 class="withdraw-modal-title">🏪 МАГАЗИН ВЫВОДА</h2>
+
+          <div class="withdraw-modal-badge">
+            ВЫВОД BRAINROT
+          </div>
+
+          <h2 class="withdraw-modal-title">
+            🏪 МАГАЗИН ВЫВОДА
+          </h2>
+
         </div>
-        <button class="withdraw-modal-close" type="button" onclick="closeWithdrawShopModal()">✕</button>
+
+        <button
+          class="withdraw-modal-close"
+          type="button"
+          onclick="closeWithdrawShopModal()"
+        >
+          ✕
+        </button>
+
       </div>
 
       <div class="withdraw-modal-subbar">
-        <div>Твой баланс: <b id="withdrawShopBalance">10</b> 🦴</div>
-        <div>Всего браинротов: <b id="withdrawShopStockCount">10</b></div>
+
+        <div>
+
+          Твой баланс:
+
+          <b id="withdrawShopBalance">
+            10
+          </b>
+
+          🦴
+
+        </div>
+
+        <div>
+
+          Всего браинротов:
+
+          <b id="withdrawShopStockCount">
+            10
+          </b>
+
+        </div>
+
       </div>
 
       <div class="withdraw-modal-body">
 
-        <!-- ADMIN TOOLS (VISIBLE ONLY TO @saintezz7) -->
-        <div class="withdraw-admin-panel" id="withdrawAdminPanel" hidden>
+        <div
+          class="withdraw-admin-panel"
+          id="withdrawAdminPanel"
+          hidden
+        >
+
           <div class="withdraw-admin-head">
-            <div class="withdraw-admin-tag">⚓ УПРАВЛЕНИЕ МАГАЗИНОМ (@saintezz7)</div>
-            <button class="withdraw-admin-add-toggle" id="adminAddToggleBtn" type="button" onclick="toggleAdminAddForm()">＋ Добавить браинрота</button>
+
+            <div class="withdraw-admin-tag">
+              ⚓ УПРАВЛЕНИЕ МАГАЗИНОМ (@saintezz7)
+            </div>
+
+            <button
+              class="withdraw-admin-add-toggle"
+              id="adminAddToggleBtn"
+              type="button"
+              onclick="toggleAdminAddForm()"
+            >
+              ＋ Добавить браинрота
+            </button>
+
           </div>
 
-          <form class="withdraw-admin-form" id="withdrawAdminAddForm" onsubmit="handleAdminAddBrainrot(event)" hidden>
-            <div class="withdraw-admin-form-row">
-              <input type="text" id="newBrainrotName" class="withdraw-admin-input" placeholder="Название браинрота" required>
-              <input type="number" id="newBrainrotPrice" class="withdraw-admin-input" placeholder="Цена (🦴)" min="1" step="1" required>
-              <input type="number" id="newBrainrotStock" class="withdraw-admin-input" placeholder="На складе (шт)" min="0" step="1" required>
+          <form
+            class="withdraw-admin-form"
+            id="withdrawAdminAddForm"
+            onsubmit="handleAdminAddBrainrot(event)"
+            hidden
+          >
+
+            <div
+              class="withdraw-admin-form-row"
+            >
+
+              <input
+                type="text"
+                id="newBrainrotName"
+                class="withdraw-admin-input"
+                placeholder="Название браинрота"
+                required
+              >
+
+              <input
+                type="number"
+                id="newBrainrotPrice"
+                class="withdraw-admin-input"
+                placeholder="Цена (🦴)"
+                min="1"
+                step="1"
+                required
+              >
+
+              <input
+                type="number"
+                id="newBrainrotStock"
+                class="withdraw-admin-input"
+                placeholder="На складе (шт)"
+                min="0"
+                step="1"
+                required
+              >
+
             </div>
+
             <div class="withdraw-admin-form-actions">
-              <button type="submit" class="withdraw-admin-submit-btn">ДОБАВИТЬ ПРЕДЛОЖЕНИЕ</button>
-              <button type="button" class="withdraw-admin-add-toggle" onclick="toggleAdminAddForm(false)">Отмена</button>
+
+              <button
+                type="submit"
+                class="withdraw-admin-submit-btn"
+              >
+                ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
+              </button>
+
+              <button
+                type="button"
+                class="withdraw-admin-add-toggle"
+                onclick="toggleAdminAddForm(false)"
+              >
+                Отмена
+              </button>
+
             </div>
-            <div class="withdraw-admin-msg" id="adminAddFormMsg"></div>
+
+            <div
+              class="withdraw-admin-msg"
+              id="adminAddFormMsg"
+            ></div>
+
           </form>
+
         </div>
 
-        <!-- BRAINROT OFFERS LIST -->
-        <div class="withdraw-items-list" id="withdrawItemsList">
-          <!-- Populated by JavaScript -->
-        </div>
+        <div
+          class="withdraw-items-list"
+          id="withdrawItemsList"
+        ></div>
 
       </div>
 
       <div class="withdraw-modal-footer">
+
         <div class="withdraw-note">
-          ℹ️ При нажатии <b>ВЫВЕСТИ</b> с баланса списываются кости и резервируется браинрот на складе.
+
+          ℹ️ При нажатии <b>ВЫВЕСТИ</b>
+          с баланса списываются кости
+          и резервируется браинрот на складе.
+
         </div>
+
       </div>
 
     </div>
+
   </div>
 
-  <!-- CONFIRM WITHDRAWAL DIALOG -->
-  <div class="withdraw-confirm-modal" id="withdrawConfirmModal" hidden>
-    <div class="withdraw-confirm-box">
-      <div class="confirm-header-tag">ОФОРМЛЕНИЕ ВЫВОДА</div>
-      <div class="confirm-title">Подтверждение заявки</div>
+  <!-- CONFIRM WITHDRAWAL -->
 
-      <div class="confirm-item-card">
-        <div class="confirm-item-title" id="confirmItemName">—</div>
-        <div class="confirm-item-cost" id="confirmItemPrice">— 🦴</div>
+  <div
+    class="withdraw-confirm-modal"
+    id="withdrawConfirmModal"
+    hidden
+  >
+
+    <div class="withdraw-confirm-box">
+
+      <div class="confirm-header-tag">
+        ОФОРМЛЕНИЕ ВЫВОДА
       </div>
 
-      <form id="withdrawConfirmForm" onsubmit="submitBrainrotWithdrawal(event)">
+      <div class="confirm-title">
+        Подтверждение заявки
+      </div>
+
+      <div class="confirm-item-card">
+
+        <div
+          class="confirm-item-title"
+          id="confirmItemName"
+        >
+          —
+        </div>
+
+        <div
+          class="confirm-item-cost"
+          id="confirmItemPrice"
+        >
+          — 🦴
+        </div>
+
+      </div>
+
+      <form
+        id="withdrawConfirmForm"
+        onsubmit="submitBrainrotWithdrawal(event)"
+      >
+
         <div class="confirm-form-group">
-          <label class="confirm-form-label" for="confirmRobloxNick">Никнейм в Roblox:</label>
-          <input type="text" id="confirmRobloxNick" class="confirm-input" placeholder="Твой ник в Roblox" required>
+
+          <label
+            class="confirm-form-label"
+            for="confirmRobloxNick"
+          >
+            Никнейм в Roblox:
+          </label>
+
+          <input
+            type="text"
+            id="confirmRobloxNick"
+            class="confirm-input"
+            placeholder="Твой ник в Roblox"
+            required
+          >
+
         </div>
 
         <div class="confirm-form-group">
-          <label class="confirm-form-label" for="confirmReadyTime">Удобное время получения (МСК):</label>
-          <input type="text" id="confirmReadyTime" class="confirm-input" placeholder="Например: Сегодня в 19:00" required>
+
+          <label
+            class="confirm-form-label"
+            for="confirmReadyTime"
+          >
+            Удобное время получения (МСК):
+          </label>
+
+          <input
+            type="text"
+            id="confirmReadyTime"
+            class="confirm-input"
+            placeholder="Например: Сегодня в 19:00"
+            required
+          >
+
         </div>
 
         <div class="confirm-form-group">
-          <label class="confirm-form-label" for="confirmComment">Комментарий (необязательно):</label>
-          <input type="text" id="confirmComment" class="confirm-input" placeholder="Дополнительно">
+
+          <label
+            class="confirm-form-label"
+            for="confirmComment"
+          >
+            Комментарий (необязательно):
+          </label>
+
+          <input
+            type="text"
+            id="confirmComment"
+            class="confirm-input"
+            placeholder="Дополнительно"
+          >
+
         </div>
 
-        <div class="confirm-error" id="confirmError"></div>
+        <div
+          class="confirm-error"
+          id="confirmError"
+        ></div>
 
         <div class="confirm-actions">
-          <button type="submit" class="confirm-submit-btn" id="confirmSubmitBtn">ПОДТВЕРДИТЬ ВЫВОД</button>
-          <button type="button" class="confirm-cancel-btn" onclick="closeWithdrawConfirmModal()">ОТМЕНА</button>
+
+          <button
+            type="submit"
+            class="confirm-submit-btn"
+            id="confirmSubmitBtn"
+          >
+            ПОДТВЕРДИТЬ ВЫВОД
+          </button>
+
+          <button
+            type="button"
+            class="confirm-cancel-btn"
+            onclick="closeWithdrawConfirmModal()"
+          >
+            ОТМЕНА
+          </button>
+
         </div>
+
       </form>
+
     </div>
+
   </div>
 
 </div>
@@ -2710,16 +3355,22 @@ button{
 <script>
 
 /* =========================================================
-   ITEMS
-   ПОРЯДОК:
-   0 La Grande
-   1 Bananito
-   2 Money Money Puggy
-   3 Tang Tang Keletang
-   4 Garama and Madundung
-   5 Cerberus
-   6 Dragon Cannelloni
-   7 Skibidi toilet
+   ПОРЯДОК ПО ЦЕНЕ
+
+   0  La Grande Combination       1
+   1  Bananito                    7
+   2  Money Money Puggy          17
+   3  Tang Tang Keletang         30
+   4  Garama and Madundung       50
+   5  Cash or Card               50
+   6  Burguro and Fryuro         55
+   7  Cangurato Gelato          100
+   8  Capitano Moby             150
+   9  Cerberus                  175
+   10 Dragon Cannelloni        1250
+   11 Skibidi toilet          15000
+   12 Meowl                   20000
+   13 Strawberry Elephant     25000
 ========================================================= */
 
 const items = [
@@ -2760,6 +3411,26 @@ const items = [
   },
 
   {
+    name:'Cash or Card',
+    price:50
+  },
+
+  {
+    name:'Burguro and Fryuro',
+    price:55
+  },
+
+  {
+    name:'Cangurato Gelato',
+    price:100
+  },
+
+  {
+    name:'Capitano Moby',
+    price:150
+  },
+
+  {
     name:'Cerberus',
     price:175,
     image:'https://github.com/saintezz/saintbetW/blob/main/image/Cerberus.png',
@@ -2778,57 +3449,189 @@ const items = [
     price:15000,
     image:'https://github.com/saintezz/saintbetW/blob/main/image/Skibidi.png',
     localImage:'Skibidi.png'
+  },
+
+  {
+    name:'Meowl',
+    price:20000
+  },
+
+  {
+    name:'Strawberry Elephant',
+    price:25000
   }
 
 ];
 
 /* =========================================================
-   IMAGE URL & FALLBACK HELPERS
+   IMAGE HELPERS
 ========================================================= */
 
 function resolveItemImageUrl(url){
-  if(!url) return '';
-  const raw = String(url).trim();
-  // Автоматическое преобразование ссылок GitHub blob в raw.githubusercontent.com для тегов <img>
-  if(raw.includes('github.com') && raw.includes('/blob/')){
-    return raw.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+
+  if(!url){
+    return '';
   }
+
+  const raw =
+    String(url).trim();
+
+  if(
+    raw.includes('github.com') &&
+    raw.includes('/blob/')
+  ){
+
+    return raw
+      .replace(
+        'github.com',
+        'raw.githubusercontent.com'
+      )
+      .replace(
+        '/blob/',
+        '/'
+      );
+
+  }
+
   return raw;
+
 }
 
-function handleItemImageError(imgEl, fallbackFilename){
-  if(!imgEl) return;
-  const attempts = Number(imgEl.getAttribute('data-err-count') || '0');
-  imgEl.setAttribute('data-err-count', attempts + 1);
+function handleItemImageError(
+  imgEl,
+  fallbackFilename
+){
 
-  const filename = fallbackFilename || (imgEl.src ? imgEl.src.split('/').pop().split('?')[0] : '');
-  if(!filename) return;
+  if(!imgEl){
+    return;
+  }
+
+  const attempts =
+    Number(
+      imgEl.getAttribute(
+        'data-err-count'
+      ) || '0'
+    );
+
+  imgEl.setAttribute(
+    'data-err-count',
+    attempts + 1
+  );
+
+  const filename =
+    fallbackFilename ||
+    (
+      imgEl.src
+        ? imgEl.src
+            .split('/')
+            .pop()
+            .split('?')[0]
+        : ''
+    );
+
+  if(!filename){
+    return;
+  }
 
   const candidateSources = [
+
     `image/${filename}`,
+
     `./image/${filename}`,
+
     `../image/${filename}`,
+
     `${filename}`,
+
     `../${filename}`,
+
     `https://raw.githubusercontent.com/saintezz/saintbetW/main/image/${filename}`,
+
     `https://github.com/saintezz/saintbetW/raw/main/image/${filename}`
+
   ];
 
-  if(attempts < candidateSources.length){
-    const nextSrc = candidateSources[attempts];
-    if(nextSrc && imgEl.src !== nextSrc){
-      imgEl.src = nextSrc;
+  if(
+    attempts <
+    candidateSources.length
+  ){
+
+    const nextSrc =
+      candidateSources[
+        attempts
+      ];
+
+    if(
+      nextSrc &&
+      imgEl.src !== nextSrc
+    ){
+
+      imgEl.src =
+        nextSrc;
+
       return;
+
     }
+
   }
 
-  imgEl.style.opacity = '0.35';
+  imgEl.style.opacity =
+    '0.35';
+
 }
 
-function renderItemImage(item, className = 'item-thumb'){
-  if(!item) return '';
-  const src = resolveItemImageUrl(item.image || item.localImage || '');
-  const local = item.localImage || (item.image ? item.image.split('/').pop().split('?')[0] : '');
+function renderItemImage(
+  item,
+  className='item-thumb'
+){
+
+  if(!item){
+    return '';
+  }
+
+  const src =
+    resolveItemImageUrl(
+      item.image ||
+      item.localImage ||
+      ''
+    );
+
+  const local =
+    item.localImage ||
+    (
+      item.image
+        ? item.image
+            .split('/')
+            .pop()
+            .split('?')[0]
+        : ''
+    );
+
+  if(!src){
+
+    return `
+      <div
+        class="${className}-container"
+      >
+        <div
+          style="
+            width:100%;
+            height:100%;
+            min-height:30px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#555;
+            font-size:9px;
+          "
+        >
+          NO IMAGE
+        </div>
+      </div>
+    `;
+
+  }
+
   return `
     <div class="${className}-container">
       <img
@@ -2840,23 +3643,30 @@ function renderItemImage(item, className = 'item-thumb'){
       />
     </div>
   `;
+
 }
 
 /* =========================================================
    VARIABLES
 ========================================================= */
 
-let balance = 10;
+let balance =
+  10;
 
-let inventory = [];
+let inventory =
+  [];
 
-let sourceItem = null;
+let sourceItem =
+  null;
 
-let targetItem = null;
+let targetItem =
+  null;
 
-let spinning = false;
+let spinning =
+  false;
 
-let pointerRotation = 0;
+let pointerRotation =
+  0;
 
 /* =========================================================
    PROFILE
@@ -2868,45 +3678,57 @@ const PROFILE_KEY =
 const USERS_KEY =
   'upgrader_users_v2';
 
-/*
-  Если игрок начал апгрейд и обновил страницу во время прокрутки,
-  предмет, поставленный на апгрейд, должен исчезнуть из инвентаря.
-*/
 const PENDING_UPGRADE_KEY =
-  'upgrader_pending_upgrade_v1';    
+  'upgrader_pending_upgrade_v1';
 
-let profile = null;
+let profile =
+  null;
 
-let users = {};
+let users =
+  {};
 
 function makeUsername(){
 
   return 'user' +
     Math.floor(
       100000 +
-      Math.random() * 900000
+      Math.random() *
+      900000
     );
 
 }
 
-function normalizeUsername(value){
+function normalizeUsername(
+  value
+){
 
-  return String(value || '')
+  return String(
+    value || ''
+  )
     .trim()
-    .replace(/^@+/, '')
+    .replace(
+      /^@+/,
+      ''
+    )
     .toLowerCase();
 
 }
 
-function validUsername(value){
+function validUsername(
+  value
+){
 
-  return /^[a-z0-9_]{3,20}$/.test(value);
+  return /^[a-z0-9_]{3,20}$/
+    .test(
+      value
+    );
 
 }
 
 function removePendingUpgradeOnReload(){
 
-  let pending = null;
+  let pending =
+    null;
 
   try{
 
@@ -2914,19 +3736,23 @@ function removePendingUpgradeOnReload(){
       JSON.parse(
         localStorage.getItem(
           PENDING_UPGRADE_KEY
-        ) || 'null'
+        ) ||
+        'null'
       );
 
   }catch(e){
 
-    pending = null;
+    pending =
+      null;
 
   }
 
   if(
     !pending ||
     !pending.username ||
-    !Number.isInteger(pending.slotIndex)
+    !Number.isInteger(
+      pending.slotIndex
+    )
   ){
 
     localStorage.removeItem(
@@ -2944,11 +3770,13 @@ function removePendingUpgradeOnReload(){
 
   const currentUsername =
     normalizeUsername(
-      profile?.username || ''
+      profile?.username ||
+      ''
     );
 
   if(
-    pendingUsername !== currentUsername
+    pendingUsername !==
+    currentUsername
   ){
 
     return;
@@ -2957,7 +3785,8 @@ function removePendingUpgradeOnReload(){
 
   if(
     pending.slotIndex >= 0 &&
-    pending.slotIndex < inventory.length
+    pending.slotIndex <
+    inventory.length
   ){
 
     inventory.splice(
@@ -2983,12 +3812,14 @@ function loadProfileData(){
       JSON.parse(
         localStorage.getItem(
           USERS_KEY
-        ) || '{}'
+        ) ||
+        '{}'
       );
 
   }catch(e){
 
-    users = {};
+    users =
+      {};
 
   }
 
@@ -2998,12 +3829,14 @@ function loadProfileData(){
       JSON.parse(
         localStorage.getItem(
           PROFILE_KEY
-        ) || 'null'
+        ) ||
+        'null'
       );
 
   }catch(e){
 
-    profile = null;
+    profile =
+      null;
 
   }
 
@@ -3016,54 +3849,82 @@ function loadProfileData(){
       makeUsername();
 
     profile = {
+
       username,
+
       lastUsernameChange:0,
+
       telegramUsername:'',
+
       telegramId:'',
+
       telegramFirstName:'',
+
       telegramLastName:''
+
     };
 
     users[username] = {
+
       balance:10,
+
       inventory:[],
+
       telegramUsername:'',
+
       telegramId:'',
+
       telegramFirstName:'',
+
       telegramLastName:''
+
     };
 
   }else if(
-    !users[profile.username]
+    !users[
+      profile.username
+    ]
   ){
 
-    users[profile.username] = {
+    users[
+      profile.username
+    ] = {
+
       balance:10,
+
       inventory:[],
+
       telegramUsername:'',
+
       telegramId:'',
+
       telegramFirstName:'',
+
       telegramLastName:''
+
     };
 
   }
 
   balance =
     Number(
-      users[profile.username].balance ?? 10
+      users[
+        profile.username
+      ].balance ??
+      10
     );
 
   inventory =
     Array.isArray(
-      users[profile.username].inventory
+      users[
+        profile.username
+      ].inventory
     )
-      ? users[profile.username].inventory
+      ? users[
+          profile.username
+        ].inventory
       : [];
 
-  /*
-    Важно: проверяем pending upgrade ДО первого сохранения профиля.
-    Иначе после перезагрузки старый инвентарь мог бы снова записаться.
-  */
   removePendingUpgradeOnReload();
 
   saveProfileData();
@@ -3076,138 +3937,287 @@ function saveProfileData(){
     return;
   }
 
-  users[profile.username] = {
+  users[
+    profile.username
+  ] = {
+
     balance,
+
     inventory,
-    telegramUsername: normalizeUsername(profile?.telegramUsername || ''),
-    telegramId: String(profile?.telegramId || ''),
-    telegramFirstName: String(profile?.telegramFirstName || ''),
-    telegramLastName: String(profile?.telegramLastName || '')
+
+    telegramUsername:
+      normalizeUsername(
+        profile?.telegramUsername ||
+        ''
+      ),
+
+    telegramId:
+      String(
+        profile?.telegramId ||
+        ''
+      ),
+
+    telegramFirstName:
+      String(
+        profile?.telegramFirstName ||
+        ''
+      ),
+
+    telegramLastName:
+      String(
+        profile?.telegramLastName ||
+        ''
+      )
+
   };
 
   localStorage.setItem(
     PROFILE_KEY,
-    JSON.stringify(profile)
+    JSON.stringify(
+      profile
+    )
   );
 
   localStorage.setItem(
     USERS_KEY,
-    JSON.stringify(users)
+    JSON.stringify(
+      users
+    )
   );
 
 }
 
 function getTelegramUser(){
 
-  // Telegram WebApp передаёт данные пользователя, когда сайт открыт
-  // именно внутри Telegram Mini App.
-  const tg = window.Telegram && window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
+  const tg =
+    window.Telegram &&
+    window.Telegram.WebApp
+      ? window.Telegram.WebApp
+      : null;
 
   if(!tg){
     return null;
   }
 
   try{
+
     tg.ready();
     tg.expand();
+
   }catch(e){}
 
-  return tg.initDataUnsafe?.user || null;
+  return (
+    tg.initDataUnsafe?.user ||
+    null
+  );
 
 }
 
-
 /* =========================================================
    DATABASE API
-   ========================================================= */
+========================================================= */
 
-const API_URL = 'https://saintbetw.onrender.com';
+const API_URL =
+  'https://saintbetw.onrender.com';
 
 async function syncUserWithServer(){
+
   try{
-    const tg = window.Telegram && window.Telegram.WebApp
-      ? window.Telegram.WebApp
-      : null;
 
-    const telegramUser = tg?.initDataUnsafe?.user || null;
+    const tg =
+      window.Telegram &&
+      window.Telegram.WebApp
+        ? window.Telegram.WebApp
+        : null;
 
-    if(!telegramUser || !telegramUser.id){
-      console.warn('Telegram пользователь не найден.');
+    const telegramUser =
+      tg?.initDataUnsafe?.user ||
+      null;
+
+    if(
+      !telegramUser ||
+      !telegramUser.id
+    ){
+
+      console.warn(
+        'Telegram пользователь не найден.'
+      );
+
       return;
+
     }
 
-    profile.telegramId = String(telegramUser.id || '');
+    profile.telegramId =
+      String(
+        telegramUser.id ||
+        ''
+      );
+
     profile.telegramUsername =
-      normalizeUsername(telegramUser.username || '');
+      normalizeUsername(
+        telegramUser.username ||
+        ''
+      );
+
     profile.telegramFirstName =
-      String(telegramUser.first_name || '');
+      String(
+        telegramUser.first_name ||
+        ''
+      );
+
     profile.telegramLastName =
-      String(telegramUser.last_name || '');
+      String(
+        telegramUser.last_name ||
+        ''
+      );
 
     saveProfileData();
 
-    const response = await fetch(
-      API_URL + '/api/user',
-      {
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-          telegram_id:String(telegramUser.id),
-          username:normalizeUsername(
-            telegramUser.username || ''
-          ),
-          first_name:String(
-            telegramUser.first_name || ''
-          ),
-          roblox_name:null
-        })
-      }
-    );
+    const response =
+      await fetch(
+        API_URL +
+        '/api/user',
+        {
 
-    if(!response.ok){
-      throw new Error(
-        'HTTP ' + response.status
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify({
+
+              telegram_id:
+                String(
+                  telegramUser.id
+                ),
+
+              username:
+                normalizeUsername(
+                  telegramUser.username ||
+                  ''
+                ),
+
+              first_name:
+                String(
+                  telegramUser.first_name ||
+                  ''
+                ),
+
+              roblox_name:
+                null
+
+            })
+
+        }
       );
+
+    if(
+      !response.ok
+    ){
+
+      throw new Error(
+        'HTTP ' +
+        response.status
+      );
+
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if(data.success){
+
       console.log(
         'Игрок сохранён в базе:',
         data.user
       );
+
     }
 
   }catch(error){
+
     console.error(
       'Ошибка подключения к базе:',
       error
     );
+
   }
+
 }
 
 function getTelegramUsername(){
 
-  const telegramUser = getTelegramUser();
+  const telegramUser =
+    getTelegramUser();
 
   if(telegramUser){
-    const username = normalizeUsername(telegramUser.username || '');
 
-    profile.telegramUsername = username;
-    profile.telegramId = String(telegramUser.id || '');
-    profile.telegramFirstName = String(telegramUser.first_name || '');
-    profile.telegramLastName = String(telegramUser.last_name || '');
+    const username =
+      normalizeUsername(
+        telegramUser.username ||
+        ''
+      );
 
-    if(profile.username && users[profile.username]){
-      users[profile.username].telegramUsername = username;
-      users[profile.username].telegramId = String(telegramUser.id || '');
-      users[profile.username].telegramFirstName = String(telegramUser.first_name || '');
-      users[profile.username].telegramLastName = String(telegramUser.last_name || '');
+    profile.telegramUsername =
+      username;
+
+    profile.telegramId =
+      String(
+        telegramUser.id ||
+        ''
+      );
+
+    profile.telegramFirstName =
+      String(
+        telegramUser.first_name ||
+        ''
+      );
+
+    profile.telegramLastName =
+      String(
+        telegramUser.last_name ||
+        ''
+      );
+
+    if(
+      profile.username &&
+      users[
+        profile.username
+      ]
+    ){
+
+      users[
+        profile.username
+      ].telegramUsername =
+        username;
+
+      users[
+        profile.username
+      ].telegramId =
+        String(
+          telegramUser.id ||
+          ''
+        );
+
+      users[
+        profile.username
+      ].telegramFirstName =
+        String(
+          telegramUser.first_name ||
+          ''
+        );
+
+      users[
+        profile.username
+      ].telegramLastName =
+        String(
+          telegramUser.last_name ||
+          ''
+        );
+
     }
 
     localStorage.setItem(
@@ -3217,601 +4227,1659 @@ function getTelegramUsername(){
 
     localStorage.setItem(
       'upgrader_telegram_id_v1',
-      String(telegramUser.id || '')
+      String(
+        telegramUser.id ||
+        ''
+      )
     );
 
     return username;
+
   }
 
   return normalizeUsername(
-    profile?.telegramUsername || ''
+    profile?.telegramUsername ||
+    ''
   );
 
 }
 
 function isAdmin(){
 
-  const telegramUsername = getTelegramUsername();
-  const currentUsername = normalizeUsername(profile?.username || '');
+  const telegramUsername =
+    getTelegramUsername();
 
-  return telegramUsername === 'saintezz7' || currentUsername === 'saintezz7';
+  const currentUsername =
+    normalizeUsername(
+      profile?.username ||
+      ''
+    );
+
+  return (
+    telegramUsername ===
+    'saintezz7' ||
+    currentUsername ===
+    'saintezz7'
+  );
 
 }
 
 /* =========================================================
-   WITHDRAWAL BRAINROT SHOP & ADMIN SYSTEM (@saintezz7)
+   WITHDRAW SHOP
 ========================================================= */
 
 const defaultWithdrawShopItems = [
-  { id: 1, name: "Ventoliero Pavonero", price: 40, stock: 2 },
-  { id: 2, name: "Ketchuru and Musturu", price: 40, stock: 1 },
-  { id: 3, name: "La Summer Grande", price: 30, stock: 2 },
-  { id: 4, name: "Sand Sand Sand", price: 15, stock: 2 },
-  { id: 5, name: "Ketupat Kepat", price: 25, stock: 2 },
-  { id: 6, name: "Los Tangsitos", price: 40, stock: 2 },
-  { id: 7, name: "Los Fruits", price: 19, stock: 1 },
-  { id: 8, name: "La Ginger Sekolah", price: 45, stock: 1 },
-  { id: 9, name: "Esok Sekolah", price: 10, stock: 1 },
-  { id: 10, name: "La Jolly Grande", price: 50, stock: 1 }
+
+  {
+    id:1,
+    name:"Ventoliero Pavonero",
+    price:40,
+    stock:2
+  },
+
+  {
+    id:2,
+    name:"Ketchuru and Musturu",
+    price:40,
+    stock:1
+  },
+
+  {
+    id:3,
+    name:"La Summer Grande",
+    price:30,
+    stock:2
+  },
+
+  {
+    id:4,
+    name:"Sand Sand Sand",
+    price:15,
+    stock:2
+  },
+
+  {
+    id:5,
+    name:"Ketupat Kepat",
+    price:25,
+    stock:2
+  },
+
+  {
+    id:6,
+    name:"Los Tangsitos",
+    price:40,
+    stock:2
+  },
+
+  {
+    id:7,
+    name:"Los Fruits",
+    price:19,
+    stock:1
+  },
+
+  {
+    id:8,
+    name:"La Ginger Sekolah",
+    price:45,
+    stock:1
+  },
+
+  {
+    id:9,
+    name:"Esok Sekolah",
+    price:10,
+    stock:1
+  },
+
+  {
+    id:10,
+    name:"La Jolly Grande",
+    price:50,
+    stock:1
+  }
+
 ];
 
-const WITHDRAW_SHOP_STORAGE_KEY = 'withdraw_shop_items_v2';
-let withdrawShopItems = [];
-let pendingWithdrawItemId = null;
+const WITHDRAW_SHOP_STORAGE_KEY =
+  'withdraw_shop_items_v2';
+
+let withdrawShopItems =
+  [];
+
+let pendingWithdrawItemId =
+  null;
 
 function saveWithdrawShopItems(){
+
   try{
-    localStorage.setItem(WITHDRAW_SHOP_STORAGE_KEY, JSON.stringify(withdrawShopItems));
+
+    localStorage.setItem(
+      WITHDRAW_SHOP_STORAGE_KEY,
+      JSON.stringify(
+        withdrawShopItems
+      )
+    );
+
   }catch(e){
-    console.error('Ошибка сохранения магазина:', e);
+
+    console.error(
+      'Ошибка сохранения магазина:',
+      e
+    );
+
   }
+
 }
 
 async function loadWithdrawShopItems(){
+
   try{
-    const response = await fetch(API_URL + '/api/shop/items');
-    if(response.ok){
-      const data = await response.json();
-      if(data.success && Array.isArray(data.items) && data.items.length > 0){
-        withdrawShopItems = data.items;
+
+    const response =
+      await fetch(
+        API_URL +
+        '/api/shop/items'
+      );
+
+    if(
+      response.ok
+    ){
+
+      const data =
+        await response.json();
+
+      if(
+        data.success &&
+        Array.isArray(
+          data.items
+        ) &&
+        data.items.length > 0
+      ){
+
+        withdrawShopItems =
+          data.items;
+
         saveWithdrawShopItems();
+
         renderWithdrawShopModal();
+
         updateWithdrawShopBadge();
+
         return;
+
       }
+
     }
+
   }catch(e){
-    console.warn('Сервер недоступен, загружаем локальные данные магазина:', e);
+
+    console.warn(
+      'Сервер недоступен, загружаем локальные данные магазина:',
+      e
+    );
+
   }
 
   try{
-    const stored = JSON.parse(localStorage.getItem(WITHDRAW_SHOP_STORAGE_KEY) || 'null');
-    if(Array.isArray(stored) && stored.length > 0){
-      withdrawShopItems = stored;
+
+    const stored =
+      JSON.parse(
+        localStorage.getItem(
+          WITHDRAW_SHOP_STORAGE_KEY
+        ) ||
+        'null'
+      );
+
+    if(
+      Array.isArray(
+        stored
+      ) &&
+      stored.length > 0
+    ){
+
+      withdrawShopItems =
+        stored;
+
     }else{
-      withdrawShopItems = JSON.parse(JSON.stringify(defaultWithdrawShopItems));
+
+      withdrawShopItems =
+        JSON.parse(
+          JSON.stringify(
+            defaultWithdrawShopItems
+          )
+        );
+
       saveWithdrawShopItems();
+
     }
+
   }catch(e){
-    withdrawShopItems = JSON.parse(JSON.stringify(defaultWithdrawShopItems));
+
+    withdrawShopItems =
+      JSON.parse(
+        JSON.stringify(
+          defaultWithdrawShopItems
+        )
+      );
+
   }
 
   renderWithdrawShopModal();
+
   updateWithdrawShopBadge();
+
 }
 
 function updateWithdrawShopBadge(){
-  const countBadge = document.getElementById('topShopCountBadge');
-  const countInModal = document.getElementById('withdrawShopStockCount');
 
-  const totalStock = withdrawShopItems.reduce((acc, item) => acc + (Number(item.stock) || 0), 0);
-  const totalTypes = withdrawShopItems.length;
+  const countBadge =
+    document.getElementById(
+      'topShopCountBadge'
+    );
+
+  const countInModal =
+    document.getElementById(
+      'withdrawShopStockCount'
+    );
+
+  const totalStock =
+    withdrawShopItems.reduce(
+      (
+        acc,
+        item
+      ) =>
+        acc +
+        (
+          Number(
+            item.stock
+          ) ||
+          0
+        ),
+      0
+    );
+
+  const totalTypes =
+    withdrawShopItems.length;
 
   if(countBadge){
-    countBadge.textContent = totalStock > 0 ? totalTypes : '0';
+
+    countBadge.textContent =
+      totalStock > 0
+        ? totalTypes
+        : '0';
+
   }
+
   if(countInModal){
-    countInModal.textContent = `${totalTypes} предл. (${totalStock} шт.)`;
+
+    countInModal.textContent =
+      `${totalTypes} предл. (${totalStock} шт.)`;
+
   }
+
 }
 
 function openWithdrawShopModal(){
-  const modal = document.getElementById('withdrawShopModal');
-  if(!modal) return;
-  modal.hidden = false;
+
+  const modal =
+    document.getElementById(
+      'withdrawShopModal'
+    );
+
+  if(!modal){
+    return;
+  }
+
+  modal.hidden =
+    false;
+
   renderWithdrawShopModal();
+
 }
 
 function closeWithdrawShopModal(){
-  const modal = document.getElementById('withdrawShopModal');
+
+  const modal =
+    document.getElementById(
+      'withdrawShopModal'
+    );
+
   if(modal){
-    modal.hidden = true;
+
+    modal.hidden =
+      true;
+
   }
+
 }
 
-function toggleAdminAddForm(force){
-  const form = document.getElementById('withdrawAdminAddForm');
-  const btn = document.getElementById('adminAddToggleBtn');
-  if(!form) return;
+function toggleAdminAddForm(
+  force
+){
 
-  const willShow = force !== undefined ? force : form.hidden;
-  form.hidden = !willShow;
+  const form =
+    document.getElementById(
+      'withdrawAdminAddForm'
+    );
+
+  const btn =
+    document.getElementById(
+      'adminAddToggleBtn'
+    );
+
+  if(!form){
+    return;
+  }
+
+  const willShow =
+    force !== undefined
+      ? force
+      : form.hidden;
+
+  form.hidden =
+    !willShow;
+
   if(btn){
-    btn.textContent = willShow ? '✕ Закрыть форму' : '＋ Добавить браинрота';
+
+    btn.textContent =
+      willShow
+        ? '✕ Закрыть форму'
+        : '＋ Добавить браинрота';
+
   }
+
   if(willShow){
-    const nameInput = document.getElementById('newBrainrotName');
-    if(nameInput) nameInput.focus();
+
+    const nameInput =
+      document.getElementById(
+        'newBrainrotName'
+      );
+
+    if(nameInput){
+      nameInput.focus();
+    }
+
   }
+
 }
 
 function renderWithdrawShopModal(){
-  const balanceEl = document.getElementById('withdrawShopBalance');
+
+  const balanceEl =
+    document.getElementById(
+      'withdrawShopBalance'
+    );
+
   if(balanceEl){
-    balanceEl.textContent = balance;
+
+    balanceEl.textContent =
+      balance;
+
   }
 
-  const adminSection = document.getElementById('withdrawAdminPanel');
-  const userIsAdmin = isAdmin();
+  const adminSection =
+    document.getElementById(
+      'withdrawAdminPanel'
+    );
+
+  const userIsAdmin =
+    isAdmin();
+
   if(adminSection){
-    adminSection.hidden = !userIsAdmin;
+
+    adminSection.hidden =
+      !userIsAdmin;
+
   }
 
-  const listContainer = document.getElementById('withdrawItemsList');
-  if(!listContainer) return;
-  listContainer.innerHTML = '';
+  const listContainer =
+    document.getElementById(
+      'withdrawItemsList'
+    );
 
-  if(withdrawShopItems.length === 0){
+  if(!listContainer){
+    return;
+  }
+
+  listContainer.innerHTML =
+    '';
+
+  if(
+    withdrawShopItems.length === 0
+  ){
+
     listContainer.innerHTML = `
-      <div style="text-align:center; padding:30px 10px; color:#888; font-size:12px;">
+      <div
+        style="
+          text-align:center;
+          padding:30px 10px;
+          color:#888;
+          font-size:12px;
+        "
+      >
         В данный момент предложений нет.
       </div>
     `;
+
     updateWithdrawShopBadge();
+
     return;
+
   }
 
-  withdrawShopItems.forEach(item => {
-    const stock = Number(item.stock || 0);
-    const price = Number(item.price || 0);
-    const inStock = stock > 0;
-    const canAfford = balance >= price;
+  withdrawShopItems.forEach(
+    item => {
 
-    const row = document.createElement('div');
-    row.className = `withdraw-item-row ${inStock ? '' : 'out-of-stock'}`;
+      const stock =
+        Number(
+          item.stock ||
+          0
+        );
 
-    // Строго по требованию: Название - X костей (Y на складе)
-    const exactLine = `${item.name} - <span class="highlight-price">${price} костей</span> <span class="highlight-stock">(${stock} на складе)</span>`;
+      const price =
+        Number(
+          item.price ||
+          0
+        );
 
-    let buttonHtml = '';
-    if(!inStock){
-      buttonHtml = `<button class="withdraw-btn" disabled>НЕТ НА СКЛАДЕ</button>`;
-    }else if(!canAfford){
-      buttonHtml = `<button class="withdraw-btn" onclick="openWithdrawConfirmModal(${item.id})">ВЫВЕСТИ (${price} 🦴)</button>`;
-    }else{
-      buttonHtml = `<button class="withdraw-btn" onclick="openWithdrawConfirmModal(${item.id})">ВЫВЕСТИ</button>`;
-    }
+      const inStock =
+        stock > 0;
 
-    let adminControlsHtml = '';
-    if(userIsAdmin){
-      adminControlsHtml = `
-        <div class="withdraw-item-admin-controls">
-          <div class="admin-stock-control">
-            <span>На складе:</span>
-            <button type="button" class="admin-mini-btn" title="Уменьшить количество" onclick="changeWithdrawShopItemStock(${item.id}, -1)">−</button>
-            <b style="color:#ffd700; min-width:20px; text-align:center;">${stock}</b>
-            <button type="button" class="admin-mini-btn" title="Увеличить количество" onclick="changeWithdrawShopItemStock(${item.id}, 1)">＋</button>
+      const canAfford =
+        balance >= price;
+
+      const row =
+        document.createElement(
+          'div'
+        );
+
+      row.className =
+        `withdraw-item-row ${
+          inStock
+            ? ''
+            : 'out-of-stock'
+        }`;
+
+      const exactLine =
+        `${item.name} - <span class="highlight-price">${price} костей</span> <span class="highlight-stock">(${stock} на складе)</span>`;
+
+      let buttonHtml =
+        '';
+
+      if(!inStock){
+
+        buttonHtml = `
+          <button
+            class="withdraw-btn"
+            disabled
+          >
+            НЕТ НА СКЛАДЕ
+          </button>
+        `;
+
+      }else{
+
+        buttonHtml = `
+          <button
+            class="withdraw-btn"
+            onclick="openWithdrawConfirmModal(${item.id})"
+          >
+            ${
+              canAfford
+                ? 'ВЫВЕСТИ'
+                : `ВЫВЕСТИ (${price} 🦴)`
+            }
+          </button>
+        `;
+
+      }
+
+      let adminControlsHtml =
+        '';
+
+      if(userIsAdmin){
+
+        adminControlsHtml = `
+          <div
+            class="withdraw-item-admin-controls"
+          >
+
+            <div
+              class="admin-stock-control"
+            >
+
+              <span>
+                На складе:
+              </span>
+
+              <button
+                type="button"
+                class="admin-mini-btn"
+                title="Уменьшить количество"
+                onclick="changeWithdrawShopItemStock(${item.id}, -1)"
+              >
+                −
+              </button>
+
+              <b
+                style="
+                  color:#ffd700;
+                  min-width:20px;
+                  text-align:center;
+                "
+              >
+                ${stock}
+              </b>
+
+              <button
+                type="button"
+                class="admin-mini-btn"
+                title="Увеличить количество"
+                onclick="changeWithdrawShopItemStock(${item.id}, 1)"
+              >
+                ＋
+              </button>
+
+            </div>
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:6px;
+              "
+            >
+
+              <button
+                type="button"
+                class="admin-mini-btn"
+                style="
+                  width:auto;
+                  padding:0 8px;
+                "
+                title="Изменить цену"
+                onclick="promptEditPrice(${item.id})"
+              >
+                ✏️ Цена
+              </button>
+
+              <button
+                type="button"
+                class="admin-delete-item-btn"
+                title="Удалить браинрот"
+                onclick="deleteWithdrawShopItem(${item.id})"
+              >
+                🗑 Удалить
+              </button>
+
+            </div>
+
           </div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <button type="button" class="admin-mini-btn" style="width:auto; padding:0 8px;" title="Изменить цену" onclick="promptEditPrice(${item.id})">✏️ Цена</button>
-            <button type="button" class="admin-delete-item-btn" title="Удалить браинрота" onclick="deleteWithdrawShopItem(${item.id})">🗑 Удалить</button>
+        `;
+
+      }
+
+      row.innerHTML = `
+        <div class="withdraw-item-main">
+
+          <div class="withdraw-item-text-line">
+            ${exactLine}
           </div>
+
+          <div class="withdraw-item-btn-wrap">
+            ${buttonHtml}
+          </div>
+
         </div>
+
+        ${adminControlsHtml}
       `;
+
+      listContainer.appendChild(
+        row
+      );
+
     }
-
-    row.innerHTML = `
-      <div class="withdraw-item-main">
-        <div class="withdraw-item-text-line">
-          ${exactLine}
-        </div>
-        <div class="withdraw-item-btn-wrap">
-          ${buttonHtml}
-        </div>
-      </div>
-      ${adminControlsHtml}
-    `;
-
-    listContainer.appendChild(row);
-  });
+  );
 
   updateWithdrawShopBadge();
+
 }
 
-function promptEditPrice(itemId){
-  if(!isAdmin()) return;
-  const item = withdrawShopItems.find(i => i.id === itemId);
-  if(!item) return;
+function promptEditPrice(
+  itemId
+){
 
-  const newPriceStr = prompt(`Укажите новую цену для "${item.name}" в костях:`, item.price);
-  if(newPriceStr === null) return;
-
-  const newPrice = Math.floor(Number(newPriceStr));
-  if(isNaN(newPrice) || newPrice < 0){
-    alert('Некорректная цена');
+  if(!isAdmin()){
     return;
   }
 
-  updateWithdrawShopItemPrice(itemId, newPrice);
-}
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        itemId
+    );
 
-function changeWithdrawShopItemStock(itemId, delta){
-  if(!isAdmin()) return;
-  const item = withdrawShopItems.find(i => i.id === itemId);
-  if(!item) return;
-
-  item.stock = Math.max(0, Number(item.stock || 0) + delta);
-  saveWithdrawShopItems();
-  syncWithdrawItemWithServer('update', item);
-  renderWithdrawShopModal();
-}
-
-function updateWithdrawShopItemPrice(itemId, newPrice){
-  if(!isAdmin()) return;
-  const item = withdrawShopItems.find(i => i.id === itemId);
-  if(!item) return;
-
-  item.price = newPrice;
-  saveWithdrawShopItems();
-  syncWithdrawItemWithServer('update', item);
-  renderWithdrawShopModal();
-}
-
-function deleteWithdrawShopItem(itemId){
-  if(!isAdmin()) return;
-  const item = withdrawShopItems.find(i => i.id === itemId);
-  const itemName = item ? item.name : 'этот предмет';
-
-  if(!confirm(`Удалить "${itemName}" из магазина вывода?`)){
+  if(!item){
     return;
   }
 
-  withdrawShopItems = withdrawShopItems.filter(i => i.id !== itemId);
-  saveWithdrawShopItems();
-  syncWithdrawItemWithServer('delete', { id: itemId });
-  renderWithdrawShopModal();
+  const newPriceStr =
+    prompt(
+      `Укажите новую цену для "${item.name}" в костях:`,
+      item.price
+    );
+
+  if(
+    newPriceStr === null
+  ){
+    return;
+  }
+
+  const newPrice =
+    Math.floor(
+      Number(
+        newPriceStr
+      )
+    );
+
+  if(
+    isNaN(newPrice) ||
+    newPrice < 0
+  ){
+
+    alert(
+      'Некорректная цена'
+    );
+
+    return;
+
+  }
+
+  updateWithdrawShopItemPrice(
+    itemId,
+    newPrice
+  );
+
 }
 
-function handleAdminAddBrainrot(e){
+function changeWithdrawShopItemStock(
+  itemId,
+  delta
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        itemId
+    );
+
+  if(!item){
+    return;
+  }
+
+  item.stock =
+    Math.max(
+      0,
+      Number(
+        item.stock ||
+        0
+      ) +
+      delta
+    );
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'update',
+    item
+  );
+
+  renderWithdrawShopModal();
+
+}
+
+function updateWithdrawShopItemPrice(
+  itemId,
+  newPrice
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        itemId
+    );
+
+  if(!item){
+    return;
+  }
+
+  item.price =
+    newPrice;
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'update',
+    item
+  );
+
+  renderWithdrawShopModal();
+
+}
+
+function deleteWithdrawShopItem(
+  itemId
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        itemId
+    );
+
+  const itemName =
+    item
+      ? item.name
+      : 'этот предмет';
+
+  if(
+    !confirm(
+      `Удалить "${itemName}" из магазина вывода?`
+    )
+  ){
+    return;
+  }
+
+  withdrawShopItems =
+    withdrawShopItems.filter(
+      i =>
+        i.id !==
+        itemId
+    );
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'delete',
+    {
+      id:itemId
+    }
+  );
+
+  renderWithdrawShopModal();
+
+}
+
+function handleAdminAddBrainrot(
+  e
+){
+
   e.preventDefault();
-  if(!isAdmin()) return;
 
-  const nameInput = document.getElementById('newBrainrotName');
-  const priceInput = document.getElementById('newBrainrotPrice');
-  const stockInput = document.getElementById('newBrainrotStock');
-  const msgEl = document.getElementById('adminAddFormMsg');
+  if(!isAdmin()){
+    return;
+  }
 
-  const name = nameInput.value.trim();
-  const price = Math.floor(Number(priceInput.value));
-  const stock = Math.floor(Number(stockInput.value));
+  const nameInput =
+    document.getElementById(
+      'newBrainrotName'
+    );
+
+  const priceInput =
+    document.getElementById(
+      'newBrainrotPrice'
+    );
+
+  const stockInput =
+    document.getElementById(
+      'newBrainrotStock'
+    );
+
+  const msgEl =
+    document.getElementById(
+      'adminAddFormMsg'
+    );
+
+  const name =
+    nameInput.value.trim();
+
+  const price =
+    Math.floor(
+      Number(
+        priceInput.value
+      )
+    );
+
+  const stock =
+    Math.floor(
+      Number(
+        stockInput.value
+      )
+    );
 
   if(!name){
-    if(msgEl) msgEl.textContent = 'Укажите название браинрота';
+
+    if(msgEl){
+      msgEl.textContent =
+        'Укажите название браинрота';
+    }
+
     return;
+
   }
-  if(isNaN(price) || price < 0){
-    if(msgEl) msgEl.textContent = 'Укажите корректную цену';
+
+  if(
+    isNaN(price) ||
+    price < 0
+  ){
+
+    if(msgEl){
+      msgEl.textContent =
+        'Укажите корректную цену';
+    }
+
     return;
+
   }
-  if(isNaN(stock) || stock < 0){
-    if(msgEl) msgEl.textContent = 'Укажите корректное количество';
+
+  if(
+    isNaN(stock) ||
+    stock < 0
+  ){
+
+    if(msgEl){
+      msgEl.textContent =
+        'Укажите корректное количество';
+    }
+
     return;
+
   }
 
   const newItem = {
-    id: Date.now(),
+
+    id:
+      Date.now(),
+
     name,
+
     price,
+
     stock
+
   };
 
-  withdrawShopItems.push(newItem);
-  saveWithdrawShopItems();
-  syncWithdrawItemWithServer('add', newItem);
+  withdrawShopItems.push(
+    newItem
+  );
 
-  nameInput.value = '';
-  priceInput.value = '';
-  stockInput.value = '';
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'add',
+    newItem
+  );
+
+  nameInput.value =
+    '';
+
+  priceInput.value =
+    '';
+
+  stockInput.value =
+    '';
+
   if(msgEl){
-    msgEl.innerHTML = `<span style="color:#00e996;">✓ "${name}" успешно добавлен в магазин!</span>`;
-    setTimeout(() => { if(msgEl) msgEl.textContent = ''; }, 3000);
+
+    msgEl.innerHTML = `
+      <span
+        style="
+          color:#00e996;
+        "
+      >
+        ✓ "${name}"
+        успешно добавлен в магазин!
+      </span>
+    `;
+
+    setTimeout(
+      () => {
+
+        if(msgEl){
+          msgEl.textContent =
+            '';
+        }
+
+      },
+      3000
+    );
+
   }
 
   renderWithdrawShopModal();
+
 }
 
-async function syncWithdrawItemWithServer(action, payload){
+async function syncWithdrawItemWithServer(
+  action,
+  payload
+){
+
   try{
-    if(action === 'add'){
-      await fetch(API_URL + '/api/shop/items', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }else if(action === 'update'){
-      await fetch(API_URL + `/api/shop/items/${payload.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }else if(action === 'delete'){
-      await fetch(API_URL + `/api/shop/items/${payload.id}`, {
-        method: 'DELETE'
-      });
+
+    if(
+      action ===
+      'add'
+    ){
+
+      await fetch(
+        API_URL +
+        '/api/shop/items',
+        {
+
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+
+        }
+      );
+
+    }else if(
+      action ===
+      'update'
+    ){
+
+      await fetch(
+        API_URL +
+        `/api/shop/items/${payload.id}`,
+        {
+
+          method:'PUT',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+
+        }
+      );
+
+    }else if(
+      action ===
+      'delete'
+    ){
+
+      await fetch(
+        API_URL +
+        `/api/shop/items/${payload.id}`,
+        {
+          method:'DELETE'
+        }
+      );
+
     }
+
   }catch(e){
-    console.warn('Синхронизация с сервером не удалась, изменения сохранены локально:', e);
+
+    console.warn(
+      'Синхронизация с сервером не удалась:',
+      e
+    );
+
   }
+
 }
 
-// =========================================================
-// WITHDRAWAL CONFIRMATION & ORDER FLOW
-// =========================================================
+/* =========================================================
+   WITHDRAW CONFIRMATION
+========================================================= */
 
-function openWithdrawConfirmModal(itemId){
-  const item = withdrawShopItems.find(i => i.id === itemId);
-  if(!item) return;
+function openWithdrawConfirmModal(
+  itemId
+){
 
-  if(item.stock < 1){
-    alert('Этого браинрота нет в наличии на складе.');
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        itemId
+    );
+
+  if(!item){
     return;
   }
 
-  if(balance < item.price){
-    alert(`Недостаточно костей для вывода. Нужно ${item.price} 🦴, у вас ${balance} 🦴.`);
+  if(
+    item.stock < 1
+  ){
+
+    alert(
+      'Этого браинрота нет в наличии на складе.'
+    );
+
     return;
+
   }
 
-  pendingWithdrawItemId = itemId;
+  if(
+    balance <
+    item.price
+  ){
 
-  const modal = document.getElementById('withdrawConfirmModal');
-  const nameEl = document.getElementById('confirmItemName');
-  const priceEl = document.getElementById('confirmItemPrice');
-  const nickInput = document.getElementById('confirmRobloxNick');
-  const errorEl = document.getElementById('confirmError');
+    alert(
+      `Недостаточно костей для вывода. Нужно ${item.price} 🦴, у вас ${balance} 🦴.`
+    );
 
-  if(nameEl) nameEl.textContent = `${item.name} (${item.stock} на складе)`;
-  if(priceEl) priceEl.textContent = `${item.price} 🦴`;
-  if(errorEl) errorEl.textContent = '';
+    return;
+
+  }
+
+  pendingWithdrawItemId =
+    itemId;
+
+  const modal =
+    document.getElementById(
+      'withdrawConfirmModal'
+    );
+
+  const nameEl =
+    document.getElementById(
+      'confirmItemName'
+    );
+
+  const priceEl =
+    document.getElementById(
+      'confirmItemPrice'
+    );
+
+  const nickInput =
+    document.getElementById(
+      'confirmRobloxNick'
+    );
+
+  const errorEl =
+    document.getElementById(
+      'confirmError'
+    );
+
+  if(nameEl){
+
+    nameEl.textContent =
+      `${item.name} (${item.stock} на складе)`;
+
+  }
+
+  if(priceEl){
+
+    priceEl.textContent =
+      `${item.price} 🦴`;
+
+  }
+
+  if(errorEl){
+
+    errorEl.textContent =
+      '';
+
+  }
 
   if(nickInput){
-    nickInput.value = localStorage.getItem('upgrader_roblox_nick_v1') || '';
+
+    nickInput.value =
+      localStorage.getItem(
+        'upgrader_roblox_nick_v1'
+      ) ||
+      '';
+
   }
 
-  if(modal) modal.hidden = false;
+  if(modal){
+
+    modal.hidden =
+      false;
+
+  }
+
 }
 
 function closeWithdrawConfirmModal(){
-  const modal = document.getElementById('withdrawConfirmModal');
-  if(modal) modal.hidden = true;
-  pendingWithdrawItemId = null;
+
+  const modal =
+    document.getElementById(
+      'withdrawConfirmModal'
+    );
+
+  if(modal){
+
+    modal.hidden =
+      true;
+
+  }
+
+  pendingWithdrawItemId =
+    null;
+
 }
 
-async function submitBrainrotWithdrawal(e){
-  e.preventDefault();
-  if(!pendingWithdrawItemId) return;
+async function submitBrainrotWithdrawal(
+  e
+){
 
-  const item = withdrawShopItems.find(i => i.id === pendingWithdrawItemId);
-  if(!item){
-    closeWithdrawConfirmModal();
+  e.preventDefault();
+
+  if(!pendingWithdrawItemId){
     return;
   }
 
-  const nickInput = document.getElementById('confirmRobloxNick');
-  const timeInput = document.getElementById('confirmReadyTime');
-  const commentInput = document.getElementById('confirmComment');
-  const errorEl = document.getElementById('confirmError');
-  const submitBtn = document.getElementById('confirmSubmitBtn');
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        pendingWithdrawItemId
+    );
 
-  const robloxNick = (nickInput ? nickInput.value : '').trim();
-  const readyTime = (timeInput ? timeInput.value : '').trim();
-  const comment = (commentInput ? commentInput.value : '').trim();
+  if(!item){
+
+    closeWithdrawConfirmModal();
+
+    return;
+
+  }
+
+  const nickInput =
+    document.getElementById(
+      'confirmRobloxNick'
+    );
+
+  const timeInput =
+    document.getElementById(
+      'confirmReadyTime'
+    );
+
+  const commentInput =
+    document.getElementById(
+      'confirmComment'
+    );
+
+  const errorEl =
+    document.getElementById(
+      'confirmError'
+    );
+
+  const submitBtn =
+    document.getElementById(
+      'confirmSubmitBtn'
+    );
+
+  const robloxNick =
+    (
+      nickInput
+        ? nickInput.value
+        : ''
+    ).trim();
+
+  const readyTime =
+    (
+      timeInput
+        ? timeInput.value
+        : ''
+    ).trim();
+
+  const comment =
+    (
+      commentInput
+        ? commentInput.value
+        : ''
+    ).trim();
 
   if(!robloxNick){
-    if(errorEl) errorEl.textContent = 'Укажите ваш Roblox никнейм.';
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Укажите ваш Roblox никнейм.';
+
+    }
+
     return;
+
   }
 
   if(!readyTime){
-    if(errorEl) errorEl.textContent = 'Укажите удобное время получения.';
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Укажите удобное время получения.';
+
+    }
+
     return;
+
   }
 
-  if(balance < item.price){
-    if(errorEl) errorEl.textContent = 'Недостаточно костей на балансе.';
+  if(
+    balance <
+    item.price
+  ){
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Недостаточно костей на балансе.';
+
+    }
+
     return;
+
   }
 
-  if(item.stock < 1){
-    if(errorEl) errorEl.textContent = 'Товар закончился на складе.';
+  if(
+    item.stock < 1
+  ){
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Товар закончился на складе.';
+
+    }
+
     return;
+
   }
 
-  if(submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'ОФОРМЛЕНИЕ...';
+  if(submitBtn){
+
+    submitBtn.disabled =
+      true;
+
+    submitBtn.textContent =
+      'ОФОРМЛЕНИЕ...';
+
   }
 
-  localStorage.setItem('upgrader_roblox_nick_v1', robloxNick);
+  localStorage.setItem(
+    'upgrader_roblox_nick_v1',
+    robloxNick
+  );
 
-  balance -= item.price;
-  item.stock = Math.max(0, item.stock - 1);
+  balance -=
+    item.price;
+
+  item.stock =
+    Math.max(
+      0,
+      item.stock - 1
+    );
 
   saveProfileData();
+
   saveWithdrawShopItems();
 
   try{
-    const telegramId = profile?.telegramId || 'local_user';
-    await fetch(API_URL + '/api/shop/withdraw', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        telegram_id: String(telegramId),
-        shop_item_id: item.id,
-        roblox_name: robloxNick,
-        ready_time: readyTime,
-        comment: comment
-      })
-    });
+
+    const telegramId =
+      profile?.telegramId ||
+      'local_user';
+
+    const response =
+      await fetch(
+        API_URL +
+        '/api/shop/withdraw',
+        {
+
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify({
+
+              telegram_id:
+                String(
+                  telegramId
+                ),
+
+              shop_item_id:
+                item.id,
+
+              roblox_name:
+                robloxNick,
+
+              ready_time:
+                readyTime,
+
+              comment:
+                comment
+
+            })
+
+        }
+      );
+
+    const data =
+      await response.json().catch(
+        () => ({})
+      );
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        'Ошибка оформления вывода'
+      );
+
+    }
+
   }catch(err){
-    console.warn('Сервер вывода недоступен, заявка зафиксирована локально:', err);
+
+    balance +=
+      item.price;
+
+    item.stock +=
+      1;
+
+    saveProfileData();
+
+    saveWithdrawShopItems();
+
+    if(errorEl){
+
+      errorEl.textContent =
+        err.message ||
+        'Не удалось создать заявку.';
+
+    }
+
+    if(submitBtn){
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.textContent =
+        'ПОДТВЕРДИТЬ ВЫВОД';
+
+    }
+
+    return;
+
   }
 
   closeWithdrawConfirmModal();
+
   renderAll();
+
   renderWithdrawShopModal();
 
   if(instruction){
+
     instruction.innerHTML = `
-      <span style="color:#00e996; font-weight:900;">ЗАЯВКА НА ВЫВОД ПРИНЯТА!</span><br>
-      <b>${item.name}</b> зарезервирован для <b>${robloxNick}</b>.
+      <span
+        style="
+          color:#00e996;
+          font-weight:900;
+        "
+      >
+        ЗАЯВКА НА ВЫВОД ПРИНЯТА!
+      </span>
+      <br>
+      <b>${item.name}</b>
+      зарезервирован для
+      <b>${robloxNick}</b>.
     `;
+
   }
 
-  alert(`✅ Заявка на вывод браинрота "${item.name}" успешно оформлена!\nСписано: ${item.price} 🦴.\nОстаток на складе: ${item.stock} шт.`);
+  alert(
+    `✅ Заявка на вывод браинрота "${item.name}" успешно оформлена!\nСписано: ${item.price} 🦴.\nОстаток на складе: ${item.stock} шт.`
+  );
 
-  if(submitBtn){
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'ПОДТВЕРДИТЬ ВЫВОД';
-  }
 }
+
+/* =========================================================
+   PROFILE
+========================================================= */
 
 function renderProfile(){
 
-  const telegramUser = getTelegramUser();
-  const telegramUsername = getTelegramUsername();
+  const telegramUser =
+    getTelegramUser();
+
+  const telegramUsername =
+    getTelegramUsername();
 
   const usernameEl =
-    document.getElementById('profileUsername');
+    document.getElementById(
+      'profileUsername'
+    );
 
   const avatarEl =
-    document.getElementById('profileAvatar');
+    document.getElementById(
+      'profileAvatar'
+    );
 
   const metaEl =
-    document.getElementById('profileMeta');
+    document.getElementById(
+      'profileMeta'
+    );
 
   const cooldown =
-    document.getElementById('profileCooldown');
+    document.getElementById(
+      'profileCooldown'
+    );
 
   const accountStatus =
-    document.getElementById('telegramAccountStatus');
+    document.getElementById(
+      'telegramAccountStatus'
+    );
 
   const adminPanel =
-    document.getElementById('adminPanel');
+    document.getElementById(
+      'adminPanel'
+    );
 
   const withdrawAdminPanel =
-    document.getElementById('withdrawAdminPanel');
+    document.getElementById(
+      'withdrawAdminPanel'
+    );
 
   if(telegramUser){
 
     const firstName =
-      String(telegramUser.first_name || '').trim();
+      String(
+        telegramUser.first_name ||
+        ''
+      ).trim();
 
     const lastName =
-      String(telegramUser.last_name || '').trim();
+      String(
+        telegramUser.last_name ||
+        ''
+      ).trim();
 
     const fullName =
-      [firstName,lastName].filter(Boolean).join(' ') || 'Telegram пользователь';
+      [
+        firstName,
+        lastName
+      ]
+        .filter(Boolean)
+        .join(' ') ||
+      'Telegram пользователь';
 
     const displayName =
       telegramUsername
-        ? '@' + telegramUsername
+        ? '@' +
+          telegramUsername
         : fullName;
 
     if(usernameEl){
-      usernameEl.textContent = displayName;
+
+      usernameEl.textContent =
+        displayName;
+
     }
 
     if(avatarEl){
+
       avatarEl.textContent =
-        (firstName || telegramUsername || 'T')
+        (
+          firstName ||
+          telegramUsername ||
+          'T'
+        )
           .charAt(0)
           .toUpperCase();
+
     }
 
     if(metaEl){
+
       metaEl.textContent =
-        telegramUsername
-          ? 'TELEGRAM • ' + fullName
-          : 'TELEGRAM • ' + fullName;
+        'TELEGRAM • ' +
+        fullName;
+
     }
 
     if(accountStatus){
+
       accountStatus.textContent =
         '✓ АККАУНТ TELEGRAM ПОДКЛЮЧЁН';
+
     }
 
     if(cooldown){
+
       cooldown.textContent =
         telegramUser.id
-          ? 'Telegram ID: ' + telegramUser.id
+          ? 'Telegram ID: ' +
+            telegramUser.id
           : 'Аккаунт определён Telegram';
+
     }
 
   }else{
 
     if(usernameEl){
-      usernameEl.textContent = 'ОТКРОЙТЕ В TELEGRAM';
+
+      usernameEl.textContent =
+        'ОТКРОЙТЕ В TELEGRAM';
+
     }
 
     if(avatarEl){
-      avatarEl.textContent = 'TG';
+
+      avatarEl.textContent =
+        'TG';
+
     }
 
     if(metaEl){
-      metaEl.textContent = 'MINI APP НЕ ОТКРЫТ В TELEGRAM';
+
+      metaEl.textContent =
+        'MINI APP НЕ ОТКРЫТ В TELEGRAM';
+
     }
 
     if(accountStatus){
+
       accountStatus.textContent =
         'ОТКРОЙТЕ SAINTBET В TELEGRAM';
+
     }
 
     if(cooldown){
+
       cooldown.textContent =
         'Аккаунт Telegram появится автоматически после открытия Mini App.';
+
     }
+
   }
 
-  const userIsAdmin = isAdmin();
+  const userIsAdmin =
+    isAdmin();
 
   if(adminPanel){
-    adminPanel.hidden = !userIsAdmin;
+
+    adminPanel.hidden =
+      !userIsAdmin;
+
   }
 
   if(withdrawAdminPanel){
-    withdrawAdminPanel.hidden = !userIsAdmin;
+
+    withdrawAdminPanel.hidden =
+      !userIsAdmin;
+
   }
 
   if(userIsAdmin){
 
     const adminName =
-      document.getElementById('adminName');
+      document.getElementById(
+        'adminName'
+      );
 
     if(adminName){
-      adminName.textContent = '@' + (telegramUsername || profile?.username || 'saintezz7');
-    }
 
-    if(cooldown && telegramUser){
-      cooldown.textContent =
-        'Администратор @saintezz7 • полный доступ • ID: ' + telegramUser.id;
+      adminName.textContent =
+        '@' +
+        (
+          telegramUsername ||
+          profile?.username ||
+          'saintezz7'
+        );
+
     }
 
   }
 
 }
 
-function grantBones(){
+/* =========================================================
+   ADMIN GRANT BONES
+========================================================= */
+
+async function grantBones(){
 
   if(!isAdmin()){
     return;
@@ -3844,7 +5912,11 @@ function grantBones(){
       )
     );
 
-  if(!validUsername(username)){
+  if(
+    !validUsername(
+      username
+    )
+  ){
 
     message.textContent =
       'Укажи корректный Telegram @username.';
@@ -3854,7 +5926,9 @@ function grantBones(){
   }
 
   if(
-    !Number.isFinite(amount) ||
+    !Number.isFinite(
+      amount
+    ) ||
     amount < 1
   ){
 
@@ -3865,223 +5939,419 @@ function grantBones(){
 
   }
 
-  const targetUsername =
-    Object.keys(users).find(
-      key =>
-        normalizeUsername(key) === username ||
-        normalizeUsername(users[key]?.telegramUsername) === username
-    );
+  try{
 
-  if(
-    !targetUsername ||
-    !users[targetUsername]
-  ){
+    const response =
+      await fetch(
+        API_URL +
+        '/api/admin/grant-bones',
+        {
 
-    message.textContent =
-      'Пользователь не найден на этом браузере. Сначала он должен открыть сайт и авторизоваться.';
+          method:'POST',
 
-    return;
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
 
-  }
+          body:
+            JSON.stringify({
+              username,
+              amount
+            })
 
-  users[targetUsername].balance =
-    Number(
-      users[targetUsername].balance || 0
-    ) + amount;
-
-  if(
-    normalizeUsername(profile.username) === username ||
-    normalizeUsername(profile.telegramUsername) === username
-  ){
-
-    balance =
-      Number(
-        users[targetUsername].balance
+        }
       );
 
-    balanceEl.textContent =
-      balance;
+    const data =
+      await response.json();
 
-    renderShop();
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        'Ошибка выдачи'
+      );
+
+    }
+
+    message.textContent =
+      `Выдано ${amount} 🦴 пользователю @${username}.`;
+
+    amountInput.value =
+      '';
+
+  }catch(error){
+
+    message.textContent =
+      error.message ||
+      'Ошибка выдачи костей.';
 
   }
-
-  localStorage.setItem(
-    USERS_KEY,
-    JSON.stringify(users)
-  );
-
-  if(
-    normalizeUsername(
-      profile.username
-    ) === username
-  ){
-
-    saveProfileData();
-
-  }
-
-  message.textContent =
-    'Выдано ' +
-    amount +
-    ' 🦴 пользователю @' +
-    username +
-    '.';
-
-  amountInput.value = '';
 
 }
 
 /* =========================================================
-   ШАНСЫ АПГРЕЙДА
-=========================================================
-
-   Старые шансы сохранены.
-
-   НОВЫЕ ШАНСЫ:
-
-   La Grande -> Cerberus       1%
-   Bananito -> Cerberus        4%
-   Money Money Puggy -> Cerberus 10%
-   Tang Tang Keletang -> Cerberus 14%
-   Garama -> Cerberus          29%
-
-   Dragon -> Cerberus          0%
-   Skibidi -> Cerberus         0%
-
-   Cerberus -> Dragon          10%
-
-   Dragon -> Skibidi           5%
-   Garama -> Skibidi           1%
-
-   Остальные -> Skibidi        0%
+   ПОЛНЫЕ ШАНСЫ
+   ВСЕ ЦЕЛИ ИДУТ ПО ЦЕНЕ
 ========================================================= */
 
 const upgradeChances = {
 
-  /* LA GRANDE */
+  /* =========================================================
+     0. LA GRANDE COMBINATION — 1
+  ========================================================= */
 
   0:{
 
     0:100,
 
-    1:19.7,
-
-    2:9.7,
-
-    3:4.7,
-
-    4:2.7,
-
-    5:1,
-
-    6:0,
-
-    7:0
+    1:25,
+    2:15,
+    3:8,
+    4:4,
+    5:4,
+    6:3,
+    7:2,
+    8:1,
+    9:0.5,
+    10:0,
+    11:0,
+    12:0,
+    13:0
 
   },
 
-  /* BANANITO */
+  /* =========================================================
+     1. BANANITO — 7
+  ========================================================= */
 
   1:{
 
+    0:0,
+
     1:100,
 
-    2:49.7,
-
-    3:38.7,
-
-    4:14.7,
-
-    5:4,
-
-    6:4.7,
-
-    7:0
+    2:55,
+    3:35,
+    4:20,
+    5:20,
+    6:15,
+    7:8,
+    8:5,
+    9:3,
+    10:1,
+    11:0,
+    12:0,
+    13:0
 
   },
 
-  /* MONEY MONEY PUGGY */
+  /* =========================================================
+     2. MONEY MONEY PUGGY — 17
+  ========================================================= */
 
   2:{
 
+    0:0,
+    1:0,
+
     2:100,
 
-    3:59.7,
-
-    4:24.7,
-
-    5:10,
-
-    6:9.7,
-
-    7:0
+    3:65,
+    4:35,
+    5:35,
+    6:25,
+    7:15,
+    8:10,
+    9:6,
+    10:2,
+    11:0,
+    12:0,
+    13:0
 
   },
 
-  /* TANG TANG KELETANG */
+  /* =========================================================
+     3. TANG TANG KELETANG — 30
+  ========================================================= */
 
   3:{
 
+    0:0,
+    1:0,
+    2:0,
+
     3:100,
 
-    4:54.7,
-
-    5:14,
-
-    6:19.7,
-
-    7:0
+    4:55,
+    5:55,
+    6:40,
+    7:25,
+    8:15,
+    9:10,
+    10:4,
+    11:1,
+    12:0,
+    13:0
 
   },
 
-  /* GARAMA */
+  /* =========================================================
+     4. GARAMA AND MADUNDUNG — 50
+
+     ЗАДАННЫЕ ТОБОЙ ШАНСЫ:
+     Cash or Card        100%
+     Burguro and Fryuro   70%
+     Cangurato Gelato     20%
+     Capitano Moby        10%
+  ========================================================= */
 
   4:{
 
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+
     4:100,
 
-    5:29,
-
-    6:5,
-
-    7:1
+    5:100,
+    6:70,
+    7:20,
+    8:10,
+    9:5,
+    10:2,
+    11:0.5,
+    12:0,
+    13:0
 
   },
 
-  /* CERBERUS */
+  /* =========================================================
+     5. CASH OR CARD — 50
+  ========================================================= */
 
   5:{
 
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+
     5:100,
 
-    6:10,
-
-    7:0
+    6:55,
+    7:25,
+    8:15,
+    9:8,
+    10:3,
+    11:1,
+    12:0,
+    13:0
 
   },
 
-  /* DRAGON */
+  /* =========================================================
+     6. BURGURO AND FRYURO — 55
+  ========================================================= */
 
   6:{
 
-    6:100,
-
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
     5:0,
 
-    7:5
+    6:100,
+
+    7:45,
+    8:25,
+    9:12,
+    10:5,
+    11:1.5,
+    12:0.5,
+    13:0
 
   },
 
-  /* SKIBIDI */
+  /* =========================================================
+     7. CANGURATO GELATO — 100
+  ========================================================= */
 
   7:{
 
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+
     7:100,
 
-    5:0,
+    8:40,
+    9:20,
+    10:8,
+    11:2,
+    12:0.5,
+    13:0
 
-    6:0
+  },
+
+  /* =========================================================
+     8. CAPITANO MOBY — 150
+  ========================================================= */
+
+  8:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+
+    8:100,
+
+    9:35,
+    10:12,
+    11:3,
+    12:1,
+    13:0
+
+  },
+
+  /* =========================================================
+     9. CERBERUS — 175
+  ========================================================= */
+
+  9:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+
+    9:100,
+
+    10:18,
+    11:5,
+    12:1,
+    13:0
+
+  },
+
+  /* =========================================================
+     10. DRAGON CANNELLONI — 1250
+  ========================================================= */
+
+  10:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+    9:0,
+
+    10:100,
+
+    11:12,
+    12:3,
+    13:0.5
+
+  },
+
+  /* =========================================================
+     11. SKIBIDI TOILET — 15000
+  ========================================================= */
+
+  11:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+    9:0,
+    10:0,
+
+    11:100,
+
+    12:10,
+    13:2
+
+  },
+
+  /* =========================================================
+     12. MEOWL — 20000
+  ========================================================= */
+
+  12:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+    9:0,
+    10:0,
+    11:0,
+
+    12:100,
+
+    13:5
+
+  },
+
+  /* =========================================================
+     13. STRAWBERRY ELEPHANT — 25000
+  ========================================================= */
+
+  13:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+    9:0,
+    10:0,
+    11:0,
+    12:0,
+
+    13:100
 
   }
 
@@ -4136,11 +6406,6 @@ const selectedCard =
     'selectedCard'
   );
 
-const selectedNumber =
-  document.getElementById(
-    'selectedNumber'
-  );
-
 const inventoryStatus =
   document.getElementById(
     'inventoryStatus'
@@ -4167,10 +6432,14 @@ const balanceEl =
 
 function renderShop(){
 
-  shopGrid.innerHTML = '';
+  shopGrid.innerHTML =
+    '';
 
   items.forEach(
-    (item,index)=>{
+    (
+      item,
+      index
+    ) => {
 
       const row =
         document.createElement(
@@ -4181,24 +6450,35 @@ function renderShop(){
         'shop-item';
 
       const affordable =
-        balance >= item.price;
+        balance >=
+        item.price;
 
       row.innerHTML = `
 
-        ${renderItemImage(item, 'shop-item-img')}
+        ${renderItemImage(
+          item,
+          'shop-item-img'
+        )}
 
         <div class="shop-item-info">
+
           <div class="shop-item-name">
             ${item.name}
           </div>
+
           <div class="shop-item-price">
             ${item.price} 🦴
           </div>
+
         </div>
 
         <button
           class="buy-item"
-          ${affordable ? '' : 'disabled'}
+          ${
+            affordable
+              ? ''
+              : 'disabled'
+          }
         >
           КУПИТЬ
         </button>
@@ -4214,11 +6494,15 @@ function renderShop(){
 
             e.stopPropagation();
 
-            buyItem(index);
+            buyItem(
+              index
+            );
 
           };
 
-      shopGrid.appendChild(row);
+      shopGrid.appendChild(
+        row
+      );
 
     }
   );
@@ -4243,7 +6527,8 @@ function renderInventory(){
   }
 
   if(
-    inventory.length === 0
+    inventory.length ===
+    0
   ){
 
     inventoryStatus.textContent =
@@ -4256,11 +6541,13 @@ function renderInventory(){
     selectedCard.innerHTML = `
       <div
         class="selected-number"
-        id="selectedNumber"
       >
         —
       </div>
-      <div class="selected-caption">
+
+      <div
+        class="selected-caption"
+      >
         ВЫБРАННЫЙ ПРЕДМЕТ
       </div>
     `;
@@ -4285,10 +6572,15 @@ function renderInventory(){
     'inventory-list';
 
   inventory.forEach(
-    (itemIndex,slotIndex)=>{
+    (
+      itemIndex,
+      slotIndex
+    ) => {
 
       const item =
-        items[itemIndex];
+        items[
+          itemIndex
+        ];
 
       if(!item){
         return;
@@ -4302,22 +6594,33 @@ function renderInventory(){
       row.className =
         'inventory-item' +
         (
-          sourceItem === slotIndex
+          sourceItem ===
+          slotIndex
             ? ' selected'
             : ''
         );
 
       row.innerHTML = `
 
-        ${renderItemImage(item, 'inventory-item-img')}
+        ${renderItemImage(
+          item,
+          'inventory-item-img'
+        )}
 
         <div class="inventory-item-info">
-          <div class="inventory-item-name">
+
+          <div
+            class="inventory-item-name"
+          >
             ${item.name}
           </div>
-          <div class="inventory-item-price">
+
+          <div
+            class="inventory-item-price"
+          >
             ${item.price} 🦴
           </div>
+
         </div>
 
         <button
@@ -4330,9 +6633,10 @@ function renderInventory(){
       `;
 
       row.onclick =
-        () => selectSource(
-          slotIndex
-        );
+        () =>
+          selectSource(
+            slotIndex
+          );
 
       const sellButton =
         row.querySelector(
@@ -4344,11 +6648,15 @@ function renderInventory(){
 
           e.stopPropagation();
 
-          sellItem(slotIndex);
+          sellItem(
+            slotIndex
+          );
 
         };
 
-      list.appendChild(row);
+      list.appendChild(
+        row
+      );
 
     }
   );
@@ -4357,7 +6665,9 @@ function renderInventory(){
     .getElementById(
       'inventoryPanel'
     )
-    .appendChild(list);
+    .appendChild(
+      list
+    );
 
 }
 
@@ -4365,14 +6675,18 @@ function renderInventory(){
    SELL
 ========================================================= */
 
-function sellItem(slotIndex){
+function sellItem(
+  slotIndex
+){
 
   if(spinning){
     return;
   }
 
   if(
-    inventory[slotIndex] === undefined
+    inventory[
+      slotIndex
+    ] === undefined
   ){
 
     return;
@@ -4380,10 +6694,14 @@ function sellItem(slotIndex){
   }
 
   const itemIndex =
-    inventory[slotIndex];
+    inventory[
+      slotIndex
+    ];
 
   const item =
-    items[itemIndex];
+    items[
+      itemIndex
+    ];
 
   if(!item){
     return;
@@ -4398,17 +6716,19 @@ function sellItem(slotIndex){
   );
 
   if(
-    sourceItem === slotIndex
+    sourceItem ===
+    slotIndex
   ){
 
-    sourceItem = null;
+    sourceItem =
+      null;
 
     clearSourceDisplay();
 
-  }
-  else if(
+  }else if(
     sourceItem !== null &&
-    sourceItem > slotIndex
+    sourceItem >
+    slotIndex
   ){
 
     sourceItem--;
@@ -4450,13 +6770,18 @@ function renderTargets(){
     '';
 
   items.forEach(
-    (item,index)=>{
+    (
+      item,
+      index
+    ) => {
 
       if(
         query &&
         !item.name
           .toLowerCase()
-          .includes(query)
+          .includes(
+            query
+          )
       ){
 
         return;
@@ -4471,7 +6796,8 @@ function renderTargets(){
       b.className =
         'item' +
         (
-          targetItem === index
+          targetItem ===
+          index
             ? ' selected'
             : ''
         );
@@ -4481,7 +6807,10 @@ function renderTargets(){
 
       b.innerHTML = `
 
-        ${renderItemImage(item, 'target-item-img')}
+        ${renderItemImage(
+          item,
+          'target-item-img'
+        )}
 
         <div class="item-name">
           ${item.name}
@@ -4494,9 +6823,14 @@ function renderTargets(){
       `;
 
       b.onclick =
-        () => selectTarget(index);
+        () =>
+          selectTarget(
+            index
+          );
 
-      itemGrid.appendChild(b);
+      itemGrid.appendChild(
+        b
+      );
 
     }
   );
@@ -4528,21 +6862,26 @@ function renderAll(){
    BUY
 ========================================================= */
 
-function buyItem(index){
+function buyItem(
+  index
+){
 
   if(spinning){
     return;
   }
 
   const item =
-    items[index];
+    items[
+      index
+    ];
 
   if(!item){
     return;
   }
 
   if(
-    balance < item.price
+    balance <
+    item.price
   ){
 
     instruction.innerHTML =
@@ -4578,14 +6917,18 @@ function buyItem(index){
    SELECT SOURCE
 ========================================================= */
 
-function selectSource(slotIndex){
+function selectSource(
+  slotIndex
+){
 
   if(spinning){
     return;
   }
 
   if(
-    inventory[slotIndex] === undefined
+    inventory[
+      slotIndex
+    ] === undefined
   ){
 
     return;
@@ -4596,26 +6939,39 @@ function selectSource(slotIndex){
     slotIndex;
 
   const itemIndex =
-    inventory[slotIndex];
+    inventory[
+      slotIndex
+    ];
 
   const item =
-    items[itemIndex];
+    items[
+      itemIndex
+    ];
 
   if(!item){
     return;
   }
 
   selectedCard.innerHTML = `
-    ${renderItemImage(item, 'selected-card-img')}
+
+    ${renderItemImage(
+      item,
+      'selected-card-img'
+    )}
+
     <div
       class="selected-number"
-      id="selectedNumber"
     >
       ${item.name}
     </div>
-    <div class="selected-caption">
-      ВЫБРАННЫЙ ПРЕДМЕТ • ${item.price} 🦴
+
+    <div
+      class="selected-caption"
+    >
+      ВЫБРАННЫЙ ПРЕДМЕТ •
+      ${item.price} 🦴
     </div>
+
   `;
 
   selectedCard.classList.add(
@@ -4628,7 +6984,10 @@ function selectSource(slotIndex){
 
   sourceSlot.innerHTML = `
 
-    ${renderItemImage(item, 'slot-item-img')}
+    ${renderItemImage(
+      item,
+      'slot-item-img'
+    )}
 
     <div class="slot-text">
 
@@ -4637,7 +6996,7 @@ function selectSource(slotIndex){
       <b
         style="
           color:#00df91;
-          font-size:12px
+          font-size:12px;
         "
       >
         ${item.price} 🦴
@@ -4657,7 +7016,9 @@ function selectSource(slotIndex){
    SELECT TARGET
 ========================================================= */
 
-function selectTarget(index){
+function selectTarget(
+  index
+){
 
   if(spinning){
     return;
@@ -4667,7 +7028,9 @@ function selectTarget(index){
     index;
 
   const item =
-    items[index];
+    items[
+      index
+    ];
 
   if(!item){
     return;
@@ -4679,7 +7042,10 @@ function selectTarget(index){
 
   targetSlot.innerHTML = `
 
-    ${renderItemImage(item, 'slot-item-img')}
+    ${renderItemImage(
+      item,
+      'slot-item-img'
+    )}
 
     <div class="slot-text">
 
@@ -4688,7 +7054,7 @@ function selectTarget(index){
       <b
         style="
           color:#00df91;
-          font-size:12px
+          font-size:12px;
         "
       >
         ${item.price} 🦴
@@ -4715,15 +7081,17 @@ function clearSourceDisplay(){
   );
 
   selectedCard.innerHTML = `
+
     <div
       class="selected-number"
-      id="selectedNumber"
     >
       —
     </div>
+
     <div class="selected-caption">
       ВЫБРАННЫЙ ПРЕДМЕТ
     </div>
+
   `;
 
   sourceSlot.classList.remove(
@@ -4784,8 +7152,10 @@ function focusTargets(){
 function getUpgradeChance(){
 
   if(
-    sourceItem === null ||
-    targetItem === null
+    sourceItem ===
+      null ||
+    targetItem ===
+      null
   ){
 
     return 0;
@@ -4793,12 +7163,19 @@ function getUpgradeChance(){
   }
 
   const sourceIndex =
-    inventory[sourceItem];
+    inventory[
+      sourceItem
+    ];
 
   if(
-    !upgradeChances[sourceIndex] ||
-    upgradeChances[sourceIndex][targetItem]
-      === undefined
+    !upgradeChances[
+      sourceIndex
+    ] ||
+    upgradeChances[
+      sourceIndex
+    ][
+      targetItem
+    ] === undefined
   ){
 
     return 0;
@@ -4807,7 +7184,9 @@ function getUpgradeChance(){
 
   return upgradeChances[
     sourceIndex
-  ][targetItem];
+  ][
+    targetItem
+  ];
 
 }
 
@@ -4821,7 +7200,8 @@ function updateDisplayedChance(){
     getUpgradeChance();
 
   wheelChance.textContent =
-    chance + '%';
+    chance +
+    '%';
 
   wheel.style.setProperty(
     '--wheel-chance',
@@ -4845,14 +7225,23 @@ function updateTop(){
 
     const source =
       items[
-        inventory[sourceItem]
+        inventory[
+          sourceItem
+        ]
       ];
 
     const target =
-      items[targetItem];
+      items[
+        targetItem
+      ];
 
-    if(!source || !target){
+    if(
+      !source ||
+      !target
+    ){
+
       return;
+
     }
 
     const chance =
@@ -4892,7 +7281,10 @@ function upgrade(){
     return;
   }
 
-  if(sourceItem === null){
+  if(
+    sourceItem ===
+    null
+  ){
 
     instruction.textContent =
       'Сначала выбери предмет из инвентаря.';
@@ -4903,7 +7295,10 @@ function upgrade(){
 
   }
 
-  if(targetItem === null){
+  if(
+    targetItem ===
+    null
+  ){
 
     instruction.textContent =
       'Теперь выбери желаемый предмет.';
@@ -4918,19 +7313,30 @@ function upgrade(){
     sourceItem;
 
   const sourceIndex =
-    inventory[sourceSlotIndex];
+    inventory[
+      sourceSlotIndex
+    ];
 
   const targetIndex =
     targetItem;
 
   const source =
-    items[sourceIndex];
+    items[
+      sourceIndex
+    ];
 
   const target =
-    items[targetIndex];
+    items[
+      targetIndex
+    ];
 
-  if(!source || !target){
+  if(
+    !source ||
+    !target
+  ){
+
     return;
+
   }
 
   const chance =
@@ -4939,19 +7345,24 @@ function upgrade(){
   spinning =
     true;
 
-  /*
-    Сразу помечаем предмет как находящийся на апгрейде.
-    Если страницу обновить во время 1.8-секундной анимации,
-    при следующей загрузке этот предмет будет удалён из инвентаря.
-  */
   localStorage.setItem(
     PENDING_UPGRADE_KEY,
     JSON.stringify({
-      username: profile?.username || '',
-      slotIndex: sourceSlotIndex,
+
+      username:
+        profile?.username ||
+        '',
+
+      slotIndex:
+        sourceSlotIndex,
+
       sourceIndex,
+
       targetIndex,
-      startedAt: Date.now()
+
+      startedAt:
+        Date.now()
+
     })
   );
 
@@ -4961,49 +7372,49 @@ function upgrade(){
   upgradeBtn.textContent =
     'ПРОКАЧКА...';
 
-  /*
-    Результат определяется здесь.
-  */
-
   const win =
-    Math.random() * 100 <
+    Math.random() *
+    100 <
     chance;
 
-  /*
-    Положение стрелки.
-  */
-
   const greenAngle =
-    chance * 3.6;
+    chance *
+    3.6;
 
   let finalAngle;
 
-  if(chance >= 100){
+  if(
+    chance >= 100
+  ){
 
     finalAngle =
-      Math.random() * 360;
+      Math.random() *
+      360;
 
-  }
-  else if(chance <= 0){
+  }else if(
+    chance <= 0
+  ){
 
     finalAngle =
       greenAngle +
       8 +
-      Math.random() * 344;
+      Math.random() *
+      344;
 
-  }
-  else if(win){
+  }else if(
+    win
+  ){
 
     finalAngle =
       3 +
       Math.random() *
       Math.max(
         1,
-        greenAngle - 6
+        greenAngle -
+        6
       );
 
-  }
-  else{
+  }else{
 
     const redSize =
       360 -
@@ -5015,16 +7426,20 @@ function upgrade(){
       Math.random() *
       Math.max(
         1,
-        redSize - 6
+        redSize -
+        6
       );
 
   }
 
   pointerRotation =
     Math.ceil(
-      pointerRotation / 360
-    ) * 360 +
-    5 * 360 +
+      pointerRotation /
+      360
+    ) *
+    360 +
+    5 *
+    360 +
     finalAngle;
 
   pointerWrap.style.transform =
@@ -5032,126 +7447,134 @@ function upgrade(){
     pointerRotation +
     'deg)';
 
-  setTimeout(()=>{
+  setTimeout(
+    () => {
 
-    /*
-      Анимация закончилась — апгрейд завершён, поэтому pending больше не нужен.
-    */
-    localStorage.removeItem(
-      PENDING_UPGRADE_KEY
-    );
-
-    /* =========================
-       ПОБЕДА
-    ========================= */
-
-    if(win){
-
-      inventory[
-        sourceSlotIndex
-      ] =
-        targetIndex;
-
-      sourceItem =
-        sourceSlotIndex;
-
-      saveProfileData();
-
-      const wonItem =
-        items[targetIndex];
-
-      selectedCard.innerHTML = `
-        ${renderItemImage(wonItem, 'selected-card-img')}
-        <div
-          class="selected-number"
-          id="selectedNumber"
-        >
-          ${wonItem.name}
-        </div>
-        <div class="selected-caption">
-          ВЫБРАННЫЙ ПРЕДМЕТ • ${wonItem.price} 🦴
-        </div>
-      `;
-
-      selectedCard.classList.add(
-        'show'
+      localStorage.removeItem(
+        PENDING_UPGRADE_KEY
       );
 
-      sourceSlot.classList.add(
-        'selected'
-      );
+      if(win){
 
-      sourceSlot.innerHTML = `
+        inventory[
+          sourceSlotIndex
+        ] =
+          targetIndex;
 
-        ${renderItemImage(wonItem, 'slot-item-img')}
+        sourceItem =
+          sourceSlotIndex;
 
-        <div class="slot-text">
+        saveProfileData();
 
-          ${wonItem.name}<br>
+        const wonItem =
+          items[
+            targetIndex
+          ];
 
-          <b
-            style="
-              color:#00df91;
-              font-size:12px
-            "
+        selectedCard.innerHTML = `
+
+          ${renderItemImage(
+            wonItem,
+            'selected-card-img'
+          )}
+
+          <div
+            class="selected-number"
           >
+            ${wonItem.name}
+          </div>
+
+          <div
+            class="selected-caption"
+          >
+            ВЫБРАННЫЙ ПРЕДМЕТ •
             ${wonItem.price} 🦴
-          </b>
+          </div>
 
-        </div>
+        `;
 
-      `;
+        selectedCard.classList.add(
+          'show'
+        );
 
-      instruction.innerHTML =
-        '<span style="color:#00e996">' +
-        'УСПЕХ!' +
-        '</span> ' +
-        wonItem.name +
-        ' получен!';
+        sourceSlot.classList.add(
+          'selected'
+        );
 
-    }
+        sourceSlot.innerHTML = `
 
-    /* =========================
-       ПРОИГРЫШ
-    ========================= */
+          ${renderItemImage(
+            wonItem,
+            'slot-item-img'
+          )}
 
-    else{
+          <div
+            class="slot-text"
+          >
 
-      inventory.splice(
-        sourceSlotIndex,
-        1
-      );
+            ${wonItem.name}<br>
 
-      sourceItem =
-        null;
+            <b
+              style="
+                color:#00df91;
+                font-size:12px;
+              "
+            >
+              ${wonItem.price} 🦴
+            </b>
 
-      saveProfileData();
+          </div>
 
-      clearSourceDisplay();
+        `;
 
-      instruction.innerHTML =
-        '<span style="color:#ff4d5a">' +
-        'НЕУДАЧА!' +
-        '</span> ' +
-        source.name +
-        ' потерян.';
+        instruction.innerHTML =
+          '<span style="color:#00e996">' +
+          'УСПЕХ!' +
+          '</span> ' +
+          wonItem.name +
+          ' получен!';
 
-      renderAll();
+      }else{
 
-    }
+        inventory.splice(
+          sourceSlotIndex,
+          1
+        );
 
-    updateTop();
+        sourceItem =
+          null;
 
-    spinning =
-      false;
+        saveProfileData();
 
-    upgradeBtn.disabled =
-      false;
+        clearSourceDisplay();
 
-    upgradeBtn.textContent =
-      'ПРОКАЧАТЬ ›';
+        instruction.innerHTML =
+          '<span style="color:#ff4d5a">' +
+          'НЕУДАЧА!' +
+          '</span> ' +
+          source.name +
+          ' потерян.';
 
-  },1800);
+        renderAll();
+
+      }
+
+      updateTop();
+
+      spinning =
+        false;
+
+      upgradeBtn.disabled =
+        false;
+
+      upgradeBtn.textContent =
+        'ПРОКАЧАТЬ ›';
+
+    },
+
+    1800
+
+  );
 
 }
 
@@ -5188,13 +7611,19 @@ function filterItems(){
    START
 ========================================================= */
 
-// Инициализируем Telegram Mini App до загрузки профиля,
-// чтобы сразу определить аккаунт пользователя.
-if(window.Telegram && window.Telegram.WebApp){
+if(
+  window.Telegram &&
+  window.Telegram.WebApp
+){
+
   try{
+
     window.Telegram.WebApp.ready();
+
     window.Telegram.WebApp.expand();
+
   }catch(e){}
+
 }
 
 loadProfileData();
@@ -5203,10 +7632,8 @@ renderAll();
 
 updateTop();
 
-// Загружаем товары магазина вывода
 loadWithdrawShopItems();
 
-// Сохраняем Telegram-пользователя в общей базе.
 syncUserWithServer();
 
 </script>
