@@ -1794,33 +1794,6 @@ button{
   filter:brightness(1.1);
 }
 
-
-.withdraw-admin-requests{
-  margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.16);
-}
-.withdraw-admin-requests-head{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  margin-bottom:8px;font-size:10px;font-weight:900;letter-spacing:1px;
-}
-.withdraw-admin-refresh{
-  height:28px;padding:0 9px;border:1px solid rgba(255,255,255,.25);
-  background:#181818;color:#fff !important;font-size:9px;font-weight:900;cursor:pointer;
-}
-.withdraw-admin-requests-list{display:flex;flex-direction:column;gap:7px;max-height:360px;overflow:auto;}
-.withdraw-admin-request{padding:10px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:#0c0c0c;}
-.withdraw-admin-request.pending{border-color:rgba(255,255,255,.38);}
-.withdraw-admin-request-row{display:flex;justify-content:space-between;gap:10px;margin-bottom:5px;font-size:10px;line-height:1.35;}
-.withdraw-admin-request-label{color:#aaa !important;flex:0 0 80px;}
-.withdraw-admin-request-value{color:#fff !important;font-weight:800;text-align:right;overflow-wrap:anywhere;}
-.withdraw-admin-request-comment{margin:7px 0;padding:7px;border-radius:7px;background:#151515;color:#fff !important;font-size:10px;line-height:1.35;}
-.withdraw-admin-request-actions{display:flex;gap:6px;margin-top:8px;}
-.withdraw-admin-accept,.withdraw-admin-reject{
-  flex:1;height:30px;border:1px solid rgba(255,255,255,.28);background:#fff;
-  color:#000 !important;font-size:9px;font-weight:900;cursor:pointer;
-}
-.withdraw-admin-reject{background:#171717;color:#fff !important;}
-.withdraw-admin-status{margin-top:7px;font-size:9px;font-weight:900;color:#fff !important;text-transform:uppercase;}
-.withdraw-admin-empty{padding:14px 8px;text-align:center;color:#aaa !important;font-size:10px;}
 .withdraw-admin-msg{
   font-size:10px;
   min-height:14px;
@@ -1906,7 +1879,7 @@ button{
   border:1px solid rgba(0,233,150,.5);
   border-radius:8px;
   background:linear-gradient(135deg, rgba(0,70,50,.8), rgba(0,35,25,.95));
-  color:#fff;
+  color:#00e996;
   font-size:10px;
   font-weight:900;
   letter-spacing:.5px;
@@ -1917,7 +1890,7 @@ button{
 
 .withdraw-btn:hover{
   background:linear-gradient(135deg, rgba(0,100,70,.9), rgba(0,50,35,.98));
-  border-color:#fff;
+  border-color:#00e996;
   box-shadow:0 0 15px rgba(0,233,150,.25);
   color:#fff;
 }
@@ -2293,23 +2266,6 @@ button{
 
   border-radius:10px;
 }
-
-/* BLACK & WHITE TEXT THEME */
-body :not(input):not(textarea):not(select){color:#fff !important;}
-input,textarea,select{color:#fff !important;}
-::placeholder{color:#aaa !important;}
-.wheel{
-  background:conic-gradient(#fff 0 calc(var(--wheel-chance) * 1%), #444 calc(var(--wheel-chance) * 1%) 100%) !important;
-}
-.wheel:before{
-  border-color:rgba(255,255,255,.28) !important;
-  background:radial-gradient(circle,#080808 0 56%,#151515 57% 100%) !important;
-}
-.tick-ring{
-  background:repeating-conic-gradient(transparent 0deg 9deg,rgba(255,255,255,.28) 9deg 10deg) !important;
-}
-.center-symbol{display:none !important;}
-
 </style>
 </head>
 
@@ -2395,6 +2351,7 @@ input,textarea,select{color:#fff !important;}
               0%
             </div>
 
+            <div class="center-symbol"></div>
 
           </div>
 
@@ -2693,16 +2650,6 @@ input,textarea,select{color:#fff !important;}
             </div>
             <div class="withdraw-admin-msg" id="adminAddFormMsg"></div>
           </form>
-
-          <div class="withdraw-admin-requests">
-            <div class="withdraw-admin-requests-head">
-              <span>ЗАЯВКИ НА ВЫВОД</span>
-              <button type="button" class="withdraw-admin-refresh" onclick="loadAdminWithdrawals()">ОБНОВИТЬ</button>
-            </div>
-            <div class="withdraw-admin-requests-list" id="adminWithdrawalsList">
-              <div class="withdraw-admin-empty">Загрузка заявок...</div>
-            </div>
-          </div>
         </div>
 
         <!-- BRAINROT OFFERS LIST -->
@@ -3576,7 +3523,7 @@ function handleAdminAddBrainrot(e){
   priceInput.value = '';
   stockInput.value = '';
   if(msgEl){
-    msgEl.innerHTML = `<span style="color:#fff;">✓ "${name}" успешно добавлен в магазин!</span>`;
+    msgEl.innerHTML = `<span style="color:#00e996;">✓ "${name}" успешно добавлен в магазин!</span>`;
     setTimeout(() => { if(msgEl) msgEl.textContent = ''; }, 3000);
   }
 
@@ -3705,7 +3652,7 @@ async function submitBrainrotWithdrawal(e){
 
   try{
     const telegramId = profile?.telegramId || 'local_user';
-    const response = await fetch(API_URL + '/api/shop/withdraw', {
+    await fetch(API_URL + '/api/shop/withdraw', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3713,26 +3660,11 @@ async function submitBrainrotWithdrawal(e){
         shop_item_id: item.id,
         roblox_name: robloxNick,
         ready_time: readyTime,
-        comment: comment,
-        init_data: getTelegramInitData()
+        comment: comment
       })
     });
-    const data = await response.json();
-    if(!response.ok || !data.success){
-      throw new Error(data.error || 'Не удалось создать заявку');
-    }
   }catch(err){
-    console.error('Ошибка создания заявки на вывод:', err);
-    balance += item.price;
-    item.stock = Number(item.stock || 0) + 1;
-    saveProfileData();
-    saveWithdrawShopItems();
-    if(errorEl) errorEl.textContent = err.message || 'Не удалось создать заявку на вывод.';
-    if(submitBtn){
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'ПОДТВЕРДИТЬ ВЫВОД';
-    }
-    return;
+    console.warn('Сервер вывода недоступен, заявка зафиксирована локально:', err);
   }
 
   closeWithdrawConfirmModal();
@@ -3741,7 +3673,7 @@ async function submitBrainrotWithdrawal(e){
 
   if(instruction){
     instruction.innerHTML = `
-      <span style="color:#fff; font-weight:900;">ЗАЯВКА НА ВЫВОД ПРИНЯТА!</span><br>
+      <span style="color:#00e996; font-weight:900;">ЗАЯВКА НА ВЫВОД ПРИНЯТА!</span><br>
       <b>${item.name}</b> зарезервирован для <b>${robloxNick}</b>.
     `;
   }
@@ -3752,121 +3684,6 @@ async function submitBrainrotWithdrawal(e){
     submitBtn.disabled = false;
     submitBtn.textContent = 'ПОДТВЕРДИТЬ ВЫВОД';
   }
-}
-
-
-let adminWithdrawalsTimer = null;
-let playerWithdrawalsTimer = null;
-const withdrawalNotificationKey = 'saintbet_withdrawal_notifications_v1';
-
-function getTelegramInitData(){
-  try{return window.Telegram?.WebApp?.initData || '';}catch(e){return '';}
-}
-
-async function loadAdminWithdrawals(){
-  if(!isAdmin()) return;
-  const list=document.getElementById('adminWithdrawalsList');
-  if(!list) return;
-  try{
-    const response=await fetch(API_URL+'/api/admin/withdrawals',{
-      headers:{'X-Telegram-Init-Data':getTelegramInitData()}
-    });
-    const data=await response.json();
-    if(!response.ok||!data.success) throw new Error(data.error||'Не удалось получить заявки');
-
-    const withdrawals=Array.isArray(data.withdrawals)?data.withdrawals:[];
-    if(!withdrawals.length){
-      list.innerHTML='<div class="withdraw-admin-empty">Заявок пока нет.</div>';
-      return;
-    }
-
-    list.innerHTML=withdrawals.map(w=>{
-      const tgName=w.username?'@'+w.username:(w.first_name||'без username');
-      const itemName=w.item_name||('ID предмета: '+w.item_id);
-      const statusText=w.status==='pending'?'ОЖИДАЕТ ПРИНЯТИЯ':
-        w.status==='completed'?'ПРИНЯТО':
-        w.status==='rejected'?'ОТКЛОНЕНО':
-        w.status==='processing'?'В ОБРАБОТКЕ':w.status;
-      const actions=w.status==='pending'?`
-        <div class="withdraw-admin-request-actions">
-          <button class="withdraw-admin-accept" type="button" onclick="setAdminWithdrawalStatus(${Number(w.id)},'completed')">ПРИНЯТЬ</button>
-          <button class="withdraw-admin-reject" type="button" onclick="setAdminWithdrawalStatus(${Number(w.id)},'rejected')">ОТКЛОНИТЬ</button>
-        </div>`:'';
-      return `
-        <div class="withdraw-admin-request ${w.status==='pending'?'pending':''}">
-          <div class="withdraw-admin-request-row"><span class="withdraw-admin-request-label">TG:</span><span class="withdraw-admin-request-value">${escapeHtml(tgName)}</span></div>
-          <div class="withdraw-admin-request-row"><span class="withdraw-admin-request-label">Roblox:</span><span class="withdraw-admin-request-value">${escapeHtml(w.roblox_name||'—')}</span></div>
-          <div class="withdraw-admin-request-row"><span class="withdraw-admin-request-label">Браинрот:</span><span class="withdraw-admin-request-value">${escapeHtml(itemName)}</span></div>
-          <div class="withdraw-admin-request-row"><span class="withdraw-admin-request-label">Время:</span><span class="withdraw-admin-request-value">${escapeHtml(w.ready_time||'—')}</span></div>
-          <div class="withdraw-admin-request-comment"><b>Комментарий:</b> ${escapeHtml(w.comment||'Без комментария')}</div>
-          <div class="withdraw-admin-status">Статус: ${statusText}</div>
-          ${actions}
-        </div>`;
-    }).join('');
-    startAdminWithdrawalsPolling();
-  }catch(error){
-    console.warn('Не удалось загрузить заявки на вывод:',error);
-    list.innerHTML='<div class="withdraw-admin-empty">Не удалось загрузить заявки.</div>';
-  }
-}
-
-function startAdminWithdrawalsPolling(){
-  if(adminWithdrawalsTimer||!isAdmin()) return;
-  adminWithdrawalsTimer=setInterval(()=>{
-    if(document.getElementById('withdrawAdminPanel')?.hidden){
-      clearInterval(adminWithdrawalsTimer);adminWithdrawalsTimer=null;return;
-    }
-    loadAdminWithdrawals();
-  },5000);
-}
-
-async function setAdminWithdrawalStatus(withdrawalId,status){
-  if(!isAdmin()) return;
-  const actionText=status==='completed'?'принять':'отклонить';
-  if(!confirm(`Точно ${actionText} заявку №${withdrawalId}?`)) return;
-  try{
-    const response=await fetch(API_URL+'/api/admin/withdrawals/status',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','X-Telegram-Init-Data':getTelegramInitData()},
-      body:JSON.stringify({withdrawal_id:Number(withdrawalId),status})
-    });
-    const data=await response.json();
-    if(!response.ok||!data.success) throw new Error(data.error||'Ошибка изменения статуса');
-    await loadAdminWithdrawals();
-  }catch(error){alert(error.message||'Не удалось изменить статус заявки.');}
-}
-
-function escapeHtml(value){
-  return String(value??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
-
-async function pollPlayerWithdrawals(){
-  const telegramId=profile?.telegramId;
-  if(!telegramId) return;
-  try{
-    const response=await fetch(API_URL+'/api/withdrawals/'+encodeURIComponent(String(telegramId)));
-    const data=await response.json();
-    if(!response.ok||!data.success||!Array.isArray(data.withdrawals)) return;
-    const seen=JSON.parse(localStorage.getItem(withdrawalNotificationKey)||'[]');
-    const seenSet=new Set(seen.map(String));
-    for(const withdrawal of data.withdrawals){
-      if(withdrawal.status!=='completed'||seenSet.has(String(withdrawal.id))) continue;
-      seenSet.add(String(withdrawal.id));
-      const itemName=withdrawal.item_name||'браинрот';
-      const message=`Вывод принят!\n${itemName}\nRoblox: ${withdrawal.roblox_name||'—'}`;
-      try{
-        if(window.Telegram?.WebApp?.showPopup){
-          window.Telegram.WebApp.showPopup({title:'Вывод принят',message,buttons:[{id:'ok',type:'ok'}]});
-        }else alert(message);
-      }catch(e){console.log(message);}
-    }
-    localStorage.setItem(withdrawalNotificationKey,JSON.stringify(Array.from(seenSet).slice(-100)));
-  }catch(error){console.warn('Не удалось проверить статус вывода:',error);}
-}
-
-function startPlayerWithdrawalsPolling(){
-  if(playerWithdrawalsTimer) return;
-  playerWithdrawalsTimer=setInterval(pollPlayerWithdrawals,7000);
 }
 
 function renderProfile(){
@@ -4119,9 +3936,9 @@ function grantBones(){
    ШАНСЫ АПГРЕЙДА
 =========================================================
 
-   Шансы немного снижены: -0.3 процентного пункта для значений между 0% и 100%.
+   Старые шансы сохранены.
 
-   ТЕКУЩИЕ ШАНСЫ:
+   НОВЫЕ ШАНСЫ:
 
    La Grande -> Cerberus       1%
    Bananito -> Cerberus        4%
@@ -4148,15 +3965,15 @@ const upgradeChances = {
 
     0:100,
 
-    1:19.4,
+    1:19.7,
 
-    2:9.4,
+    2:9.7,
 
-    3:4.4,
+    3:4.7,
 
-    4:2.4,
+    4:2.7,
 
-    5:0.7,
+    5:1,
 
     6:0,
 
@@ -4170,15 +3987,15 @@ const upgradeChances = {
 
     1:100,
 
-    2:49.4,
+    2:49.7,
 
-    3:38.4,
+    3:38.7,
 
-    4:14.4,
+    4:14.7,
 
-    5:3.7,
+    5:4,
 
-    6:4.4,
+    6:4.7,
 
     7:0
 
@@ -4190,13 +4007,13 @@ const upgradeChances = {
 
     2:100,
 
-    3:59.4,
+    3:59.7,
 
-    4:24.4,
+    4:24.7,
 
-    5:9.7,
+    5:10,
 
-    6:9.4,
+    6:9.7,
 
     7:0
 
@@ -4208,11 +4025,11 @@ const upgradeChances = {
 
     3:100,
 
-    4:54.4,
+    4:54.7,
 
-    5:13.7,
+    5:14,
 
-    6:19.4,
+    6:19.7,
 
     7:0
 
@@ -4224,11 +4041,11 @@ const upgradeChances = {
 
     4:100,
 
-    5:28.7,
+    5:29,
 
-    6:4.7,
+    6:5,
 
-    7:0.7
+    7:1
 
   },
 
@@ -4238,7 +4055,7 @@ const upgradeChances = {
 
     5:100,
 
-    6:9.7,
+    6:10,
 
     7:0
 
@@ -4252,7 +4069,7 @@ const upgradeChances = {
 
     5:0,
 
-    7:4.7
+    7:5
 
   },
 
@@ -4819,7 +4636,7 @@ function selectSource(slotIndex){
 
       <b
         style="
-          color:#fff;
+          color:#00df91;
           font-size:12px
         "
       >
@@ -4870,7 +4687,7 @@ function selectTarget(index){
 
       <b
         style="
-          color:#fff;
+          color:#00df91;
           font-size:12px
         "
       >
@@ -5274,7 +5091,7 @@ function upgrade(){
 
           <b
             style="
-              color:#fff;
+              color:#00df91;
               font-size:12px
             "
           >
@@ -5391,14 +5208,6 @@ loadWithdrawShopItems();
 
 // Сохраняем Telegram-пользователя в общей базе.
 syncUserWithServer();
-
-setTimeout(()=>{
-  if(isAdmin()){
-    loadAdminWithdrawals();
-    startAdminWithdrawalsPolling();
-  }
-  startPlayerWithdrawalsPolling();
-},1500);
 
 </script>
 
