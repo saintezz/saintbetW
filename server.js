@@ -65,18 +65,6 @@ db.exec(`
     )
 `);
 
-// Уведомления для администратора
-db.exec(`
-    CREATE TABLE IF NOT EXISTS admin_notifications (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT NOT NULL,
-        message TEXT NOT NULL,
-        data TEXT,
-        is_read INTEGER DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
-
 // Инициализация стандартных предложений, если таблица пуста
 try {
     const shopCount = db.prepare("SELECT COUNT(*) as count FROM shop_items").get();
@@ -710,49 +698,6 @@ app.post("/api/withdrawals", (req, res) => {
                 : null
         );
 
-        // Создаём уведомление для администратора
-        const user = db.prepare(`
-            SELECT username, first_name FROM users WHERE telegram_id = ?
-        `).get(telegramId);
-
-        const telegramUsername = user?.username || telegramId;
-        const firstName = user?.first_name || 'Пользователь';
-
-        const notificationMessage = `
-📦 НОВАЯ ЗАЯВКА НА ВЫВОД!
-
-👤 Пользователь: @${telegramUsername} (${firstName})
-🆔 Telegram ID: ${telegramId}
-🎯 Предмет: ID ${Number(finalItemId)}
-👤 Roblox ник: ${roblox_name.trim()}
-⏰ Время получения: ${ready_time.trim()}
-💬 Комментарий: ${comment ? comment.trim() : '—'}
-📅 Создана: ${new Date().toLocaleString('ru-RU')}
-        `.trim();
-
-        db.prepare(`
-            INSERT INTO admin_notifications (
-                type,
-                message,
-                data
-            )
-            VALUES (?, ?, ?)
-        `).run(
-            'withdrawal',
-            notificationMessage,
-            JSON.stringify({
-                withdrawal_id: result.lastInsertRowid,
-                telegram_id: telegramId,
-                username: telegramUsername,
-                first_name: firstName,
-                item_id: Number(finalItemId),
-                roblox_name: roblox_name.trim(),
-                ready_time: ready_time.trim(),
-                comment: comment ? comment.trim() : null,
-                created_at: new Date().toISOString()
-            })
-        );
-
         res.json({
             success: true,
             withdrawal_id: result.lastInsertRowid,
@@ -790,135 +735,6 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
         res.json({
             success: true,
             withdrawals
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ADMIN - GET NOTIFICATIONS
-// =========================================================
-
-app.get("/api/admin/notifications", (req, res) => {
-
-    try {
-
-        const notifications = db.prepare(`
-            SELECT *
-            FROM admin_notifications
-            ORDER BY id DESC
-            LIMIT 100
-        `).all();
-
-        res.json({
-            success: true,
-            notifications
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ADMIN - GET UNREAD NOTIFICATIONS COUNT
-// =========================================================
-
-app.get("/api/admin/notifications/unread/count", (req, res) => {
-
-    try {
-
-        const result = db.prepare(`
-            SELECT COUNT(*) as count
-            FROM admin_notifications
-            WHERE is_read = 0
-        `).get();
-
-        res.json({
-            success: true,
-            count: result?.count || 0
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ADMIN - MARK NOTIFICATION AS READ
-// =========================================================
-
-app.post("/api/admin/notifications/read/:id", (req, res) => {
-
-    try {
-
-        const notificationId = Number(req.params.id);
-
-        const result = db.prepare(`
-            UPDATE admin_notifications
-            SET is_read = 1
-            WHERE id = ?
-        `).run(notificationId);
-
-        if (result.changes === 0) {
-            return res.status(404).json({
-                success: false,
-                error: "Уведомление не найдено"
-            });
-        }
-
-        res.json({
-            success: true,
-            message: "Уведомление отмечено как прочитанное"
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ADMIN - MARK ALL NOTIFICATIONS AS READ
-// =========================================================
-
-app.post("/api/admin/notifications/read-all", (req, res) => {
-
-    try {
-
-        db.prepare(`
-            UPDATE admin_notifications
-            SET is_read = 1
-        `).run();
-
-        res.json({
-            success: true,
-            message: "Все уведомления отмечены как прочитанные"
         });
 
     } catch (error) {
@@ -1047,116 +863,9 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
             });
         }
 
-        // Создаём уведомление об изменении статуса
-        const withdrawal = db.prepare(`
-            SELECT w.*, u.username, u.first_name
-            FROM withdrawals w
-            LEFT JOIN users u ON u.telegram_id = w.telegram_id
-            WHERE w.id = ?
-        `).get(Number(withdrawal_id));
-
-        if (withdrawal) {
-            const statusLabels = {
-                pending: '⏳ Ожидает',
-                processing: '🔄 В обработке',
-                completed: '✅ Завершена',
-                rejected: '❌ Отклонена'
-            };
-
-            const notificationMessage = `
-📋 ИЗМЕНЕНИЕ СТАТУСА ЗАЯВКИ #${withdrawal.id}
-
-👤 Пользователь: @${withdrawal.username || withdrawal.telegram_id} (${withdrawal.first_name || 'Пользователь'})
-📦 Предмет: ID ${withdrawal.item_id}
-🔄 Новый статус: ${statusLabels[status] || status}
-📅 Обновлено: ${new Date().toLocaleString('ru-RU')}
-            `.trim();
-
-            db.prepare(`
-                INSERT INTO admin_notifications (
-                    type,
-                    message,
-                    data
-                )
-                VALUES (?, ?, ?)
-            `).run(
-                'status_update',
-                notificationMessage,
-                JSON.stringify({
-                    withdrawal_id: withdrawal.id,
-                    status: status,
-                    telegram_id: withdrawal.telegram_id,
-                    username: withdrawal.username,
-                    updated_at: new Date().toISOString()
-                })
-            );
-        }
-
         res.json({
             success: true,
             message: "Статус изменён"
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ADMIN - GRANT BONES
-// =========================================================
-
-app.post("/api/admin/grant-bones", (req, res) => {
-
-    try {
-
-        const { username, amount } = req.body;
-
-        if (!username) {
-            return res.status(400).json({
-                success: false,
-                error: "Укажите username"
-            });
-        }
-
-        if (!amount || amount < 1) {
-            return res.status(400).json({
-                success: false,
-                error: "Количество должно быть больше 0"
-            });
-        }
-
-        const user = db.prepare(`
-            SELECT * FROM users WHERE username = ?
-        `).get(username);
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                error: "Пользователь не найден"
-            });
-        }
-
-        db.prepare(`
-            UPDATE users
-            SET balance = balance + ?
-            WHERE id = ?
-        `).run(Number(amount), user.id);
-
-        const updatedUser = db.prepare(`
-            SELECT * FROM users WHERE id = ?
-        `).get(user.id);
-
-        res.json({
-            success: true,
-            message: `Выдано ${amount} костей пользователю @${username}`,
-            user: updatedUser
         });
 
     } catch (error) {
@@ -1404,50 +1113,46 @@ app.post("/api/shop/withdraw", (req, res) => {
         });
 
         const withdrawalId = tx();
-
-        // Создаём уведомление для администратора о новом выводе из магазина
-        const username = user?.username || telegramId;
-        const firstName = user?.first_name || 'Пользователь';
-
-        const notificationMessage = `
-🏪 НОВАЯ ЗАЯВКА НА ВЫВОД ИЗ МАГАЗИНА!
-
-👤 Пользователь: @${username} (${firstName})
-🆔 Telegram ID: ${telegramId}
-🎯 Браинрот: ${item.name} (ID: ${item.id})
-💰 Стоимость: ${item.price} 🦴
-👤 Roblox ник: ${roblox_name.trim()}
-⏰ Время получения: ${ready_time.trim()}
-💬 Комментарий: ${comment ? comment.trim() : '—'}
-📅 Создана: ${new Date().toLocaleString('ru-RU')}
-📦 Остаток на складе: ${item.stock - 1} шт.
-        `.trim();
-
-        db.prepare(`
-            INSERT INTO admin_notifications (
-                type,
-                message,
-                data
-            )
-            VALUES (?, ?, ?)
-        `).run(
-            'shop_withdrawal',
-            notificationMessage,
-            JSON.stringify({
-                withdrawal_id: withdrawalId,
-                shop_item_id: item.id,
-                shop_item_name: item.name,
-                price: item.price,
-                telegram_id: telegramId,
-                username: username,
-                first_name: firstName,
-                roblox_name: roblox_name.trim(),
-                ready_time: ready_time.trim(),
-                comment: comment ? comment.trim() : null,
-                remaining_stock: item.stock - 1,
-                created_at: new Date().toISOString()
-            })
-        );
-
         const updatedUser = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
-        const updatedItem = db.prepare("SELECT * FROM
+        const updatedItem = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(item.id);
+
+        res.json({
+            success: true,
+            withdrawal_id: withdrawalId,
+            user: updatedUser,
+            item: updatedItem,
+            message: `Заявка на вывод ${item.name} успешно создана!`
+        });
+
+    } catch (error) {
+        console.error("Ошибка вывода товара:", error);
+        res.status(500).json({
+            success: false,
+            error: "Ошибка сервера"
+        });
+    }
+});
+
+// =========================================================
+// ERROR HANDLER
+// =========================================================
+
+app.use((error, req, res, next) => {
+
+    console.error(error);
+
+    res.status(500).json({
+        success: false,
+        error: "Внутренняя ошибка сервера"
+    });
+});
+
+// =========================================================
+// START
+// =========================================================
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+});
