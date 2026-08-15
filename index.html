@@ -103,7 +103,7 @@ button{
 }
 
 .balance span{
-  color:#6ea9b8;
+  color:#fff;
   font-size:10px;
   letter-spacing:1.5px;
   margin:0 4px;
@@ -115,17 +115,17 @@ button{
   gap:9px;
   padding:10px 18px;
 
-  border:1px solid rgba(255,215,0,.45);
+  border:1px solid rgba(255,255,255,.35);
   border-radius:12px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(45,38,15,.95),
-      rgba(22,20,15,.98)
+      #222,
+      #080808
     );
 
-  color:#ffd700;
+  color:#fff;
 
   font-size:13px;
   font-weight:900;
@@ -134,8 +134,8 @@ button{
   cursor:pointer;
 
   box-shadow:
-    0 8px 25px rgba(0,0,0,.4),
-    0 0 25px rgba(255,215,0,.18);
+    0 8px 25px rgba(0,0,0,.5),
+    0 0 20px rgba(255,255,255,.06);
 
   backdrop-filter:blur(10px);
 
@@ -143,18 +143,17 @@ button{
 }
 
 .top-shop-button:hover{
-  border-color:#ffe033;
+  border-color:#fff;
 
   background:
     linear-gradient(
       135deg,
-      rgba(65,55,20,.98),
-      rgba(30,28,18,.98)
+      #333,
+      #111
     );
 
   box-shadow:
-    0 10px 30px rgba(255,215,0,.35),
-    inset 0 0 15px rgba(255,215,0,.15);
+    0 10px 30px rgba(255,255,255,.12);
 
   transform:translateY(-1px);
 
@@ -163,16 +162,22 @@ button{
 
 .top-shop-icon{
   font-size:16px;
+  filter:grayscale(1);
 }
 
 .top-shop-count{
-  background:#ffd700;
+  background:#fff;
   color:#000;
+
   font-size:10px;
   font-weight:900;
+
   padding:2px 7px;
+
   border-radius:12px;
-  box-shadow:0 0 10px rgba(255,215,0,.6);
+
+  box-shadow:
+    0 0 10px rgba(255,255,255,.25);
 }
 
 /* =========================================================
@@ -225,7 +230,7 @@ button{
 }
 
 .side-title{
-  color:#ccc;
+  color:#fff;
 
   font-size:9px;
   letter-spacing:2px;
@@ -312,13 +317,14 @@ button{
 
   object-fit:contain;
 
-  filter:drop-shadow(
-    0 4px 10px rgba(0,0,0,.6)
-  );
+  filter:
+    drop-shadow(
+      0 4px 10px rgba(0,0,0,.6)
+    );
 }
 
 .slot-text{
-  color:#c8f6fb;
+  color:#fff;
 
   font-size:9px;
 
@@ -355,19 +361,20 @@ button{
 
   background:
     conic-gradient(
-      #10df4b
+      #fff
       0 calc(var(--wheel-chance) * 1%),
-      #d91f2f
+
+      #000
       calc(var(--wheel-chance) * 1%)
       100%
     );
 
-  border:5px solid #ccc;
+  border:5px solid #000;
 
   box-shadow:
-    0 0 35px rgba(150,150,150,.15),
-    0 0 12px rgba(100,100,100,.16),
-    inset 0 0 35px rgba(100,100,100,.08);
+    0 0 35px rgba(255,255,255,.08),
+    0 0 12px rgba(0,0,0,.5),
+    inset 0 0 35px rgba(0,0,0,.2);
 }
 
 .wheel:before{
@@ -378,13 +385,13 @@ button{
 
   border-radius:50%;
 
-  border:1px solid rgba(255,218,65,.38);
+  border:1px solid rgba(255,255,255,.18);
 
   background:
     radial-gradient(
       circle,
-      #080b0e 0 56%,
-      #15130c 57% 100%
+      #080808 0 56%,
+      #151515 57% 100%
     );
 
   box-shadow:
@@ -400,7 +407,7 @@ button{
   background:
     repeating-conic-gradient(
       transparent 0deg 9deg,
-      rgba(255,226,88,.5) 9deg 10deg
+      #000 9deg 10deg
     );
 
   -webkit-mask:
@@ -425,7 +432,7 @@ button{
   transform:rotate(0deg);
 
   transition:
-    transform 1.8s
+    transform 3.8s
     cubic-bezier(.12,.78,.16,1);
 }
 
@@ -438,11 +445,12 @@ button{
   width:3px;
   height:39px;
 
-  background:#f3f3e7;
+  background:#fff;
 
   transform:translateX(-50%);
 
-  box-shadow:0 0 4px #fff;
+  box-shadow:
+    0 0 4px #fff;
 }
 
 .pointer:after{
@@ -481,7 +489,7 @@ button{
 
   letter-spacing:3px;
 
-  color:#78808a;
+  color:#aaa;
 
   font-weight:900;
 
@@ -493,34 +501,13 @@ button{
 
   font-weight:900;
 
-  color:#e8eef4;
+  color:#fff;
 }
+
+/* Убрана странная стрелка / символ снизу */
 
 .center-symbol{
-  margin-top:12px;
-
-  width:22px;
-  height:12px;
-
-  border-top:2px solid #d8e0e4;
-
-  position:relative;
-}
-
-.center-symbol:after{
-  content:"";
-
-  position:absolute;
-
-  left:5px;
-  top:-2px;
-
-  width:10px;
-  height:8px;
-
-  border-bottom:1px solid #d8e0e4;
-
-  border-radius:0 0 9px 9px;
+  display:none;
 }
 
 .controls{
@@ -567,7 +554,8 @@ button{
 }
 
 .upgrade:hover{
-  transform:translateY(-2px);
+  transform:
+    translateY(-2px);
 
   background:
     linear-gradient(
@@ -603,7 +591,7 @@ button{
       rgba(150,150,150,.14)
     );
 
-  color:#ff8b35;
+  color:#fff;
 
   font-size:21px;
 
@@ -613,7 +601,7 @@ button{
 .instruction{
   text-align:center;
 
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:11px;
 
@@ -670,7 +658,7 @@ button{
 }
 
 .panel-title{
-  color:#ccc;
+  color:#fff;
 
   font-size:10px;
 
@@ -678,7 +666,7 @@ button{
 
   font-weight:900;
 
-  border-left:3px solid #ffd900;
+  border-left:3px solid #fff;
 
   padding-left:8px;
 
@@ -698,15 +686,15 @@ button{
 }
 
 .target-panel .panel-title{
-  border-left-color:#aaa;
+  border-left-color:#fff;
 }
 
 .shop-title{
-  border-left-color:#aaa;
+  border-left-color:#fff;
 }
 
 .inventory-status{
-  color:#5787a9;
+  color:#fff;
 
   font-size:10px;
 
@@ -773,7 +761,7 @@ button{
 
   font-weight:900;
 
-  color:#e7edf1;
+  color:#fff;
 
   text-align:center;
 
@@ -944,7 +932,7 @@ button{
 }
 
 .item-name{
-  color:#d9e0e5;
+  color:#fff;
 
   font-size:10px;
 
@@ -962,7 +950,7 @@ button{
 .item-price{
   margin-top:4px;
 
-  color:#ffd52a;
+  color:#fff;
 
   font-size:11px;
 
@@ -1073,7 +1061,7 @@ button{
 }
 
 .shop-item-name{
-  color:#d9e0e5;
+  color:#fff;
 
   font-size:9px;
 
@@ -1091,7 +1079,7 @@ button{
 }
 
 .shop-item-price{
-  color:#ffd52a;
+  color:#fff;
 
   font-size:10px;
 
@@ -1269,7 +1257,7 @@ button{
 .inventory-item-name{
   font-size:10px;
 
-  color:#dce2e6;
+  color:#fff;
 
   font-weight:800;
 
@@ -1285,7 +1273,7 @@ button{
 .inventory-item-price{
   font-size:10px;
 
-  color:#ffd52a;
+  color:#fff;
 
   font-weight:900;
 
@@ -1336,7 +1324,7 @@ button{
 
 .profile-title{
   border-left-color:
-    #2ce6d2 !important;
+    #fff !important;
 }
 
 .profile-card{
@@ -1403,7 +1391,7 @@ button{
 
   font-weight:900;
 
-  color:#e4feff;
+  color:#fff;
 
   letter-spacing:.5px;
 }
@@ -1411,7 +1399,7 @@ button{
 .profile-meta{
   margin-top:5px;
 
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:9px;
 
@@ -1474,7 +1462,7 @@ button{
 
   margin-top:8px;
 
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:9px;
 
@@ -1515,7 +1503,7 @@ button{
 .admin-subtitle{
   margin:4px 0 10px;
 
-  color:#9eb3b6;
+  color:#fff;
 
   font-size:9px;
 }
@@ -1565,7 +1553,7 @@ button{
 
   margin-top:8px;
 
-  color:#8dd9dc;
+  color:#fff;
 
   font-size:9px;
 
@@ -1573,7 +1561,7 @@ button{
 }
 
 /* =========================================================
-   WITHDRAW SHOP
+   WITHDRAW SHOP MODAL
 ========================================================= */
 
 .withdraw-modal{
@@ -1611,26 +1599,26 @@ button{
 
   border:
     1px solid
-    rgba(255,215,0,.38);
+    rgba(255,255,255,.3);
 
   border-radius:18px;
 
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(60,50,15,.6),
+      rgba(100,100,100,.16),
       transparent 55%
     ),
     linear-gradient(
       165deg,
-      #1e1c18 0%,
+      #1e1e1e 0%,
       #121212 60%,
       #0a0a0a 100%
     );
 
   box-shadow:
     0 25px 80px rgba(0,0,0,.85),
-    0 0 50px rgba(255,215,0,.18),
+    0 0 50px rgba(255,255,255,.06),
     inset 0 1px 0 rgba(255,255,255,.1);
 
   overflow:hidden;
@@ -1693,7 +1681,7 @@ button{
 
   letter-spacing:2px;
 
-  color:#ffd700;
+  color:#fff;
 
   text-transform:uppercase;
 }
@@ -1729,7 +1717,7 @@ button{
   background:
     rgba(30,30,30,.8);
 
-  color:#aaa;
+  color:#fff;
 
   font-size:16px;
 
@@ -1765,7 +1753,7 @@ button{
     20px;
 
   background:
-    rgba(25,25,20,.5);
+    rgba(25,25,25,.5);
 
   border-bottom:
     1px solid
@@ -1773,7 +1761,7 @@ button{
 
   font-size:11px;
 
-  color:#aaa;
+  color:#fff;
 
   flex-wrap:wrap;
 
@@ -1781,7 +1769,7 @@ button{
 }
 
 .withdraw-modal-subbar b{
-  color:#ffd700;
+  color:#fff;
 }
 
 .withdraw-modal-body{
@@ -1803,14 +1791,14 @@ button{
 .withdraw-admin-panel{
   border:
     1px solid
-    rgba(255,215,0,.35);
+    rgba(255,255,255,.25);
 
   border-radius:12px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(45,35,10,.75),
+      rgba(45,45,45,.75),
       rgba(20,20,20,.9)
     );
 
@@ -1830,7 +1818,7 @@ button{
 }
 
 .withdraw-admin-tag{
-  color:#ffd700;
+  color:#fff;
 
   font-size:11px;
 
@@ -1846,14 +1834,14 @@ button{
 
   border:
     1px solid
-    rgba(255,215,0,.4);
+    rgba(255,255,255,.3);
 
   border-radius:8px;
 
   background:
-    rgba(255,215,0,.15);
+    rgba(255,255,255,.08);
 
-  color:#ffd700;
+  color:#fff;
 
   font-size:10px;
 
@@ -1866,7 +1854,7 @@ button{
 
 .withdraw-admin-add-toggle:hover{
   background:
-    rgba(255,215,0,.3);
+    rgba(255,255,255,.15);
 
   color:#fff;
 }
@@ -1878,7 +1866,7 @@ button{
 
   border-top:
     1px solid
-    rgba(255,215,0,.2);
+    rgba(255,255,255,.15);
 
   display:flex;
 
@@ -1920,7 +1908,7 @@ button{
 }
 
 .withdraw-admin-input:focus{
-  border-color:#ffd700;
+  border-color:#fff;
 }
 
 .withdraw-admin-form-actions{
@@ -1936,15 +1924,15 @@ button{
 
   border:
     1px solid
-    #ffd700;
+    #fff;
 
   border-radius:8px;
 
   background:
     linear-gradient(
       135deg,
-      #ffd700,
-      #c49e00
+      #fff,
+      #aaa
     );
 
   color:#000;
@@ -1965,7 +1953,7 @@ button{
 
   min-height:14px;
 
-  color:#8dd9dc;
+  color:#fff;
 }
 
 .withdraw-items-list{
@@ -2007,18 +1995,18 @@ button{
 
 .withdraw-item-row:hover{
   border-color:
-    rgba(255,215,0,.4);
+    rgba(255,255,255,.4);
 
   background:
     linear-gradient(
       145deg,
-      rgba(45,42,30,.9),
+      rgba(45,45,45,.9),
       rgba(20,20,20,.98)
     );
 
   box-shadow:
     0 0 20px
-    rgba(255,215,0,.08);
+    rgba(255,255,255,.06);
 }
 
 .withdraw-item-row.out-of-stock{
@@ -2045,7 +2033,7 @@ button{
 
   font-weight:800;
 
-  color:#f0f4f8;
+  color:#fff;
 
   line-height:1.35;
 
@@ -2053,7 +2041,7 @@ button{
 }
 
 .withdraw-item-text-line .highlight-stock{
-  color:#79c9e0;
+  color:#aaa;
 
   font-weight:700;
 
@@ -2061,7 +2049,7 @@ button{
 }
 
 .withdraw-item-text-line .highlight-price{
-  color:#ffd700;
+  color:#fff;
 
   font-weight:900;
 }
@@ -2083,18 +2071,18 @@ button{
 
   border:
     1px solid
-    rgba(0,233,150,.5);
+    rgba(255,255,255,.35);
 
   border-radius:8px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(0,70,50,.8),
-      rgba(0,35,25,.95)
+      #222,
+      #090909
     );
 
-  color:#00e996;
+  color:#fff;
 
   font-size:10px;
 
@@ -2113,15 +2101,15 @@ button{
   background:
     linear-gradient(
       135deg,
-      rgba(0,100,70,.9),
-      rgba(0,50,35,.98)
+      #333,
+      #111
     );
 
-  border-color:#00e996;
+  border-color:#fff;
 
   box-shadow:
     0 0 15px
-    rgba(0,233,150,.25);
+    rgba(255,255,255,.12);
 
   color:#fff;
 }
@@ -2209,9 +2197,9 @@ button{
 }
 
 .admin-mini-btn:hover{
-  border-color:#ffd700;
+  border-color:#fff;
 
-  color:#ffd700;
+  color:#fff;
 
   background:#333;
 }
@@ -2266,7 +2254,7 @@ button{
 }
 
 .withdraw-note{
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:10px;
 
@@ -2310,21 +2298,21 @@ button{
 
   border:
     1px solid
-    rgba(255,215,0,.4);
+    rgba(255,255,255,.3);
 
   border-radius:16px;
 
   background:
     linear-gradient(
       165deg,
-      #24221c 0%,
+      #242424 0%,
       #141414 70%,
       #0d0d0d 100%
     );
 
   box-shadow:
     0 25px 80px rgba(0,0,0,.9),
-    0 0 45px rgba(255,215,0,.2);
+    0 0 45px rgba(255,255,255,.08);
 
   animation:
     modalPop
@@ -2339,7 +2327,7 @@ button{
 
   letter-spacing:2px;
 
-  color:#ffd700;
+  color:#fff;
 
   margin-bottom:4px;
 
@@ -2363,12 +2351,12 @@ button{
 
   border:
     1px solid
-    rgba(255,215,0,.25);
+    rgba(255,255,255,.2);
 
   border-radius:10px;
 
   background:
-    rgba(30,28,20,.6);
+    rgba(30,30,30,.6);
 
   margin-bottom:14px;
 
@@ -2388,7 +2376,7 @@ button{
 
   font-weight:900;
 
-  color:#ffd700;
+  color:#fff;
 
   margin-top:4px;
 }
@@ -2404,7 +2392,7 @@ button{
 
   font-weight:800;
 
-  color:#9ab5c0;
+  color:#bbb;
 
   margin-bottom:5px;
 }
@@ -2433,11 +2421,11 @@ button{
 }
 
 .confirm-input:focus{
-  border-color:#ffd700;
+  border-color:#fff;
 
   box-shadow:
     0 0 10px
-    rgba(255,215,0,.15);
+    rgba(255,255,255,.1);
 }
 
 .confirm-error{
@@ -2472,18 +2460,18 @@ button{
 
   border:
     1px solid
-    #00e996;
+    #fff;
 
   border-radius:8px;
 
   background:
     linear-gradient(
       135deg,
-      #00b374,
-      #00774d
+      #fff,
+      #888
     );
 
-  color:#fff;
+  color:#000;
 
   font-size:11px;
 
@@ -2499,7 +2487,7 @@ button{
 
   box-shadow:
     0 0 15px
-    rgba(0,233,150,.3);
+    rgba(255,255,255,.18);
 }
 
 .confirm-submit-btn:disabled{
@@ -2929,7 +2917,9 @@ button{
       id="profilePanel"
     >
 
-      <h3 class="panel-title profile-title">
+      <h3
+        class="panel-title profile-title"
+      >
         ПРОФИЛЬ
       </h3>
 
@@ -3039,7 +3029,7 @@ button{
             class="admin-subtitle"
             style="
               margin-bottom:6px;
-              color:#ffd700;
+              color:#fff;
             "
           >
             Управление предложениями магазина
@@ -3052,8 +3042,8 @@ button{
               background:
                 linear-gradient(
                   135deg,
-                  #ffd700,
-                  #c49e00
+                  #fff,
+                  #888
                 );
               color:#000;
             "
@@ -3069,6 +3059,8 @@ button{
     </div>
 
   </section>
+
+  <!-- WITHDRAW SHOP -->
 
   <div
     class="withdraw-modal"
@@ -3194,9 +3186,7 @@ button{
 
             </div>
 
-            <div
-              class="withdraw-admin-form-actions"
-            >
+            <div class="withdraw-admin-form-actions">
 
               <button
                 type="submit"
@@ -3246,6 +3236,8 @@ button{
     </div>
 
   </div>
+
+  <!-- CONFIRM WITHDRAWAL -->
 
   <div
     class="withdraw-confirm-modal"
@@ -3568,7 +3560,6 @@ function handleItemImageError(
         nextSrc;
 
       return;
-
     }
   }
 
@@ -3630,6 +3621,7 @@ function renderItemImage(
 
   return `
     <div class="${className}-container">
+
       <img
         src="${src}"
         alt="${item.name}"
@@ -3637,6 +3629,7 @@ function renderItemImage(
         loading="lazy"
         onerror="handleItemImageError(this, '${local}')"
       />
+
     </div>
   `;
 }
@@ -4158,6 +4151,7 @@ function getTelegramUsername(){
     );
 
     return username;
+
   }
 
   return normalizeUsername(
@@ -4186,7 +4180,7 @@ function isAdmin(){
 }
 
 /* =========================================================
-   WITHDRAW SHOP
+   WITHDRAW SHOP DATA
 ========================================================= */
 
 const defaultWithdrawShopItems = [
@@ -4677,7 +4671,7 @@ function renderWithdrawShopModal(){
 
               <b
                 style="
-                  color:#ffd700;
+                  color:#fff;
                   min-width:20px;
                   text-align:center;
                 "
@@ -5059,7 +5053,7 @@ function handleAdminAddBrainrot(
     msgEl.innerHTML = `
       <span
         style="
-          color:#00e996;
+          color:#fff;
         "
       >
         ✓ "${name}"
@@ -5161,7 +5155,7 @@ async function syncWithdrawItemWithServer(
 }
 
 /* =========================================================
-   WITHDRAW CONFIRMATION
+   WITHDRAW CONFIRM
 ========================================================= */
 
 function openWithdrawConfirmModal(
@@ -5246,7 +5240,8 @@ function openWithdrawConfirmModal(
 
   if(errorEl){
 
-    errorEl.textContent = '';
+    errorEl.textContent =
+      '';
 
   }
 
@@ -5294,7 +5289,9 @@ async function submitBrainrotWithdrawal(
 
   e.preventDefault();
 
-  if(!pendingWithdrawItemId){
+  if(
+    !pendingWithdrawItemId
+  ){
     return;
   }
 
@@ -5546,7 +5543,7 @@ async function submitBrainrotWithdrawal(
     instruction.innerHTML = `
       <span
         style="
-          color:#00e996;
+          color:#fff;
           font-weight:900;
         "
       >
@@ -5569,7 +5566,7 @@ async function submitBrainrotWithdrawal(
 }
 
 /* =========================================================
-   PROFILE
+   PROFILE RENDER
 ========================================================= */
 
 function renderProfile(){
@@ -5638,7 +5635,8 @@ function renderProfile(){
 
     const displayName =
       telegramUsername
-        ? '@' + telegramUsername
+        ? '@' +
+          telegramUsername
         : fullName;
 
     if(usernameEl){
@@ -5883,25 +5881,12 @@ async function grantBones(){
 }
 
 /* =========================================================
-   FULL UPGRADE CHANCES
-
-   0  La Grande Combination       1
-   1  Bananito                    7
-   2  Money Money Puggy          17
-   3  Tang Tang Keletang         30
-   4  Garama and Madundung       50
-   5  Burguro and Fryuro         55
-   6  Cangurato Gelato          100
-   7  Capitano Moby             150
-   8  Cerberus                  175
-   9  Dragon Cannelloni        1250
-   10 Skibidi toilet          15000
-   11 Strawberry Elephant     25000
+   UPGRADE CHANCES
 ========================================================= */
 
 const upgradeChances = {
 
-  /* La Grande */
+  /* LA GRANDE */
 
   0:{
 
@@ -5921,7 +5906,7 @@ const upgradeChances = {
 
   },
 
-  /* Bananito */
+  /* BANANITO */
 
   1:{
 
@@ -5942,7 +5927,7 @@ const upgradeChances = {
 
   },
 
-  /* Money Money Puggy */
+  /* MONEY MONEY PUGGY */
 
   2:{
 
@@ -5963,7 +5948,7 @@ const upgradeChances = {
 
   },
 
-  /* Tang Tang Keletang */
+  /* TANG TANG KELETANG */
 
   3:{
 
@@ -5984,7 +5969,7 @@ const upgradeChances = {
 
   },
 
-  /* Garama */
+  /* GARAMA */
 
   4:{
 
@@ -6005,7 +5990,7 @@ const upgradeChances = {
 
   },
 
-  /* Burguro */
+  /* BURGURO */
 
   5:{
 
@@ -6026,7 +6011,7 @@ const upgradeChances = {
 
   },
 
-  /* Cangurato */
+  /* CANGURATO */
 
   6:{
 
@@ -6047,7 +6032,7 @@ const upgradeChances = {
 
   },
 
-  /* Capitano */
+  /* CAPITANO */
 
   7:{
 
@@ -6068,7 +6053,7 @@ const upgradeChances = {
 
   },
 
-  /* Cerberus */
+  /* CERBERUS */
 
   8:{
 
@@ -6089,7 +6074,7 @@ const upgradeChances = {
 
   },
 
-  /* Dragon */
+  /* DRAGON */
 
   9:{
 
@@ -6107,12 +6092,12 @@ const upgradeChances = {
 
     10:12,
 
-    /* было 0.5%, теперь +2 процентных пункта */
+    /* Dragon → Strawberry Elephant = 2.5% */
     11:2.5
 
   },
 
-  /* Skibidi */
+  /* SKIBIDI */
 
   10:{
 
@@ -6129,12 +6114,12 @@ const upgradeChances = {
 
     10:100,
 
-    /* повышено с 2% до 5% */
+    /* Skibidi → Strawberry Elephant = 5% */
     11:5
 
   },
 
-  /* Strawberry Elephant */
+  /* STRAWBERRY ELEPHANT */
 
   11:{
 
@@ -6332,8 +6317,7 @@ function renderInventory(){
   }
 
   if(
-    inventory.length ===
-    0
+    inventory.length === 0
   ){
 
     inventoryStatus.textContent =
@@ -6495,7 +6479,9 @@ function sellItem(
       slotIndex
     ] === undefined
   ){
+
     return;
+
   }
 
   const itemIndex =
@@ -6546,7 +6532,7 @@ function sellItem(
     balance;
 
   instruction.innerHTML =
-    '<span style="color:#00e996">' +
+    '<span style="color:#fff">' +
     'ПРОДАНО!' +
     '</span> ' +
     item.name +
@@ -6708,7 +6694,7 @@ function buyItem(
   saveProfileData();
 
   instruction.innerHTML =
-    '<span style="color:#00e996">' +
+    '<span style="color:#fff">' +
     'КУПЛЕНО!' +
     '</span> ' +
     item.name +
@@ -6735,7 +6721,9 @@ function selectSource(
       slotIndex
     ] === undefined
   ){
+
     return;
+
   }
 
   sourceItem =
@@ -6792,13 +6780,15 @@ function selectSource(
       'slot-item-img'
     )}
 
-    <div class="slot-text">
+    <div
+      class="slot-text"
+    >
 
       ${item.name}<br>
 
       <b
         style="
-          color:#00df91;
+          color:#fff;
           font-size:12px;
         "
       >
@@ -6810,6 +6800,7 @@ function selectSource(
   `;
 
   renderInventory();
+
   updateTop();
 
 }
@@ -6849,13 +6840,15 @@ function selectTarget(
       'slot-item-img'
     )}
 
-    <div class="slot-text">
+    <div
+      class="slot-text"
+    >
 
       ${item.name}<br>
 
       <b
         style="
-          color:#00df91;
+          color:#fff;
           font-size:12px;
         "
       >
@@ -6867,6 +6860,7 @@ function selectTarget(
   `;
 
   renderTargets();
+
   updateTop();
 
 }
@@ -6953,7 +6947,7 @@ function focusTargets(){
 }
 
 /* =========================================================
-   GET CHANCE
+   CHANCE
 ========================================================= */
 
 function getUpgradeChance(){
@@ -7005,7 +6999,8 @@ function updateDisplayedChance(){
     getUpgradeChance();
 
   wheelChance.textContent =
-    chance + '%';
+    chance +
+    '%';
 
   wheel.style.setProperty(
     '--wheel-chance',
@@ -7043,7 +7038,9 @@ function updateTop(){
       !source ||
       !target
     ){
+
       return;
+
     }
 
     const chance =
@@ -7134,7 +7131,9 @@ function upgrade(){
     !source ||
     !target
   ){
+
     return;
+
   }
 
   const chance =
@@ -7147,11 +7146,16 @@ function upgrade(){
     PENDING_UPGRADE_KEY,
     JSON.stringify({
       username:
-        profile?.username || '',
+        profile?.username ||
+        '',
+
       slotIndex:
         sourceSlotIndex,
+
       sourceIndex,
+
       targetIndex,
+
       startedAt:
         Date.now()
     })
@@ -7164,11 +7168,13 @@ function upgrade(){
     'ПРОКАЧКА...';
 
   const win =
-    Math.random() * 100 <
+    Math.random() *
+    100 <
     chance;
 
   const greenAngle =
-    chance * 3.6;
+    chance *
+    3.6;
 
   let finalAngle;
 
@@ -7177,7 +7183,8 @@ function upgrade(){
   ){
 
     finalAngle =
-      Math.random() * 360;
+      Math.random() *
+      360;
 
   }else if(
     chance <= 0
@@ -7186,7 +7193,8 @@ function upgrade(){
     finalAngle =
       greenAngle +
       8 +
-      Math.random() * 344;
+      Math.random() *
+      344;
 
   }else if(
     win
@@ -7197,13 +7205,15 @@ function upgrade(){
       Math.random() *
       Math.max(
         1,
-        greenAngle - 6
+        greenAngle -
+        6
       );
 
   }else{
 
-    const redSize =
-      360 - greenAngle;
+    const blackSize =
+      360 -
+      greenAngle;
 
     finalAngle =
       greenAngle +
@@ -7211,23 +7221,30 @@ function upgrade(){
       Math.random() *
       Math.max(
         1,
-        redSize - 6
+        blackSize -
+        6
       );
 
   }
 
   pointerRotation =
     Math.ceil(
-      pointerRotation / 360
+      pointerRotation /
+      360
     ) *
     360 +
-    5 * 360 +
+
+    5 *
+    360 +
+
     finalAngle;
 
   pointerWrap.style.transform =
     'rotate(' +
     pointerRotation +
     'deg)';
+
+  /* 3.8 секунды вместо 1.8 */
 
   setTimeout(
     () => {
@@ -7298,7 +7315,7 @@ function upgrade(){
 
             <b
               style="
-                color:#00df91;
+                color:#fff;
                 font-size:12px;
               "
             >
@@ -7310,7 +7327,7 @@ function upgrade(){
         `;
 
         instruction.innerHTML =
-          '<span style="color:#00e996">' +
+          '<span style="color:#fff">' +
           'УСПЕХ!' +
           '</span> ' +
           wonItem.name +
@@ -7353,7 +7370,9 @@ function upgrade(){
         'ПРОКАЧАТЬ ›';
 
     },
-    1800
+
+    3800
+
   );
 
 }
