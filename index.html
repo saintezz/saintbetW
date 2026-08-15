@@ -6,7 +6,65 @@
 <title>SaintBet выигрывай, прокачивай, выводи</title>
 
 <!-- Telegram Mini App API -->
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js">
+async function redeemPromoCode(){
+  const input=document.getElementById("promoCodeInput");
+  const message=document.getElementById("promoMessage");
+  const code=String(input?.value||"").trim().toUpperCase();
+  if(!code){ message.textContent="Введите промокод / Enter promo code"; return; }
+  const telegramId=window.telegram_id || window.telegramId || (window.Telegram?.WebApp?.initDataUnsafe?.user?.id);
+  if(!telegramId){ message.textContent="Не удалось определить Telegram ID / Telegram ID not found"; return; }
+  try{
+    const response=await fetch("/api/promo/redeem",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telegram_id:String(telegramId),code})});
+    const data=await response.json();
+    message.textContent=data.message||data.error||"Ошибка / Error";
+    if(data.success){
+      input.value="";
+      const balance=document.getElementById("balance");
+      if(balance && data.balance!==undefined) balance.textContent=data.balance;
+    }
+  }catch(e){
+    console.error(e);
+    message.textContent="Ошибка соединения / Connection error";
+  }
+}
+
+async function createPromoCode(){
+  const initData=window.Telegram?.WebApp?.initData||"";
+  const code=document.getElementById("adminPromoCode").value.trim().toUpperCase();
+  const reward=Number(document.getElementById("adminPromoReward").value);
+  const max_uses=Number(document.getElementById("adminPromoMaxUses").value);
+  const msg=document.getElementById("promoAdminMessage");
+  try{
+    const r=await fetch("/api/admin/promo-codes",{method:"POST",headers:{"Content-Type":"application/json","x-telegram-init-data":initData},body:JSON.stringify({code,reward,max_uses})});
+    const d=await r.json(); msg.textContent=d.message||d.error||"Ошибка / Error";
+    if(d.success) loadAdminPromoCodes();
+  }catch(e){msg.textContent="Ошибка соединения / Connection error";}
+}
+async function loadAdminPromoCodes(){
+  const section=document.getElementById("promoAdminSection");
+  if(!section) return;
+  const initData=window.Telegram?.WebApp?.initData||"";
+  try{
+    const r=await fetch("/api/admin/promo-codes",{headers:{"x-telegram-init-data":initData}});
+    if(!r.ok) return;
+    const d=await r.json();
+    section.style.display="block";
+    document.getElementById("promoAdminList").innerHTML=(d.promoCodes||[]).map(p=>`<div style="padding:10px 0;border-top:1px solid rgba(255,255,255,.12)"><b>${p.code}</b> — +${p.reward} 🦴 — ${p.uses}/${p.max_uses} <button class="promo-btn" style="padding:6px 10px;margin-left:8px" onclick="togglePromoCode(${p.id},${p.active?0:1})">${p.active?'Отключить / Disable':'Включить / Enable'}</button> <button class="promo-btn" style="padding:6px 10px;margin-left:4px" onclick="deletePromoCode(${p.id})">Удалить / Delete</button></div>`).join("");
+  }catch(e){}
+}
+async function togglePromoCode(id,active){
+  const initData=window.Telegram?.WebApp?.initData||"";
+  await fetch("/api/admin/promo-codes/status",{method:"POST",headers:{"Content-Type":"application/json","x-telegram-init-data":initData},body:JSON.stringify({promo_id:id,active})});
+  loadAdminPromoCodes();
+}
+async function deletePromoCode(id){
+  const initData=window.Telegram?.WebApp?.initData||"";
+  await fetch("/api/admin/promo-codes/"+id,{method:"DELETE",headers:{"x-telegram-init-data":initData}});
+  loadAdminPromoCodes();
+}
+setTimeout(loadAdminPromoCodes,500);
+</script>
 
 <style>
 *{
@@ -122,7 +180,7 @@ button{
       rgba(45,38,15,.95),
       rgba(22,20,15,.98)
     );
-  color:#ffd700;
+  color:#fff;
   font-size:13px;
   font-weight:900;
   letter-spacing:1px;
@@ -300,7 +358,7 @@ button{
 }
 
 .slot-text{
-  color:#c8f6fb;
+  color:#fff;
 
   font-size:9px;
   letter-spacing:1px;
@@ -472,6 +530,7 @@ button{
 }
 
 .center-symbol{
+  display:none;
   margin-top:12px;
 
   width:22px;
@@ -582,7 +641,7 @@ button{
 .instruction{
   text-align:center;
 
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:11px;
   line-height:1.45;
@@ -671,7 +730,7 @@ button{
 }
 
 .inventory-status{
-  color:#5787a9;
+  color:#fff;
 
   font-size:10px;
 
@@ -875,7 +934,7 @@ button{
 }
 
 .item-name{
-  color:#d9e0e5;
+  color:#fff;
 
   font-size:10px;
 
@@ -890,7 +949,7 @@ button{
 .item-price{
   margin-top:4px;
 
-  color:#ffd52a;
+  color:#fff;
 
   font-size:11px;
 
@@ -965,7 +1024,7 @@ button{
 }
 
 .shop-item-name{
-  color:#d9e0e5;
+  color:#fff;
 
   font-size:10px;
 
@@ -981,7 +1040,7 @@ button{
 }
 
 .shop-item-price{
-  color:#ffd52a;
+  color:#fff;
 
   font-size:11px;
 
@@ -1015,7 +1074,7 @@ button{
 
   background:#0c1715 !important;
 
-  color:#00e996 !important;
+  color:#fff !important;
 
   font-size:9px;
 
@@ -1123,7 +1182,7 @@ button{
 .inventory-item-name{
   font-size:10px;
 
-  color:#dce2e6;
+  color:#fff;
 
   font-weight:800;
 
@@ -1137,7 +1196,7 @@ button{
 .inventory-item-price{
   font-size:10px;
 
-  color:#ffd52a;
+  color:#fff;
 
   font-weight:900;
 
@@ -1255,7 +1314,7 @@ button{
 .profile-meta{
   margin-top:5px;
 
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:9px;
 
@@ -1312,7 +1371,7 @@ button{
 
   margin-top:8px;
 
-  color:#6ca5b5;
+  color:#fff;
 
   font-size:9px;
 
@@ -1397,7 +1456,7 @@ button{
 
   margin-top:8px;
 
-  color:#8dd9dc;
+  color:#fff;
 
   font-size:9px;
 
@@ -1635,7 +1694,7 @@ button{
   font-size:9px;
   font-weight:900;
   letter-spacing:2px;
-  color:#ffd700;
+  color:#fff;
   text-transform:uppercase;
 }
 
@@ -1686,13 +1745,14 @@ button{
 }
 
 .withdraw-modal-subbar b{
-  color:#ffd700;
+  color:#fff;
 }
 
 .withdraw-modal-body{
   padding:16px 20px;
-  overflow-y:auto;
-  flex:1;
+  overflow:hidden;
+  flex:0 1 auto;
+  min-height:0;
   display:flex;
   flex-direction:column;
   gap:10px;
@@ -1720,7 +1780,7 @@ button{
 }
 
 .withdraw-admin-tag{
-  color:#ffd700;
+  color:#fff;
   font-size:11px;
   font-weight:900;
   letter-spacing:1px;
@@ -1731,7 +1791,7 @@ button{
   border:1px solid rgba(255,215,0,.4);
   border-radius:8px;
   background:rgba(255,215,0,.15);
-  color:#ffd700;
+  color:#fff;
   font-size:10px;
   font-weight:900;
   cursor:pointer;
@@ -1770,7 +1830,7 @@ button{
 }
 
 .withdraw-admin-input:focus{
-  border-color:#ffd700;
+  border-color:#fff;
 }
 
 .withdraw-admin-form-actions{
@@ -1797,7 +1857,7 @@ button{
 .withdraw-admin-msg{
   font-size:10px;
   min-height:14px;
-  color:#8dd9dc;
+  color:#fff;
 }
 
 /* ITEMS IN WITHDRAW MODAL */
@@ -1805,6 +1865,15 @@ button{
   display:flex;
   flex-direction:column;
   gap:8px;
+  height:44vh;
+  max-height:44vh;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:2px 6px 6px 0;
+  scrollbar-width:thin;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
 }
 
 .withdraw-item-row{
@@ -1857,13 +1926,13 @@ button{
 }
 
 .withdraw-item-text-line .highlight-stock{
-  color:#79c9e0;
+  color:#fff;
   font-weight:700;
   font-size:11px;
 }
 
 .withdraw-item-text-line .highlight-price{
-  color:#ffd700;
+  color:#fff;
   font-weight:900;
 }
 
@@ -1879,7 +1948,7 @@ button{
   border:1px solid rgba(0,233,150,.5);
   border-radius:8px;
   background:linear-gradient(135deg, rgba(0,70,50,.8), rgba(0,35,25,.95));
-  color:#00e996;
+  color:#fff;
   font-size:10px;
   font-weight:900;
   letter-spacing:.5px;
@@ -1890,7 +1959,7 @@ button{
 
 .withdraw-btn:hover{
   background:linear-gradient(135deg, rgba(0,100,70,.9), rgba(0,50,35,.98));
-  border-color:#00e996;
+  border-color:#fff;
   box-shadow:0 0 15px rgba(0,233,150,.25);
   color:#fff;
 }
@@ -1944,8 +2013,8 @@ button{
 }
 
 .admin-mini-btn:hover{
-  border-color:#ffd700;
-  color:#ffd700;
+  border-color:#fff;
+  color:#fff;
   background:#333;
 }
 
@@ -1968,6 +2037,111 @@ button{
   color:#fff;
 }
 
+.withdraw-requests-panel{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:12px;
+  background:rgba(15,15,15,.75);
+}
+
+.withdraw-requests-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:8px;
+}
+
+.withdraw-requests-title{
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.withdraw-requests-refresh{
+  height:26px;
+  padding:0 9px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:7px;
+  background:#222;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.withdraw-request-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-height:340px;
+  overflow-y:auto;
+}
+
+.withdraw-request-card{
+  padding:10px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;
+  background:#111;
+}
+
+.withdraw-request-card.pending{
+  border-color:rgba(255,255,255,.3);
+}
+
+.withdraw-request-card-title{
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.withdraw-request-card-meta{
+  color:#fff;
+  font-size:9px;
+  line-height:1.55;
+}
+
+.withdraw-request-actions{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.withdraw-request-action{
+  flex:1;
+  height:28px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:7px;
+  background:#222;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.withdraw-request-action:hover{
+  background:#333;
+}
+
+.withdraw-request-empty{
+  color:#fff;
+  opacity:.7;
+  font-size:10px;
+  text-align:center;
+  padding:12px 4px;
+}
+
+.withdraw-request-status{
+  display:inline-block;
+  margin-top:5px;
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+
 .withdraw-modal-footer{
   padding:12px 20px;
   border-top:1px solid rgba(150,150,150,.12);
@@ -1975,7 +2149,7 @@ button{
 }
 
 .withdraw-note{
-  color:#6ca5b5;
+  color:#fff;
   font-size:10px;
   line-height:1.45;
   text-align:center;
@@ -2020,7 +2194,7 @@ button{
   font-size:9px;
   font-weight:900;
   letter-spacing:2px;
-  color:#ffd700;
+  color:#fff;
   margin-bottom:4px;
   text-align:center;
 }
@@ -2051,7 +2225,7 @@ button{
 .confirm-item-cost{
   font-size:13px;
   font-weight:900;
-  color:#ffd700;
+  color:#fff;
   margin-top:4px;
 }
 
@@ -2080,7 +2254,7 @@ button{
 }
 
 .confirm-input:focus{
-  border-color:#ffd700;
+  border-color:#fff;
   box-shadow:0 0 10px rgba(255,215,0,.15);
 }
 
@@ -2266,6 +2440,57 @@ button{
 
   border-radius:10px;
 }
+
+/* WHITE TEXT THEME */
+body,
+button,
+input,
+label,
+h1,h2,h3,h4,h5,h6,
+p,span,b,strong,
+.panel-title,
+.side-title,
+.slot-text,
+.wheel-label,
+.wheel-chance,
+.item-name,
+.item-price,
+.shop-item-name,
+.shop-item-price,
+.inventory-item-name,
+.inventory-item-price,
+.withdraw-modal-badge,
+.withdraw-modal-subbar,
+.withdraw-admin-tag,
+.withdraw-admin-add-toggle,
+.withdraw-item-text-line,
+.withdraw-item-text-line .highlight-stock,
+.withdraw-item-text-line .highlight-price,
+.withdraw-btn,
+.withdraw-note,
+.admin-title,
+.admin-subtitle,
+.admin-message,
+.admin-stock-control span,
+.admin-mini-btn,
+.admin-delete-item-btn{
+  color:#fff !important;
+}
+
+.top-shop-count,
+.profile-avatar{
+  color:#fff !important;
+}
+
+/* PROMO CODES */
+.promo-section{max-width:900px;margin:16px auto;padding:16px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(0,0,0,.28);color:#fff;}
+.promo-title{font-weight:800;font-size:15px;margin-bottom:10px;color:#fff!important;}
+.promo-row{display:flex;gap:10px;}
+.promo-input{flex:1;min-width:0;padding:12px 14px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#111;color:#fff!important;outline:none;}
+.promo-input::placeholder{color:rgba(255,255,255,.55);}
+.promo-btn{padding:12px 16px;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:#fff;color:#000!important;font-weight:800;cursor:pointer;}
+.promo-message{margin-top:8px;min-height:18px;color:#fff!important;font-size:12px;}
+@media(max-width:520px){.promo-row{flex-direction:column}.promo-btn{width:100%}}
 </style>
 </head>
 
@@ -2290,6 +2515,15 @@ button{
       <span class="top-shop-count" id="topShopCountBadge">10</span>
     </button>
   </div>
+
+  <section class="promo-section" id="promoSection">
+    <div class="promo-title">ПРОМОКОД / PROMO CODE</div>
+    <div class="promo-row">
+      <input id="promoCodeInput" class="promo-input" type="text" maxlength="32" placeholder="Введите промокод / Enter promo code">
+      <button id="promoRedeemBtn" class="promo-btn" type="button" onclick="redeemPromoCode()">АКТИВИРОВАТЬ / REDEEM</button>
+    </div>
+    <div id="promoMessage" class="promo-message"></div>
+  </section>
 
   <section class="game">
 
@@ -2591,9 +2825,20 @@ button{
           id="adminMessage"
         ></div>
 
+        <!-- ADMIN WITHDRAWALS -->
+        <div class="withdraw-requests-panel">
+          <div class="withdraw-requests-head">
+            <div class="withdraw-requests-title">ВЫВОДЫ ИГРОКОВ</div>
+            <button type="button" class="withdraw-requests-refresh" onclick="loadAdminWithdrawals()">ОБНОВИТЬ</button>
+          </div>
+          <div class="withdraw-request-list" id="adminWithdrawalList">
+            <div class="withdraw-request-empty">Загрузка заявок...</div>
+          </div>
+        </div>
+
         <!-- ADMIN SHOP MANAGEMENT SHORTCUT -->
         <div style="margin-top:14px; padding-top:10px; border-top:1px solid rgba(150,150,150,.2);">
-          <div class="admin-subtitle" style="margin-bottom:6px; color:#ffd700;">
+          <div class="admin-subtitle" style="margin-bottom:6px; color:#fff;">
             Управление предложениями магазина
           </div>
           <button
@@ -2717,9 +2962,15 @@ button{
    2 Money Money Puggy
    3 Tang Tang Keletang
    4 Garama and Madundung
-   5 Cerberus
-   6 Dragon Cannelloni
-   7 Skibidi toilet
+   5 Cash or Card
+   6 Burguro and Fryuro
+   7 Cangurato Gelato
+   8 Capitano Moby
+   9 Cerberus
+   10 Dragon Cannelloni
+   11 Skibidi toilet
+   12 Meowl
+   13 Strawberry Elephant
 ========================================================= */
 
 const items = [
@@ -2760,6 +3011,26 @@ const items = [
   },
 
   {
+    name:'Cash or Card',
+    price:50
+  },
+
+  {
+    name:'Burguro and Fryuro',
+    price:55
+  },
+
+  {
+    name:'Cangurato Gelato',
+    price:100
+  },
+
+  {
+    name:'Capitano Moby',
+    price:150
+  },
+
+  {
     name:'Cerberus',
     price:175,
     image:'https://github.com/saintezz/saintbetW/blob/main/image/Cerberus.png',
@@ -2778,6 +3049,16 @@ const items = [
     price:15000,
     image:'https://github.com/saintezz/saintbetW/blob/main/image/Skibidi.png',
     localImage:'Skibidi.png'
+  },
+
+  {
+    name:'Meowl',
+    price:20000
+  },
+
+  {
+    name:'Strawberry Elephant',
+    price:25000
   }
 
 ];
@@ -3243,16 +3524,22 @@ function isAdmin(){
 ========================================================= */
 
 const defaultWithdrawShopItems = [
+  { id: 9, name: "Esok Sekolah", price: 10, stock: 1 },
+  { id: 4, name: "Sand Sand Sand", price: 15, stock: 2 },
+  { id: 7, name: "Los Fruits", price: 19, stock: 1 },
+  { id: 5, name: "Ketupat Kepat", price: 25, stock: 2 },
+  { id: 3, name: "La Summer Grande", price: 30, stock: 2 },
   { id: 1, name: "Ventoliero Pavonero", price: 40, stock: 2 },
   { id: 2, name: "Ketchuru and Musturu", price: 40, stock: 1 },
-  { id: 3, name: "La Summer Grande", price: 30, stock: 2 },
-  { id: 4, name: "Sand Sand Sand", price: 15, stock: 2 },
-  { id: 5, name: "Ketupat Kepat", price: 25, stock: 2 },
   { id: 6, name: "Los Tangsitos", price: 40, stock: 2 },
-  { id: 7, name: "Los Fruits", price: 19, stock: 1 },
   { id: 8, name: "La Ginger Sekolah", price: 45, stock: 1 },
-  { id: 9, name: "Esok Sekolah", price: 10, stock: 1 },
-  { id: 10, name: "La Jolly Grande", price: 50, stock: 1 }
+  { id: 10, name: "La Jolly Grande", price: 50, stock: 1 },
+  { id: 11, name: "Cash or Card", price: 50, stock: 1 },
+  { id: 12, name: "Burguro and Fryuro", price: 55, stock: 1 },
+  { id: 13, name: "Cangurato Gelato", price: 100, stock: 1 },
+  { id: 14, name: "Capitano Moby", price: 150, stock: 1 },
+  { id: 15, name: "Meowl", price: 20000, stock: 1 },
+  { id: 16, name: "Strawberry Elephant", price: 25000, stock: 1 }
 ];
 
 const WITHDRAW_SHOP_STORAGE_KEY = 'withdraw_shop_items_v2';
@@ -3371,6 +3658,8 @@ function renderWithdrawShopModal(){
     return;
   }
 
+  withdrawShopItems.sort((a,b) => Number(a.price || 0) - Number(b.price || 0) || Number(a.id || 0) - Number(b.id || 0));
+
   withdrawShopItems.forEach(item => {
     const stock = Number(item.stock || 0);
     const price = Number(item.price || 0);
@@ -3399,7 +3688,7 @@ function renderWithdrawShopModal(){
           <div class="admin-stock-control">
             <span>На складе:</span>
             <button type="button" class="admin-mini-btn" title="Уменьшить количество" onclick="changeWithdrawShopItemStock(${item.id}, -1)">−</button>
-            <b style="color:#ffd700; min-width:20px; text-align:center;">${stock}</b>
+            <b style="color:#fff; min-width:20px; text-align:center;">${stock}</b>
             <button type="button" class="admin-mini-btn" title="Увеличить количество" onclick="changeWithdrawShopItemStock(${item.id}, 1)">＋</button>
           </div>
           <div style="display:flex; align-items:center; gap:6px;">
@@ -3523,7 +3812,7 @@ function handleAdminAddBrainrot(e){
   priceInput.value = '';
   stockInput.value = '';
   if(msgEl){
-    msgEl.innerHTML = `<span style="color:#00e996;">✓ "${name}" успешно добавлен в магазин!</span>`;
+    msgEl.innerHTML = `<span style="color:#fff;">✓ "${name}" успешно добавлен в магазин!</span>`;
     setTimeout(() => { if(msgEl) msgEl.textContent = ''; }, 3000);
   }
 
@@ -3673,7 +3962,7 @@ async function submitBrainrotWithdrawal(e){
 
   if(instruction){
     instruction.innerHTML = `
-      <span style="color:#00e996; font-weight:900;">ЗАЯВКА НА ВЫВОД ПРИНЯТА!</span><br>
+      <span style="color:#fff; font-weight:900;">ЗАЯВКА НА ВЫВОД ПРИНЯТА!</span><br>
       <b>${item.name}</b> зарезервирован для <b>${robloxNick}</b>.
     `;
   }
@@ -3683,6 +3972,155 @@ async function submitBrainrotWithdrawal(e){
   if(submitBtn){
     submitBtn.disabled = false;
     submitBtn.textContent = 'ПОДТВЕРДИТЬ ВЫВОД';
+  }
+}
+
+async function loadAdminWithdrawals(){
+  if(!isAdmin()) return;
+
+  const list = document.getElementById('adminWithdrawalList');
+  if(!list) return;
+
+  try{
+    const response = await fetch(API_URL + '/api/admin/withdrawals');
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Не удалось загрузить заявки');
+    }
+
+    const withdrawals = Array.isArray(data.withdrawals) ? data.withdrawals : [];
+
+    if(!withdrawals.length){
+      list.innerHTML = '<div class="withdraw-request-empty">Заявок на вывод пока нет.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+
+    withdrawals.forEach(w => {
+      const card = document.createElement('div');
+      card.className = 'withdraw-request-card ' + (w.status === 'pending' ? 'pending' : '');
+
+      const tgName = w.username
+        ? '@' + String(w.username).replace(/^@+/, '')
+        : (w.first_name || 'Без username');
+
+      const itemName = w.shop_item_name || ('ID ' + w.item_id);
+
+      let statusText = 'ОЖИДАЕТ';
+      if(w.status === 'completed') statusText = 'ПРИНЯТ';
+      else if(w.status === 'rejected') statusText = 'ОТКЛОНЁН';
+      else if(w.status === 'processing') statusText = 'В ОБРАБОТКЕ';
+
+      card.innerHTML = `
+        <div class="withdraw-request-card-title">${itemName}</div>
+        <div class="withdraw-request-card-meta">
+          <b>Telegram:</b> ${tgName}<br>
+          <b>Roblox:</b> ${w.roblox_name || '—'}<br>
+          <b>Время:</b> ${w.ready_time || '—'}<br>
+          <b>Комментарий:</b> ${w.comment || '—'}<br>
+          <b>Создано:</b> ${w.created_at || '—'}<br>
+          <span class="withdraw-request-status">Статус: ${statusText}</span>
+        </div>
+        ${w.status === 'pending' || w.status === 'processing' ? `
+          <div class="withdraw-request-actions">
+            <button type="button" class="withdraw-request-action" onclick="setAdminWithdrawalStatus(${Number(w.id)}, 'completed')">ПРИНЯТЬ</button>
+            <button type="button" class="withdraw-request-action" onclick="setAdminWithdrawalStatus(${Number(w.id)}, 'rejected')">ОТКЛОНИТЬ</button>
+          </div>
+        ` : ''}
+      `;
+
+      list.appendChild(card);
+    });
+  }catch(error){
+    console.error('Ошибка загрузки заявок:', error);
+    list.innerHTML = `<div class="withdraw-request-empty">Не удалось загрузить заявки.</div>`;
+  }
+}
+
+async function setAdminWithdrawalStatus(withdrawalId, status){
+  if(!isAdmin()) return;
+
+  const actionName = status === 'completed' ? 'принять' : 'отклонить';
+  if(!confirm(`Точно ${actionName} заявку №${withdrawalId}?`)) return;
+
+  try{
+    const response = await fetch(API_URL + '/api/admin/withdrawals/status', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        withdrawal_id: withdrawalId,
+        status
+      })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Не удалось изменить статус');
+    }
+
+    await loadAdminWithdrawals();
+
+    if(status === 'completed'){
+      alert('Вывод принят. Игрок получил уведомление в Telegram.');
+    }else{
+      alert('Заявка отклонена.');
+    }
+  }catch(error){
+    console.error(error);
+    alert(error.message || 'Ошибка изменения статуса');
+  }
+}
+
+let adminWithdrawalsTimer = null;
+function startAdminWithdrawalsPolling(){
+  if(adminWithdrawalsTimer) clearInterval(adminWithdrawalsTimer);
+
+  if(isAdmin()){
+    loadAdminWithdrawals();
+    adminWithdrawalsTimer = setInterval(() => {
+      if(isAdmin()) loadAdminWithdrawals();
+    }, 5000);
+  }
+}
+
+
+let playerWithdrawalStatusSnapshot = {};
+let playerWithdrawalsTimer = null;
+
+async function checkPlayerWithdrawalNotifications(){
+  const telegramId = profile?.telegramId;
+  if(!telegramId) return;
+
+  try{
+    const response = await fetch(API_URL + '/api/withdrawals/' + encodeURIComponent(String(telegramId)));
+    const data = await response.json();
+
+    if(!response.ok || !data.success || !Array.isArray(data.withdrawals)) return;
+
+    data.withdrawals.forEach(w => {
+      const key = String(w.id);
+      const previous = playerWithdrawalStatusSnapshot[key];
+
+      if(previous && previous !== 'completed' && w.status === 'completed'){
+        alert(`✅ Вывод принят!\nЗаявка №${w.id} принята администратором.`);
+      }
+
+      playerWithdrawalStatusSnapshot[key] = w.status;
+    });
+  }catch(error){
+    console.warn('Не удалось проверить статус вывода:', error);
+  }
+}
+
+function startPlayerWithdrawalPolling(){
+  if(playerWithdrawalsTimer) clearInterval(playerWithdrawalsTimer);
+
+  if(profile?.telegramId){
+    checkPlayerWithdrawalNotifications();
+    playerWithdrawalsTimer = setInterval(checkPlayerWithdrawalNotifications, 5000);
   }
 }
 
@@ -3783,6 +4221,8 @@ function renderProfile(){
     }
   }
 
+  startPlayerWithdrawalPolling();
+
   const userIsAdmin = isAdmin();
 
   if(adminPanel){
@@ -3794,6 +4234,8 @@ function renderProfile(){
   }
 
   if(userIsAdmin){
+
+    startAdminWithdrawalsPolling();
 
     const adminName =
       document.getElementById('adminName');
@@ -3959,130 +4401,145 @@ function grantBones(){
 
 const upgradeChances = {
 
-  /* LA GRANDE */
-
   0:{
-
     0:100,
-
-    1:19.7,
-
-    2:9.7,
-
-    3:4.7,
-
-    4:2.7,
-
-    5:1,
-
-    6:0,
-
-    7:0
-
+    1:19.4,
+    2:9.4,
+    3:4.4,
+    4:2.4,
+    5:1.0,
+    6:0.8,
+    7:0.5,
+    8:0.3,
+    9:0.7,
+    12:0.05,
+    13:0.02
   },
-
-  /* BANANITO */
 
   1:{
-
     1:100,
-
-    2:49.7,
-
-    3:38.7,
-
-    4:14.7,
-
-    5:4,
-
-    6:4.7,
-
-    7:0
-
+    2:49.4,
+    3:38.4,
+    4:14.4,
+    5:4.0,
+    6:3.0,
+    7:2.0,
+    8:1.2,
+    9:4.4,
+    12:0.15,
+    13:0.05
   },
-
-  /* MONEY MONEY PUGGY */
 
   2:{
-
     2:100,
-
-    3:59.7,
-
-    4:24.7,
-
-    5:10,
-
-    6:9.7,
-
-    7:0
-
+    3:59.4,
+    4:24.4,
+    5:10.0,
+    6:7.0,
+    7:5.0,
+    8:3.0,
+    9:9.4,
+    10:0.2,
+    12:0.25,
+    13:0.1
   },
-
-  /* TANG TANG KELETANG */
 
   3:{
-
     3:100,
-
-    4:54.7,
-
-    5:14,
-
-    6:19.7,
-
-    7:0
-
+    4:54.4,
+    5:14.0,
+    6:11.0,
+    7:8.0,
+    8:5.0,
+    9:19.4,
+    10:0.4,
+    11:0.1,
+    12:0.4,
+    13:0.15
   },
-
-  /* GARAMA */
 
   4:{
-
     4:100,
-
-    5:29,
-
-    6:5,
-
-    7:1
-
+    5:29.0,
+    6:22.0,
+    7:15.0,
+    8:9.0,
+    9:5.0,
+    10:0.5,
+    11:0.2,
+    12:0.5,
+    13:0.2
   },
-
-  /* CERBERUS */
 
   5:{
-
     5:100,
-
-    6:10,
-
-    7:0
-
+    6:45.0,
+    7:30.0,
+    8:18.0,
+    9:10.0,
+    10:0.8,
+    11:0.3,
+    12:0.6,
+    13:0.25
   },
-
-  /* DRAGON */
 
   6:{
-
     6:100,
-
-    5:0,
-
-    7:5
-
+    7:40.0,
+    8:25.0,
+    9:13.0,
+    10:1.0,
+    11:0.4,
+    12:0.7,
+    13:0.3
   },
 
-  /* SKIBIDI */
-
   7:{
-
     7:100,
+    8:35.0,
+    9:20.0,
+    10:1.5,
+    11:0.5,
+    12:0.8,
+    13:0.35
+  },
 
-    5:0,
+  8:{
+    8:100,
+    9:30.0,
+    10:2.0,
+    11:0.7,
+    12:1.0,
+    13:0.4
+  },
 
-    6:0
+  9:{
+    9:100,
+    10:10.0,
+    12:1.2,
+    13:0.5
+  },
 
+  10:{
+    10:100,
+    11:5.0,
+    12:2.0,
+    13:0.8
+  },
+
+  11:{
+    11:100,
+    12:4.0,
+    13:1.0
+  },
+
+  12:{
+    12:100,
+    13:3.0
+  },
+
+  13:{
+    13:100
   }
 
 };
@@ -4421,7 +4878,7 @@ function sellItem(slotIndex){
     balance;
 
   instruction.innerHTML =
-    '<span style="color:#00e996">' +
+    '<span style="color:#fff">' +
     'ПРОДАНО!' +
     '</span> ' +
     item.name +
@@ -4564,7 +5021,7 @@ function buyItem(index){
   saveProfileData();
 
   instruction.innerHTML =
-    '<span style="color:#00e996">' +
+    '<span style="color:#fff">' +
     'КУПЛЕНО!' +
     '</span> ' +
     item.name +
@@ -5103,7 +5560,7 @@ function upgrade(){
       `;
 
       instruction.innerHTML =
-        '<span style="color:#00e996">' +
+        '<span style="color:#fff">' +
         'УСПЕХ!' +
         '</span> ' +
         wonItem.name +
@@ -5210,6 +5667,19 @@ loadWithdrawShopItems();
 syncUserWithServer();
 
 </script>
+
+
+<section class="promo-admin-section" id="promoAdminSection" style="display:none;max-width:900px;margin:20px auto;padding:18px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(0,0,0,.3);color:#fff;">
+  <div class="promo-title">АДМИН — ПРОМОКОДЫ / ADMIN — PROMO CODES</div>
+  <div class="promo-row">
+    <input id="adminPromoCode" class="promo-input" maxlength="32" placeholder="Код / Code">
+    <input id="adminPromoReward" class="promo-input" type="number" min="1" placeholder="Награда / Reward">
+    <input id="adminPromoMaxUses" class="promo-input" type="number" min="1" placeholder="Активаций / Max uses">
+    <button class="promo-btn" type="button" onclick="createPromoCode()">СОЗДАТЬ / CREATE</button>
+  </div>
+  <div id="promoAdminMessage" class="promo-message"></div>
+  <div id="promoAdminList"></div>
+</section>
 
 </body>
 </html>
