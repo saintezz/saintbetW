@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SaintBet</title>
+<title>SaintBet выигрывай, прокачивай, выводи</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -2048,4 +2048,5393 @@ button{
   font-size:11px;
 }
 
-.withdraw-item-text-line .highlight
+.withdraw-item-text-line .highlight-price{
+  color:#fff;
+
+  font-weight:900;
+}
+
+.withdraw-item-btn-wrap{
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+.withdraw-btn{
+  height:32px;
+
+  padding:
+    0
+    14px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.35);
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #222,
+      #090909
+    );
+
+  color:#fff;
+
+  font-size:10px;
+
+  font-weight:900;
+
+  letter-spacing:.5px;
+
+  cursor:pointer;
+
+  white-space:nowrap;
+
+  transition:.15s;
+}
+
+.withdraw-btn:hover{
+  background:
+    linear-gradient(
+      135deg,
+      #333,
+      #111
+    );
+
+  border-color:#fff;
+
+  box-shadow:
+    0 0 15px
+    rgba(255,255,255,.12);
+
+  color:#fff;
+}
+
+.withdraw-btn:disabled{
+  opacity:.4;
+
+  cursor:not-allowed;
+
+  border-color:
+    rgba(100,100,100,.3);
+
+  background:
+    rgba(30,30,30,.7);
+
+  color:#888;
+}
+
+.withdraw-item-admin-controls{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:8px;
+
+  padding:
+    8px
+    10px;
+
+  border-top:
+    1px solid
+    rgba(150,150,150,.12);
+
+  background:
+    rgba(0,0,0,.35);
+
+  border-radius:8px;
+
+  font-size:10px;
+
+  flex-wrap:wrap;
+}
+
+.admin-stock-control{
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+}
+
+.admin-stock-control span{
+  color:#bbb;
+}
+
+.admin-mini-btn{
+  width:26px;
+  height:24px;
+
+  border:
+    1px solid
+    rgba(150,150,150,.3);
+
+  border-radius:6px;
+
+  background:
+    rgba(40,40,40,.9);
+
+  color:#fff;
+
+  font-size:12px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  transition:.12s;
+}
+
+.admin-mini-btn:hover{
+  border-color:#fff;
+
+  color:#fff;
+
+  background:#333;
+}
+
+.admin-delete-item-btn{
+  height:24px;
+
+  padding:
+    0
+    9px;
+
+  border:
+    1px solid
+    rgba(255,80,90,.4);
+
+  border-radius:6px;
+
+  background:
+    rgba(80,20,30,.6);
+
+  color:#ff7882;
+
+  font-size:9px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:.12s;
+}
+
+.admin-delete-item-btn:hover{
+  background:
+    rgba(120,25,40,.9);
+
+  border-color:#ff5060;
+
+  color:#fff;
+}
+
+.withdraw-modal-footer{
+  padding:
+    12px
+    20px;
+
+  border-top:
+    1px solid
+    rgba(150,150,150,.12);
+
+  background:
+    rgba(15,15,15,.7);
+}
+
+.withdraw-note{
+  color:#fff;
+
+  font-size:10px;
+
+  line-height:1.45;
+
+  text-align:center;
+}
+
+/* =========================================================
+   CONFIRM
+========================================================= */
+
+.withdraw-confirm-modal{
+  position:fixed;
+
+  inset:0;
+
+  z-index:999999;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:16px;
+
+  background:
+    rgba(0,0,0,.85);
+
+  backdrop-filter:blur(10px);
+}
+
+.withdraw-confirm-modal[hidden]{
+  display:none;
+}
+
+.withdraw-confirm-box{
+  width:min(440px,100%);
+
+  padding:22px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.3);
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      165deg,
+      #242424 0%,
+      #141414 70%,
+      #0d0d0d 100%
+    );
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.9),
+    0 0 45px rgba(255,255,255,.08);
+
+  animation:
+    modalPop
+    .2s
+    cubic-bezier(.16,1,.3,1);
+}
+
+.confirm-header-tag{
+  font-size:9px;
+
+  font-weight:900;
+
+  letter-spacing:2px;
+
+  color:#fff;
+
+  margin-bottom:4px;
+
+  text-align:center;
+}
+
+.confirm-title{
+  font-size:17px;
+
+  font-weight:900;
+
+  color:#fff;
+
+  text-align:center;
+
+  margin-bottom:12px;
+}
+
+.confirm-item-card{
+  padding:12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.2);
+
+  border-radius:10px;
+
+  background:
+    rgba(30,30,30,.6);
+
+  margin-bottom:14px;
+
+  text-align:center;
+}
+
+.confirm-item-title{
+  font-size:14px;
+
+  font-weight:900;
+
+  color:#fff;
+}
+
+.confirm-item-cost{
+  font-size:13px;
+
+  font-weight:900;
+
+  color:#fff;
+
+  margin-top:4px;
+}
+
+.confirm-form-group{
+  margin-bottom:10px;
+}
+
+.confirm-form-label{
+  display:block;
+
+  font-size:10px;
+
+  font-weight:800;
+
+  color:#bbb;
+
+  margin-bottom:5px;
+}
+
+.confirm-input{
+  width:100%;
+
+  height:36px;
+
+  padding:0 11px;
+
+  border:
+    1px solid
+    rgba(150,150,150,.25);
+
+  border-radius:8px;
+
+  background:
+    rgba(18,18,18,.9);
+
+  color:#fff;
+
+  font-size:12px;
+
+  outline:none;
+}
+
+.confirm-input:focus{
+  border-color:#fff;
+
+  box-shadow:
+    0 0 10px
+    rgba(255,255,255,.1);
+}
+
+.confirm-error{
+  font-size:10px;
+
+  color:#ff6b77;
+
+  min-height:16px;
+
+  margin:
+    4px
+    0
+    8px;
+
+  text-align:center;
+}
+
+.confirm-actions{
+  display:grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap:10px;
+
+  margin-top:6px;
+}
+
+.confirm-submit-btn{
+  height:38px;
+
+  border:
+    1px solid
+    #fff;
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff,
+      #888
+    );
+
+  color:#000;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:.15s;
+}
+
+.confirm-submit-btn:hover{
+  filter:brightness(1.15);
+
+  box-shadow:
+    0 0 15px
+    rgba(255,255,255,.18);
+}
+
+.confirm-submit-btn:disabled{
+  opacity:.55;
+
+  cursor:not-allowed;
+}
+
+.confirm-cancel-btn{
+  height:38px;
+
+  border:
+    1px solid
+    rgba(150,150,150,.3);
+
+  border-radius:8px;
+
+  background:#222;
+
+  color:#bbb;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:.15s;
+}
+
+.confirm-cancel-btn:hover{
+  color:#fff;
+
+  background:#333;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:850px){
+
+  .top-nav-bar{
+    flex-wrap:wrap;
+    justify-content:space-between;
+  }
+
+  .top-area{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .game{
+    padding-bottom:20px;
+  }
+
+  .side{
+    display:none;
+  }
+
+  .center{
+    order:1;
+  }
+
+  .instruction{
+    margin-top:38px;
+  }
+
+  .lower{
+    grid-template-columns:1fr;
+  }
+
+  .panel{
+    min-height:280px;
+  }
+
+  .shop-items{
+    grid-template-columns:
+      repeat(4,1fr);
+  }
+}
+
+@media(max-width:520px){
+
+  .top-nav-bar{
+    gap:8px;
+  }
+
+  .balance{
+    min-width:auto;
+    padding:8px 12px;
+    font-size:12px;
+  }
+
+  .top-shop-button{
+    padding:8px 12px;
+    font-size:11px;
+    gap:6px;
+  }
+
+  .withdraw-admin-form-row{
+    grid-template-columns:1fr;
+  }
+
+  .withdraw-item-text-line{
+    font-size:11px;
+  }
+
+  .items{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .shop-items{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .wheel{
+    width:190px;
+    height:190px;
+  }
+
+  .upgrade{
+    min-width:155px;
+    font-size:15px;
+  }
+
+  .inventory-item{
+    gap:6px;
+  }
+
+  .sell-item{
+    padding:0 6px;
+    font-size:7px;
+  }
+
+  .shop-item{
+    min-height:130px;
+  }
+
+  .buy-item{
+    padding:0 7px;
+    font-size:8px;
+  }
+}
+
+*{
+  scrollbar-color:
+    #147e91
+    #03131e;
+
+  scrollbar-width:thin;
+}
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:#03131e;
+}
+
+::-webkit-scrollbar-thumb{
+  background:
+    linear-gradient(
+      #0b7890,
+      #19c6c7
+    );
+
+  border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="top-nav-bar">
+
+    <div class="balance">
+
+      🦴
+
+      <span>
+        БАЛАНС:
+      </span>
+
+      <b id="balance">
+        10
+      </b>
+
+      🦴
+
+    </div>
+
+    <button
+      class="top-shop-button"
+      id="openWithdrawShopBtn"
+      type="button"
+      onclick="openWithdrawShopModal()"
+    >
+
+      <span class="top-shop-icon">
+        🏪
+      </span>
+
+      <span class="top-shop-title">
+        МАГАЗИН ВЫВОДА
+      </span>
+
+      <span
+        class="top-shop-count"
+        id="topShopCountBadge"
+      >
+        10
+      </span>
+
+    </button>
+
+  </div>
+
+  <section class="game">
+
+    <div class="top-area">
+
+      <div class="side">
+
+        <div class="side-title">
+          ТВОЙ ПРЕДМЕТ
+        </div>
+
+        <div
+          class="slot"
+          id="sourceSlot"
+          onclick="focusInventory()"
+        >
+
+          <div class="slot-icon">
+            ↓
+          </div>
+
+          <div class="slot-text">
+            ВЫБРАТЬ ИЗ<br>
+            ИНВЕНТАРЯ
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="center">
+
+        <div
+          class="wheel"
+          id="wheel"
+        >
+
+          <div class="tick-ring"></div>
+
+          <div
+            class="pointer-wrap"
+            id="pointerWrap"
+          >
+
+            <div class="pointer"></div>
+
+          </div>
+
+          <div class="wheel-center">
+
+            <div class="wheel-label">
+              ШАНС
+            </div>
+
+            <div
+              class="wheel-chance"
+              id="wheelChance"
+            >
+              0%
+            </div>
+
+            <div class="center-symbol"></div>
+
+          </div>
+
+        </div>
+
+        <div class="controls">
+
+          <button
+            class="upgrade"
+            id="upgradeBtn"
+            onclick="upgrade()"
+          >
+            ПРОКАЧАТЬ ›
+          </button>
+
+          <button
+            class="energy"
+            onclick="randomTarget()"
+          >
+            ⚡
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="side">
+
+        <div class="side-title">
+          ЖЕЛАЕМЫЙ ПРЕДМЕТ
+        </div>
+
+        <div
+          class="slot"
+          id="targetSlot"
+          onclick="focusTargets()"
+        >
+
+          <div class="slot-icon">
+            ＋
+          </div>
+
+          <div class="slot-text">
+            ВЫБРАТЬ ЦЕЛЬ
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="instruction"
+      id="instruction"
+    >
+      Выбери предмет из инвентаря и<br>
+      желаемую цель.
+    </div>
+
+  </section>
+
+  <section class="lower">
+
+    <div
+      class="panel"
+      id="inventoryPanel"
+    >
+
+      <h3 class="panel-title">
+        ИНВЕНТАРЬ
+      </h3>
+
+      <div
+        class="inventory-status"
+        id="inventoryStatus"
+      >
+        Инвентарь пуст
+      </div>
+
+      <div
+        class="selected-card"
+        id="selectedCard"
+      >
+
+        <div
+          class="selected-number"
+          id="selectedNumber"
+        >
+          —
+        </div>
+
+        <div class="selected-caption">
+          ВЫБРАННЫЙ ПРЕДМЕТ
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="panel shop-panel"
+      id="shopPanel"
+    >
+
+      <h3 class="panel-title shop-title">
+        МАГАЗИН
+      </h3>
+
+      <div
+        class="shop-items"
+        id="shopItems"
+      ></div>
+
+    </div>
+
+    <div
+      class="panel target-panel"
+      id="targetPanel"
+    >
+
+      <h3 class="panel-title">
+        ВЫБРАТЬ ЦЕЛЬ
+      </h3>
+
+      <input
+        class="search"
+        id="search"
+        placeholder="⌕  Поиск по предметам..."
+        oninput="filterItems()"
+      >
+
+      <div
+        class="items"
+        id="items"
+      ></div>
+
+    </div>
+
+    <div
+      class="panel profile-panel"
+      id="profilePanel"
+    >
+
+      <h3
+        class="panel-title profile-title"
+      >
+        ПРОФИЛЬ
+      </h3>
+
+      <div class="profile-card">
+
+        <div
+          class="profile-avatar"
+          id="profileAvatar"
+        >
+          @
+        </div>
+
+        <div
+          class="profile-username"
+          id="profileUsername"
+        >
+          TELEGRAM
+        </div>
+
+        <div
+          class="profile-meta"
+          id="profileMeta"
+        >
+          Авторизация через Telegram
+        </div>
+
+        <div
+          class="profile-button telegram-account-button"
+          id="telegramAccountButton"
+        >
+
+          <span
+            id="telegramAccountStatus"
+          >
+            ПОДКЛЮЧЕНИЕ TELEGRAM...
+          </span>
+
+        </div>
+
+        <div
+          class="profile-cooldown"
+          id="profileCooldown"
+        ></div>
+
+      </div>
+
+      <div
+        class="admin-panel"
+        id="adminPanel"
+        hidden
+      >
+
+        <div class="admin-title">
+
+          ⚓ ADMIN •
+
+          <span id="adminName">
+            @saint
+          </span>
+
+        </div>
+
+        <div class="admin-subtitle">
+          Выдача костей пользователям
+        </div>
+
+        <input
+          class="admin-input"
+          id="adminUsername"
+          placeholder="@telegram_username"
+          maxlength="40"
+        >
+
+        <input
+          class="admin-input"
+          id="adminBones"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="Количество костей"
+        >
+
+        <button
+          class="admin-button"
+          type="button"
+          onclick="grantBones()"
+        >
+          ВЫДАТЬ КОСТИ
+        </button>
+
+        <div
+          class="admin-message"
+          id="adminMessage"
+        ></div>
+
+        <div
+          style="
+            margin-top:14px;
+            padding-top:10px;
+            border-top:
+              1px solid
+              rgba(150,150,150,.2);
+          "
+        >
+
+          <div
+            class="admin-subtitle"
+            style="
+              margin-bottom:6px;
+              color:#fff;
+            "
+          >
+            Управление предложениями магазина
+          </div>
+
+          <button
+            class="admin-button"
+            type="button"
+            style="
+              background:
+                linear-gradient(
+                  135deg,
+                  #fff,
+                  #888
+                );
+              color:#000;
+            "
+            onclick="openWithdrawShopModal()"
+          >
+            🏪 ОТКРЫТЬ МАГАЗИН И РЕДАКТИРОВАТЬ
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- WITHDRAW SHOP -->
+
+  <div
+    class="withdraw-modal"
+    id="withdrawShopModal"
+    hidden
+  >
+
+    <div class="withdraw-modal-box">
+
+      <div class="withdraw-modal-header">
+
+        <div class="withdraw-modal-title-area">
+
+          <div class="withdraw-modal-badge">
+            ВЫВОД BRAINROT
+          </div>
+
+          <h2 class="withdraw-modal-title">
+            🏪 МАГАЗИН ВЫВОДА
+          </h2>
+
+        </div>
+
+        <button
+          class="withdraw-modal-close"
+          type="button"
+          onclick="closeWithdrawShopModal()"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="withdraw-modal-subbar">
+
+        <div>
+
+          Твой баланс:
+
+          <b id="withdrawShopBalance">
+            10
+          </b>
+
+          🦴
+
+        </div>
+
+        <div>
+
+          Всего браинротов:
+
+          <b id="withdrawShopStockCount">
+            10
+          </b>
+
+        </div>
+
+      </div>
+
+      <div class="withdraw-modal-body">
+
+        <div
+          class="withdraw-admin-panel"
+          id="withdrawAdminPanel"
+          hidden
+        >
+
+          <div class="withdraw-admin-head">
+
+            <div class="withdraw-admin-tag">
+              ⚓ УПРАВЛЕНИЕ МАГАЗИНОМ (@saintezz7)
+            </div>
+
+            <button
+              class="withdraw-admin-add-toggle"
+              id="adminAddToggleBtn"
+              type="button"
+              onclick="toggleAdminAddForm()"
+            >
+              ＋ Добавить браинрота
+            </button>
+
+          </div>
+
+          <form
+            class="withdraw-admin-form"
+            id="withdrawAdminAddForm"
+            onsubmit="handleAdminAddBrainrot(event)"
+            hidden
+          >
+
+            <div
+              class="withdraw-admin-form-row"
+            >
+
+              <input
+                type="text"
+                id="newBrainrotName"
+                class="withdraw-admin-input"
+                placeholder="Название браинрота"
+                required
+              >
+
+              <input
+                type="number"
+                id="newBrainrotPrice"
+                class="withdraw-admin-input"
+                placeholder="Цена (🦴)"
+                min="1"
+                step="1"
+                required
+              >
+
+              <input
+                type="number"
+                id="newBrainrotStock"
+                class="withdraw-admin-input"
+                placeholder="На складе (шт)"
+                min="0"
+                step="1"
+                required
+              >
+
+            </div>
+
+            <div class="withdraw-admin-form-actions">
+
+              <button
+                type="submit"
+                class="withdraw-admin-submit-btn"
+              >
+                ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
+              </button>
+
+              <button
+                type="button"
+                class="withdraw-admin-add-toggle"
+                onclick="toggleAdminAddForm(false)"
+              >
+                Отмена
+              </button>
+
+            </div>
+
+            <div
+              class="withdraw-admin-msg"
+              id="adminAddFormMsg"
+            ></div>
+
+          </form>
+
+        </div>
+
+        <div
+          class="withdraw-items-list"
+          id="withdrawItemsList"
+        ></div>
+
+      </div>
+
+      <div class="withdraw-modal-footer">
+
+        <div class="withdraw-note">
+
+          ℹ️ При нажатии <b>ВЫВЕСТИ</b>
+          с баланса списываются кости
+          и резервируется браинрот на складе.
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONFIRM WITHDRAWAL -->
+
+  <div
+    class="withdraw-confirm-modal"
+    id="withdrawConfirmModal"
+    hidden
+  >
+
+    <div class="withdraw-confirm-box">
+
+      <div class="confirm-header-tag">
+        ОФОРМЛЕНИЕ ВЫВОДА
+      </div>
+
+      <div class="confirm-title">
+        Подтверждение заявки
+      </div>
+
+      <div class="confirm-item-card">
+
+        <div
+          class="confirm-item-title"
+          id="confirmItemName"
+        >
+          —
+        </div>
+
+        <div
+          class="confirm-item-cost"
+          id="confirmItemPrice"
+        >
+          — 🦴
+        </div>
+
+      </div>
+
+      <form
+        id="withdrawConfirmForm"
+        onsubmit="submitBrainrotWithdrawal(event)"
+      >
+
+        <div class="confirm-form-group">
+
+          <label
+            class="confirm-form-label"
+            for="confirmRobloxNick"
+          >
+            Никнейм в Roblox:
+          </label>
+
+          <input
+            type="text"
+            id="confirmRobloxNick"
+            class="confirm-input"
+            placeholder="Твой ник в Roblox"
+            required
+          >
+
+        </div>
+
+        <div class="confirm-form-group">
+
+          <label
+            class="confirm-form-label"
+            for="confirmReadyTime"
+          >
+            Удобное время получения (МСК):
+          </label>
+
+          <input
+            type="text"
+            id="confirmReadyTime"
+            class="confirm-input"
+            placeholder="Например: Сегодня в 19:00"
+            required
+          >
+
+        </div>
+
+        <div class="confirm-form-group">
+
+          <label
+            class="confirm-form-label"
+            for="confirmComment"
+          >
+            Комментарий (необязательно):
+          </label>
+
+          <input
+            type="text"
+            id="confirmComment"
+            class="confirm-input"
+            placeholder="Дополнительно"
+          >
+
+        </div>
+
+        <div
+          class="confirm-error"
+          id="confirmError"
+        ></div>
+
+        <div class="confirm-actions">
+
+          <button
+            type="submit"
+            class="confirm-submit-btn"
+            id="confirmSubmitBtn"
+          >
+            ПОДТВЕРДИТЬ ВЫВОД
+          </button>
+
+          <button
+            type="button"
+            class="confirm-cancel-btn"
+            onclick="closeWithdrawConfirmModal()"
+          >
+            ОТМЕНА
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   ITEMS
+========================================================= */
+
+const items = [
+
+  {
+    name:'La Grande Combination',
+    price:1,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Grande.png',
+    localImage:'Grande.png'
+  },
+
+  {
+    name:'Bananito',
+    price:7,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Bananchik.png',
+    localImage:'Bananchik.png'
+  },
+
+  {
+    name:'Money Money Puggy',
+    price:17,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Mops.png',
+    localImage:'Mops.png'
+  },
+
+  {
+    name:'Tang Tang Keletang',
+    price:30,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/TangTangKeletang.png',
+    localImage:'TangTangKeletang.png'
+  },
+
+  {
+    name:'Garama and Madundung',
+    price:50,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Garama.png',
+    localImage:'Garama.png'
+  },
+
+  {
+    name:'Burguro and Fryuro',
+    price:55,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Burger.png',
+    localImage:'Burger.png'
+  },
+
+  {
+    name:'Cangurato Gelato',
+    price:100,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Kenguru.png',
+    localImage:'Kenguru.png'
+  },
+
+  {
+    name:'Capitano Moby',
+    price:150,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/capitan.png',
+    localImage:'capitan.png'
+  },
+
+  {
+    name:'Cerberus',
+    price:175,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Cerberus.png',
+    localImage:'Cerberus.png'
+  },
+
+  {
+    name:'Dragon Cannelloni',
+    price:1250,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Dragon.png',
+    localImage:'Dragon.png'
+  },
+
+  {
+    name:'Skibidi toilet',
+    price:15000,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/Skibidi.png',
+    localImage:'Skibidi.png'
+  },
+
+  {
+    name:'Strawberry Elephant',
+    price:25000,
+    image:'https://github.com/saintezz/saintbetW/blob/main/image/slon.png',
+    localImage:'slon.png'
+  }
+
+];
+
+/* =========================================================
+   IMAGE HELPERS
+========================================================= */
+
+function resolveItemImageUrl(url){
+
+  if(!url){
+    return '';
+  }
+
+  const raw =
+    String(url).trim();
+
+  if(
+    raw.includes('github.com') &&
+    raw.includes('/blob/')
+  ){
+
+    return raw
+      .replace(
+        'github.com',
+        'raw.githubusercontent.com'
+      )
+      .replace(
+        '/blob/',
+        '/'
+      );
+
+  }
+
+  return raw;
+}
+
+function handleItemImageError(
+  imgEl,
+  fallbackFilename
+){
+
+  if(!imgEl){
+    return;
+  }
+
+  const attempts =
+    Number(
+      imgEl.getAttribute(
+        'data-err-count'
+      ) ||
+      '0'
+    );
+
+  imgEl.setAttribute(
+    'data-err-count',
+    attempts + 1
+  );
+
+  const filename =
+    fallbackFilename ||
+    (
+      imgEl.src
+        ? imgEl.src
+            .split('/')
+            .pop()
+            .split('?')[0]
+        : ''
+    );
+
+  if(!filename){
+    return;
+  }
+
+  const candidateSources = [
+    `image/${filename}`,
+    `./image/${filename}`,
+    `../image/${filename}`,
+    `${filename}`,
+    `../${filename}`,
+    `https://raw.githubusercontent.com/saintezz/saintbetW/main/image/${filename}`,
+    `https://github.com/saintezz/saintbetW/raw/main/image/${filename}`
+  ];
+
+  if(
+    attempts <
+    candidateSources.length
+  ){
+
+    const nextSrc =
+      candidateSources[
+        attempts
+      ];
+
+    if(
+      nextSrc &&
+      imgEl.src !== nextSrc
+    ){
+
+      imgEl.src =
+        nextSrc;
+
+      return;
+    }
+  }
+
+  imgEl.style.opacity =
+    '0.35';
+}
+
+function renderItemImage(
+  item,
+  className='item-thumb'
+){
+
+  if(!item){
+    return '';
+  }
+
+  const src =
+    resolveItemImageUrl(
+      item.image ||
+      item.localImage ||
+      ''
+    );
+
+  const local =
+    item.localImage ||
+    (
+      item.image
+        ? item.image
+            .split('/')
+            .pop()
+            .split('?')[0]
+        : ''
+    );
+
+  if(!src){
+
+    return `
+      <div
+        class="${className}-container"
+      >
+        <div
+          style="
+            width:100%;
+            height:100%;
+            min-height:30px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#555;
+            font-size:9px;
+          "
+        >
+          NO IMAGE
+        </div>
+      </div>
+    `;
+
+  }
+
+  return `
+    <div class="${className}-container">
+
+      <img
+        src="${src}"
+        alt="${item.name}"
+        class="${className}"
+        loading="lazy"
+        onerror="handleItemImageError(this, '${local}')"
+      />
+
+    </div>
+  `;
+}
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let balance = 10;
+let inventory = [];
+let sourceItem = null;
+let targetItem = null;
+let spinning = false;
+let pointerRotation = 0;
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+const PROFILE_KEY =
+  'upgrader_profile_v2';
+
+const USERS_KEY =
+  'upgrader_users_v2';
+
+const PENDING_UPGRADE_KEY =
+  'upgrader_pending_upgrade_v1';
+
+let profile = null;
+let users = {};
+
+function makeUsername(){
+
+  return 'user' +
+    Math.floor(
+      100000 +
+      Math.random() * 900000
+    );
+
+}
+
+function normalizeUsername(value){
+
+  return String(
+    value || ''
+  )
+    .trim()
+    .replace(
+      /^@+/,
+      ''
+    )
+    .toLowerCase();
+
+}
+
+function validUsername(value){
+
+  return /^[a-z0-9_]{3,20}$/.test(
+    value
+  );
+
+}
+
+function removePendingUpgradeOnReload(){
+
+  let pending = null;
+
+  try{
+
+    pending =
+      JSON.parse(
+        localStorage.getItem(
+          PENDING_UPGRADE_KEY
+        ) ||
+        'null'
+      );
+
+  }catch(e){
+
+    pending = null;
+
+  }
+
+  if(
+    !pending ||
+    !pending.username ||
+    !Number.isInteger(
+      pending.slotIndex
+    )
+  ){
+
+    localStorage.removeItem(
+      PENDING_UPGRADE_KEY
+    );
+
+    return;
+
+  }
+
+  const pendingUsername =
+    normalizeUsername(
+      pending.username
+    );
+
+  const currentUsername =
+    normalizeUsername(
+      profile?.username ||
+      ''
+    );
+
+  if(
+    pendingUsername !==
+    currentUsername
+  ){
+
+    return;
+
+  }
+
+  if(
+    pending.slotIndex >= 0 &&
+    pending.slotIndex <
+    inventory.length
+  ){
+
+    inventory.splice(
+      pending.slotIndex,
+      1
+    );
+
+    saveProfileData();
+
+  }
+
+  localStorage.removeItem(
+    PENDING_UPGRADE_KEY
+  );
+
+}
+
+function loadProfileData(){
+
+  try{
+
+    users =
+      JSON.parse(
+        localStorage.getItem(
+          USERS_KEY
+        ) ||
+        '{}'
+      );
+
+  }catch(e){
+
+    users = {};
+
+  }
+
+  try{
+
+    profile =
+      JSON.parse(
+        localStorage.getItem(
+          PROFILE_KEY
+        ) ||
+        'null'
+      );
+
+  }catch(e){
+
+    profile = null;
+
+  }
+
+  if(
+    !profile ||
+    !profile.username
+  ){
+
+    const username =
+      makeUsername();
+
+    profile = {
+      username,
+      lastUsernameChange:0,
+      telegramUsername:'',
+      telegramId:'',
+      telegramFirstName:'',
+      telegramLastName:''
+    };
+
+    users[username] = {
+      balance:10,
+      inventory:[],
+      telegramUsername:'',
+      telegramId:'',
+      telegramFirstName:'',
+      telegramLastName:''
+    };
+
+  }else if(
+    !users[
+      profile.username
+    ]
+  ){
+
+    users[
+      profile.username
+    ] = {
+      balance:10,
+      inventory:[],
+      telegramUsername:'',
+      telegramId:'',
+      telegramFirstName:'',
+      telegramLastName:''
+    };
+
+  }
+
+  balance =
+    Number(
+      users[
+        profile.username
+      ].balance ?? 10
+    );
+
+  inventory =
+    Array.isArray(
+      users[
+        profile.username
+      ].inventory
+    )
+      ? users[
+          profile.username
+        ].inventory
+      : [];
+
+  removePendingUpgradeOnReload();
+
+  saveProfileData();
+
+}
+
+function saveProfileData(){
+
+  if(!profile){
+    return;
+  }
+
+  users[
+    profile.username
+  ] = {
+    balance,
+    inventory,
+
+    telegramUsername:
+      normalizeUsername(
+        profile?.telegramUsername ||
+        ''
+      ),
+
+    telegramId:
+      String(
+        profile?.telegramId ||
+        ''
+      ),
+
+    telegramFirstName:
+      String(
+        profile?.telegramFirstName ||
+        ''
+      ),
+
+    telegramLastName:
+      String(
+        profile?.telegramLastName ||
+        ''
+      )
+  };
+
+  localStorage.setItem(
+    PROFILE_KEY,
+    JSON.stringify(
+      profile
+    )
+  );
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(
+      users
+    )
+  );
+
+}
+
+function getTelegramUser(){
+
+  const tg =
+    window.Telegram &&
+    window.Telegram.WebApp
+      ? window.Telegram.WebApp
+      : null;
+
+  if(!tg){
+    return null;
+  }
+
+  try{
+
+    tg.ready();
+    tg.expand();
+
+  }catch(e){}
+
+  return (
+    tg.initDataUnsafe?.user ||
+    null
+  );
+
+}
+
+/* =========================================================
+   SERVER
+========================================================= */
+
+const API_URL =
+  'https://saintbetw.onrender.com';
+
+async function syncUserWithServer(){
+
+  try{
+
+    const tg =
+      window.Telegram &&
+      window.Telegram.WebApp
+        ? window.Telegram.WebApp
+        : null;
+
+    const telegramUser =
+      tg?.initDataUnsafe?.user ||
+      null;
+
+    if(
+      !telegramUser ||
+      !telegramUser.id
+    ){
+
+      console.warn(
+        'Telegram пользователь не найден.'
+      );
+
+      return;
+
+    }
+
+    profile.telegramId =
+      String(
+        telegramUser.id || ''
+      );
+
+    profile.telegramUsername =
+      normalizeUsername(
+        telegramUser.username || ''
+      );
+
+    profile.telegramFirstName =
+      String(
+        telegramUser.first_name || ''
+      );
+
+    profile.telegramLastName =
+      String(
+        telegramUser.last_name || ''
+      );
+
+    saveProfileData();
+
+    const response =
+      await fetch(
+        API_URL + '/api/user',
+        {
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify({
+              telegram_id:
+                String(
+                  telegramUser.id
+                ),
+
+              username:
+                normalizeUsername(
+                  telegramUser.username || ''
+                ),
+
+              first_name:
+                String(
+                  telegramUser.first_name || ''
+                ),
+
+              roblox_name:null
+            })
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        'HTTP ' +
+        response.status
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    if(data.success){
+
+      console.log(
+        'Игрок сохранён в базе:',
+        data.user
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      'Ошибка подключения к базе:',
+      error
+    );
+
+  }
+
+}
+
+function getTelegramUsername(){
+
+  const telegramUser =
+    getTelegramUser();
+
+  if(telegramUser){
+
+    const username =
+      normalizeUsername(
+        telegramUser.username || ''
+      );
+
+    profile.telegramUsername =
+      username;
+
+    profile.telegramId =
+      String(
+        telegramUser.id || ''
+      );
+
+    profile.telegramFirstName =
+      String(
+        telegramUser.first_name || ''
+      );
+
+    profile.telegramLastName =
+      String(
+        telegramUser.last_name || ''
+      );
+
+    if(
+      profile.username &&
+      users[
+        profile.username
+      ]
+    ){
+
+      users[
+        profile.username
+      ].telegramUsername =
+        username;
+
+      users[
+        profile.username
+      ].telegramId =
+        String(
+          telegramUser.id || ''
+        );
+
+      users[
+        profile.username
+      ].telegramFirstName =
+        String(
+          telegramUser.first_name || ''
+        );
+
+      users[
+        profile.username
+      ].telegramLastName =
+        String(
+          telegramUser.last_name || ''
+        );
+
+    }
+
+    localStorage.setItem(
+      'upgrader_telegram_username_v1',
+      username
+    );
+
+    localStorage.setItem(
+      'upgrader_telegram_id_v1',
+      String(
+        telegramUser.id || ''
+      )
+    );
+
+    return username;
+
+  }
+
+  return normalizeUsername(
+    profile?.telegramUsername || ''
+  );
+
+}
+
+function isAdmin(){
+
+  const telegramUsername =
+    getTelegramUsername();
+
+  const currentUsername =
+    normalizeUsername(
+      profile?.username || ''
+    );
+
+  return (
+    telegramUsername ===
+    'saintezz7' ||
+    currentUsername ===
+    'saintezz7'
+  );
+
+}
+
+/* =========================================================
+   WITHDRAW SHOP DATA
+========================================================= */
+
+const defaultWithdrawShopItems = [
+
+  {
+    id:1,
+    name:"Ventoliero Pavonero",
+    price:40,
+    stock:2
+  },
+
+  {
+    id:2,
+    name:"Ketchuru and Musturu",
+    price:40,
+    stock:1
+  },
+
+  {
+    id:3,
+    name:"La Summer Grande",
+    price:30,
+    stock:2
+  },
+
+  {
+    id:4,
+    name:"Sand Sand Sand",
+    price:15,
+    stock:2
+  },
+
+  {
+    id:5,
+    name:"Ketupat Kepat",
+    price:25,
+    stock:2
+  },
+
+  {
+    id:6,
+    name:"Los Tangsitos",
+    price:40,
+    stock:2
+  },
+
+  {
+    id:7,
+    name:"Los Fruits",
+    price:19,
+    stock:1
+  },
+
+  {
+    id:8,
+    name:"La Ginger Sekolah",
+    price:45,
+    stock:1
+  },
+
+  {
+    id:9,
+    name:"Esok Sekolah",
+    price:10,
+    stock:1
+  },
+
+  {
+    id:10,
+    name:"La Jolly Grande",
+    price:50,
+    stock:1
+  }
+
+];
+
+const WITHDRAW_SHOP_STORAGE_KEY =
+  'withdraw_shop_items_v2';
+
+let withdrawShopItems = [];
+let pendingWithdrawItemId = null;
+
+function saveWithdrawShopItems(){
+
+  try{
+
+    localStorage.setItem(
+      WITHDRAW_SHOP_STORAGE_KEY,
+      JSON.stringify(
+        withdrawShopItems
+      )
+    );
+
+  }catch(e){
+
+    console.error(
+      'Ошибка сохранения магазина:',
+      e
+    );
+
+  }
+
+}
+
+async function loadWithdrawShopItems(){
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        '/api/shop/items'
+      );
+
+    if(response.ok){
+
+      const data =
+        await response.json();
+
+      if(
+        data.success &&
+        Array.isArray(
+          data.items
+        ) &&
+        data.items.length > 0
+      ){
+
+        withdrawShopItems =
+          data.items;
+
+        saveWithdrawShopItems();
+
+        renderWithdrawShopModal();
+
+        updateWithdrawShopBadge();
+
+        return;
+
+      }
+
+    }
+
+  }catch(e){
+
+    console.warn(
+      'Сервер недоступен, загружаем локальные данные магазина:',
+      e
+    );
+
+  }
+
+  try{
+
+    const stored =
+      JSON.parse(
+        localStorage.getItem(
+          WITHDRAW_SHOP_STORAGE_KEY
+        ) ||
+        'null'
+      );
+
+    if(
+      Array.isArray(stored) &&
+      stored.length > 0
+    ){
+
+      withdrawShopItems =
+        stored;
+
+    }else{
+
+      withdrawShopItems =
+        JSON.parse(
+          JSON.stringify(
+            defaultWithdrawShopItems
+          )
+        );
+
+      saveWithdrawShopItems();
+
+    }
+
+  }catch(e){
+
+    withdrawShopItems =
+      JSON.parse(
+        JSON.stringify(
+          defaultWithdrawShopItems
+        )
+      );
+
+  }
+
+  renderWithdrawShopModal();
+
+  updateWithdrawShopBadge();
+
+}
+
+function updateWithdrawShopBadge(){
+
+  const countBadge =
+    document.getElementById(
+      'topShopCountBadge'
+    );
+
+  const countInModal =
+    document.getElementById(
+      'withdrawShopStockCount'
+    );
+
+  const totalStock =
+    withdrawShopItems.reduce(
+      (
+        acc,
+        item
+      ) =>
+        acc +
+        (
+          Number(
+            item.stock
+          ) ||
+          0
+        ),
+      0
+    );
+
+  const totalTypes =
+    withdrawShopItems.length;
+
+  if(countBadge){
+
+    countBadge.textContent =
+      totalStock > 0
+        ? totalTypes
+        : '0';
+
+  }
+
+  if(countInModal){
+
+    countInModal.textContent =
+      `${totalTypes} предл. (${totalStock} шт.)`;
+
+  }
+
+}
+
+function openWithdrawShopModal(){
+
+  const modal =
+    document.getElementById(
+      'withdrawShopModal'
+    );
+
+  if(!modal){
+    return;
+  }
+
+  modal.hidden =
+    false;
+
+  renderWithdrawShopModal();
+
+}
+
+function closeWithdrawShopModal(){
+
+  const modal =
+    document.getElementById(
+      'withdrawShopModal'
+    );
+
+  if(modal){
+
+    modal.hidden =
+      true;
+
+  }
+
+}
+
+function toggleAdminAddForm(
+  force
+){
+
+  const form =
+    document.getElementById(
+      'withdrawAdminAddForm'
+    );
+
+  const btn =
+    document.getElementById(
+      'adminAddToggleBtn'
+    );
+
+  if(!form){
+    return;
+  }
+
+  const willShow =
+    force !== undefined
+      ? force
+      : form.hidden;
+
+  form.hidden =
+    !willShow;
+
+  if(btn){
+
+    btn.textContent =
+      willShow
+        ? '✕ Закрыть форму'
+        : '＋ Добавить браинрота';
+
+  }
+
+  if(willShow){
+
+    const nameInput =
+      document.getElementById(
+        'newBrainrotName'
+      );
+
+    if(nameInput){
+
+      nameInput.focus();
+
+    }
+
+  }
+
+}
+
+function renderWithdrawShopModal(){
+
+  const balanceEl =
+    document.getElementById(
+      'withdrawShopBalance'
+    );
+
+  if(balanceEl){
+
+    balanceEl.textContent =
+      balance;
+
+  }
+
+  const adminSection =
+    document.getElementById(
+      'withdrawAdminPanel'
+    );
+
+  const userIsAdmin =
+    isAdmin();
+
+  if(adminSection){
+
+    adminSection.hidden =
+      !userIsAdmin;
+
+  }
+
+  const listContainer =
+    document.getElementById(
+      'withdrawItemsList'
+    );
+
+  if(!listContainer){
+    return;
+  }
+
+  listContainer.innerHTML =
+    '';
+
+  if(
+    withdrawShopItems.length ===
+    0
+  ){
+
+    listContainer.innerHTML = `
+      <div
+        style="
+          text-align:center;
+          padding:30px 10px;
+          color:#888;
+          font-size:12px;
+        "
+      >
+        В данный момент предложений нет.
+      </div>
+    `;
+
+    updateWithdrawShopBadge();
+
+    return;
+
+  }
+
+  withdrawShopItems.forEach(
+    item => {
+
+      const stock =
+        Number(
+          item.stock || 0
+        );
+
+      const price =
+        Number(
+          item.price || 0
+        );
+
+      const inStock =
+        stock > 0;
+
+      const canAfford =
+        balance >= price;
+
+      const row =
+        document.createElement(
+          'div'
+        );
+
+      row.className =
+        `withdraw-item-row ${
+          inStock
+            ? ''
+            : 'out-of-stock'
+        }`;
+
+      const exactLine =
+        `${item.name} - <span class="highlight-price">${price} костей</span> <span class="highlight-stock">(${stock} на складе)</span>`;
+
+      let buttonHtml = '';
+
+      if(!inStock){
+
+        buttonHtml = `
+          <button
+            class="withdraw-btn"
+            disabled
+          >
+            НЕТ НА СКЛАДЕ
+          </button>
+        `;
+
+      }else{
+
+        buttonHtml = `
+          <button
+            class="withdraw-btn"
+            onclick="openWithdrawConfirmModal(${item.id})"
+          >
+            ${
+              canAfford
+                ? 'ВЫВЕСТИ'
+                : `ВЫВЕСТИ (${price} 🦴)`
+            }
+          </button>
+        `;
+
+      }
+
+      let adminControlsHtml = '';
+
+      if(userIsAdmin){
+
+        adminControlsHtml = `
+          <div
+            class="withdraw-item-admin-controls"
+          >
+
+            <div
+              class="admin-stock-control"
+            >
+
+              <span>
+                На складе:
+              </span>
+
+              <button
+                type="button"
+                class="admin-mini-btn"
+                onclick="changeWithdrawShopItemStock(${item.id},-1)"
+              >
+                −
+              </button>
+
+              <b
+                style="
+                  color:#fff;
+                  min-width:20px;
+                  text-align:center;
+                "
+              >
+                ${stock}
+              </b>
+
+              <button
+                type="button"
+                class="admin-mini-btn"
+                onclick="changeWithdrawShopItemStock(${item.id},1)"
+              >
+                ＋
+              </button>
+
+            </div>
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:6px;
+              "
+            >
+
+              <button
+                type="button"
+                class="admin-mini-btn"
+                style="
+                  width:auto;
+                  padding:0 8px;
+                "
+                onclick="promptEditPrice(${item.id})"
+              >
+                ✏️ Цена
+              </button>
+
+              <button
+                type="button"
+                class="admin-delete-item-btn"
+                onclick="deleteWithdrawShopItem(${item.id})"
+              >
+                🗑 Удалить
+              </button>
+
+            </div>
+
+          </div>
+        `;
+
+      }
+
+      row.innerHTML = `
+        <div
+          class="withdraw-item-main"
+        >
+
+          <div
+            class="withdraw-item-text-line"
+          >
+            ${exactLine}
+          </div>
+
+          <div
+            class="withdraw-item-btn-wrap"
+          >
+            ${buttonHtml}
+          </div>
+
+        </div>
+
+        ${adminControlsHtml}
+      `;
+
+      listContainer.appendChild(
+        row
+      );
+
+    }
+  );
+
+  updateWithdrawShopBadge();
+
+}
+
+function promptEditPrice(
+  itemId
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id === itemId
+    );
+
+  if(!item){
+    return;
+  }
+
+  const newPriceStr =
+    prompt(
+      `Укажите новую цену для "${item.name}" в костях:`,
+      item.price
+    );
+
+  if(
+    newPriceStr === null
+  ){
+    return;
+  }
+
+  const newPrice =
+    Math.floor(
+      Number(
+        newPriceStr
+      )
+    );
+
+  if(
+    isNaN(newPrice) ||
+    newPrice < 0
+  ){
+
+    alert(
+      'Некорректная цена'
+    );
+
+    return;
+
+  }
+
+  updateWithdrawShopItemPrice(
+    itemId,
+    newPrice
+  );
+
+}
+
+function changeWithdrawShopItemStock(
+  itemId,
+  delta
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id === itemId
+    );
+
+  if(!item){
+    return;
+  }
+
+  item.stock =
+    Math.max(
+      0,
+      Number(
+        item.stock || 0
+      ) +
+      delta
+    );
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'update',
+    item
+  );
+
+  renderWithdrawShopModal();
+
+}
+
+function updateWithdrawShopItemPrice(
+  itemId,
+  newPrice
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id === itemId
+    );
+
+  if(!item){
+    return;
+  }
+
+  item.price =
+    newPrice;
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'update',
+    item
+  );
+
+  renderWithdrawShopModal();
+
+}
+
+function deleteWithdrawShopItem(
+  itemId
+){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id === itemId
+    );
+
+  const itemName =
+    item
+      ? item.name
+      : 'этот предмет';
+
+  if(
+    !confirm(
+      `Удалить "${itemName}" из магазина вывода?`
+    )
+  ){
+
+    return;
+
+  }
+
+  withdrawShopItems =
+    withdrawShopItems.filter(
+      i =>
+        i.id !== itemId
+    );
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'delete',
+    {
+      id:itemId
+    }
+  );
+
+  renderWithdrawShopModal();
+
+}
+
+function handleAdminAddBrainrot(
+  e
+){
+
+  e.preventDefault();
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const nameInput =
+    document.getElementById(
+      'newBrainrotName'
+    );
+
+  const priceInput =
+    document.getElementById(
+      'newBrainrotPrice'
+    );
+
+  const stockInput =
+    document.getElementById(
+      'newBrainrotStock'
+    );
+
+  const msgEl =
+    document.getElementById(
+      'adminAddFormMsg'
+    );
+
+  const name =
+    nameInput.value.trim();
+
+  const price =
+    Math.floor(
+      Number(
+        priceInput.value
+      )
+    );
+
+  const stock =
+    Math.floor(
+      Number(
+        stockInput.value
+      )
+    );
+
+  if(!name){
+
+    if(msgEl){
+
+      msgEl.textContent =
+        'Укажите название браинрота';
+
+    }
+
+    return;
+
+  }
+
+  if(
+    isNaN(price) ||
+    price < 0
+  ){
+
+    if(msgEl){
+
+      msgEl.textContent =
+        'Укажите корректную цену';
+
+    }
+
+    return;
+
+  }
+
+  if(
+    isNaN(stock) ||
+    stock < 0
+  ){
+
+    if(msgEl){
+
+      msgEl.textContent =
+        'Укажите корректное количество';
+
+    }
+
+    return;
+
+  }
+
+  const newItem = {
+    id:Date.now(),
+    name,
+    price,
+    stock
+  };
+
+  withdrawShopItems.push(
+    newItem
+  );
+
+  saveWithdrawShopItems();
+
+  syncWithdrawItemWithServer(
+    'add',
+    newItem
+  );
+
+  nameInput.value = '';
+  priceInput.value = '';
+  stockInput.value = '';
+
+  if(msgEl){
+
+    msgEl.innerHTML = `
+      <span
+        style="
+          color:#fff;
+        "
+      >
+        ✓ "${name}"
+        успешно добавлен в магазин!
+      </span>
+    `;
+
+    setTimeout(
+      () => {
+
+        if(msgEl){
+          msgEl.textContent = '';
+        }
+
+      },
+      3000
+    );
+
+  }
+
+  renderWithdrawShopModal();
+
+}
+
+async function syncWithdrawItemWithServer(
+  action,
+  payload
+){
+
+  try{
+
+    if(
+      action === 'add'
+    ){
+
+      await fetch(
+        API_URL +
+        '/api/shop/items',
+        {
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+    }else if(
+      action === 'update'
+    ){
+
+      await fetch(
+        API_URL +
+        `/api/shop/items/${payload.id}`,
+        {
+          method:'PUT',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+    }else if(
+      action === 'delete'
+    ){
+
+      await fetch(
+        API_URL +
+        `/api/shop/items/${payload.id}`,
+        {
+          method:'DELETE'
+        }
+      );
+
+    }
+
+  }catch(e){
+
+    console.warn(
+      'Синхронизация с сервером не удалась:',
+      e
+    );
+
+  }
+
+}
+
+/* =========================================================
+   WITHDRAW CONFIRM
+========================================================= */
+
+function openWithdrawConfirmModal(
+  itemId
+){
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id === itemId
+    );
+
+  if(!item){
+    return;
+  }
+
+  if(
+    item.stock < 1
+  ){
+
+    alert(
+      'Этого браинрота нет в наличии на складе.'
+    );
+
+    return;
+
+  }
+
+  if(
+    balance < item.price
+  ){
+
+    alert(
+      `Недостаточно костей для вывода. Нужно ${item.price} 🦴, у вас ${balance} 🦴.`
+    );
+
+    return;
+
+  }
+
+  pendingWithdrawItemId =
+    itemId;
+
+  const modal =
+    document.getElementById(
+      'withdrawConfirmModal'
+    );
+
+  const nameEl =
+    document.getElementById(
+      'confirmItemName'
+    );
+
+  const priceEl =
+    document.getElementById(
+      'confirmItemPrice'
+    );
+
+  const nickInput =
+    document.getElementById(
+      'confirmRobloxNick'
+    );
+
+  const errorEl =
+    document.getElementById(
+      'confirmError'
+    );
+
+  if(nameEl){
+
+    nameEl.textContent =
+      `${item.name} (${item.stock} на складе)`;
+
+  }
+
+  if(priceEl){
+
+    priceEl.textContent =
+      `${item.price} 🦴`;
+
+  }
+
+  if(errorEl){
+
+    errorEl.textContent =
+      '';
+
+  }
+
+  if(nickInput){
+
+    nickInput.value =
+      localStorage.getItem(
+        'upgrader_roblox_nick_v1'
+      ) ||
+      '';
+
+  }
+
+  if(modal){
+
+    modal.hidden =
+      false;
+
+  }
+
+}
+
+function closeWithdrawConfirmModal(){
+
+  const modal =
+    document.getElementById(
+      'withdrawConfirmModal'
+    );
+
+  if(modal){
+
+    modal.hidden =
+      true;
+
+  }
+
+  pendingWithdrawItemId =
+    null;
+
+}
+
+async function submitBrainrotWithdrawal(
+  e
+){
+
+  e.preventDefault();
+
+  if(
+    !pendingWithdrawItemId
+  ){
+    return;
+  }
+
+  const item =
+    withdrawShopItems.find(
+      i =>
+        i.id ===
+        pendingWithdrawItemId
+    );
+
+  if(!item){
+
+    closeWithdrawConfirmModal();
+
+    return;
+
+  }
+
+  const nickInput =
+    document.getElementById(
+      'confirmRobloxNick'
+    );
+
+  const timeInput =
+    document.getElementById(
+      'confirmReadyTime'
+    );
+
+  const commentInput =
+    document.getElementById(
+      'confirmComment'
+    );
+
+  const errorEl =
+    document.getElementById(
+      'confirmError'
+    );
+
+  const submitBtn =
+    document.getElementById(
+      'confirmSubmitBtn'
+    );
+
+  const robloxNick =
+    (
+      nickInput
+        ? nickInput.value
+        : ''
+    ).trim();
+
+  const readyTime =
+    (
+      timeInput
+        ? timeInput.value
+        : ''
+    ).trim();
+
+  const comment =
+    (
+      commentInput
+        ? commentInput.value
+        : ''
+    ).trim();
+
+  if(!robloxNick){
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Укажите ваш Roblox никнейм.';
+
+    }
+
+    return;
+
+  }
+
+  if(!readyTime){
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Укажите удобное время получения.';
+
+    }
+
+    return;
+
+  }
+
+  if(
+    balance <
+    item.price
+  ){
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Недостаточно костей на балансе.';
+
+    }
+
+    return;
+
+  }
+
+  if(
+    item.stock < 1
+  ){
+
+    if(errorEl){
+
+      errorEl.textContent =
+        'Товар закончился на складе.';
+
+    }
+
+    return;
+
+  }
+
+  if(submitBtn){
+
+    submitBtn.disabled =
+      true;
+
+    submitBtn.textContent =
+      'ОФОРМЛЕНИЕ...';
+
+  }
+
+  localStorage.setItem(
+    'upgrader_roblox_nick_v1',
+    robloxNick
+  );
+
+  balance -=
+    item.price;
+
+  item.stock =
+    Math.max(
+      0,
+      item.stock - 1
+    );
+
+  saveProfileData();
+  saveWithdrawShopItems();
+
+  try{
+
+    const telegramId =
+      profile?.telegramId ||
+      'local_user';
+
+    const response =
+      await fetch(
+        API_URL +
+        '/api/shop/withdraw',
+        {
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify({
+
+              telegram_id:
+                String(
+                  telegramId
+                ),
+
+              shop_item_id:
+                item.id,
+
+              roblox_name:
+                robloxNick,
+
+              ready_time:
+                readyTime,
+
+              comment:
+                comment
+
+            })
+        }
+      );
+
+    const data =
+      await response.json()
+        .catch(
+          () => ({})
+        );
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        'Ошибка оформления вывода'
+      );
+
+    }
+
+  }catch(err){
+
+    balance +=
+      item.price;
+
+    item.stock +=
+      1;
+
+    saveProfileData();
+    saveWithdrawShopItems();
+
+    if(errorEl){
+
+      errorEl.textContent =
+        err.message ||
+        'Не удалось создать заявку.';
+
+    }
+
+    if(submitBtn){
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.textContent =
+        'ПОДТВЕРДИТЬ ВЫВОД';
+
+    }
+
+    return;
+
+  }
+
+  closeWithdrawConfirmModal();
+
+  renderAll();
+  renderWithdrawShopModal();
+
+  if(instruction){
+
+    instruction.innerHTML = `
+      <span
+        style="
+          color:#fff;
+          font-weight:900;
+        "
+      >
+        ЗАЯВКА НА ВЫВОД ПРИНЯТА!
+      </span>
+
+      <br>
+
+      <b>${item.name}</b>
+      зарезервирован для
+      <b>${robloxNick}</b>.
+    `;
+
+  }
+
+  alert(
+    `✅ Заявка на вывод браинрота "${item.name}" успешно оформлена!\nСписано: ${item.price} 🦴.\nОстаток на складе: ${item.stock} шт.`
+  );
+
+}
+
+/* =========================================================
+   PROFILE RENDER
+========================================================= */
+
+function renderProfile(){
+
+  const telegramUser =
+    getTelegramUser();
+
+  const telegramUsername =
+    getTelegramUsername();
+
+  const usernameEl =
+    document.getElementById(
+      'profileUsername'
+    );
+
+  const avatarEl =
+    document.getElementById(
+      'profileAvatar'
+    );
+
+  const metaEl =
+    document.getElementById(
+      'profileMeta'
+    );
+
+  const cooldown =
+    document.getElementById(
+      'profileCooldown'
+    );
+
+  const accountStatus =
+    document.getElementById(
+      'telegramAccountStatus'
+    );
+
+  const adminPanel =
+    document.getElementById(
+      'adminPanel'
+    );
+
+  const withdrawAdminPanel =
+    document.getElementById(
+      'withdrawAdminPanel'
+    );
+
+  if(telegramUser){
+
+    const firstName =
+      String(
+        telegramUser.first_name || ''
+      ).trim();
+
+    const lastName =
+      String(
+        telegramUser.last_name || ''
+      ).trim();
+
+    const fullName =
+      [
+        firstName,
+        lastName
+      ]
+        .filter(Boolean)
+        .join(' ') ||
+      'Telegram пользователь';
+
+    const displayName =
+      telegramUsername
+        ? '@' +
+          telegramUsername
+        : fullName;
+
+    if(usernameEl){
+
+      usernameEl.textContent =
+        displayName;
+
+    }
+
+    if(avatarEl){
+
+      avatarEl.textContent =
+        (
+          firstName ||
+          telegramUsername ||
+          'T'
+        )
+          .charAt(0)
+          .toUpperCase();
+
+    }
+
+    if(metaEl){
+
+      metaEl.textContent =
+        'TELEGRAM • ' +
+        fullName;
+
+    }
+
+    if(accountStatus){
+
+      accountStatus.textContent =
+        '✓ АККАУНТ TELEGRAM ПОДКЛЮЧЁН';
+
+    }
+
+    if(cooldown){
+
+      cooldown.textContent =
+        telegramUser.id
+          ? 'Telegram ID: ' +
+            telegramUser.id
+          : 'Аккаунт определён Telegram';
+
+    }
+
+  }else{
+
+    if(usernameEl){
+
+      usernameEl.textContent =
+        'ОТКРОЙТЕ В TELEGRAM';
+
+    }
+
+    if(avatarEl){
+
+      avatarEl.textContent =
+        'TG';
+
+    }
+
+    if(metaEl){
+
+      metaEl.textContent =
+        'MINI APP НЕ ОТКРЫТ В TELEGRAM';
+
+    }
+
+    if(accountStatus){
+
+      accountStatus.textContent =
+        'ОТКРОЙТЕ SAINTBET В TELEGRAM';
+
+    }
+
+    if(cooldown){
+
+      cooldown.textContent =
+        'Аккаунт Telegram появится автоматически после открытия Mini App.';
+
+    }
+
+  }
+
+  const userIsAdmin =
+    isAdmin();
+
+  if(adminPanel){
+
+    adminPanel.hidden =
+      !userIsAdmin;
+
+  }
+
+  if(withdrawAdminPanel){
+
+    withdrawAdminPanel.hidden =
+      !userIsAdmin;
+
+  }
+
+  if(userIsAdmin){
+
+    const adminName =
+      document.getElementById(
+        'adminName'
+      );
+
+    if(adminName){
+
+      adminName.textContent =
+        '@' +
+        (
+          telegramUsername ||
+          profile?.username ||
+          'saintezz7'
+        );
+
+    }
+
+  }
+
+}
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+async function grantBones(){
+
+  if(!isAdmin()){
+    return;
+  }
+
+  const input =
+    document.getElementById(
+      'adminUsername'
+    );
+
+  const amountInput =
+    document.getElementById(
+      'adminBones'
+    );
+
+  const message =
+    document.getElementById(
+      'adminMessage'
+    );
+
+  const username =
+    normalizeUsername(
+      input.value
+    );
+
+  const amount =
+    Math.floor(
+      Number(
+        amountInput.value
+      )
+    );
+
+  if(
+    !validUsername(
+      username
+    )
+  ){
+
+    message.textContent =
+      'Укажи корректный Telegram @username.';
+
+    return;
+
+  }
+
+  if(
+    !Number.isFinite(
+      amount
+    ) ||
+    amount < 1
+  ){
+
+    message.textContent =
+      'Количество костей должно быть больше 0.';
+
+    return;
+
+  }
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        '/api/admin/grant-bones',
+        {
+          method:'POST',
+
+          headers:{
+            'Content-Type':
+              'application/json'
+          },
+
+          body:
+            JSON.stringify({
+              username,
+              amount
+            })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      throw new Error(
+        data.error ||
+        'Ошибка выдачи'
+      );
+
+    }
+
+    message.textContent =
+      `Выдано ${amount} 🦴 пользователю @${username}.`;
+
+    amountInput.value =
+      '';
+
+  }catch(error){
+
+    message.textContent =
+      error.message ||
+      'Ошибка выдачи костей.';
+
+  }
+
+}
+
+/* =========================================================
+   UPGRADE CHANCES
+========================================================= */
+
+const upgradeChances = {
+
+  /* LA GRANDE */
+
+  0:{
+
+    0:100,
+
+    1:25,
+    2:15,
+    3:8,
+    4:4,
+    5:3,
+    6:2,
+    7:1,
+    8:0.5,
+    9:0,
+    10:0,
+    11:0
+
+  },
+
+  /* BANANITO */
+
+  1:{
+
+    0:0,
+
+    1:100,
+
+    2:55,
+    3:35,
+    4:20,
+    5:15,
+    6:8,
+    7:5,
+    8:3,
+    9:1,
+    10:0,
+    11:0
+
+  },
+
+  /* MONEY MONEY PUGGY */
+
+  2:{
+
+    0:0,
+    1:0,
+
+    2:100,
+
+    3:65,
+    4:35,
+    5:25,
+    6:15,
+    7:10,
+    8:6,
+    9:2,
+    10:0,
+    11:0
+
+  },
+
+  /* TANG TANG KELETANG */
+
+  3:{
+
+    0:0,
+    1:0,
+    2:0,
+
+    3:100,
+
+    4:55,
+    5:40,
+    6:25,
+    7:15,
+    8:10,
+    9:4,
+    10:1,
+    11:0
+
+  },
+
+  /* GARAMA */
+
+  4:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+
+    4:100,
+
+    5:70,
+    6:20,
+    7:10,
+    8:5,
+    9:2,
+    10:0.5,
+    11:0
+
+  },
+
+  /* BURGURO */
+
+  5:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+
+    5:100,
+
+    6:45,
+    7:25,
+    8:12,
+    9:5,
+    10:1.5,
+    11:0.5
+
+  },
+
+  /* CANGURATO */
+
+  6:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+
+    6:100,
+
+    7:40,
+    8:20,
+    9:8,
+    10:2,
+    11:0.5
+
+  },
+
+  /* CAPITANO */
+
+  7:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+
+    7:100,
+
+    8:35,
+    9:12,
+    10:3,
+    11:1
+
+  },
+
+  /* CERBERUS */
+
+  8:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+
+    8:100,
+
+    9:18,
+    10:5,
+    11:1
+
+  },
+
+  /* DRAGON */
+
+  9:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+
+    9:100,
+
+    10:12,
+
+    /* Dragon → Strawberry Elephant = 2.5% */
+    11:2.5
+
+  },
+
+  /* SKIBIDI */
+
+  10:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+    9:0,
+
+    10:100,
+
+    /* Skibidi → Strawberry Elephant = 5% */
+    11:5
+
+  },
+
+  /* STRAWBERRY ELEPHANT */
+
+  11:{
+
+    0:0,
+    1:0,
+    2:0,
+    3:0,
+    4:0,
+    5:0,
+    6:0,
+    7:0,
+    8:0,
+    9:0,
+    10:0,
+
+    11:100
+
+  }
+
+};
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const itemGrid =
+  document.getElementById(
+    'items'
+  );
+
+const shopGrid =
+  document.getElementById(
+    'shopItems'
+  );
+
+const search =
+  document.getElementById(
+    'search'
+  );
+
+const wheel =
+  document.getElementById(
+    'wheel'
+  );
+
+const pointerWrap =
+  document.getElementById(
+    'pointerWrap'
+  );
+
+const wheelChance =
+  document.getElementById(
+    'wheelChance'
+  );
+
+const sourceSlot =
+  document.getElementById(
+    'sourceSlot'
+  );
+
+const targetSlot =
+  document.getElementById(
+    'targetSlot'
+  );
+
+const selectedCard =
+  document.getElementById(
+    'selectedCard'
+  );
+
+const inventoryStatus =
+  document.getElementById(
+    'inventoryStatus'
+  );
+
+const upgradeBtn =
+  document.getElementById(
+    'upgradeBtn'
+  );
+
+const instruction =
+  document.getElementById(
+    'instruction'
+  );
+
+const balanceEl =
+  document.getElementById(
+    'balance'
+  );
+
+/* =========================================================
+   SHOP
+========================================================= */
+
+function renderShop(){
+
+  shopGrid.innerHTML =
+    '';
+
+  items.forEach(
+    (
+      item,
+      index
+    ) => {
+
+      const row =
+        document.createElement(
+          'div'
+        );
+
+      row.className =
+        'shop-item';
+
+      const affordable =
+        balance >=
+        item.price;
+
+      row.innerHTML = `
+
+        ${renderItemImage(
+          item,
+          'shop-item-img'
+        )}
+
+        <div
+          class="shop-item-info"
+        >
+
+          <div
+            class="shop-item-name"
+          >
+            ${item.name}
+          </div>
+
+          <div
+            class="shop-item-price"
+          >
+            ${item.price} 🦴
+          </div>
+
+        </div>
+
+        <button
+          class="buy-item"
+          ${
+            affordable
+              ? ''
+              : 'disabled'
+          }
+        >
+          КУПИТЬ
+        </button>
+
+      `;
+
+      row
+        .querySelector(
+          '.buy-item'
+        )
+        .onclick =
+          e => {
+
+            e.stopPropagation();
+
+            buyItem(
+              index
+            );
+
+          };
+
+      shopGrid.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function renderInventory(){
+
+  const oldList =
+    document.getElementById(
+      'inventoryList'
+    );
+
+  if(oldList){
+
+    oldList.remove();
+
+  }
+
+  if(
+    inventory.length === 0
+  ){
+
+    inventoryStatus.textContent =
+      'Инвентарь пуст';
+
+    selectedCard.classList.remove(
+      'show'
+    );
+
+    selectedCard.innerHTML = `
+      <div
+        class="selected-number"
+      >
+        —
+      </div>
+
+      <div
+        class="selected-caption"
+      >
+        ВЫБРАННЫЙ ПРЕДМЕТ
+      </div>
+    `;
+
+    return;
+
+  }
+
+  inventoryStatus.textContent =
+    'Предметов в инвентаре: ' +
+    inventory.length;
+
+  const list =
+    document.createElement(
+      'div'
+    );
+
+  list.id =
+    'inventoryList';
+
+  list.className =
+    'inventory-list';
+
+  inventory.forEach(
+    (
+      itemIndex,
+      slotIndex
+    ) => {
+
+      const item =
+        items[
+          itemIndex
+        ];
+
+      if(!item){
+        return;
+      }
+
+      const row =
+        document.createElement(
+          'div'
+        );
+
+      row.className =
+        'inventory-item' +
+        (
+          sourceItem ===
+          slotIndex
+            ? ' selected'
+            : ''
+        );
+
+      row.innerHTML = `
+
+        ${renderItemImage(
+          item,
+          'inventory-item-img'
+        )}
+
+        <div
+          class="inventory-item-info"
+        >
+
+          <div
+            class="inventory-item-name"
+          >
+            ${item.name}
+          </div>
+
+          <div
+            class="inventory-item-price"
+          >
+            ${item.price} 🦴
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          class="sell-item"
+        >
+          ПРОДАТЬ
+        </button>
+
+      `;
+
+      row.onclick =
+        () =>
+          selectSource(
+            slotIndex
+          );
+
+      const sellButton =
+        row.querySelector(
+          '.sell-item'
+        );
+
+      sellButton.onclick =
+        e => {
+
+          e.stopPropagation();
+
+          sellItem(
+            slotIndex
+          );
+
+        };
+
+      list.appendChild(
+        row
+      );
+
+    }
+  );
+
+  document
+    .getElementById(
+      'inventoryPanel'
+    )
+    .appendChild(
+      list
+    );
+
+}
+
+/* =========================================================
+   SELL
+========================================================= */
+
+function sellItem(
+  slotIndex
+){
+
+  if(spinning){
+    return;
+  }
+
+  if(
+    inventory[
+      slotIndex
+    ] === undefined
+  ){
+
+    return;
+
+  }
+
+  const itemIndex =
+    inventory[
+      slotIndex
+    ];
+
+  const item =
+    items[
+      itemIndex
+    ];
+
+  if(!item){
+    return;
+  }
+
+  balance +=
+    item.price;
+
+  inventory.splice(
+    slotIndex,
+    1
+  );
+
+  if(
+    sourceItem ===
+    slotIndex
+  ){
+
+    sourceItem =
+      null;
+
+    clearSourceDisplay();
+
+  }else if(
+    sourceItem !== null &&
+    sourceItem >
+    slotIndex
+  ){
+
+    sourceItem--;
+
+  }
+
+  saveProfileData();
+
+  balanceEl.textContent =
+    balance;
+
+  instruction.innerHTML =
+    '<span style="color:#fff">' +
+    'ПРОДАНО!' +
+    '</span> ' +
+    item.name +
+    ' продан за ' +
+    item.price +
+    ' 🦴.';
+
+  renderAll();
+
+  updateTop();
+
+}
+
+/* =========================================================
+   TARGETS
+========================================================= */
+
+function renderTargets(){
+
+  const query =
+    search.value
+      .trim()
+      .toLowerCase();
+
+  itemGrid.innerHTML =
+    '';
+
+  items.forEach(
+    (
+      item,
+      index
+    ) => {
+
+      if(
+        query &&
+        !item.name
+          .toLowerCase()
+          .includes(
+            query
+          )
+      ){
+
+        return;
+
+      }
+
+      const b =
+        document.createElement(
+          'button'
+        );
+
+      b.className =
+        'item' +
+        (
+          targetItem ===
+          index
+            ? ' selected'
+            : ''
+        );
+
+      b.type =
+        'button';
+
+      b.innerHTML = `
+
+        ${renderItemImage(
+          item,
+          'target-item-img'
+        )}
+
+        <div
+          class="item-name"
+        >
+          ${item.name}
+        </div>
+
+        <div
+          class="item-price"
+        >
+          ${item.price} 🦴
+        </div>
+
+      `;
+
+      b.onclick =
+        () =>
+          selectTarget(
+            index
+          );
+
+      itemGrid.appendChild(
+        b
+      );
+
+    }
+  );
+
+}
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+  balanceEl.textContent =
+    balance;
+
+  renderShop();
+  renderInventory();
+  renderTargets();
+  renderProfile();
+  renderWithdrawShopModal();
+
+}
+
+/* =========================================================
+   BUY
+========================================================= */
+
+function buyItem(
+  index
+){
+
+  if(spinning){
+    return;
+  }
+
+  const item =
+    items[
+      index
+    ];
+
+  if(!item){
+    return;
+  }
+
+  if(
+    balance <
+    item.price
+  ){
+
+    instruction.innerHTML =
+      '<span style="color:#ff4d5a">' +
+      'Недостаточно костей.' +
+      '</span>';
+
+    return;
+
+  }
+
+  balance -=
+    item.price;
+
+  inventory.push(
+    index
+  );
+
+  saveProfileData();
+
+  instruction.innerHTML =
+    '<span style="color:#fff">' +
+    'КУПЛЕНО!' +
+    '</span> ' +
+    item.name +
+    ' добавлен в инвентарь.';
+
+  renderAll();
+
+}
+
+/* =========================================================
+   SELECT SOURCE
+========================================================= */
+
+function selectSource(
+  slotIndex
+){
+
+  if(spinning){
+    return;
+  }
+
+  if(
+    inventory[
+      slotIndex
+    ] === undefined
+  ){
+
+    return;
+
+  }
+
+  sourceItem =
+    slotIndex;
+
+  const itemIndex =
+    inventory[
+      slotIndex
+    ];
+
+  const item =
+    items[
+      itemIndex
+    ];
+
+  if(!item){
+    return;
+  }
+
+  selectedCard.innerHTML = `
+
+    ${renderItemImage(
+      item,
+      'selected-card-img'
+    )}
+
+    <div
+      class="selected-number"
+    >
+      ${item.name}
+    </div>
+
+    <div
+      class="selected-caption"
+    >
+      ВЫБРАННЫЙ ПРЕДМЕТ •
+      ${item.price} 🦴
+    </div>
+
+  `;
+
+  selectedCard.classList.add(
+    'show'
+  );
+
+  sourceSlot.classList.add(
+    'selected'
+  );
+
+  sourceSlot.innerHTML = `
+
+    ${renderItemImage(
+      item,
+      'slot-item-img'
+    )}
+
+    <div
+      class="slot-text"
+    >
+
+      ${item.name}<br>
+
+      <b
+        style="
+          color:#fff;
+          font-size:12px;
+        "
+      >
+        ${item.price} 🦴
+      </b>
+
+    </div>
+
+  `;
+
+  renderInventory();
+
+  updateTop();
+
+}
+
+/* =========================================================
+   SELECT TARGET
+========================================================= */
+
+function selectTarget(
+  index
+){
+
+  if(spinning){
+    return;
+  }
+
+  targetItem =
+    index;
+
+  const item =
+    items[
+      index
+    ];
+
+  if(!item){
+    return;
+  }
+
+  targetSlot.classList.add(
+    'selected'
+  );
+
+  targetSlot.innerHTML = `
+
+    ${renderItemImage(
+      item,
+      'slot-item-img'
+    )}
+
+    <div
+      class="slot-text"
+    >
+
+      ${item.name}<br>
+
+      <b
+        style="
+          color:#fff;
+          font-size:12px;
+        "
+      >
+        ${item.price} 🦴
+      </b>
+
+    </div>
+
+  `;
+
+  renderTargets();
+
+  updateTop();
+
+}
+
+/* =========================================================
+   CLEAR SOURCE
+========================================================= */
+
+function clearSourceDisplay(){
+
+  selectedCard.classList.remove(
+    'show'
+  );
+
+  selectedCard.innerHTML = `
+
+    <div
+      class="selected-number"
+    >
+      —
+    </div>
+
+    <div
+      class="selected-caption"
+    >
+      ВЫБРАННЫЙ ПРЕДМЕТ
+    </div>
+
+  `;
+
+  sourceSlot.classList.remove(
+    'selected'
+  );
+
+  sourceSlot.innerHTML = `
+
+    <div
+      class="slot-icon"
+    >
+      ↓
+    </div>
+
+    <div
+      class="slot-text"
+    >
+      ВЫБРАТЬ ИЗ<br>
+      ИНВЕНТАРЯ
+    </div>
+
+  `;
+
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+function focusInventory(){
+
+  document
+    .getElementById(
+      'inventoryPanel'
+    )
+    .scrollIntoView({
+      behavior:'smooth',
+      block:'nearest'
+    });
+
+}
+
+function focusTargets(){
+
+  document
+    .getElementById(
+      'targetPanel'
+    )
+    .scrollIntoView({
+      behavior:'smooth',
+      block:'nearest'
+    });
+
+  search.focus();
+
+}
+
+/* =========================================================
+   CHANCE
+========================================================= */
+
+function getUpgradeChance(){
+
+  if(
+    sourceItem === null ||
+    targetItem === null
+  ){
+
+    return 0;
+
+  }
+
+  const sourceIndex =
+    inventory[
+      sourceItem
+    ];
+
+  if(
+    !upgradeChances[
+      sourceIndex
+    ] ||
+    upgradeChances[
+      sourceIndex
+    ][
+      targetItem
+    ] === undefined
+  ){
+
+    return 0;
+
+  }
+
+  return upgradeChances[
+    sourceIndex
+  ][
+    targetItem
+  ];
+
+}
+
+/* =========================================================
+   UPDATE WHEEL
+========================================================= */
+
+function updateDisplayedChance(){
+
+  const chance =
+    getUpgradeChance();
+
+  wheelChance.textContent =
+    chance +
+    '%';
+
+  wheel.style.setProperty(
+    '--wheel-chance',
+    chance
+  );
+
+}
+
+/* =========================================================
+   UPDATE TOP
+========================================================= */
+
+function updateTop(){
+
+  updateDisplayedChance();
+
+  if(
+    sourceItem !== null &&
+    targetItem !== null
+  ){
+
+    const source =
+      items[
+        inventory[
+          sourceItem
+        ]
+      ];
+
+    const target =
+      items[
+        targetItem
+      ];
+
+    if(
+      !source ||
+      !target
+    ){
+
+      return;
+
+    }
+
+    const chance =
+      getUpgradeChance();
+
+    instruction.innerHTML =
+      `${source.name} → ` +
+      `<b>${target.name}</b>. ` +
+      `Шанс: <b>${chance}%</b>. ` +
+      `Готово к прокачке.`;
+
+    upgradeBtn.classList.add(
+      'ready'
+    );
+
+  }else{
+
+    instruction.innerHTML =
+      'Выбери предмет из инвентаря и<br>' +
+      'желаемую цель.';
+
+    upgradeBtn.classList.remove(
+      'ready'
+    );
+
+  }
+
+}
+
+/* =========================================================
+   UPGRADE
+========================================================= */
+
+function upgrade(){
+
+  if(spinning){
+    return;
+  }
+
+  if(
+    sourceItem === null
+  ){
+
+    instruction.textContent =
+      'Сначала выбери предмет из инвентаря.';
+
+    focusInventory();
+
+    return;
+
+  }
+
+  if(
+    targetItem === null
+  ){
+
+    instruction.textContent =
+      'Теперь выбери желаемый предмет.';
+
+    focusTargets();
+
+    return;
+
+  }
+
+  const sourceSlotIndex =
+    sourceItem;
+
+  const sourceIndex =
+    inventory[
+      sourceSlotIndex
+    ];
+
+  const targetIndex =
+    targetItem;
+
+  const source =
+    items[
+      sourceIndex
+    ];
+
+  const target =
+    items[
+      targetIndex
+    ];
+
+  if(
+    !source ||
+    !target
+  ){
+
+    return;
+
+  }
+
+  const chance =
+    getUpgradeChance();
+
+  spinning =
+    true;
+
+  localStorage.setItem(
+    PENDING_UPGRADE_KEY,
+    JSON.stringify({
+      username:
+        profile?.username ||
+        '',
+
+      slotIndex:
+        sourceSlotIndex,
+
+      sourceIndex,
+
+      targetIndex,
+
+      startedAt:
+        Date.now()
+    })
+  );
+
+  upgradeBtn.disabled =
+    true;
+
+  upgradeBtn.textContent =
+    'ПРОКАЧКА...';
+
+  const win =
+    Math.random() *
+    100 <
+    chance;
+
+  const greenAngle =
+    chance *
+    3.6;
+
+  let finalAngle;
+
+  if(
+    chance >= 100
+  ){
+
+    finalAngle =
+      Math.random() *
+      360;
+
+  }else if(
+    chance <= 0
+  ){
+
+    finalAngle =
+      greenAngle +
+      8 +
+      Math.random() *
+      344;
+
+  }else if(
+    win
+  ){
+
+    finalAngle =
+      3 +
+      Math.random() *
+      Math.max(
+        1,
+        greenAngle -
+        6
+      );
+
+  }else{
+
+    const blackSize =
+      360 -
+      greenAngle;
+
+    finalAngle =
+      greenAngle +
+      3 +
+      Math.random() *
+      Math.max(
+        1,
+        blackSize -
+        6
+      );
+
+  }
+
+  pointerRotation =
+    Math.ceil(
+      pointerRotation /
+      360
+    ) *
+    360 +
+
+    5 *
+    360 +
+
+    finalAngle;
+
+  pointerWrap.style.transform =
+    'rotate(' +
+    pointerRotation +
+    'deg)';
+
+  /* 3.8 секунды вместо 1.8 */
+
+  setTimeout(
+    () => {
+
+      localStorage.removeItem(
+        PENDING_UPGRADE_KEY
+      );
+
+      if(win){
+
+        inventory[
+          sourceSlotIndex
+        ] =
+          targetIndex;
+
+        sourceItem =
+          sourceSlotIndex;
+
+        saveProfileData();
+
+        const wonItem =
+          items[
+            targetIndex
+          ];
+
+        selectedCard.innerHTML = `
+
+          ${renderItemImage(
+            wonItem,
+            'selected-card-img'
+          )}
+
+          <div
+            class="selected-number"
+          >
+            ${wonItem.name}
+          </div>
+
+          <div
+            class="selected-caption"
+          >
+            ВЫБРАННЫЙ ПРЕДМЕТ •
+            ${wonItem.price} 🦴
+          </div>
+
+        `;
+
+        selectedCard.classList.add(
+          'show'
+        );
+
+        sourceSlot.classList.add(
+          'selected'
+        );
+
+        sourceSlot.innerHTML = `
+
+          ${renderItemImage(
+            wonItem,
+            'slot-item-img'
+          )}
+
+          <div
+            class="slot-text"
+          >
+
+            ${wonItem.name}<br>
+
+            <b
+              style="
+                color:#fff;
+                font-size:12px;
+              "
+            >
+              ${wonItem.price} 🦴
+            </b>
+
+          </div>
+
+        `;
+
+        instruction.innerHTML =
+          '<span style="color:#fff">' +
+          'УСПЕХ!' +
+          '</span> ' +
+          wonItem.name +
+          ' получен!';
+
+      }else{
+
+        inventory.splice(
+          sourceSlotIndex,
+          1
+        );
+
+        sourceItem =
+          null;
+
+        saveProfileData();
+
+        clearSourceDisplay();
+
+        instruction.innerHTML =
+          '<span style="color:#ff4d5a">' +
+          'НЕУДАЧА!' +
+          '</span> ' +
+          source.name +
+          ' потерян.';
+
+        renderAll();
+
+      }
+
+      updateTop();
+
+      spinning =
+        false;
+
+      upgradeBtn.disabled =
+        false;
+
+      upgradeBtn.textContent =
+        'ПРОКАЧАТЬ ›';
+
+    },
+
+    3800
+
+  );
+
+}
+
+/* =========================================================
+   RANDOM TARGET
+========================================================= */
+
+function randomTarget(){
+
+  if(spinning){
+    return;
+  }
+
+  selectTarget(
+    Math.floor(
+      Math.random() *
+      items.length
+    )
+  );
+
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function filterItems(){
+
+  renderTargets();
+
+}
+
+/* =========================================================
+   START
+========================================================= */
+
+if(
+  window.Telegram &&
+  window.Telegram.WebApp
+){
+
+  try{
+
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+
+  }catch(e){}
+
+}
+
+loadProfileData();
+
+renderAll();
+
+updateTop();
+
+loadWithdrawShopItems();
+
+syncUserWithServer();
+
+</script>
+
+</body>
+</html>
