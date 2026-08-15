@@ -6,65 +6,8 @@
 <title>SaintBet выигрывай, прокачивай, выводи</title>
 
 <!-- Telegram Mini App API -->
-<script src="https://telegram.org/js/telegram-web-app.js">
-async function redeemPromoCode(){
-  const input=document.getElementById("promoCodeInput");
-  const message=document.getElementById("promoMessage");
-  const code=String(input?.value||"").trim().toUpperCase();
-  if(!code){ message.textContent="Введите промокод / Enter promo code"; return; }
-  const telegramId=window.telegram_id || window.telegramId || (window.Telegram?.WebApp?.initDataUnsafe?.user?.id);
-  if(!telegramId){ message.textContent="Не удалось определить Telegram ID / Telegram ID not found"; return; }
-  try{
-    const response=await fetch("/api/promo/redeem",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({telegram_id:String(telegramId),code})});
-    const data=await response.json();
-    message.textContent=data.message||data.error||"Ошибка / Error";
-    if(data.success){
-      input.value="";
-      const balance=document.getElementById("balance");
-      if(balance && data.balance!==undefined) balance.textContent=data.balance;
-    }
-  }catch(e){
-    console.error(e);
-    message.textContent="Ошибка соединения / Connection error";
-  }
-}
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-async function createPromoCode(){
-  const initData=window.Telegram?.WebApp?.initData||"";
-  const code=document.getElementById("adminPromoCode").value.trim().toUpperCase();
-  const reward=Number(document.getElementById("adminPromoReward").value);
-  const max_uses=Number(document.getElementById("adminPromoMaxUses").value);
-  const msg=document.getElementById("promoAdminMessage");
-  try{
-    const r=await fetch("/api/admin/promo-codes",{method:"POST",headers:{"Content-Type":"application/json","x-telegram-init-data":initData},body:JSON.stringify({code,reward,max_uses})});
-    const d=await r.json(); msg.textContent=d.message||d.error||"Ошибка / Error";
-    if(d.success) loadAdminPromoCodes();
-  }catch(e){msg.textContent="Ошибка соединения / Connection error";}
-}
-async function loadAdminPromoCodes(){
-  const section=document.getElementById("promoAdminSection");
-  if(!section) return;
-  const initData=window.Telegram?.WebApp?.initData||"";
-  try{
-    const r=await fetch("/api/admin/promo-codes",{headers:{"x-telegram-init-data":initData}});
-    if(!r.ok) return;
-    const d=await r.json();
-    section.style.display="block";
-    document.getElementById("promoAdminList").innerHTML=(d.promoCodes||[]).map(p=>`<div style="padding:10px 0;border-top:1px solid rgba(255,255,255,.12)"><b>${p.code}</b> — +${p.reward} 🦴 — ${p.uses}/${p.max_uses} <button class="promo-btn" style="padding:6px 10px;margin-left:8px" onclick="togglePromoCode(${p.id},${p.active?0:1})">${p.active?'Отключить / Disable':'Включить / Enable'}</button> <button class="promo-btn" style="padding:6px 10px;margin-left:4px" onclick="deletePromoCode(${p.id})">Удалить / Delete</button></div>`).join("");
-  }catch(e){}
-}
-async function togglePromoCode(id,active){
-  const initData=window.Telegram?.WebApp?.initData||"";
-  await fetch("/api/admin/promo-codes/status",{method:"POST",headers:{"Content-Type":"application/json","x-telegram-init-data":initData},body:JSON.stringify({promo_id:id,active})});
-  loadAdminPromoCodes();
-}
-async function deletePromoCode(id){
-  const initData=window.Telegram?.WebApp?.initData||"";
-  await fetch("/api/admin/promo-codes/"+id,{method:"DELETE",headers:{"x-telegram-init-data":initData}});
-  loadAdminPromoCodes();
-}
-setTimeout(loadAdminPromoCodes,500);
-</script>
 
 <style>
 *{
@@ -2491,6 +2434,13 @@ p,span,b,strong,
 .promo-btn{padding:12px 16px;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:#fff;color:#000!important;font-weight:800;cursor:pointer;}
 .promo-message{margin-top:8px;min-height:18px;color:#fff!important;font-size:12px;}
 @media(max-width:520px){.promo-row{flex-direction:column}.promo-btn{width:100%}}
+.promo-admin-section{max-width:900px;margin:16px auto;padding:16px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(0,0,0,.28);color:#fff;}
+.promo-admin-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid rgba(255,255,255,.12);font-size:12px;}
+.promo-admin-item>div:first-child{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.promo-admin-item-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.promo-small-btn{padding:7px 9px;font-size:10px;}
+@media(max-width:520px){.promo-admin-item{flex-direction:column;align-items:stretch;}.promo-admin-item-actions{display:grid;grid-template-columns:1fr 1fr;}}
+
 </style>
 </head>
 
@@ -2834,6 +2784,20 @@ p,span,b,strong,
           <div class="withdraw-request-list" id="adminWithdrawalList">
             <div class="withdraw-request-empty">Загрузка заявок...</div>
           </div>
+        </div>
+
+
+        <div class="promo-admin-section" id="promoAdminSection" style="margin:14px 0 0;max-width:none;display:none;">
+          <div class="promo-title">🎟️ ПРОМОКОДЫ / PROMO CODES</div>
+          <div class="promo-message" style="margin-bottom:8px;">Создайте промокод, укажите награду и лимит активаций / Create a promo code, reward and usage limit.</div>
+          <div class="promo-row">
+            <input id="adminPromoCode" class="promo-input" maxlength="32" placeholder="Код / Code">
+            <input id="adminPromoReward" class="promo-input" type="number" min="1" placeholder="Награда 🦴 / Reward 🦴">
+            <input id="adminPromoMaxUses" class="promo-input" type="number" min="1" placeholder="Активаций / Max uses">
+            <button class="promo-btn" type="button" onclick="createPromoCode()">СОЗДАТЬ / CREATE</button>
+          </div>
+          <div id="promoAdminMessage" class="promo-message"></div>
+          <div id="promoAdminList"></div>
         </div>
 
         <!-- ADMIN SHOP MANAGEMENT SHORTCUT -->
@@ -3462,6 +3426,24 @@ async function syncUserWithServer(){
         'Игрок сохранён в базе:',
         data.user
       );
+
+      // Синхронизируем локальный баланс с сервером,
+      // потому что текущая игра хранит игровой баланс в Mini App.
+      try{
+        await fetch(
+          API_URL + '/api/user/balance',
+          {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+              telegram_id:String(telegramUser.id),
+              balance:Number(balance || 0)
+            })
+          }
+        );
+      }catch(balanceError){
+        console.warn('Не удалось синхронизировать баланс:', balanceError);
+      }
     }
 
   }catch(error){
@@ -3940,8 +3922,12 @@ async function submitBrainrotWithdrawal(e){
   saveWithdrawShopItems();
 
   try{
-    const telegramId = profile?.telegramId || 'local_user';
-    await fetch(API_URL + '/api/shop/withdraw', {
+    const telegramId = profile?.telegramId || window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+    if(!telegramId){
+      throw new Error('Не удалось определить Telegram ID. Откройте игру через Telegram.');
+    }
+
+    const response = await fetch(API_URL + '/api/shop/withdraw', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3952,8 +3938,29 @@ async function submitBrainrotWithdrawal(e){
         comment: comment
       })
     });
+
+    const data = await response.json().catch(() => ({}));
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Не удалось создать заявку на вывод.');
+    }
+
+    if(data.user && data.user.balance !== undefined){
+      balance = Number(data.user.balance);
+      if(balanceEl) balanceEl.textContent = balance;
+    }
+
   }catch(err){
-    console.warn('Сервер вывода недоступен, заявка зафиксирована локально:', err);
+    // Откатываем локальные изменения, если сервер не создал заявку.
+    balance += item.price;
+    item.stock += 1;
+    saveProfileData();
+    saveWithdrawShopItems();
+    if(errorEl) errorEl.textContent = err.message || 'Не удалось создать заявку.';
+    if(submitBtn){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ПОДТВЕРДИТЬ ВЫВОД';
+    }
+    return;
   }
 
   closeWithdrawConfirmModal();
@@ -3982,7 +3989,7 @@ async function loadAdminWithdrawals(){
   if(!list) return;
 
   try{
-    const response = await fetch(API_URL + '/api/admin/withdrawals');
+    const response = await fetch(API_URL + '/api/admin/withdrawals', { headers:{'x-telegram-init-data':window.Telegram?.WebApp?.initData || ''} });
     const data = await response.json();
 
     if(!response.ok || !data.success){
@@ -4048,7 +4055,7 @@ async function setAdminWithdrawalStatus(withdrawalId, status){
   try{
     const response = await fetch(API_URL + '/api/admin/withdrawals/status', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','x-telegram-init-data':window.Telegram?.WebApp?.initData || ''},
       body:JSON.stringify({
         withdrawal_id: withdrawalId,
         status
@@ -4236,6 +4243,7 @@ function renderProfile(){
   if(userIsAdmin){
 
     startAdminWithdrawalsPolling();
+    loadAdminPromoCodes();
 
     const adminName =
       document.getElementById('adminName');
@@ -4253,7 +4261,7 @@ function renderProfile(){
 
 }
 
-function grantBones(){
+async function grantBones(){
 
   if(!isAdmin()){
     return;
@@ -4363,6 +4371,33 @@ function grantBones(){
 
   }
 
+  // Сохраняем выдачу костей и на сервере.
+  try{
+    const initData = window.Telegram?.WebApp?.initData || '';
+    const response = await fetch(API_URL + '/api/admin/grant-bones', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-telegram-init-data':initData
+      },
+      body:JSON.stringify({
+        username,
+        amount
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      message.textContent = data.error || 'Не удалось сохранить выдачу на сервере.';
+      return;
+    }
+  }catch(error){
+    console.error('Ошибка серверной выдачи костей:', error);
+    message.textContent = 'Ошибка соединения с сервером.';
+    return;
+  }
+
   message.textContent =
     'Выдано ' +
     amount +
@@ -4460,10 +4495,10 @@ const upgradeChances = {
 
   4:{
     4:100,
-    5:29.0,
-    6:22.0,
-    7:15.0,
-    8:9.0,
+    5:100,
+    6:70,
+    7:20,
+    8:10,
     9:5.0,
     10:0.5,
     11:0.2,
@@ -5665,21 +5700,236 @@ loadWithdrawShopItems();
 
 // Сохраняем Telegram-пользователя в общей базе.
 syncUserWithServer();
+setTimeout(() => { if(isAdmin()) loadAdminPromoCodes(); }, 1000);
 
 </script>
 
 
-<section class="promo-admin-section" id="promoAdminSection" style="display:none;max-width:900px;margin:20px auto;padding:18px;border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(0,0,0,.3);color:#fff;">
-  <div class="promo-title">АДМИН — ПРОМОКОДЫ / ADMIN — PROMO CODES</div>
-  <div class="promo-row">
-    <input id="adminPromoCode" class="promo-input" maxlength="32" placeholder="Код / Code">
-    <input id="adminPromoReward" class="promo-input" type="number" min="1" placeholder="Награда / Reward">
-    <input id="adminPromoMaxUses" class="promo-input" type="number" min="1" placeholder="Активаций / Max uses">
-    <button class="promo-btn" type="button" onclick="createPromoCode()">СОЗДАТЬ / CREATE</button>
-  </div>
-  <div id="promoAdminMessage" class="promo-message"></div>
-  <div id="promoAdminList"></div>
-</section>
+
+<script>
+/* =========================================================
+   PROMO CODES
+========================================================= */
+
+async function redeemPromoCode(){
+  const input = document.getElementById('promoCodeInput');
+  const message = document.getElementById('promoMessage');
+  const code = String(input?.value || '').trim().toUpperCase();
+
+  if(!code){
+    if(message) message.textContent = 'Введите промокод / Enter promo code';
+    return;
+  }
+
+  const telegramId = profile?.telegramId || window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+
+  if(!telegramId){
+    if(message) message.textContent = 'Не удалось определить Telegram ID / Telegram ID not found';
+    return;
+  }
+
+  try{
+    const response = await fetch(API_URL + '/api/promo/redeem', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        telegram_id:String(telegramId),
+        code
+      })
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if(message){
+      message.textContent = data.message || data.error || 'Ошибка / Error';
+    }
+
+    if(data.success){
+      input.value = '';
+
+      if(data.balance !== undefined){
+        balance = Number(data.balance);
+        if(balanceEl) balanceEl.textContent = balance;
+        saveProfileData();
+        updateTop();
+        renderAll();
+      }
+    }
+  }catch(error){
+    console.error('Ошибка промокода:', error);
+    if(message) message.textContent = 'Ошибка соединения / Connection error';
+  }
+}
+
+async function createPromoCode(){
+  if(!isAdmin()) return;
+
+  const initData = window.Telegram?.WebApp?.initData || '';
+  const codeEl = document.getElementById('adminPromoCode');
+  const rewardEl = document.getElementById('adminPromoReward');
+  const maxUsesEl = document.getElementById('adminPromoMaxUses');
+  const msg = document.getElementById('promoAdminMessage');
+
+  const code = String(codeEl?.value || '').trim().toUpperCase();
+  const reward = Number(rewardEl?.value);
+  const max_uses = Number(maxUsesEl?.value);
+
+  if(!code || !Number.isFinite(reward) || reward < 1 || !Number.isFinite(max_uses) || max_uses < 1){
+    if(msg) msg.textContent = 'Заполните все поля / Fill in all fields';
+    return;
+  }
+
+  try{
+    const response = await fetch(API_URL + '/api/admin/promo-codes', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-telegram-init-data':initData
+      },
+      body:JSON.stringify({code,reward,max_uses:Math.floor(max_uses)})
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if(msg){
+      msg.textContent = data.message || data.error || 'Ошибка / Error';
+    }
+
+    if(data.success){
+      if(codeEl) codeEl.value = '';
+      if(rewardEl) rewardEl.value = '';
+      if(maxUsesEl) maxUsesEl.value = '';
+      await loadAdminPromoCodes();
+    }
+  }catch(error){
+    console.error('Ошибка создания промокода:', error);
+    if(msg) msg.textContent = 'Ошибка соединения / Connection error';
+  }
+}
+
+async function loadAdminPromoCodes(){
+  const section = document.getElementById('promoAdminSection');
+  if(!section || !isAdmin()) return;
+
+  section.hidden = false;
+  section.style.display = 'block';
+
+  const initData = window.Telegram?.WebApp?.initData || '';
+  const list = document.getElementById('promoAdminList');
+
+  try{
+    const response = await fetch(API_URL + '/api/admin/promo-codes', {
+      headers:{'x-telegram-init-data':initData}
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Не удалось загрузить промокоды');
+    }
+
+    section.hidden = false;
+    section.style.display = 'block';
+
+    const promoCodes = Array.isArray(data.promoCodes) ? data.promoCodes : [];
+
+    if(!list){
+      return;
+    }
+
+    if(!promoCodes.length){
+      list.innerHTML = '<div class="promo-message">Промокодов пока нет / No promo codes yet</div>';
+      return;
+    }
+
+    list.innerHTML = promoCodes.map(p => `
+      <div class="promo-admin-item">
+        <div>
+          <b>${escapeHtmlSafe(p.code)}</b>
+          <span>+${Number(p.reward)} 🦴</span>
+          <span>${Number(p.uses)}/${Number(p.max_uses)}</span>
+          <span>${p.active ? 'ВКЛ / ON' : 'ВЫКЛ / OFF'}</span>
+        </div>
+        <div class="promo-admin-item-actions">
+          <button class="promo-btn promo-small-btn" type="button" onclick="togglePromoCode(${Number(p.id)},${p.active ? 0 : 1})">
+            ${p.active ? 'ОТКЛЮЧИТЬ / DISABLE' : 'ВКЛЮЧИТЬ / ENABLE'}
+          </button>
+          <button class="promo-btn promo-small-btn" type="button" onclick="deletePromoCode(${Number(p.id)})">
+            УДАЛИТЬ / DELETE
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+  }catch(error){
+    console.error('Ошибка загрузки промокодов:', error);
+    if(list){
+      list.innerHTML = '<div class="promo-message">Не удалось загрузить промокоды / Failed to load promo codes</div>';
+    }
+  }
+}
+
+async function togglePromoCode(id, active){
+  if(!isAdmin()) return;
+
+  const initData = window.Telegram?.WebApp?.initData || '';
+
+  try{
+    const response = await fetch(API_URL + '/api/admin/promo-codes/status', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-telegram-init-data':initData
+      },
+      body:JSON.stringify({promo_id:id,active})
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Ошибка изменения статуса');
+    }
+
+    await loadAdminPromoCodes();
+  }catch(error){
+    alert(error.message || 'Ошибка / Error');
+  }
+}
+
+async function deletePromoCode(id){
+  if(!isAdmin()) return;
+  if(!confirm('Удалить промокод? / Delete promo code?')) return;
+
+  const initData = window.Telegram?.WebApp?.initData || '';
+
+  try{
+    const response = await fetch(API_URL + '/api/admin/promo-codes/' + encodeURIComponent(String(id)), {
+      method:'DELETE',
+      headers:{'x-telegram-init-data':initData}
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Ошибка удаления');
+    }
+
+    await loadAdminPromoCodes();
+  }catch(error){
+    alert(error.message || 'Ошибка / Error');
+  }
+}
+
+function escapeHtmlSafe(value){
+  return String(value ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
+</script>
+
 
 </body>
 </html>
