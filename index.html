@@ -2661,257 +2661,6 @@ button{
   border-radius:10px;
 }
 
-
-/* =========================================================
-   PROMO CODES
-========================================================= */
-
-.promo-top-button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  padding:10px 13px;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:12px;
-  background:linear-gradient(135deg,#191919,#070707);
-  color:#fff;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.8px;
-  cursor:pointer;
-  box-shadow:0 8px 25px rgba(0,0,0,.45);
-  transition:.18s ease;
-}
-
-.promo-top-button:hover{
-  border-color:#fff;
-  transform:translateY(-1px);
-  box-shadow:0 10px 28px rgba(255,255,255,.10);
-}
-
-.promo-modal{
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:16px;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(8px);
-}
-
-.promo-modal[hidden]{
-  display:none !important;
-}
-
-.promo-modal-box{
-  width:min(430px,100%);
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:18px;
-  padding:18px;
-  background:linear-gradient(145deg,#1b1b1b,#080808);
-  box-shadow:0 25px 80px rgba(0,0,0,.65);
-}
-
-.promo-modal-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:15px;
-}
-
-.promo-modal-title{
-  margin:0;
-  font-size:17px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.promo-modal-close{
-  width:34px;
-  height:34px;
-  border:1px solid rgba(255,255,255,.15);
-  background:#111;
-  color:#fff;
-  cursor:pointer;
-}
-
-.promo-modal-subtitle{
-  color:#aaa;
-  font-size:10px;
-  line-height:1.45;
-  margin-bottom:12px;
-}
-
-.promo-input{
-  width:100%;
-  height:46px;
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:11px;
-  background:#0d0d0d;
-  color:#fff;
-  padding:0 13px;
-  outline:none;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  font-weight:900;
-}
-
-.promo-input:focus{
-  border-color:#fff;
-  box-shadow:0 0 0 3px rgba(255,255,255,.08);
-}
-
-.promo-submit{
-  width:100%;
-  height:44px;
-  margin-top:9px;
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:10px;
-  background:linear-gradient(135deg,#fff,#8d8d8d);
-  color:#000;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:1px;
-  cursor:pointer;
-}
-
-.promo-submit:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-.promo-message{
-  min-height:18px;
-  margin-top:10px;
-  color:#fff;
-  font-size:10px;
-  line-height:1.4;
-  text-align:center;
-}
-
-.promo-admin-form{
-  margin-top:12px;
-  padding-top:12px;
-  border-top:1px solid rgba(255,255,255,.12);
-}
-
-.promo-admin-title{
-  margin-bottom:8px;
-  color:#fff;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.promo-admin-row{
-  display:grid;
-  grid-template-columns:1.4fr 1fr 1fr;
-  gap:6px;
-}
-
-.promo-admin-input{
-  width:100%;
-  height:36px;
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:9px;
-  background:#0c0c0c;
-  color:#fff;
-  padding:0 9px;
-  outline:none;
-  font-size:10px;
-}
-
-.promo-admin-input:focus{
-  border-color:#fff;
-}
-
-.promo-admin-submit{
-  width:100%;
-  height:38px;
-  margin-top:7px;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:9px;
-  background:#fff;
-  color:#000;
-  font-size:9px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.promo-admin-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  margin-top:10px;
-  max-height:220px;
-  overflow:auto;
-}
-
-.promo-admin-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  padding:8px;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:9px;
-  background:#101010;
-  font-size:9px;
-}
-
-.promo-admin-item-code{
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.promo-admin-item-meta{
-  color:#aaa;
-  text-align:right;
-}
-
-.promo-admin-delete{
-  flex-shrink:0;
-  border:1px solid rgba(255,90,100,.35);
-  border-radius:7px;
-  background:rgba(90,20,25,.55);
-  color:#ff7882;
-  height:27px;
-  padding:0 7px;
-  font-size:8px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-@media(max-width:520px){
-  .top-nav-bar{
-    gap:6px;
-  }
-
-  .top-shop-button{
-    padding:10px 9px;
-  }
-
-  .promo-top-button{
-    padding:10px 9px;
-  }
-
-  .top-shop-title{
-    display:none;
-  }
-
-  .promo-top-title{
-    display:none;
-  }
-
-  .promo-admin-row{
-    grid-template-columns:1fr;
-  }
-}
-
 </style>
 </head>
 
@@ -2962,13 +2711,14 @@ button{
     </button>
 
     <button
-      class="promo-top-button"
+      class="top-shop-button"
       id="openPromoBtn"
       type="button"
       onclick="openPromoModal()"
+      style="margin-left:8px;"
     >
-      <span>🎟</span>
-      <span class="promo-top-title">ПРОМОКОД</span>
+      <span class="top-shop-icon">🎟️</span>
+      <span class="top-shop-title">ПРОМОКОД</span>
     </button>
 
   </div>
@@ -3316,20 +3066,10 @@ button{
           <button
             class="admin-button"
             type="button"
-            style="
-              margin-top:7px;
-              background:
-                linear-gradient(
-                  135deg,
-                  #222,
-                  #090909
-                );
-              color:#fff;
-              border-color:rgba(255,255,255,.35);
-            "
-            onclick="openPromoModal(true)"
+            style="margin-top:8px;"
+            onclick="openAdminPromoModal()"
           >
-            🎟 СОЗДАТЬ ПРОМОКОД
+            🎟️ СОЗДАТЬ ПРОМОКОД
           </button>
 
         </div>
@@ -3343,106 +3083,59 @@ button{
   <!-- PROMO CODE -->
 
   <div
-    class="promo-modal"
+    class="withdraw-modal"
     id="promoModal"
     hidden
   >
-    <div class="promo-modal-box">
-      <div class="promo-modal-header">
-        <h2 class="promo-modal-title">🎟 ПРОМОКОД</h2>
-        <button
-          class="promo-modal-close"
-          type="button"
-          onclick="closePromoModal()"
-        >
-          ✕
-        </button>
+    <div class="withdraw-modal-box">
+      <div class="withdraw-modal-header">
+        <div class="withdraw-modal-title-area">
+          <div class="withdraw-modal-badge">BONUS</div>
+          <h2 class="withdraw-modal-title">🎟️ ПРОМОКОД</h2>
+        </div>
+        <button class="withdraw-modal-close" type="button" onclick="closePromoModal()">✕</button>
       </div>
 
-      <div class="promo-modal-subtitle">
-        Введи промокод, чтобы получить кости. Каждый аккаунт может активировать один и тот же промокод только один раз.
-      </div>
-
-      <form onsubmit="redeemPromoCode(event)">
+      <div class="withdraw-modal-body">
         <input
-          class="promo-input"
           id="promoCodeInput"
-          type="text"
+          class="admin-input"
+          style="width:100%;box-sizing:border-box;"
           maxlength="40"
-          autocomplete="off"
           placeholder="ВВЕДИТЕ ПРОМОКОД"
-          required
+          autocomplete="off"
         >
-        <button
-          class="promo-submit"
-          id="promoSubmitBtn"
-          type="submit"
-        >
+        <button class="admin-button" type="button" onclick="activatePromoCode()" style="margin-top:10px;">
           АКТИВИРОВАТЬ
         </button>
-      </form>
+        <div class="admin-message" id="promoMessage"></div>
+      </div>
+    </div>
+  </div>
 
-      <div
-        class="promo-message"
-        id="promoMessage"
-      ></div>
+  <!-- ADMIN PROMO CODES -->
 
-      <div
-        class="promo-admin-form"
-        id="promoAdminForm"
-        hidden
-      >
-        <div class="promo-admin-title">
-          ⚓ СОЗДАТЬ ПРОМОКОД
+  <div
+    class="withdraw-modal"
+    id="adminPromoModal"
+    hidden
+  >
+    <div class="withdraw-modal-box">
+      <div class="withdraw-modal-header">
+        <div class="withdraw-modal-title-area">
+          <div class="withdraw-modal-badge">ADMIN</div>
+          <h2 class="withdraw-modal-title">🎟️ ПРОМОКОДЫ</h2>
         </div>
+        <button class="withdraw-modal-close" type="button" onclick="closeAdminPromoModal()">✕</button>
+      </div>
 
-        <div class="promo-admin-row">
-          <input
-            class="promo-admin-input"
-            id="newPromoCode"
-            type="text"
-            maxlength="40"
-            pattern="[A-Za-z0-9]+"
-            placeholder="КОД (EN)"
-            required
-          >
-          <input
-            class="promo-admin-input"
-            id="newPromoActivations"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="АКТИВАЦИЙ"
-            required
-          >
-          <input
-            class="promo-admin-input"
-            id="newPromoBrains"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="КОСТЕЙ"
-            required
-          >
-        </div>
-
-        <button
-          class="promo-admin-submit"
-          type="button"
-          onclick="createPromoCode()"
-        >
-          СОЗДАТЬ ПРОМОКОД
-        </button>
-
-        <div
-          class="promo-message"
-          id="promoAdminMessage"
-        ></div>
-
-        <div
-          class="promo-admin-list"
-          id="promoAdminList"
-        ></div>
+      <div class="withdraw-modal-body">
+        <input id="newPromoCode" class="admin-input" style="width:100%;box-sizing:border-box;" placeholder="Промокод (англ., слитно)" maxlength="40">
+        <input id="newPromoActivations" class="admin-input" style="width:100%;box-sizing:border-box;" type="number" min="1" step="1" placeholder="Количество активаций">
+        <input id="newPromoReward" class="admin-input" style="width:100%;box-sizing:border-box;" type="number" min="1" step="1" placeholder="Сколько мозгов за активацию">
+        <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
+        <div class="admin-message" id="adminPromoMessage"></div>
+        <div id="adminPromoList" style="margin-top:12px;"></div>
       </div>
     </div>
   </div>
@@ -4313,19 +4006,6 @@ function saveProfileData(){
 
 }
 
-function getTelegramInitData(){
-  const tg =
-    window.Telegram &&
-    window.Telegram.WebApp
-      ? window.Telegram.WebApp
-      : null;
-
-  return String(
-    tg?.initData ||
-    ''
-  );
-}
-
 function getTelegramUser(){
 
   const tg =
@@ -4416,9 +4096,7 @@ async function syncUserWithServer(){
 
           headers:{
             'Content-Type':
-              'application/json',
-            'X-Telegram-Init-Data':
-              getTelegramInitData()
+              'application/json'
           },
 
           body:
@@ -5499,13 +5177,16 @@ async function syncWithdrawItemWithServer(
 
           headers:{
             'Content-Type':
-              'application/json'
+              'application/json',
+            'X-Admin-Username':
+              'saintezz7'
           },
 
           body:
-            JSON.stringify(
-              payload
-            )
+            JSON.stringify({
+              ...payload,
+              username: 'saintezz7'
+            })
         }
       );
 
@@ -5521,13 +5202,16 @@ async function syncWithdrawItemWithServer(
 
           headers:{
             'Content-Type':
-              'application/json'
+              'application/json',
+            'X-Admin-Username':
+              'saintezz7'
           },
 
           body:
-            JSON.stringify(
-              payload
-            )
+            JSON.stringify({
+              ...payload,
+              username: 'saintezz7'
+            })
         }
       );
 
@@ -5539,7 +5223,10 @@ async function syncWithdrawItemWithServer(
         API_URL +
         `/api/shop/items/${payload.id}`,
         {
-          method:'DELETE'
+          method:'DELETE',
+          headers:{
+            'X-Admin-Username': 'saintezz7'
+          }
         }
       );
 
@@ -6241,13 +5928,14 @@ async function grantBones(){
           headers:{
             'Content-Type':
               'application/json',
-            'X-Telegram-Init-Data':
-              getTelegramInitData()
+            'X-Admin-Username':
+              'saintezz7'
           },
 
           body:
             JSON.stringify({
-              username,
+              target_username: username,
+              username: 'saintezz7',
               amount
             })
         }
@@ -6283,431 +5971,6 @@ async function grantBones(){
   }
 
 }
-
-/* =========================================================
-   PROMO CODES
-========================================================= */
-
-let promoAdminMode = false;
-
-function openPromoModal(adminMode){
-  const modal = document.getElementById('promoModal');
-  const adminForm = document.getElementById('promoAdminForm');
-  const input = document.getElementById('promoCodeInput');
-
-  if(!modal){
-    return;
-  }
-
-  promoAdminMode = Boolean(adminMode);
-
-  if(adminForm){
-    adminForm.hidden = !promoAdminMode;
-  }
-
-  const adminMessage =
-    document.getElementById('promoAdminMessage');
-
-  if(adminMessage){
-    adminMessage.textContent = '';
-  }
-
-  const message =
-    document.getElementById('promoMessage');
-
-  if(message){
-    message.textContent = '';
-  }
-
-  modal.hidden = false;
-
-  if(promoAdminMode){
-    loadPromoCodesForAdmin();
-  }
-
-  if(input){
-    setTimeout(() => input.focus(), 0);
-  }
-}
-
-function closePromoModal(){
-  const modal = document.getElementById('promoModal');
-
-  if(modal){
-    modal.hidden = true;
-  }
-}
-
-async function redeemPromoCode(e){
-  e.preventDefault();
-
-  const input =
-    document.getElementById('promoCodeInput');
-
-  const message =
-    document.getElementById('promoMessage');
-
-  const submitBtn =
-    document.getElementById('promoSubmitBtn');
-
-  const code =
-    String(input?.value || '')
-      .trim()
-      .toUpperCase();
-
-  if(!code){
-    if(message){
-      message.textContent = 'Введите промокод.';
-    }
-    return;
-  }
-
-  const telegramId =
-    String(profile?.telegramId || '');
-
-  if(!telegramId || telegramId === 'local_user'){
-    if(message){
-      message.textContent =
-        'Откройте Mini App внутри Telegram.';
-    }
-    return;
-  }
-
-  if(submitBtn){
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'ПРОВЕРКА...';
-  }
-
-  try{
-    const response =
-      await fetch(
-        API_URL + '/api/promo/redeem',
-        {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'X-Telegram-Init-Data':
-              getTelegramInitData()
-          },
-          body:JSON.stringify({
-            code,
-            telegram_id:telegramId
-          })
-        }
-      );
-
-    const data =
-      await response.json().catch(() => ({}));
-
-    if(!response.ok || !data.success){
-      throw new Error(
-        data.error ||
-        'Не удалось активировать промокод.'
-      );
-    }
-
-    if(data.user){
-      balance =
-        Number(
-          data.user.balance ??
-          balance
-        );
-
-      saveProfileData();
-      renderAll();
-      renderWithdrawShopModal();
-    }
-
-    if(message){
-      message.textContent =
-        `✓ Промокод активирован! +${data.reward} 🦴`;
-    }
-
-    if(input){
-      input.value = '';
-    }
-
-  }catch(error){
-    if(message){
-      message.textContent =
-        error.message ||
-        'Ошибка активации промокода.';
-    }
-  }finally{
-    if(submitBtn){
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'АКТИВИРОВАТЬ';
-    }
-  }
-}
-
-async function createPromoCode(){
-  if(!isAdmin()){
-    return;
-  }
-
-  const codeInput =
-    document.getElementById('newPromoCode');
-
-  const activationsInput =
-    document.getElementById('newPromoActivations');
-
-  const brainsInput =
-    document.getElementById('newPromoBrains');
-
-  const message =
-    document.getElementById('promoAdminMessage');
-
-  const code =
-    String(codeInput?.value || '')
-      .trim()
-      .toUpperCase();
-
-  const activations =
-    Math.floor(
-      Number(
-        activationsInput?.value
-      )
-    );
-
-  const reward =
-    Math.floor(
-      Number(
-        brainsInput?.value
-      )
-    );
-
-  if(!/^[A-Z0-9]{3,40}$/.test(code)){
-    if(message){
-      message.textContent =
-        'Код должен содержать только английские буквы и цифры, без пробелов.';
-    }
-    return;
-  }
-
-  if(
-    !Number.isInteger(activations) ||
-    activations < 1
-  ){
-    if(message){
-      message.textContent =
-        'Количество активаций должно быть больше 0.';
-    }
-    return;
-  }
-
-  if(
-    !Number.isInteger(reward) ||
-    reward < 1
-  ){
-    if(message){
-      message.textContent =
-        'Количество костей должно быть больше 0.';
-    }
-    return;
-  }
-
-  try{
-    const response =
-      await fetch(
-        API_URL + '/api/admin/promo-codes',
-        {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json',
-            'X-Telegram-Init-Data':
-              getTelegramInitData()
-          },
-          body:JSON.stringify({
-            code,
-            activations,
-            reward
-          })
-        }
-      );
-
-    const data =
-      await response.json().catch(() => ({}));
-
-    if(!response.ok || !data.success){
-      throw new Error(
-        data.error ||
-        'Не удалось создать промокод.'
-      );
-    }
-
-    if(message){
-      message.textContent =
-        `✓ ${data.promo.code} создан: ${data.promo.activations} активаций, ${data.promo.reward} 🦴 за активацию.`;
-    }
-
-    if(codeInput) codeInput.value = '';
-    if(activationsInput) activationsInput.value = '';
-    if(brainsInput) brainsInput.value = '';
-
-    loadPromoCodesForAdmin();
-
-  }catch(error){
-    if(message){
-      message.textContent =
-        error.message ||
-        'Ошибка создания промокода.';
-    }
-  }
-}
-
-async function loadPromoCodesForAdmin(){
-  if(!isAdmin()){
-    return;
-  }
-
-  const list =
-    document.getElementById('promoAdminList');
-
-  if(!list){
-    return;
-  }
-
-  list.innerHTML =
-    '<div style="color:#777;font-size:9px;text-align:center;">Загрузка...</div>';
-
-  try{
-    const response =
-      await fetch(
-        API_URL + '/api/admin/promo-codes',
-        {
-          headers:{
-            'X-Telegram-Init-Data':
-              getTelegramInitData()
-          }
-        }
-      );
-
-    const data =
-      await response.json().catch(() => ({}));
-
-    if(!response.ok || !data.success){
-      throw new Error(
-        data.error ||
-        'Ошибка загрузки промокодов.'
-      );
-    }
-
-    if(!Array.isArray(data.promos) || data.promos.length === 0){
-      list.innerHTML =
-        '<div style="color:#777;font-size:9px;text-align:center;">Промокодов пока нет.</div>';
-      return;
-    }
-
-    list.innerHTML = '';
-
-    data.promos.forEach(promo => {
-      const row =
-        document.createElement('div');
-
-      row.className =
-        'promo-admin-item';
-
-      const left =
-        document.createElement('div');
-
-      const codeEl =
-        document.createElement('div');
-
-      codeEl.className =
-        'promo-admin-item-code';
-
-      codeEl.textContent =
-        promo.code;
-
-      const metaEl =
-        document.createElement('div');
-
-      metaEl.className =
-        'promo-admin-item-meta';
-
-      metaEl.textContent =
-        `${promo.used_activations}/${promo.activations} • +${promo.reward} 🦴`;
-
-      left.appendChild(codeEl);
-      left.appendChild(metaEl);
-
-      const deleteBtn =
-        document.createElement('button');
-
-      deleteBtn.type = 'button';
-      deleteBtn.className =
-        'promo-admin-delete';
-      deleteBtn.textContent =
-        'Удалить';
-
-      deleteBtn.onclick =
-        () => deletePromoCode(promo.id);
-
-      row.appendChild(left);
-      row.appendChild(deleteBtn);
-      list.appendChild(row);
-    });
-
-  }catch(error){
-    list.innerHTML =
-      `<div style="color:#ff7882;font-size:9px;text-align:center;">${error.message || 'Ошибка загрузки.'}</div>`;
-  }
-}
-
-async function deletePromoCode(id){
-  if(!isAdmin()){
-    return;
-  }
-
-  if(!confirm('Удалить этот промокод? Уже выданные кости отменены не будут.')){
-    return;
-  }
-
-  try{
-    const response =
-      await fetch(
-        API_URL + `/api/admin/promo-codes/${id}`,
-        {
-          method:'DELETE',
-          headers:{
-            'X-Telegram-Init-Data':
-              getTelegramInitData()
-          }
-        }
-      );
-
-    const data =
-      await response.json().catch(() => ({}));
-
-    if(!response.ok || !data.success){
-      throw new Error(
-        data.error ||
-        'Не удалось удалить промокод.'
-      );
-    }
-
-    loadPromoCodesForAdmin();
-
-  }catch(error){
-    const message =
-      document.getElementById('promoAdminMessage');
-
-    if(message){
-      message.textContent =
-        error.message ||
-        'Ошибка удаления промокода.';
-    }
-  }
-}
-
-document.addEventListener('keydown', event => {
-  if(
-    event.key === 'Escape'
-  ){
-    closePromoModal();
-  }
-});
 
 /* =========================================================
    UPGRADE CHANCES
@@ -8262,6 +7525,238 @@ updateTop();
 loadWithdrawShopItems();
 
 syncUserWithServer();
+
+/* =========================================================
+   PROMO CODES
+========================================================= */
+
+function getCurrentTelegramId(){
+  return String(
+    profile?.telegramId ||
+    getTelegramUser()?.id ||
+    ''
+  );
+}
+
+function getCurrentTelegramUsername(){
+  return normalizeUsername(
+    getTelegramUsername() ||
+    profile?.username ||
+    profile?.telegramUsername ||
+    ''
+  );
+}
+
+function openPromoModal(){
+  const modal = document.getElementById('promoModal');
+  if(modal){
+    modal.hidden = false;
+    const input = document.getElementById('promoCodeInput');
+    if(input){
+      input.value = '';
+      setTimeout(() => input.focus(), 50);
+    }
+  }
+}
+
+function closePromoModal(){
+  const modal = document.getElementById('promoModal');
+  if(modal) modal.hidden = true;
+}
+
+async function activatePromoCode(){
+  const input = document.getElementById('promoCodeInput');
+  const message = document.getElementById('promoMessage');
+  const code = String(input?.value || '').trim().toUpperCase();
+  const telegramId = getCurrentTelegramId();
+
+  if(!code){
+    if(message) message.textContent = 'Введите промокод.';
+    return;
+  }
+
+  if(!telegramId){
+    if(message) message.textContent = 'Откройте SaintBet через Telegram Mini App.';
+    return;
+  }
+
+  try{
+    const response = await fetch(
+      API_URL + '/api/promo-code/activate',
+      {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          telegram_id: telegramId,
+          username: getCurrentTelegramUsername(),
+          code
+        })
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Не удалось активировать промокод.');
+    }
+
+    balance = Number(data.balance ?? balance);
+    saveProfileData();
+    renderAll();
+
+    if(message){
+      message.textContent = `✓ Промокод активирован! +${data.reward} 🧠`;
+    }
+
+    if(input) input.value = '';
+  }catch(error){
+    if(message){
+      message.textContent = error.message || 'Ошибка активации промокода.';
+    }
+  }
+}
+
+function openAdminPromoModal(){
+  if(!isAdmin()) return;
+
+  const modal = document.getElementById('adminPromoModal');
+  if(modal) modal.hidden = false;
+
+  loadAdminPromoCodes();
+}
+
+function closeAdminPromoModal(){
+  const modal = document.getElementById('adminPromoModal');
+  if(modal) modal.hidden = true;
+}
+
+async function createPromoCode(){
+  if(!isAdmin()) return;
+
+  const codeInput = document.getElementById('newPromoCode');
+  const activationsInput = document.getElementById('newPromoActivations');
+  const rewardInput = document.getElementById('newPromoReward');
+  const message = document.getElementById('adminPromoMessage');
+
+  const code = String(codeInput?.value || '').trim().toUpperCase();
+  const activations = Math.floor(Number(activationsInput?.value));
+  const reward = Math.floor(Number(rewardInput?.value));
+
+  if(!/^[A-Z0-9]+$/.test(code)){
+    if(message) message.textContent = 'Промокод: только английские буквы и цифры, без пробелов.';
+    return;
+  }
+
+  if(!Number.isInteger(activations) || activations < 1){
+    if(message) message.textContent = 'Количество активаций должно быть больше 0.';
+    return;
+  }
+
+  if(!Number.isInteger(reward) || reward < 1){
+    if(message) message.textContent = 'Количество мозгов должно быть больше 0.';
+    return;
+  }
+
+  try{
+    const response = await fetch(
+      API_URL + '/api/admin/promo-codes',
+      {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'X-Admin-Username':'saintezz7'
+        },
+        body:JSON.stringify({
+          username:'saintezz7',
+          code,
+          activations,
+          reward
+        })
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Ошибка создания промокода.');
+    }
+
+    if(message) message.textContent = `✓ Промокод ${code} создан.`;
+    if(codeInput) codeInput.value = '';
+    if(activationsInput) activationsInput.value = '';
+    if(rewardInput) rewardInput.value = '';
+
+    loadAdminPromoCodes();
+  }catch(error){
+    if(message) message.textContent = error.message || 'Ошибка создания промокода.';
+  }
+}
+
+async function loadAdminPromoCodes(){
+  if(!isAdmin()) return;
+
+  const list = document.getElementById('adminPromoList');
+  if(list) list.textContent = 'Загрузка...';
+
+  try{
+    const response = await fetch(
+      API_URL + '/api/admin/promo-codes?username=saintezz7',
+      {
+        headers:{'X-Admin-Username':'saintezz7'}
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Ошибка загрузки промокодов.');
+    }
+
+    if(!list) return;
+
+    if(!data.promoCodes.length){
+      list.innerHTML = '<div style="opacity:.65;text-align:center;padding:10px;">Промокодов пока нет.</div>';
+      return;
+    }
+
+    list.innerHTML = data.promoCodes.map(promo => `
+      <div style="padding:10px;margin-top:8px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.04);">
+        <div style="font-weight:900;font-size:16px;">${promo.code}</div>
+        <div style="font-size:12px;opacity:.75;margin-top:4px;">
+          Использовано: ${promo.used}/${promo.activations} • Награда: ${promo.reward} 🧠
+        </div>
+        <button class="admin-button" type="button" style="margin-top:7px;" onclick="deletePromoCode(${promo.id})">Удалить</button>
+      </div>
+    `).join('');
+  }catch(error){
+    if(list) list.textContent = error.message || 'Ошибка загрузки.';
+  }
+}
+
+async function deletePromoCode(id){
+  if(!isAdmin()) return;
+  if(!confirm('Удалить этот промокод?')) return;
+
+  try{
+    const response = await fetch(
+      API_URL + '/api/admin/promo-codes/' + encodeURIComponent(id),
+      {
+        method:'DELETE',
+        headers:{'X-Admin-Username':'saintezz7'}
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || 'Ошибка удаления.');
+    }
+
+    loadAdminPromoCodes();
+  }catch(error){
+    alert(error.message || 'Ошибка удаления промокода.');
+  }
+}
 
 </script>
 
