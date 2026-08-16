@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const Database = require("better-sqlite3");
-const crypto = require("crypto");
 
 const app = express();
 
@@ -97,13 +96,10 @@ function getAdminUsernames() {
         .filter(Boolean);
 }
 
-/*
-    Главная проверка администратора.
+// =========================================================
+// ADMIN CHECK
+// =========================================================
 
-    saintezz7 имеет доступ всегда,
-    даже если Telegram username не был передан
-    Mini App.
-*/
 function isAdmin(req) {
 
     const headerAdmin =
@@ -112,9 +108,7 @@ function isAdmin(req) {
             ""
         );
 
-    if (
-        headerAdmin === "saintezz7"
-    ) {
+    if (headerAdmin === "saintezz7") {
         return true;
     }
 
@@ -126,9 +120,7 @@ function isAdmin(req) {
             ""
         );
 
-    if (
-        bodyUsername === "saintezz7"
-    ) {
+    if (bodyUsername === "saintezz7") {
         return true;
     }
 
@@ -140,8 +132,7 @@ function isAdmin(req) {
             ""
         );
 
-    const admins =
-        getAdminUsernames();
+    const admins = getAdminUsernames();
 
     if (
         bodyUsername &&
@@ -169,29 +160,27 @@ function isAdmin(req) {
     return false;
 }
 
+// =========================================================
+// USER
+// =========================================================
+
 function ensureUser(
     telegramId,
     username = "",
     firstName = ""
 ) {
 
-    telegramId =
-        String(
-            telegramId || ""
-        );
+    telegramId = String(telegramId || "");
 
     if (!telegramId) {
         return null;
     }
 
-    let user =
-        db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
-        `).get(
-            telegramId
-        );
+    let user = db.prepare(`
+        SELECT *
+        FROM users
+        WHERE telegram_id = ?
+    `).get(telegramId);
 
     if (!user) {
 
@@ -228,9 +217,7 @@ function ensureUser(
         SELECT *
         FROM users
         WHERE telegram_id = ?
-    `).get(
-        telegramId
-    );
+    `).get(telegramId);
 }
 
 // =========================================================
@@ -284,9 +271,7 @@ app.post("/api/user", (req, res) => {
             first_name
         );
 
-        if (
-            roblox_name !== undefined
-        ) {
+        if (roblox_name !== undefined) {
 
             db.prepare(`
                 UPDATE users
@@ -299,14 +284,13 @@ app.post("/api/user", (req, res) => {
 
         }
 
-        const user =
-            db.prepare(`
-                SELECT *
-                FROM users
-                WHERE telegram_id = ?
-            `).get(
-                String(telegram_id)
-            );
+        const user = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(
+            String(telegram_id)
+        );
 
         res.json({
             success: true,
@@ -329,22 +313,23 @@ app.post("/api/user", (req, res) => {
 
 });
 
+// =========================================================
+// GET USER
+// =========================================================
+
 app.get(
     "/api/user/:telegramId",
     (req, res) => {
 
         try {
 
-            const user =
-                db.prepare(`
-                    SELECT *
-                    FROM users
-                    WHERE telegram_id = ?
-                `).get(
-                    String(
-                        req.params.telegramId
-                    )
-                );
+            const user = db.prepare(`
+                SELECT *
+                FROM users
+                WHERE telegram_id = ?
+            `).get(
+                String(req.params.telegramId)
+            );
 
             if (!user) {
 
@@ -399,14 +384,10 @@ app.post(
             } = req.body;
 
             const normalizedUsername =
-                normalizeUsername(
-                    username
-                );
+                normalizeUsername(username);
 
             const value =
-                Math.floor(
-                    Number(amount)
-                );
+                Math.floor(Number(amount));
 
             if (!normalizedUsername) {
 
@@ -430,14 +411,13 @@ app.post(
 
             }
 
-            const user =
-                db.prepare(`
-                    SELECT *
-                    FROM users
-                    WHERE lower(username) = ?
-                `).get(
-                    normalizedUsername
-                );
+            const user = db.prepare(`
+                SELECT *
+                FROM users
+                WHERE lower(username) = ?
+            `).get(
+                normalizedUsername
+            );
 
             if (!user) {
 
@@ -457,19 +437,18 @@ app.post(
                 user.id
             );
 
-            const updatedUser =
-                db.prepare(`
-                    SELECT *
-                    FROM users
-                    WHERE id = ?
-                `).get(
-                    user.id
-                );
+            const updatedUser = db.prepare(`
+                SELECT *
+                FROM users
+                WHERE id = ?
+            `).get(user.id);
 
             res.json({
                 success: true,
                 user: updatedUser,
-                amount: value
+                amount: value,
+                message:
+                    `Выдано ${value} 🦴 пользователю @${normalizedUsername}`
             });
 
         } catch (error) {
@@ -490,7 +469,7 @@ app.post(
 );
 
 // =========================================================
-// ADMIN - CREATE PROMO
+// ADMIN - CREATE PROMO CODE
 // =========================================================
 
 app.post(
@@ -514,10 +493,7 @@ app.post(
                 reward
             } = req.body;
 
-            code =
-                normalizePromoCode(
-                    code
-                );
+            code = normalizePromoCode(code);
 
             activations =
                 Math.floor(
@@ -539,9 +515,7 @@ app.post(
 
             }
 
-            if (
-                !/^[A-Z0-9]+$/.test(code)
-            ) {
+            if (!/^[A-Z0-9]+$/.test(code)) {
 
                 return res.status(400).json({
                     success: false,
@@ -552,9 +526,7 @@ app.post(
             }
 
             if (
-                !Number.isInteger(
-                    activations
-                ) ||
+                !Number.isInteger(activations) ||
                 activations < 1
             ) {
 
@@ -567,9 +539,7 @@ app.post(
             }
 
             if (
-                !Number.isInteger(
-                    reward
-                ) ||
+                !Number.isInteger(reward) ||
                 reward < 1
             ) {
 
@@ -581,14 +551,11 @@ app.post(
 
             }
 
-            const existing =
-                db.prepare(`
-                    SELECT id
-                    FROM promo_codes
-                    WHERE code = ?
-                `).get(
-                    code
-                );
+            const existing = db.prepare(`
+                SELECT id
+                FROM promo_codes
+                WHERE code = ?
+            `).get(code);
 
             if (existing) {
 
@@ -600,33 +567,33 @@ app.post(
 
             }
 
-            const result =
-                db.prepare(`
-                    INSERT INTO promo_codes (
-                        code,
-                        activations,
-                        used,
-                        reward
-                    )
-                    VALUES (?, ?, 0, ?)
-                `).run(
+            const result = db.prepare(`
+                INSERT INTO promo_codes (
                     code,
                     activations,
+                    used,
                     reward
-                );
+                )
+                VALUES (?, ?, 0, ?)
+            `).run(
+                code,
+                activations,
+                reward
+            );
 
-            const promo =
-                db.prepare(`
-                    SELECT *
-                    FROM promo_codes
-                    WHERE id = ?
-                `).get(
-                    result.lastInsertRowid
-                );
+            const promo = db.prepare(`
+                SELECT *
+                FROM promo_codes
+                WHERE id = ?
+            `).get(
+                result.lastInsertRowid
+            );
 
             res.json({
                 success: true,
-                promo
+                promo,
+                message:
+                    `Промокод ${code} создан: ${reward} 🦴`
             });
 
         } catch (error) {
@@ -666,18 +633,17 @@ app.get(
 
             }
 
-            const promoCodes =
-                db.prepare(`
-                    SELECT
-                        id,
-                        code,
-                        activations,
-                        used,
-                        reward,
-                        created_at
-                    FROM promo_codes
-                    ORDER BY id DESC
-                `).all();
+            const promoCodes = db.prepare(`
+                SELECT
+                    id,
+                    code,
+                    activations,
+                    used,
+                    reward,
+                    created_at
+                FROM promo_codes
+                ORDER BY id DESC
+            `).all();
 
             res.json({
                 success: true,
@@ -719,13 +685,9 @@ app.delete(
             }
 
             const id =
-                Number(
-                    req.params.id
-                );
+                Number(req.params.id);
 
-            if (
-                !Number.isInteger(id)
-            ) {
+            if (!Number.isInteger(id)) {
 
                 return res.status(400).json({
                     success: false,
@@ -735,14 +697,11 @@ app.delete(
 
             }
 
-            const promo =
-                db.prepare(`
-                    SELECT *
-                    FROM promo_codes
-                    WHERE id = ?
-                `).get(
-                    id
-                );
+            const promo = db.prepare(`
+                SELECT *
+                FROM promo_codes
+                WHERE id = ?
+            `).get(id);
 
             if (!promo) {
 
@@ -760,16 +719,12 @@ app.delete(
                     db.prepare(`
                         DELETE FROM promo_code_uses
                         WHERE promo_id = ?
-                    `).run(
-                        id
-                    );
+                    `).run(id);
 
                     db.prepare(`
                         DELETE FROM promo_codes
                         WHERE id = ?
-                    `).run(
-                        id
-                    );
+                    `).run(id);
 
                 });
 
@@ -795,7 +750,7 @@ app.delete(
 );
 
 // =========================================================
-// PROMO - ACTIVATE
+// ACTIVATE PROMO
 // =========================================================
 
 app.post(
@@ -822,9 +777,7 @@ app.post(
             }
 
             const normalizedCode =
-                normalizePromoCode(
-                    code
-                );
+                normalizePromoCode(code);
 
             if (!normalizedCode) {
 
@@ -836,12 +789,11 @@ app.post(
 
             }
 
-            const user =
-                ensureUser(
-                    telegram_id,
-                    username,
-                    first_name
-                );
+            const user = ensureUser(
+                telegram_id,
+                username,
+                first_name
+            );
 
             if (!user) {
 
@@ -892,9 +844,7 @@ app.post(
                             AND telegram_id = ?
                         `).get(
                             promo.id,
-                            String(
-                                telegram_id
-                            )
+                            String(telegram_id)
                         );
 
                     if (alreadyUsed) {
@@ -913,9 +863,7 @@ app.post(
                         VALUES (?, ?)
                     `).run(
                         promo.id,
-                        String(
-                            telegram_id
-                        )
+                        String(telegram_id)
                     );
 
                     db.prepare(`
@@ -932,17 +880,14 @@ app.post(
                         WHERE telegram_id = ?
                     `).run(
                         promo.reward,
-                        String(
-                            telegram_id
-                        )
+                        String(telegram_id)
                     );
 
                     return promo;
 
                 });
 
-            const promo =
-                transaction();
+            const promo = transaction();
 
             const updatedUser =
                 db.prepare(`
@@ -950,9 +895,7 @@ app.post(
                     FROM users
                     WHERE telegram_id = ?
                 `).get(
-                    String(
-                        telegram_id
-                    )
+                    String(telegram_id)
                 );
 
             res.json({
@@ -993,12 +936,11 @@ app.get(
 
         try {
 
-            const items =
-                db.prepare(`
-                    SELECT *
-                    FROM shop_items
-                    ORDER BY id ASC
-                `).all();
+            const items = db.prepare(`
+                SELECT *
+                FROM shop_items
+                ORDER BY id ASC
+            `).all();
 
             res.json({
                 success: true,
@@ -1046,19 +988,13 @@ app.post(
             } = req.body;
 
             const itemName =
-                String(
-                    name || ""
-                ).trim();
+                String(name || "").trim();
 
             const itemPrice =
-                Math.floor(
-                    Number(price)
-                );
+                Math.floor(Number(price));
 
             const itemStock =
-                Math.floor(
-                    Number(stock)
-                );
+                Math.floor(Number(stock));
 
             if (!itemName) {
 
@@ -1071,9 +1007,7 @@ app.post(
             }
 
             if (
-                !Number.isFinite(
-                    itemPrice
-                ) ||
+                !Number.isFinite(itemPrice) ||
                 itemPrice < 0
             ) {
 
@@ -1086,9 +1020,7 @@ app.post(
             }
 
             if (
-                !Number.isFinite(
-                    itemStock
-                ) ||
+                !Number.isFinite(itemStock) ||
                 itemStock < 0
             ) {
 
@@ -1100,28 +1032,26 @@ app.post(
 
             }
 
-            const result =
-                db.prepare(`
-                    INSERT INTO shop_items (
-                        name,
-                        price,
-                        stock
-                    )
-                    VALUES (?, ?, ?)
-                `).run(
-                    itemName,
-                    itemPrice,
-                    itemStock
-                );
+            const result = db.prepare(`
+                INSERT INTO shop_items (
+                    name,
+                    price,
+                    stock
+                )
+                VALUES (?, ?, ?)
+            `).run(
+                itemName,
+                itemPrice,
+                itemStock
+            );
 
-            const item =
-                db.prepare(`
-                    SELECT *
-                    FROM shop_items
-                    WHERE id = ?
-                `).get(
-                    result.lastInsertRowid
-                );
+            const item = db.prepare(`
+                SELECT *
+                FROM shop_items
+                WHERE id = ?
+            `).get(
+                result.lastInsertRowid
+            );
 
             res.json({
                 success: true,
@@ -1166,13 +1096,9 @@ app.put(
             }
 
             const id =
-                Number(
-                    req.params.id
-                );
+                Number(req.params.id);
 
-            if (
-                !Number.isInteger(id)
-            ) {
+            if (!Number.isInteger(id)) {
 
                 return res.status(400).json({
                     success: false,
@@ -1182,14 +1108,11 @@ app.put(
 
             }
 
-            const item =
-                db.prepare(`
-                    SELECT *
-                    FROM shop_items
-                    WHERE id = ?
-                `).get(
-                    id
-                );
+            const item = db.prepare(`
+                SELECT *
+                FROM shop_items
+                WHERE id = ?
+            `).get(id);
 
             if (!item) {
 
@@ -1211,18 +1134,14 @@ app.put(
             const price =
                 req.body.price !== undefined
                     ? Math.floor(
-                        Number(
-                            req.body.price
-                        )
+                        Number(req.body.price)
                     )
                     : item.price;
 
             const stock =
                 req.body.stock !== undefined
                     ? Math.floor(
-                        Number(
-                            req.body.stock
-                        )
+                        Number(req.body.stock)
                     )
                     : item.stock;
 
@@ -1276,14 +1195,11 @@ app.put(
                 id
             );
 
-            const updated =
-                db.prepare(`
-                    SELECT *
-                    FROM shop_items
-                    WHERE id = ?
-                `).get(
-                    id
-                );
+            const updated = db.prepare(`
+                SELECT *
+                FROM shop_items
+                WHERE id = ?
+            `).get(id);
 
             res.json({
                 success: true,
@@ -1325,13 +1241,9 @@ app.delete(
             }
 
             const id =
-                Number(
-                    req.params.id
-                );
+                Number(req.params.id);
 
-            if (
-                !Number.isInteger(id)
-            ) {
+            if (!Number.isInteger(id)) {
 
                 return res.status(400).json({
                     success: false,
@@ -1341,14 +1253,11 @@ app.delete(
 
             }
 
-            const item =
-                db.prepare(`
-                    SELECT *
-                    FROM shop_items
-                    WHERE id = ?
-                `).get(
-                    id
-                );
+            const item = db.prepare(`
+                SELECT *
+                FROM shop_items
+                WHERE id = ?
+            `).get(id);
 
             if (!item) {
 
@@ -1363,9 +1272,7 @@ app.delete(
             db.prepare(`
                 DELETE FROM shop_items
                 WHERE id = ?
-            `).run(
-                id
-            );
+            `).run(id);
 
             res.json({
                 success: true,
@@ -1449,20 +1356,15 @@ app.post(
             }
 
             const telegramId =
-                String(
-                    telegram_id
-                );
+                String(telegram_id);
 
-            const item =
-                db.prepare(`
-                    SELECT *
-                    FROM shop_items
-                    WHERE id = ?
-                `).get(
-                    Number(
-                        shop_item_id
-                    )
-                );
+            const item = db.prepare(`
+                SELECT *
+                FROM shop_items
+                WHERE id = ?
+            `).get(
+                Number(shop_item_id)
+            );
 
             if (!item) {
 
@@ -1474,9 +1376,7 @@ app.post(
 
             }
 
-            if (
-                item.stock < 1
-            ) {
+            if (item.stock < 1) {
 
                 return res.status(400).json({
                     success: false,
@@ -1486,14 +1386,11 @@ app.post(
 
             }
 
-            const user =
-                db.prepare(`
-                    SELECT *
-                    FROM users
-                    WHERE telegram_id = ?
-                `).get(
-                    telegramId
-                );
+            const user = db.prepare(`
+                SELECT *
+                FROM users
+                WHERE telegram_id = ?
+            `).get(telegramId);
 
             if (
                 !user ||
@@ -1531,9 +1428,7 @@ app.post(
                         UPDATE shop_items
                         SET stock = stock - 1
                         WHERE id = ?
-                    `).run(
-                        item.id
-                    );
+                    `).run(item.id);
 
                     const commentText =
                         `Магазин: ${item.name}` +
@@ -1567,26 +1462,21 @@ app.post(
 
                 });
 
-            const withdrawalId =
-                tx();
+            const withdrawalId = tx();
 
             const updatedUser =
                 db.prepare(`
                     SELECT *
                     FROM users
                     WHERE telegram_id = ?
-                `).get(
-                    telegramId
-                );
+                `).get(telegramId);
 
             const updatedItem =
                 db.prepare(`
                     SELECT *
                     FROM shop_items
                     WHERE id = ?
-                `).get(
-                    item.id
-                );
+                `).get(item.id);
 
             res.json({
                 success: true,
@@ -1646,9 +1536,7 @@ app.get(
 
                     ORDER BY withdrawals.id DESC
                 `).all(
-                    String(
-                        req.params.telegramId
-                    )
+                    String(req.params.telegramId)
                 );
 
             res.json({
@@ -1690,12 +1578,11 @@ app.get(
 
             }
 
-            const users =
-                db.prepare(`
-                    SELECT *
-                    FROM users
-                    ORDER BY id DESC
-                `).all();
+            const users = db.prepare(`
+                SELECT *
+                FROM users
+                ORDER BY id DESC
+            `).all();
 
             res.json({
                 success: true,
@@ -1811,9 +1698,7 @@ app.post(
                 "rejected"
             ];
 
-            if (
-                !withdrawal_id
-            ) {
+            if (!withdrawal_id) {
 
                 return res.status(400).json({
                     success: false,
@@ -1824,9 +1709,7 @@ app.post(
             }
 
             if (
-                !allowedStatuses.includes(
-                    status
-                )
+                !allowedStatuses.includes(status)
             ) {
 
                 return res.status(400).json({
@@ -1843,9 +1726,7 @@ app.post(
                     FROM withdrawals
                     WHERE id = ?
                 `).get(
-                    Number(
-                        withdrawal_id
-                    )
+                    Number(withdrawal_id)
                 );
 
             if (!withdrawal) {
@@ -1864,9 +1745,7 @@ app.post(
                 WHERE id = ?
             `).run(
                 status,
-                Number(
-                    withdrawal_id
-                )
+                Number(withdrawal_id)
             );
 
             res.json({
