@@ -2661,7 +2661,371 @@ button{
   border-radius:10px;
 }
 
+
+
+/* =========================================================
+   DYNAMIC EFFECTS PACK
+   ========================================================= */
+:root{
+  --fx-mx:50%;
+  --fx-my:50%;
+  --fx-glow:rgba(255,255,255,.16);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  overflow-x:hidden;
+  isolation:isolate;
+}
+
+/* animated ambient light following the cursor */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-25%;
+  z-index:-3;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at var(--fx-mx) var(--fx-my), rgba(255,255,255,.10), transparent 15%),
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,.055), transparent 24%),
+    radial-gradient(circle at 85% 75%, rgba(255,255,255,.045), transparent 26%);
+  filter:blur(18px);
+  transition:background-position .12s linear;
+  animation:fxAmbient 10s ease-in-out infinite alternate;
+}
+
+@keyframes fxAmbient{
+  0%{transform:translate3d(-1%,0,0) scale(1);}
+  50%{transform:translate3d(1%,-1%,0) scale(1.025);}
+  100%{transform:translate3d(0,1%,0) scale(1.04);}
+}
+
+/* moving grain / scanlines */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9990;
+  pointer-events:none;
+  opacity:.035;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 3px, #fff 4px),
+    repeating-linear-gradient(90deg, transparent 0 5px, #fff 6px);
+  mix-blend-mode:screen;
+  animation:fxScan 12s linear infinite;
+}
+
+@keyframes fxScan{
+  from{background-position:0 0,0 0;}
+  to{background-position:0 180px,180px 0;}
+}
+/* entrance animation */
+.app{
+  animation:fxPageIn .7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes fxPageIn{
+  from{opacity:0;transform:translateY(14px) scale(.992);}
+  to{opacity:1;transform:none;}
+}
+
+/* cards lift smoothly */
+.item,.shop-item,.slot{
+  will-change:transform,box-shadow;
+}
+
+/* selected item pulse */
+.item.selected,.slot.selected{
+  animation:fxSelectedPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes fxSelectedPulse{
+  0%,100%{filter:brightness(1);}
+  50%{filter:brightness(1.13);}
+}
+
+/* wheel energy glow */
+.wheel{
+  animation:fxWheelGlow 3s ease-in-out infinite;
+  will-change:filter,box-shadow;
+}
+
+@keyframes fxWheelGlow{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(255,255,255,0));}
+  50%{filter:drop-shadow(0 0 16px rgba(255,255,255,.10));}
+}
+
+/* upgrade button breathing */
+.upgrade.ready{
+  animation:fxButtonReady 1.8s ease-in-out infinite;
+}
+
+@keyframes fxButtonReady{
+  0%,100%{box-shadow:0 0 0 rgba(255,255,255,0),inset 0 1px rgba(255,255,255,.08);}
+  50%{box-shadow:0 0 24px rgba(255,255,255,.14),inset 0 1px rgba(255,255,255,.18);}
+}
+
+/* click ripple */
+.fx-ripple{
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:rgba(255,255,255,.32);
+  transform:translate(-50%,-50%) scale(0);
+  pointer-events:none;
+  animation:fxRipple .55s ease-out forwards;
+}
+
+@keyframes fxRipple{
+  to{transform:translate(-50%,-50%) scale(16);opacity:0;}
+}
+
+/* floating particles */
+#fxParticles{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.fx-particle{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  opacity:0;
+  box-shadow:0 0 9px rgba(255,255,255,.8);
+  animation:fxParticleFloat linear infinite;
+}
+
+@keyframes fxParticleFloat{
+  0%{transform:translate3d(0,35px,0) scale(.5);opacity:0;}
+  12%{opacity:.35;}
+  50%{opacity:.12;}
+  88%{opacity:.35;}
+  100%{transform:translate3d(var(--fx-dx),-110vh,0) scale(1.2);opacity:0;}
+}
+
+/* subtle focus glow */
+input:focus,button:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(255,255,255,.08),0 0 28px rgba(255,255,255,.10);
+}
+
+/* modal backdrop animation when the class is present */
+.withdraw-modal:not([hidden]){
+  animation:fxModalFade .22s ease-out both;
+}
+
+@keyframes fxModalFade{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition-duration:.01ms !important;
+  }
+}
+
 </style>
+
+<style id="snow-effect">
+#snow-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    overflow: hidden;
+}
+
+.snowflake {
+    position: absolute;
+    top: -20px;
+    color: #fff;
+    font-size: var(--size);
+    opacity: var(--opacity);
+    filter: blur(var(--blur));
+    text-shadow: 0 0 8px rgba(255,255,255,.55);
+    animation: snow-fall var(--duration) linear var(--delay) infinite;
+    will-change: transform;
+}
+
+@keyframes snow-fall {
+    0% {
+        transform: translate3d(0, -30px, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate3d(var(--drift1), 25vh, 0) rotate(90deg);
+    }
+    50% {
+        transform: translate3d(var(--drift2), 50vh, 0) rotate(180deg);
+    }
+    75% {
+        transform: translate3d(var(--drift3), 75vh, 0) rotate(270deg);
+    }
+    100% {
+        transform: translate3d(var(--drift4), 110vh, 0) rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .snowflake:nth-child(n+45) {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .snowflake {
+        animation: none;
+        display: none;
+    }
+}
+</style>
+
+
+<style id="mouse-glow">
+/* Smooth cursor-following ambient glow */
+#cursor-glow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9996;
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.095) 0%,
+            rgba(255,255,255,.050) 22%,
+            rgba(255,255,255,.025) 48%,
+            rgba(255,255,255,0) 72%
+        );
+    filter: blur(16px);
+    will-change: transform, opacity;
+    transition: opacity .25s ease;
+    mix-blend-mode: screen;
+}
+@media (max-width: 700px), (pointer: coarse) {
+    #cursor-glow,
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #cursor-glow,
+}
+</style>
+
+
+<style id="effect-polish">
+/* Subtle depth and interaction polish */
+.panel,
+.game,
+.balance,
+.top-shop-button,
+.slot,
+.item,
+.shop-item,
+.withdraw-modal-box,
+.admin-panel,
+.admin-card {
+    transition:
+        transform .28s cubic-bezier(.2,.8,.2,1),
+        box-shadow .28s ease,
+        border-color .28s ease,
+        background-color .28s ease;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    transition:
+        transform .18s ease,
+        box-shadow .22s ease,
+        border-color .22s ease,
+        background-color .22s ease,
+        opacity .22s ease;
+}
+
+button:active,
+.top-shop-button:active {
+    transform: scale(.975);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.045),
+        0 0 24px rgba(255,255,255,.055);
+}
+
+#snow-layer {
+    opacity: .92;
+}
+</style>
+
+
+<style id="smooth-polish">
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.panel,
+.game,
+.balance,
+.top-shop-button,
+.slot,
+.item,
+.shop-item,
+.withdraw-modal-box,
+.admin-panel,
+.admin-card {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+button,
+.top-shop-button,
+.slot,
+.item,
+.shop-item {
+    will-change: transform;
+}
+
+#snow-layer,
+#cursor-glow {
+    contain: layout style paint;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    #snow-layer,
+    #cursor-glow {
+        display: none !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
@@ -7758,6 +8122,194 @@ async function deletePromoCode(id){
   }
 }
 
+
+
+/* =========================================================
+   DYNAMIC EFFECTS JS
+   ========================================================= */
+(function initDynamicEffects(){
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion) return;
+
+  // Particle layer
+  const particles = document.createElement('div');
+  particles.id = 'fxParticles';
+  document.body.prepend(particles);
+
+  const count = Math.min(34, Math.max(18, Math.floor(window.innerWidth / 28)));
+  for(let i=0;i<count;i++){
+    const p = document.createElement('span');
+    p.className = 'fx-particle';
+    p.style.left = (Math.random()*100) + '%';
+    p.style.top = (75 + Math.random()*40) + '%';
+    p.style.setProperty('--fx-dx', ((Math.random()-.5)*180) + 'px');
+    p.style.animationDuration = (8 + Math.random()*12) + 's';
+    p.style.animationDelay = (-Math.random()*18) + 's';
+    p.style.opacity = (.08 + Math.random()*.25).toFixed(2);
+    particles.appendChild(p);
+  }
+
+  // Cursor light. Disabled for coarse pointers / phones.
+  const finePointer = window.matchMedia ? window.matchMedia('(pointer:fine)').matches : true;
+  if(finePointer){
+    let raf = 0;
+    let x = window.innerWidth/2;
+    let y = window.innerHeight/2;
+    let tx = x, ty = y;
+
+    window.addEventListener('pointermove', (e)=>{
+      tx = e.clientX;
+      ty = e.clientY;
+      if(raf) return;
+      raf = requestAnimationFrame(()=>{
+        x += (tx-x)*.18;
+        y += (ty-y)*.18;
+        document.documentElement.style.setProperty('--fx-mx', x+'px');
+        document.documentElement.style.setProperty('--fx-my', y+'px');
+        raf = 0;
+      });
+    }, {passive:true});
+  }
+
+  // Ripple on interactive controls.
+  document.addEventListener('click',(e)=>{
+    const target = e.target.closest('button,.item,.shop-item,.slot,.top-shop-button');
+    if(!target || target.disabled) return;
+    if(getComputedStyle(target).position === 'static') target.style.position='relative';
+    const r = document.createElement('span');
+    r.className='fx-ripple';
+    const rect=target.getBoundingClientRect();
+    r.style.left=(e.clientX-rect.left)+'px';
+    r.style.top=(e.clientY-rect.top)+'px';
+    target.appendChild(r);
+    setTimeout(()=>r.remove(),600);
+  }, {passive:true});
+
+  // Gentle 3D tilt for cards on desktop.
+  if(finePointer){
+    const selectors = '.panel,.slot,.item,.shop-item,.top-shop-button';
+    document.addEventListener('pointermove',(e)=>{
+      const el=e.target.closest(selectors);
+      if(!el || el.dataset.fxTilt === 'off') return;
+      const rect=el.getBoundingClientRect();
+      if(rect.width<80 || rect.height<60) return;
+      const px=(e.clientX-rect.left)/rect.width-.5;
+      const py=(e.clientY-rect.top)/rect.height-.5;
+      const rx=(-py*2.8).toFixed(2);
+      const ry=(px*3.2).toFixed(2);
+      el.style.transform=`perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-1px)`;
+      el.style.transition='transform .08s ease-out';
+    }, {passive:true});
+
+    document.addEventListener('pointerout',(e)=>{
+      const el=e.target.closest(selectors);
+      if(!el) return;
+      if(e.relatedTarget && el.contains(e.relatedTarget)) return;
+      el.style.transform='';
+      el.style.transition='transform .28s ease-out';
+    }, {passive:true});
+  }
+
+  // Make newly rendered shop cards animate in without touching existing render functions.
+  const observer = new MutationObserver((mutations)=>{
+    for(const mutation of mutations){
+      for(const node of mutation.addedNodes){
+        if(node.nodeType !== 1) continue;
+        if(node.matches?.('.item,.shop-item,.slot') || node.querySelector?.('.item,.shop-item,.slot')){
+          const cards=node.matches?.('.item,.shop-item,.slot') ? [node] : [...node.querySelectorAll('.item,.shop-item,.slot')];
+          cards.forEach((card,i)=>{
+            card.animate([
+              {opacity:0,transform:'translateY(8px) scale(.97)'},
+              {opacity:1,transform:'translateY(0) scale(1)'}
+            ],{duration:320,delay:Math.min(i*35,280),easing:'cubic-bezier(.2,.8,.2,1)',fill:'both'});
+          });
+        }
+      }
+    }
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+})();
+
+</script>
+
+
+<div id="snow-layer" aria-hidden="true"></div>
+<script>
+(() => {
+    const layer = document.getElementById('snow-layer');
+    if (!layer) return;
+
+    const count = window.innerWidth < 600 ? 36 : 78;
+    const chars = ['•', '❄', '·'];
+
+    for (let i = 0; i < count; i++) {
+        const flake = document.createElement('span');
+        flake.className = 'snowflake';
+        flake.textContent = chars[Math.floor(Math.random() * chars.length)];
+
+        const size = (Math.random() * 8 + 3).toFixed(1) + 'px';
+        const opacity = (Math.random() * 0.55 + 0.2).toFixed(2);
+        const duration = (Math.random() * 9 + 8).toFixed(1) + 's';
+        const delay = (-Math.random() * 16).toFixed(1) + 's';
+        const blur = (Math.random() * 1.4).toFixed(1) + 'px';
+
+        const drift = () => (Math.random() * 160 - 80).toFixed(0) + 'px';
+
+        flake.style.left = Math.random() * 100 + 'vw';
+        flake.style.setProperty('--size', size);
+        flake.style.setProperty('--opacity', opacity);
+        flake.style.setProperty('--duration', duration);
+        flake.style.setProperty('--delay', delay);
+        flake.style.setProperty('--blur', blur);
+        flake.style.setProperty('--drift1', drift());
+        flake.style.setProperty('--drift2', drift());
+        flake.style.setProperty('--drift3', drift());
+        flake.style.setProperty('--drift4', drift());
+
+        layer.appendChild(flake);
+    }
+})();
+</script>
+
+
+<script id="mouse-glow">
+(() => {
+    const glow = document.createElement('div');
+    glow.id = 'cursor-glow';
+document.body.appendChild(glow);
+let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+    let visible = false;
+
+    window.addEventListener('mousemove', (event) => {
+        targetX = event.clientX;
+        targetY = event.clientY;
+
+        if (!visible) {
+            visible = true;
+            glow.style.opacity = '1';
+}
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', () => {
+        visible = false;
+        glow.style.opacity = '0';
+});
+
+    function animate() {
+        // Smooth follow, but always centered exactly around the cursor.
+        currentX += (targetX - currentX) * 0.20;
+        currentY += (targetY - currentY) * 0.20;
+
+        glow.style.transform =
+            `translate3d(${currentX}px, ${currentY}px, 0) translate3d(-50%, -50%, 0)`;
+requestAnimationFrame(animate);
+    }
+
+    animate();
+})();
 </script>
 
 </body>
