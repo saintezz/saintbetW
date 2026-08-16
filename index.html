@@ -7605,7 +7605,7 @@ async function activatePromoCode(){
     renderAll();
 
     if(message){
-      message.textContent = `✓ Промокод активирован! +${data.reward} 🧠`;
+      message.textContent = `✓ Промокод активирован! +${data.reward} 🦴`;
     }
 
     if(input) input.value = '';
@@ -7723,7 +7723,7 @@ async function loadAdminPromoCodes(){
       <div style="padding:10px;margin-top:8px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.04);">
         <div style="font-weight:900;font-size:16px;">${promo.code}</div>
         <div style="font-size:12px;opacity:.75;margin-top:4px;">
-          Использовано: ${promo.used}/${promo.activations} • Награда: ${promo.reward} 🧠
+          Использовано: ${promo.used}/${promo.activations} • Награда: ${promo.reward} 🦴
         </div>
         <button class="admin-button" type="button" style="margin-top:7px;" onclick="deletePromoCode(${promo.id})">Удалить</button>
       </div>
