@@ -6,184 +6,216 @@ const crypto = require("crypto");
 const app = express();
 
 app.use(cors());
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json());
+
+const PORT = process.env.PORT || 3000;
+
+const db = new Database("database.sqlite");
+
+db.pragma("journal_mode = WAL");
 
 // =========================================================
 // DATABASE
 // =========================================================
 
-const db = new Database("database.db");
-
-db.pragma("journal_mode = WAL");
-
-// Игроки
 db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        telegram_id TEXT UNIQUE NOT NULL,
-        username TEXT,
-        first_name TEXT,
-        roblox_name TEXT,
-        balance INTEGER DEFAULT 0,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    telegram_id TEXT UNIQUE,
+    username TEXT,
+    first_name TEXT,
+    roblox_name TEXT,
+    balance INTEGER DEFAULT 10,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS withdrawals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    telegram_id TEXT,
+    shop_item_id INTEGER,
+    shop_item_name TEXT,
+    price INTEGER,
+    roblox_name TEXT,
+    ready_time TEXT,
+    comment TEXT,
+    status TEXT DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS shop_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    price INTEGER NOT NULL DEFAULT 0,
+    stock INTEGER NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS promo_codes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT UNIQUE NOT NULL,
+    activations INTEGER NOT NULL DEFAULT 1,
+    used INTEGER NOT NULL DEFAULT 0,
+    reward INTEGER NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS promo_code_uses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    promo_id INTEGER NOT NULL,
+    telegram_id TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(promo_id, telegram_id),
+    FOREIGN KEY(promo_id) REFERENCES promo_codes(id)
+);
 `);
 
-// Инвентарь
-db.exec(`
-    CREATE TABLE IF NOT EXISTS inventory (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        telegram_id TEXT NOT NULL,
-        item_id INTEGER NOT NULL,
-        inventory_type TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
+// =========================================================
+// HELPERS
+// =========================================================
 
-// Выводы
-db.exec(`
-    CREATE TABLE IF NOT EXISTS withdrawals (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        telegram_id TEXT NOT NULL,
-        item_id INTEGER NOT NULL,
-        roblox_name TEXT NOT NULL,
-        ready_time TEXT NOT NULL,
-        comment TEXT,
-        status TEXT DEFAULT 'pending',
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
-
-// Магазин вывода (Brainrot предложения)
-db.exec(`
-    CREATE TABLE IF NOT EXISTS shop_items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        price INTEGER NOT NULL,
-        stock INTEGER NOT NULL DEFAULT 1,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-`);
-
-// Инициализация стандартных предложений, если таблица пуста
-try {
-    const shopCount = db.prepare("SELECT COUNT(*) as count FROM shop_items").get();
-    if (shopCount && shopCount.count === 0) {
-        const insertShopItem = db.prepare("INSERT INTO shop_items (name, price, stock) VALUES (?, ?, ?)");
-        const defaultShop = [
-            { name: "Ventoliero Pavonero", price: 40, stock: 2 },
-            { name: "Ketchuru and Musturu", price: 40, stock: 1 },
-            { name: "La Summer Grande", price: 30, stock: 2 },
-            { name: "Sand Sand Sand", price: 15, stock: 2 },
-            { name: "Ketupat Kepat", price: 25, stock: 2 },
-            { name: "Los Tangsitos", price: 40, stock: 2 },
-            { name: "Los Fruits", price: 19, stock: 1 },
-            { name: "La Ginger Sekolah", price: 45, stock: 1 },
-            { name: "Esok Sekolah", price: 10, stock: 1 },
-            { name: "La Jolly Grande", price: 50, stock: 1 }
-        ];
-        for (const item of defaultShop) {
-            insertShopItem.run(item.name, item.price, item.stock);
-        }
-    }
-} catch (e) {
-    console.error("Ошибка инициализации shop_items:", e);
+function normalizeUsername(value) {
+    return String(value || "")
+        .trim()
+        .replace(/^@+/, "")
+        .toLowerCase();
 }
 
-// =========================================================
-// TELEGRAM INIT DATA
-// =========================================================
+function normalizePromoCode(value) {
+    return String(value || "")
+        .trim()
+        .toUpperCase();
+}
 
-function validateTelegramInitData(initData) {
-    const botToken = process.env.BOT_TOKEN;
+function getAdminUsernames() {
+    return String(
+        process.env.ADMIN_TELEGRAM_USERNAMES || "saintezz7"
+    )
+        .split(",")
+        .map(normalizeUsername)
+        .filter(Boolean);
+}
 
-    // Пока токен не указан, разрешаем запросы.
-    // После подключения Mini App обязательно добавим
-    // проверку Telegram initData через BOT_TOKEN.
-    if (!botToken) {
-        console.warn("BOT_TOKEN не установлен.");
+function isAdmin(req) {
+    const telegramId = String(
+        req.body?.telegram_id ||
+        req.body?.telegramId ||
+        req.headers["x-telegram-id"] ||
+        ""
+    );
+
+    const username = normalizeUsername(
+        req.body?.username ||
+        req.body?.telegram_username ||
+        req.body?.telegramUsername ||
+        req.headers["x-telegram-username"] ||
+        ""
+    );
+
+    const admins = getAdminUsernames();
+
+    if (
+        username &&
+        admins.includes(username)
+    ) {
         return true;
     }
 
-    if (!initData) {
-        return false;
+    const adminIds = String(
+        process.env.ADMIN_TELEGRAM_IDS || ""
+    )
+        .split(",")
+        .map(v => v.trim())
+        .filter(Boolean);
+
+    if (
+        telegramId &&
+        adminIds.includes(telegramId)
+    ) {
+        return true;
     }
 
-    try {
-        const params = new URLSearchParams(initData);
-
-        const receivedHash = params.get("hash");
-
-        if (!receivedHash) {
-            return false;
-        }
-
-        params.delete("hash");
-
-        const dataCheckString = [...params.entries()]
-            .sort(([a], [b]) => a.localeCompare(b))
-            .map(([key, value]) => `${key}=${value}`)
-            .join("\n");
-
-        const secretKey = crypto
-            .createHmac("sha256", "WebAppData")
-            .update(botToken)
-            .digest();
-
-        const calculatedHash = crypto
-            .createHmac("sha256", secretKey)
-            .update(dataCheckString)
-            .digest("hex");
-
-        return calculatedHash === receivedHash;
-
-    } catch (error) {
-        console.error("Ошибка проверки Telegram:", error);
-        return false;
-    }
+    return false;
 }
 
-// =========================================================
-// TELEGRAM USER
-// =========================================================
+function ensureUser(telegramId, username = "", firstName = "") {
+    telegramId = String(telegramId || "");
 
-function getTelegramUser(initData) {
-    try {
-        const params = new URLSearchParams(initData);
-
-        const userString = params.get("user");
-
-        if (!userString) {
-            return null;
-        }
-
-        return JSON.parse(userString);
-
-    } catch (error) {
-        console.error("Ошибка получения Telegram пользователя:", error);
+    if (!telegramId) {
         return null;
     }
+
+    let user = db.prepare(`
+        SELECT *
+        FROM users
+        WHERE telegram_id = ?
+    `).get(telegramId);
+
+    if (!user) {
+        db.prepare(`
+            INSERT INTO users (
+                telegram_id,
+                username,
+                first_name,
+                balance
+            )
+            VALUES (?, ?, ?, 10)
+        `).run(
+            telegramId,
+            normalizeUsername(username),
+            String(firstName || "")
+        );
+
+        user = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(telegramId);
+    } else {
+        db.prepare(`
+            UPDATE users
+            SET
+                username = ?,
+                first_name = ?
+            WHERE telegram_id = ?
+        `).run(
+            normalizeUsername(username),
+            String(firstName || ""),
+            telegramId
+        );
+
+        user = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(telegramId);
+    }
+
+    return user;
 }
 
 // =========================================================
-// MAIN
+// HEALTH
 // =========================================================
 
 app.get("/", (req, res) => {
     res.json({
-        status: "ok",
-        message: "Telegram Mini App API работает!",
-        database: "ok"
+        success: true,
+        message: "SaintBet server is running"
+    });
+});
+
+app.get("/api/health", (req, res) => {
+    res.json({
+        success: true
     });
 });
 
 // =========================================================
-// REGISTER / UPDATE USER
+// USER
 // =========================================================
 
 app.post("/api/user", (req, res) => {
     try {
-
         const {
             telegram_id,
             username,
@@ -198,61 +230,35 @@ app.post("/api/user", (req, res) => {
             });
         }
 
-        const telegramId = String(telegram_id);
+        const user = ensureUser(
+            telegram_id,
+            username,
+            first_name
+        );
 
-        const existingUser = db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
-        `).get(telegramId);
-
-        if (existingUser) {
-
+        if (roblox_name !== undefined) {
             db.prepare(`
                 UPDATE users
-                SET
-                    username = ?,
-                    first_name = ?,
-                    roblox_name = COALESCE(?, roblox_name)
+                SET roblox_name = ?
                 WHERE telegram_id = ?
             `).run(
-                username || null,
-                first_name || null,
-                roblox_name || null,
-                telegramId
-            );
-
-        } else {
-
-            db.prepare(`
-                INSERT INTO users (
-                    telegram_id,
-                    username,
-                    first_name,
-                    roblox_name
-                )
-                VALUES (?, ?, ?, ?)
-            `).run(
-                telegramId,
-                username || null,
-                first_name || null,
-                roblox_name || null
+                roblox_name,
+                String(telegram_id)
             );
         }
 
-        const user = db.prepare(`
+        const updatedUser = db.prepare(`
             SELECT *
             FROM users
             WHERE telegram_id = ?
-        `).get(telegramId);
+        `).get(String(telegram_id));
 
         res.json({
             success: true,
-            user
+            user: updatedUser
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -262,15 +268,11 @@ app.post("/api/user", (req, res) => {
     }
 });
 
-// =========================================================
-// GET USER
-// =========================================================
-
-app.get("/api/user/:telegram_id", (req, res) => {
-
+app.get("/api/user/:telegramId", (req, res) => {
     try {
-
-        const telegramId = String(req.params.telegram_id);
+        const telegramId = String(
+            req.params.telegramId
+        );
 
         const user = db.prepare(`
             SELECT *
@@ -281,7 +283,7 @@ app.get("/api/user/:telegram_id", (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                error: "Игрок не найден"
+                error: "Пользователь не найден"
             });
         }
 
@@ -291,7 +293,6 @@ app.get("/api/user/:telegram_id", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -302,48 +303,82 @@ app.get("/api/user/:telegram_id", (req, res) => {
 });
 
 // =========================================================
-// UPDATE ROBLOX NAME
+// ADMIN - GRANT BONES
 // =========================================================
 
-app.post("/api/user/roblox", (req, res) => {
-
+app.post("/api/admin/grant-bones", (req, res) => {
     try {
-
-        const {
-            telegram_id,
-            roblox_name
-        } = req.body;
-
-        if (!telegram_id) {
-            return res.status(400).json({
+        if (!isAdmin(req)) {
+            return res.status(403).json({
                 success: false,
-                error: "telegram_id обязателен"
+                error: "Нет доступа"
             });
         }
 
-        if (!roblox_name || !roblox_name.trim()) {
+        const {
+            username,
+            amount
+        } = req.body;
+
+        const normalizedUsername =
+            normalizeUsername(username);
+
+        const value = Math.floor(
+            Number(amount)
+        );
+
+        if (!normalizedUsername) {
             return res.status(400).json({
                 success: false,
-                error: "Укажите Roblox ник"
+                error: "username обязателен"
+            });
+        }
+
+        if (
+            !Number.isFinite(value) ||
+            value < 1
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректное количество костей"
+            });
+        }
+
+        const user = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE lower(username) = ?
+        `).get(normalizedUsername);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                error: "Пользователь не найден"
             });
         }
 
         db.prepare(`
             UPDATE users
-            SET roblox_name = ?
-            WHERE telegram_id = ?
+            SET balance = balance + ?
+            WHERE id = ?
         `).run(
-            roblox_name.trim(),
-            String(telegram_id)
+            value,
+            user.id
         );
+
+        const updatedUser = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE id = ?
+        `).get(user.id);
 
         res.json({
             success: true,
-            message: "Roblox ник сохранён"
+            user: updatedUser,
+            amount: value
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -354,214 +389,323 @@ app.post("/api/user/roblox", (req, res) => {
 });
 
 // =========================================================
-// ADD ITEM TO INVENTORY
+// PROMOCODES - CREATE
 // =========================================================
 
-app.post("/api/inventory/add", (req, res) => {
-
+app.post("/api/admin/promo-codes", (req, res) => {
     try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
 
+        let {
+            code,
+            activations,
+            reward
+        } = req.body;
+
+        code = normalizePromoCode(code);
+
+        activations = Math.floor(
+            Number(activations)
+        );
+
+        reward = Math.floor(
+            Number(reward)
+        );
+
+        if (!code) {
+            return res.status(400).json({
+                success: false,
+                error: "Введите промокод"
+            });
+        }
+
+        // Только английские буквы и цифры.
+        if (!/^[A-Z0-9]+$/.test(code)) {
+            return res.status(400).json({
+                success: false,
+                error: "Промокод должен содержать только английские буквы и цифры"
+            });
+        }
+
+        if (
+            !Number.isInteger(activations) ||
+            activations < 1
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Количество активаций должно быть больше 0"
+            });
+        }
+
+        if (
+            !Number.isInteger(reward) ||
+            reward < 1
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Награда должна быть больше 0"
+            });
+        }
+
+        const existing = db.prepare(`
+            SELECT id
+            FROM promo_codes
+            WHERE code = ?
+        `).get(code);
+
+        if (existing) {
+            return res.status(409).json({
+                success: false,
+                error: "Такой промокод уже существует"
+            });
+        }
+
+        const result = db.prepare(`
+            INSERT INTO promo_codes (
+                code,
+                activations,
+                used,
+                reward
+            )
+            VALUES (?, ?, 0, ?)
+        `).run(
+            code,
+            activations,
+            reward
+        );
+
+        const promo = db.prepare(`
+            SELECT *
+            FROM promo_codes
+            WHERE id = ?
+        `).get(result.lastInsertRowid);
+
+        res.json({
+            success: true,
+            promo
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка создания промокода"
+        });
+    }
+});
+
+// =========================================================
+// PROMOCODES - LIST
+// =========================================================
+
+app.get("/api/admin/promo-codes", (req, res) => {
+    try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
+
+        const promoCodes = db.prepare(`
+            SELECT
+                id,
+                code,
+                activations,
+                used,
+                reward,
+                created_at
+            FROM promo_codes
+            ORDER BY id DESC
+        `).all();
+
+        res.json({
+            success: true,
+            promoCodes
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка загрузки промокодов"
+        });
+    }
+});
+
+// =========================================================
+// PROMOCODES - DELETE
+// =========================================================
+
+app.delete("/api/admin/promo-codes/:id", (req, res) => {
+    try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
+
+        const id = Number(
+            req.params.id
+        );
+
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректный ID"
+            });
+        }
+
+        const promo = db.prepare(`
+            SELECT *
+            FROM promo_codes
+            WHERE id = ?
+        `).get(id);
+
+        if (!promo) {
+            return res.status(404).json({
+                success: false,
+                error: "Промокод не найден"
+            });
+        }
+
+        const transaction = db.transaction(() => {
+
+            db.prepare(`
+                DELETE FROM promo_code_uses
+                WHERE promo_id = ?
+            `).run(id);
+
+            db.prepare(`
+                DELETE FROM promo_codes
+                WHERE id = ?
+            `).run(id);
+
+        });
+
+        transaction();
+
+        res.json({
+            success: true
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка удаления промокода"
+        });
+    }
+});
+
+// =========================================================
+// PROMOCODES - ACTIVATE
+// =========================================================
+
+app.post("/api/promo-code/activate", (req, res) => {
+    try {
         const {
             telegram_id,
-            item_id,
-            inventory_type
+            username,
+            first_name,
+            code
         } = req.body;
 
         if (!telegram_id) {
             return res.status(400).json({
                 success: false,
-                error: "telegram_id обязателен"
+                error: "Telegram ID не найден"
             });
         }
 
-        if (item_id === undefined || item_id === null) {
+        const normalizedCode =
+            normalizePromoCode(code);
+
+        if (!normalizedCode) {
             return res.status(400).json({
                 success: false,
-                error: "item_id обязателен"
+                error: "Введите промокод"
             });
         }
 
-        const type =
-            inventory_type === "normal"
-                ? "normal"
-                : "upgrader";
-
-        db.prepare(`
-            INSERT INTO inventory (
-                telegram_id,
-                item_id,
-                inventory_type
-            )
-            VALUES (?, ?, ?)
-        `).run(
-            String(telegram_id),
-            Number(item_id),
-            type
-        );
-
-        res.json({
-            success: true,
-            message: "Предмет добавлен"
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// GET INVENTORY
-// =========================================================
-
-app.get("/api/inventory/:telegram_id", (req, res) => {
-
-    try {
-
-        const telegramId = String(req.params.telegram_id);
-
-        const inventory = db.prepare(`
-            SELECT *
-            FROM inventory
-            WHERE telegram_id = ?
-            ORDER BY id ASC
-        `).all(telegramId);
-
-        res.json({
-            success: true,
-            inventory
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// MOVE ITEM TO NORMAL INVENTORY
-// =========================================================
-
-app.post("/api/inventory/move", (req, res) => {
-
-    try {
-
-        const {
+        const user = ensureUser(
             telegram_id,
-            inventory_id
-        } = req.body;
+            username,
+            first_name
+        );
 
-        if (!telegram_id || !inventory_id) {
+        if (!user) {
             return res.status(400).json({
                 success: false,
-                error: "Не хватает данных"
+                error: "Пользователь не найден"
             });
         }
-
-        const item = db.prepare(`
-            SELECT *
-            FROM inventory
-            WHERE id = ?
-              AND telegram_id = ?
-              AND inventory_type = 'upgrader'
-        `).get(
-            Number(inventory_id),
-            String(telegram_id)
-        );
-
-        if (!item) {
-            return res.status(404).json({
-                success: false,
-                error: "Предмет не найден"
-            });
-        }
-
-        db.prepare(`
-            UPDATE inventory
-            SET inventory_type = 'normal'
-            WHERE id = ?
-              AND telegram_id = ?
-        `).run(
-            Number(inventory_id),
-            String(telegram_id)
-        );
-
-        res.json({
-            success: true,
-            message: "Предмет выведен в обычный инвентарь"
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// SELL ITEM
-// =========================================================
-
-app.post("/api/inventory/sell", (req, res) => {
-
-    try {
-
-        const {
-            telegram_id,
-            inventory_id,
-            price
-        } = req.body;
-
-        if (!telegram_id || !inventory_id) {
-            return res.status(400).json({
-                success: false,
-                error: "Не хватает данных"
-            });
-        }
-
-        const item = db.prepare(`
-            SELECT *
-            FROM inventory
-            WHERE id = ?
-              AND telegram_id = ?
-              AND inventory_type = 'upgrader'
-        `).get(
-            Number(inventory_id),
-            String(telegram_id)
-        );
-
-        if (!item) {
-            return res.status(404).json({
-                success: false,
-                error: "Предмет не найден"
-            });
-        }
-
-        const sellPrice = Number(price) || 0;
 
         const transaction = db.transaction(() => {
 
-            db.prepare(`
-                DELETE FROM inventory
-                WHERE id = ?
-                  AND telegram_id = ?
-            `).run(
-                Number(inventory_id),
+            const promo = db.prepare(`
+                SELECT *
+                FROM promo_codes
+                WHERE code = ?
+            `).get(normalizedCode);
+
+            if (!promo) {
+                throw new Error(
+                    "Промокод не найден"
+                );
+            }
+
+            if (
+                Number(promo.used) >=
+                Number(promo.activations)
+            ) {
+                throw new Error(
+                    "Все активации этого промокода уже использованы"
+                );
+            }
+
+            const alreadyUsed = db.prepare(`
+                SELECT id
+                FROM promo_code_uses
+                WHERE promo_id = ?
+                AND telegram_id = ?
+            `).get(
+                promo.id,
                 String(telegram_id)
+            );
+
+            if (alreadyUsed) {
+                throw new Error(
+                    "Вы уже активировали этот промокод"
+                );
+            }
+
+            db.prepare(`
+                INSERT INTO promo_code_uses (
+                    promo_id,
+                    telegram_id
+                )
+                VALUES (?, ?)
+            `).run(
+                promo.id,
+                String(telegram_id)
+            );
+
+            db.prepare(`
+                UPDATE promo_codes
+                SET used = used + 1
+                WHERE id = ?
+            `).run(
+                promo.id
             );
 
             db.prepare(`
@@ -569,42 +713,325 @@ app.post("/api/inventory/sell", (req, res) => {
                 SET balance = balance + ?
                 WHERE telegram_id = ?
             `).run(
-                sellPrice,
+                Number(promo.reward),
                 String(telegram_id)
             );
+
+            return promo;
         });
 
-        transaction();
+        const promo = transaction();
+
+        const updatedUser = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(
+            String(telegram_id)
+        );
 
         res.json({
             success: true,
-            message: "Предмет продан",
-            received: sellPrice
+            message: `Промокод активирован! Вы получили ${promo.reward} 🦴.`,
+            reward: promo.reward,
+            balance: updatedUser.balance
         });
 
     } catch (error) {
-
         console.error(error);
 
-        res.status(500).json({
+        res.status(400).json({
             success: false,
-            error: "Ошибка сервера"
+            error:
+                error.message ||
+                "Не удалось активировать промокод"
         });
     }
 });
 
 // =========================================================
-// CREATE WITHDRAWAL
+// SHOP - ITEMS
 // =========================================================
 
-app.post("/api/withdrawals", (req, res) => {
-
+app.get("/api/shop/items", (req, res) => {
     try {
+        const items = db.prepare(`
+            SELECT *
+            FROM shop_items
+            ORDER BY id ASC
+        `).all();
+
+        res.json({
+            success: true,
+            items
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка загрузки магазина"
+        });
+    }
+});
+
+// =========================================================
+// ADMIN - SHOP ITEMS
+// =========================================================
+
+app.post("/api/admin/shop/items", (req, res) => {
+    try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
 
         const {
+            name,
+            price,
+            stock
+        } = req.body;
+
+        const normalizedName =
+            String(name || "").trim();
+
+        const itemPrice = Math.floor(
+            Number(price)
+        );
+
+        const itemStock = Math.floor(
+            Number(stock)
+        );
+
+        if (!normalizedName) {
+            return res.status(400).json({
+                success: false,
+                error: "Название обязательно"
+            });
+        }
+
+        if (
+            !Number.isInteger(itemPrice) ||
+            itemPrice < 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректная цена"
+            });
+        }
+
+        if (
+            !Number.isInteger(itemStock) ||
+            itemStock < 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректный склад"
+            });
+        }
+
+        const result = db.prepare(`
+            INSERT INTO shop_items (
+                name,
+                price,
+                stock
+            )
+            VALUES (?, ?, ?)
+        `).run(
+            normalizedName,
+            itemPrice,
+            itemStock
+        );
+
+        const item = db.prepare(`
+            SELECT *
+            FROM shop_items
+            WHERE id = ?
+        `).get(
+            result.lastInsertRowid
+        );
+
+        res.json({
+            success: true,
+            item
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка создания товара"
+        });
+    }
+});
+
+app.post("/api/admin/shop/items/update", (req, res) => {
+    try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
+
+        const {
+            id,
+            name,
+            price,
+            stock
+        } = req.body;
+
+        const itemId = Number(id);
+
+        if (!Number.isInteger(itemId)) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректный ID товара"
+            });
+        }
+
+        const item = db.prepare(`
+            SELECT *
+            FROM shop_items
+            WHERE id = ?
+        `).get(itemId);
+
+        if (!item) {
+            return res.status(404).json({
+                success: false,
+                error: "Товар не найден"
+            });
+        }
+
+        const nextName =
+            name !== undefined
+                ? String(name).trim()
+                : item.name;
+
+        const nextPrice =
+            price !== undefined
+                ? Math.floor(Number(price))
+                : item.price;
+
+        const nextStock =
+            stock !== undefined
+                ? Math.floor(Number(stock))
+                : item.stock;
+
+        if (!nextName) {
+            return res.status(400).json({
+                success: false,
+                error: "Название не может быть пустым"
+            });
+        }
+
+        if (
+            !Number.isInteger(nextPrice) ||
+            nextPrice < 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректная цена"
+            });
+        }
+
+        if (
+            !Number.isInteger(nextStock) ||
+            nextStock < 0
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректный склад"
+            });
+        }
+
+        db.prepare(`
+            UPDATE shop_items
+            SET
+                name = ?,
+                price = ?,
+                stock = ?
+            WHERE id = ?
+        `).run(
+            nextName,
+            nextPrice,
+            nextStock,
+            itemId
+        );
+
+        const updated = db.prepare(`
+            SELECT *
+            FROM shop_items
+            WHERE id = ?
+        `).get(itemId);
+
+        res.json({
+            success: true,
+            item: updated
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка обновления товара"
+        });
+    }
+});
+
+app.delete("/api/admin/shop/items/:id", (req, res) => {
+    try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
+
+        const id = Number(
+            req.params.id
+        );
+
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({
+                success: false,
+                error: "Некорректный ID"
+            });
+        }
+
+        db.prepare(`
+            DELETE FROM shop_items
+            WHERE id = ?
+        `).run(id);
+
+        res.json({
+            success: true
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Ошибка удаления товара"
+        });
+    }
+});
+
+// =========================================================
+// SHOP - WITHDRAW
+// =========================================================
+
+app.post("/api/shop/withdraw", (req, res) => {
+    try {
+        const {
             telegram_id,
-            inventory_id,
-            item_id,
+            shop_item_id,
             roblox_name,
             ready_time,
             comment
@@ -613,124 +1040,148 @@ app.post("/api/withdrawals", (req, res) => {
         if (!telegram_id) {
             return res.status(400).json({
                 success: false,
-                error: "telegram_id обязателен"
+                error: "Telegram ID обязателен"
             });
         }
 
-        if (!item_id && !inventory_id) {
+        const user = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(
+            String(telegram_id)
+        );
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                error: "Пользователь не найден"
+            });
+        }
+
+        const item = db.prepare(`
+            SELECT *
+            FROM shop_items
+            WHERE id = ?
+        `).get(
+            Number(shop_item_id)
+        );
+
+        if (!item) {
+            return res.status(404).json({
+                success: false,
+                error: "Товар не найден"
+            });
+        }
+
+        if (item.stock < 1) {
             return res.status(400).json({
                 success: false,
-                error: "Не указан предмет"
+                error: "Товар закончился на складе"
             });
         }
 
-        if (!roblox_name || !roblox_name.trim()) {
+        if (user.balance < item.price) {
             return res.status(400).json({
                 success: false,
-                error: "Укажите Roblox ник"
+                error: "Недостаточно костей на балансе"
             });
         }
 
-        if (!ready_time || !ready_time.trim()) {
+        if (!String(roblox_name || "").trim()) {
             return res.status(400).json({
                 success: false,
-                error: "Укажите время"
+                error: "Roblox никнейм обязателен"
             });
         }
 
-        const telegramId = String(telegram_id);
+        const transaction = db.transaction(() => {
 
-        let finalItemId = item_id;
-
-        // Если передан конкретный предмет из БД,
-        // проверяем, что он принадлежит игроку.
-        if (inventory_id) {
-
-            const inventoryItem = db.prepare(`
-                SELECT *
-                FROM inventory
-                WHERE id = ?
-                  AND telegram_id = ?
-                  AND inventory_type = 'upgrader'
-            `).get(
-                Number(inventory_id),
-                telegramId
-            );
-
-            if (!inventoryItem) {
-                return res.status(404).json({
-                    success: false,
-                    error: "Предмет не найден в инвентаре апгрейдера"
-                });
-            }
-
-            finalItemId = inventoryItem.item_id;
-
-            // Перемещаем предмет в обычный инвентарь
-            // после создания заявки.
             db.prepare(`
-                UPDATE inventory
-                SET inventory_type = 'normal'
-                WHERE id = ?
-                  AND telegram_id = ?
+                UPDATE users
+                SET balance = balance - ?
+                WHERE telegram_id = ?
             `).run(
-                Number(inventory_id),
-                telegramId
+                item.price,
+                String(telegram_id)
             );
-        }
 
-        const result = db.prepare(`
-            INSERT INTO withdrawals (
-                telegram_id,
-                item_id,
-                roblox_name,
-                ready_time,
-                comment
-            )
-            VALUES (?, ?, ?, ?, ?)
-        `).run(
-            telegramId,
-            Number(finalItemId),
-            roblox_name.trim(),
-            ready_time.trim(),
-            comment
-                ? comment.trim()
-                : null
+            db.prepare(`
+                UPDATE shop_items
+                SET stock = stock - 1
+                WHERE id = ?
+                AND stock > 0
+            `).run(
+                item.id
+            );
+
+            db.prepare(`
+                INSERT INTO withdrawals (
+                    telegram_id,
+                    shop_item_id,
+                    shop_item_name,
+                    price,
+                    roblox_name,
+                    ready_time,
+                    comment,
+                    status
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
+            `).run(
+                String(telegram_id),
+                item.id,
+                item.name,
+                item.price,
+                String(roblox_name).trim(),
+                String(ready_time || "").trim(),
+                String(comment || "").trim()
+            );
+
+        });
+
+        transaction();
+
+        const updatedUser = db.prepare(`
+            SELECT *
+            FROM users
+            WHERE telegram_id = ?
+        `).get(
+            String(telegram_id)
         );
 
         res.json({
             success: true,
-            withdrawal_id: result.lastInsertRowid,
-            message: "Заявка на вывод создана"
+            balance: updatedUser.balance
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
             success: false,
-            error: "Ошибка сервера"
+            error: "Ошибка оформления вывода"
         });
     }
 });
 
 // =========================================================
-// GET PLAYER WITHDRAWALS
+// USER - WITHDRAWALS
 // =========================================================
 
-app.get("/api/withdrawals/:telegram_id", (req, res) => {
-
+app.get("/api/withdrawals/:telegramId", (req, res) => {
     try {
-
-        const telegramId = String(req.params.telegram_id);
+        const telegramId = String(
+            req.params.telegramId
+        );
 
         const withdrawals = db.prepare(`
             SELECT *
             FROM withdrawals
             WHERE telegram_id = ?
             ORDER BY id DESC
-        `).all(telegramId);
+        `).all(
+            telegramId
+        );
 
         res.json({
             success: true,
@@ -738,7 +1189,6 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -753,8 +1203,13 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
 // =========================================================
 
 app.get("/api/admin/users", (req, res) => {
-
     try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
 
         const users = db.prepare(`
             SELECT *
@@ -768,7 +1223,6 @@ app.get("/api/admin/users", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -783,8 +1237,13 @@ app.get("/api/admin/users", (req, res) => {
 // =========================================================
 
 app.get("/api/admin/withdrawals", (req, res) => {
-
     try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
 
         const withdrawals = db.prepare(`
             SELECT
@@ -793,7 +1252,8 @@ app.get("/api/admin/withdrawals", (req, res) => {
                 users.first_name
             FROM withdrawals
             LEFT JOIN users
-                ON users.telegram_id = withdrawals.telegram_id
+                ON users.telegram_id =
+                   withdrawals.telegram_id
             ORDER BY withdrawals.id DESC
         `).all();
 
@@ -803,7 +1263,6 @@ app.get("/api/admin/withdrawals", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -818,8 +1277,13 @@ app.get("/api/admin/withdrawals", (req, res) => {
 // =========================================================
 
 app.post("/api/admin/withdrawals/status", (req, res) => {
-
     try {
+        if (!isAdmin(req)) {
+            return res.status(403).json({
+                success: false,
+                error: "Нет доступа"
+            });
+        }
 
         const {
             withdrawal_id,
@@ -847,7 +1311,22 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
             });
         }
 
-        const result = db.prepare(`
+        const withdrawal = db.prepare(`
+            SELECT *
+            FROM withdrawals
+            WHERE id = ?
+        `).get(
+            Number(withdrawal_id)
+        );
+
+        if (!withdrawal) {
+            return res.status(404).json({
+                success: false,
+                error: "Заявка не найдена"
+            });
+        }
+
+        db.prepare(`
             UPDATE withdrawals
             SET status = ?
             WHERE id = ?
@@ -856,20 +1335,11 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
             Number(withdrawal_id)
         );
 
-        if (result.changes === 0) {
-            return res.status(404).json({
-                success: false,
-                error: "Заявка не найдена"
-            });
-        }
-
         res.json({
-            success: true,
-            message: "Статус изменён"
+            success: true
         });
 
     } catch (error) {
-
         console.error(error);
 
         res.status(500).json({
@@ -880,279 +1350,11 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
 });
 
 // =========================================================
-// SHOP (WITHDRAWAL OFFERS) API
+// START SERVER
 // =========================================================
-
-// Получить все товары для вывода
-app.get("/api/shop/items", (req, res) => {
-    try {
-        const items = db.prepare(`
-            SELECT *
-            FROM shop_items
-            ORDER BY id ASC
-        `).all();
-
-        res.json({
-            success: true,
-            items
-        });
-    } catch (error) {
-        console.error("Ошибка получения товаров:", error);
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// Добавить новый товар (Admin)
-app.post("/api/shop/items", (req, res) => {
-    try {
-        const { name, price, stock } = req.body;
-
-        if (!name || !name.trim()) {
-            return res.status(400).json({
-                success: false,
-                error: "Укажите название браинрота"
-            });
-        }
-
-        const itemPrice = Number(price);
-        const itemStock = Number(stock !== undefined ? stock : 1);
-
-        if (isNaN(itemPrice) || itemPrice < 0) {
-            return res.status(400).json({
-                success: false,
-                error: "Укажите корректную цену"
-            });
-        }
-
-        const result = db.prepare(`
-            INSERT INTO shop_items (name, price, stock)
-            VALUES (?, ?, ?)
-        `).run(name.trim(), itemPrice, isNaN(itemStock) || itemStock < 0 ? 0 : itemStock);
-
-        const newItem = db.prepare(`
-            SELECT * FROM shop_items WHERE id = ?
-        `).get(result.lastInsertRowid);
-
-        res.json({
-            success: true,
-            item: newItem,
-            message: "Браинрот добавлен в магазин"
-        });
-    } catch (error) {
-        console.error("Ошибка добавления товара:", error);
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// Обновить товар (Admin - цена / количество / название)
-app.put("/api/shop/items/:id", (req, res) => {
-    try {
-        const itemId = Number(req.params.id);
-        const { name, price, stock } = req.body;
-
-        const existing = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
-        if (!existing) {
-            return res.status(404).json({
-                success: false,
-                error: "Товар не найден"
-            });
-        }
-
-        const newName = name !== undefined ? name.trim() : existing.name;
-        const newPrice = price !== undefined ? Number(price) : existing.price;
-        const newStock = stock !== undefined ? Number(stock) : existing.stock;
-
-        db.prepare(`
-            UPDATE shop_items
-            SET name = ?, price = ?, stock = ?
-            WHERE id = ?
-        `).run(newName, newPrice, Math.max(0, newStock), itemId);
-
-        const updatedItem = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
-
-        res.json({
-            success: true,
-            item: updatedItem,
-            message: "Товар обновлён"
-        });
-    } catch (error) {
-        console.error("Ошибка обновления товара:", error);
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// Удалить товар (Admin)
-app.delete("/api/shop/items/:id", (req, res) => {
-    try {
-        const itemId = Number(req.params.id);
-
-        const result = db.prepare(`DELETE FROM shop_items WHERE id = ?`).run(itemId);
-
-        if (result.changes === 0) {
-            return res.status(404).json({
-                success: false,
-                error: "Товар не найден"
-            });
-        }
-
-        res.json({
-            success: true,
-            message: "Предложение удалено из магазина"
-        });
-    } catch (error) {
-        console.error("Ошибка удаления товара:", error);
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// Оформить вывод браинрота из магазина
-app.post("/api/shop/withdraw", (req, res) => {
-    try {
-        const {
-            telegram_id,
-            shop_item_id,
-            roblox_name,
-            ready_time,
-            comment
-        } = req.body;
-
-        if (!telegram_id || !shop_item_id) {
-            return res.status(400).json({
-                success: false,
-                error: "telegram_id и shop_item_id обязательны"
-            });
-        }
-
-        if (!roblox_name || !roblox_name.trim()) {
-            return res.status(400).json({
-                success: false,
-                error: "Укажите Roblox ник"
-            });
-        }
-
-        if (!ready_time || !ready_time.trim()) {
-            return res.status(400).json({
-                success: false,
-                error: "Укажите время получения"
-            });
-        }
-
-        const telegramId = String(telegram_id);
-        const item = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(Number(shop_item_id));
-
-        if (!item) {
-            return res.status(404).json({
-                success: false,
-                error: "Товар не найден в магазине"
-            });
-        }
-
-        if (item.stock < 1) {
-            return res.status(400).json({
-                success: false,
-                error: "Этого браинрота нет в наличии на складе"
-            });
-        }
-
-        const user = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
-        if (!user || user.balance < item.price) {
-            return res.status(400).json({
-                success: false,
-                error: "Недостаточно костей для вывода"
-            });
-        }
-
-        const tx = db.transaction(() => {
-            // Списываем кости
-            db.prepare(`
-                UPDATE users
-                SET balance = balance - ?,
-                    roblox_name = COALESCE(?, roblox_name)
-                WHERE telegram_id = ?
-            `).run(item.price, roblox_name.trim(), telegramId);
-
-            // Уменьшаем остаток на складе
-            db.prepare(`
-                UPDATE shop_items
-                SET stock = stock - 1
-                WHERE id = ?
-            `).run(item.id);
-
-            // Создаём запись в заявках на вывод
-            const commentText = `Магазин: ${item.name}${comment && comment.trim() ? ' | ' + comment.trim() : ''}`;
-            const wRes = db.prepare(`
-                INSERT INTO withdrawals (
-                    telegram_id,
-                    item_id,
-                    roblox_name,
-                    ready_time,
-                    comment
-                )
-                VALUES (?, ?, ?, ?, ?)
-            `).run(
-                telegramId,
-                item.id,
-                roblox_name.trim(),
-                ready_time.trim(),
-                commentText
-            );
-
-            return wRes.lastInsertRowid;
-        });
-
-        const withdrawalId = tx();
-        const updatedUser = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
-        const updatedItem = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(item.id);
-
-        res.json({
-            success: true,
-            withdrawal_id: withdrawalId,
-            user: updatedUser,
-            item: updatedItem,
-            message: `Заявка на вывод ${item.name} успешно создана!`
-        });
-
-    } catch (error) {
-        console.error("Ошибка вывода товара:", error);
-        res.status(500).json({
-            success: false,
-            error: "Ошибка сервера"
-        });
-    }
-});
-
-// =========================================================
-// ERROR HANDLER
-// =========================================================
-
-app.use((error, req, res, next) => {
-
-    console.error(error);
-
-    res.status(500).json({
-        success: false,
-        error: "Внутренняя ошибка сервера"
-    });
-});
-
-// =========================================================
-// START
-// =========================================================
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+    console.log(
+        `SaintBet server started on port ${PORT}`
+    );
 });
