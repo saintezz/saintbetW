@@ -2834,6 +2834,167 @@ input:focus,button:focus-visible{
   }
 }
 
+/* =========================================================
+   SPIN SECTION
+========================================================= */
+
+.spin-section {
+  margin-top: 12px;
+}
+
+.spin-panel {
+  min-height: 320px;
+  background: linear-gradient(145deg, rgba(35,35,35,.95), rgba(8,8,8,.98)) !important;
+}
+
+.spin-title {
+  border-left-color: #fff !important;
+  margin-bottom: 16px !important;
+}
+
+.spin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.spin-slots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 16px;
+}
+
+.spin-slot {
+  flex: 1;
+  min-height: 80px;
+  padding: 12px 8px;
+  border: 2px solid rgba(150,150,150,.25);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(40,40,40,.9), rgba(15,15,15,.95));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.spin-slot.winner {
+  border-color: #fff;
+  box-shadow: 0 0 30px rgba(255,255,255,.2), inset 0 0 25px rgba(150,150,150,.08);
+  background: linear-gradient(145deg, rgba(60,60,60,.95), rgba(30,30,30,.98));
+  transform: scale(1.05);
+}
+
+.spin-slot-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.spin-slot-chance {
+  color: #aaa;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.spin-arrow {
+  font-size: 32px;
+  color: #fff;
+  margin-bottom: 12px;
+  text-shadow: 0 0 20px rgba(255,255,255,.3);
+  animation: spinArrowPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spinArrowPulse {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(6px); opacity: 0.7; }
+}
+
+.spin-btn {
+  width: 100%;
+  max-width: 300px;
+  height: 48px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(100,100,100,.85), rgba(120,120,120,.85));
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.spin-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,255,255,.15);
+}
+
+.spin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-result {
+  min-height: 30px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 10px;
+}
+
+.spin-result.win {
+  color: #4caf50;
+}
+
+.spin-result.lose {
+  color: #ff4d5a;
+}
+
+/* Анимация вращения слотов */
+.spin-slot.spinning {
+  animation: slotSpin 0.4s ease-in-out;
+}
+
+@keyframes slotSpin {
+  0% { transform: scale(1) rotateY(0deg); }
+  25% { transform: scale(1.1) rotateY(15deg); }
+  50% { transform: scale(0.95) rotateY(-15deg); }
+  75% { transform: scale(1.05) rotateY(10deg); }
+  100% { transform: scale(1) rotateY(0deg); }
+}
+
+.spin-slot.spinning:nth-child(1) { animation-delay: 0s; }
+.spin-slot.spinning:nth-child(2) { animation-delay: 0.1s; }
+.spin-slot.spinning:nth-child(3) { animation-delay: 0.2s; }
+
+@media(max-width: 520px) {
+  .spin-slots {
+    gap: 8px;
+  }
+  .spin-slot {
+    min-height: 70px;
+    padding: 10px 6px;
+  }
+  .spin-slot-name {
+    font-size: 11px;
+  }
+  .spin-slot-chance {
+    font-size: 10px;
+  }
+}
+
 </style>
 
 <style id="snow-effect">
@@ -3208,6 +3369,34 @@ button,
       желаемую цель.
     </div>
 
+  </section>
+
+  <!-- SPIN SECTION -->
+  <section class="spin-section" id="spinSection">
+    <div class="panel spin-panel">
+      <h3 class="panel-title spin-title">🎰 СПИН</h3>
+      <div class="spin-container">
+        <div class="spin-slots">
+          <div class="spin-slot" id="spinSlot1">
+            <div class="spin-slot-name">La Grande Combination</div>
+            <div class="spin-slot-chance">65%</div>
+          </div>
+          <div class="spin-slot" id="spinSlot2">
+            <div class="spin-slot-name">Bananito</div>
+            <div class="spin-slot-chance">30%</div>
+          </div>
+          <div class="spin-slot" id="spinSlot3">
+            <div class="spin-slot-name">Garama and Madundung</div>
+            <div class="spin-slot-chance">5%</div>
+          </div>
+        </div>
+        <div class="spin-arrow">▼</div>
+        <button class="spin-btn" id="spinBtn" onclick="spinWheel()">
+          КРУТНУТЬ (10 🦴)
+        </button>
+        <div class="spin-result" id="spinResult"></div>
+      </div>
+    </div>
   </section>
 
   <section class="lower">
@@ -8229,6 +8418,108 @@ async function deletePromoCode(id){
   });
   observer.observe(document.body,{childList:true,subtree:true});
 })();
+
+/* =========================================================
+   SPIN WHEEL
+========================================================= */
+
+const spinItems = [
+  { name: 'La Grande Combination', chance: 65, itemIndex: 0 },
+  { name: 'Bananito', chance: 30, itemIndex: 1 },
+  { name: 'Garama and Madundung', chance: 5, itemIndex: 4 }
+];
+
+let isSpinning = false;
+
+function spinWheel() {
+  const spinBtn = document.getElementById('spinBtn');
+  const resultEl = document.getElementById('spinResult');
+  
+  if (isSpinning) return;
+  
+  if (balance < 10) {
+    resultEl.textContent = '❌ Недостаточно костей! Нужно 10 🦴';
+    resultEl.className = 'spin-result lose';
+    return;
+  }
+  
+  // Списываем кости
+  balance -= 10;
+  saveProfileData();
+  balanceEl.textContent = balance;
+  renderAll();
+  
+  isSpinning = true;
+  spinBtn.disabled = true;
+  spinBtn.textContent = 'ВРАЩЕНИЕ...';
+  resultEl.textContent = '';
+  resultEl.className = 'spin-result';
+  
+  // Анимация вращения всех слотов
+  const slots = document.querySelectorAll('.spin-slot');
+  slots.forEach(slot => {
+    slot.classList.remove('winner', 'spinning');
+    // Триггер для перезапуска анимации
+    void slot.offsetWidth;
+    slot.classList.add('spinning');
+  });
+  
+  // Выбор победителя на основе шансов
+  const random = Math.random() * 100;
+  let cumulative = 0;
+  let winner = spinItems[0];
+  
+  for (const item of spinItems) {
+    cumulative += item.chance;
+    if (random <= cumulative) {
+      winner = item;
+      break;
+    }
+  }
+  
+  // Показываем результат через 1.5 секунды (после анимации)
+  setTimeout(() => {
+    // Убираем анимацию со всех слотов
+    slots.forEach(slot => slot.classList.remove('spinning'));
+    
+    // Находим победивший слот
+    const winnerIndex = spinItems.indexOf(winner);
+    const winnerSlot = document.getElementById(`spinSlot${winnerIndex + 1}`);
+    
+    if (winnerSlot) {
+      winnerSlot.classList.add('winner');
+    }
+    
+    // Добавляем предмет в инвентарь
+    const itemToAdd = winner.itemIndex;
+    if (itemToAdd !== undefined && items[itemToAdd]) {
+      inventory.push(itemToAdd);
+      saveProfileData();
+      renderAll();
+      
+      resultEl.textContent = `🎉 ВЫ ВЫИГРАЛИ: ${winner.name}! Предмет добавлен в инвентарь.`;
+      resultEl.className = 'spin-result win';
+    } else {
+      resultEl.textContent = '⚠️ Ошибка: предмет не найден.';
+      resultEl.className = 'spin-result lose';
+    }
+    
+    // Обновляем баланс
+    balanceEl.textContent = balance;
+    
+    isSpinning = false;
+    spinBtn.disabled = false;
+    spinBtn.textContent = 'КРУТНУТЬ (10 🦴)';
+    
+    // Сброс подсветки через 3 секунды
+    setTimeout(() => {
+      if (winnerSlot) {
+        winnerSlot.classList.remove('winner');
+      }
+    }, 3000);
+    
+  }, 1500);
+}
 
 </script>
 
