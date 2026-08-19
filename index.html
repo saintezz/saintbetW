@@ -2662,589 +2662,247 @@ button{
 }
 
 
-
 /* =========================================================
-   DYNAMIC EFFECTS PACK
-   ========================================================= */
-:root{
-  --fx-mx:50%;
-  --fx-my:50%;
-  --fx-glow:rgba(255,255,255,.16);
-}
-
-html{scroll-behavior:smooth;}
-body{
-  overflow-x:hidden;
-  isolation:isolate;
-}
-
-/* animated ambient light following the cursor */
-body::before{
-  content:"";
-  position:fixed;
-  inset:-25%;
-  z-index:-3;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at var(--fx-mx) var(--fx-my), rgba(255,255,255,.10), transparent 15%),
-    radial-gradient(circle at 15% 20%, rgba(255,255,255,.055), transparent 24%),
-    radial-gradient(circle at 85% 75%, rgba(255,255,255,.045), transparent 26%);
-  filter:blur(18px);
-  transition:background-position .12s linear;
-  animation:fxAmbient 10s ease-in-out infinite alternate;
-}
-
-@keyframes fxAmbient{
-  0%{transform:translate3d(-1%,0,0) scale(1);}
-  50%{transform:translate3d(1%,-1%,0) scale(1.025);}
-  100%{transform:translate3d(0,1%,0) scale(1.04);}
-}
-
-/* moving grain / scanlines */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:9990;
-  pointer-events:none;
-  opacity:.035;
-  background-image:
-    repeating-linear-gradient(0deg, transparent 0 3px, #fff 4px),
-    repeating-linear-gradient(90deg, transparent 0 5px, #fff 6px);
-  mix-blend-mode:screen;
-  animation:fxScan 12s linear infinite;
-}
-
-@keyframes fxScan{
-  from{background-position:0 0,0 0;}
-  to{background-position:0 180px,180px 0;}
-}
-/* entrance animation */
-.app{
-  animation:fxPageIn .7s cubic-bezier(.2,.8,.2,1) both;
-}
-
-@keyframes fxPageIn{
-  from{opacity:0;transform:translateY(14px) scale(.992);}
-  to{opacity:1;transform:none;}
-}
-
-/* cards lift smoothly */
-.item,.shop-item,.slot{
-  will-change:transform,box-shadow;
-}
-
-/* selected item pulse */
-.item.selected,.slot.selected{
-  animation:fxSelectedPulse 2.2s ease-in-out infinite;
-}
-
-@keyframes fxSelectedPulse{
-  0%,100%{filter:brightness(1);}
-  50%{filter:brightness(1.13);}
-}
-
-/* wheel energy glow */
-.wheel{
-  animation:fxWheelGlow 3s ease-in-out infinite;
-  will-change:filter,box-shadow;
-}
-
-@keyframes fxWheelGlow{
-  0%,100%{filter:drop-shadow(0 0 0 rgba(255,255,255,0));}
-  50%{filter:drop-shadow(0 0 16px rgba(255,255,255,.10));}
-}
-
-/* upgrade button breathing */
-.upgrade.ready{
-  animation:fxButtonReady 1.8s ease-in-out infinite;
-}
-
-@keyframes fxButtonReady{
-  0%,100%{box-shadow:0 0 0 rgba(255,255,255,0),inset 0 1px rgba(255,255,255,.08);}
-  50%{box-shadow:0 0 24px rgba(255,255,255,.14),inset 0 1px rgba(255,255,255,.18);}
-}
-
-/* click ripple */
-.fx-ripple{
-  position:absolute;
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background:rgba(255,255,255,.32);
-  transform:translate(-50%,-50%) scale(0);
-  pointer-events:none;
-  animation:fxRipple .55s ease-out forwards;
-}
-
-@keyframes fxRipple{
-  to{transform:translate(-50%,-50%) scale(16);opacity:0;}
-}
-
-/* floating particles */
-#fxParticles{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.fx-particle{
-  position:absolute;
-  width:2px;
-  height:2px;
-  border-radius:50%;
-  background:#fff;
-  opacity:0;
-  box-shadow:0 0 9px rgba(255,255,255,.8);
-  animation:fxParticleFloat linear infinite;
-}
-
-@keyframes fxParticleFloat{
-  0%{transform:translate3d(0,35px,0) scale(.5);opacity:0;}
-  12%{opacity:.35;}
-  50%{opacity:.12;}
-  88%{opacity:.35;}
-  100%{transform:translate3d(var(--fx-dx),-110vh,0) scale(1.2);opacity:0;}
-}
-
-/* subtle focus glow */
-input:focus,button:focus-visible{
-  outline:none;
-  box-shadow:0 0 0 2px rgba(255,255,255,.08),0 0 28px rgba(255,255,255,.10);
-}
-
-/* modal backdrop animation when the class is present */
-.withdraw-modal:not([hidden]){
-  animation:fxModalFade .22s ease-out both;
-}
-
-@keyframes fxModalFade{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms !important;
-    animation-iteration-count:1 !important;
-    scroll-behavior:auto !important;
-    transition-duration:.01ms !important;
-  }
-}
-
-/* =========================================================
-   SPIN SECTION
+   SAINTBET BLACK / WHITE UI
 ========================================================= */
 
-.spin-section {
-  margin-top: 12px;
+.saint-topbar{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
 }
 
-.spin-panel {
-  min-height: 320px;
-  background: linear-gradient(145deg, rgba(35,35,35,.95), rgba(8,8,8,.98)) !important;
+.top-left-group,.top-right-group{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
-.spin-title {
-  border-left-color: #fff !important;
-  margin-bottom: 16px !important;
+.top-action-button,.top-profile-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:42px;
+  padding:9px 14px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:12px;
+  background:linear-gradient(145deg,#1d1d1d,#080808);
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:.2s ease;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.top-action-button:hover,.top-profile-button:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.55);
+  box-shadow:0 12px 30px rgba(255,255,255,.08);
+}
+.top-profile-button{padding-right:12px}
+.mini-profile-avatar{
+  width:25px;height:25px;border-radius:50%;
+  display:grid;place-items:center;
+  overflow:hidden;
+  background:#fff;color:#000;
+  font-size:9px;font-weight:900;
+}
+.mini-profile-avatar img{
+  width:100%;height:100%;object-fit:cover;
 }
 
-.spin-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0;
+.saint-profile-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(0,0,0,.25));
+  border:1px solid rgba(255,255,255,.12);
+}
+.profile-main{
+  display:flex;align-items:center;gap:14px;
+}
+.profile-avatar-photo{
+  width:64px!important;height:64px!important;
+  border-radius:50%!important;
+  display:grid!important;place-items:center!important;
+  overflow:hidden!important;
+  background:#fff!important;color:#000!important;
+  border:2px solid rgba(255,255,255,.7)!important;
+  box-shadow:0 0 28px rgba(255,255,255,.1);
+  flex:none;
+}
+.profile-avatar-photo img{width:100%;height:100%;object-fit:cover}
+.profile-identity{min-width:0}
+.profile-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:16px;
+}
+.profile-stat{
+  min-height:76px;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  background:rgba(0,0,0,.28);
+}
+.profile-stat-label{
+  display:block;
+  color:#999;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:7px;
+}
+.profile-stat b{font-size:16px;color:#fff}
+.profile-best-row{display:flex;align-items:center;gap:8px}
+.profile-best-image{
+  width:42px;height:42px;border-radius:10px;
+  display:grid;place-items:center;
+  background:#111;border:1px solid rgba(255,255,255,.12);
+  overflow:hidden;flex:none;
+}
+.profile-best-image img{width:100%;height:100%;object-fit:contain}
+.profile-best-row span{display:block;color:#999;font-size:10px;margin-top:2px}
+
+.saint-modal{
+  position:fixed;inset:0;z-index:1000;
+  display:grid;place-items:center;
+  padding:18px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(9px);
+}
+.saint-modal[hidden]{display:none}
+.saint-modal-box{
+  position:relative;
+  width:min(720px,96vw);
+  max-height:90vh;
+  overflow:auto;
+  padding:28px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:24px;
+  background:linear-gradient(145deg,#171717,#050505);
+  color:#fff;
+  box-shadow:0 30px 100px rgba(0,0,0,.75),0 0 50px rgba(255,255,255,.05);
+}
+.saint-modal-box h2{margin:6px 0 4px;font-size:28px}
+.saint-modal-box p{margin:0 0 18px;color:#999;font-size:12px}
+.saint-modal-tag{
+  color:#888;font-size:9px;font-weight:900;letter-spacing:2px;
+}
+.saint-modal-close{
+  position:absolute;right:14px;top:12px;
+  width:36px;height:36px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#111;color:#fff;font-size:24px;cursor:pointer;
+}
+.saint-input{
+  width:100%;height:52px;
+  padding:0 15px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.15);
+  background:#080808;color:#fff;outline:none;
+  text-transform:uppercase;
+}
+.saint-input:focus{border-color:rgba(255,255,255,.55)}
+.saint-primary-button{
+  width:100%;height:50px;margin-top:10px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:13px;background:#fff;color:#000;
+  font-weight:900;cursor:pointer;
+}
+.saint-modal-message{
+  min-height:22px;margin-top:12px;text-align:center;
+  color:#aaa;font-size:12px;
+}
+.spin-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+.spin-card{
+  padding:18px 12px;border-radius:18px;
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.025);
+  text-align:center;
+  transition:.25s ease;
+}
+.spin-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(255,255,255,.35);
+  box-shadow:0 18px 45px rgba(0,0,0,.4);
+}
+.spin-orb{
+  width:64px;height:64px;margin:0 auto 12px;
+  border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle,#fff 0 5%,#777 6%,#181818 55%,#050505 100%);
+  color:#000;font-size:24px;
+  box-shadow:0 0 35px rgba(255,255,255,.1);
+}
+.spin-card b{display:block;font-size:13px;letter-spacing:1px}
+.spin-card span{display:block;color:#999;font-size:11px;margin:5px 0 12px}
+.spin-card button{
+  width:100%;height:38px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);
+  background:#fff;color:#000;font-weight:900;cursor:pointer;
+}
+.spin-card button:disabled{opacity:.45;cursor:not-allowed}
+.spin-result{
+  margin-top:15px;min-height:62px;
+  display:grid;place-items:center;text-align:center;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;background:rgba(0,0,0,.28);
+  color:#ccc;padding:10px;
+}
+.spin-result img{width:52px;height:52px;object-fit:contain;vertical-align:middle}
+@media(max-width:700px){
+  .saint-topbar{align-items:stretch!important}
+  .top-left-group,.top-right-group{gap:6px}
+  .top-action-button,.top-profile-button{padding:8px 9px;font-size:9px}
+  .top-action-button span:last-child,.top-profile-button>span:last-child{display:none}
+  .profile-stats{grid-template-columns:1fr}
+  .spin-grid{grid-template-columns:1fr}
+  .saint-modal-box{padding:20px}
 }
 
-.spin-slots {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  max-width: 500px;
-  margin-bottom: 16px;
-}
 
-.spin-slot {
-  flex: 1;
-  min-height: 80px;
-  padding: 12px 8px;
-  border: 2px solid rgba(150,150,150,.25);
-  border-radius: 12px;
-  background: linear-gradient(145deg, rgba(40,40,40,.9), rgba(15,15,15,.95));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.spin-slot.winner {
-  border-color: #fff;
-  box-shadow: 0 0 30px rgba(255,255,255,.2), inset 0 0 25px rgba(150,150,150,.08);
-  background: linear-gradient(145deg, rgba(60,60,60,.95), rgba(30,30,30,.98));
-  transform: scale(1.05);
-}
-
-.spin-slot-name {
-  color: #fff;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.3;
-}
-
-.spin-slot-chance {
-  color: #aaa;
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 4px;
-}
-
-.spin-arrow {
-  font-size: 32px;
-  color: #fff;
-  margin-bottom: 12px;
-  text-shadow: 0 0 20px rgba(255,255,255,.3);
-  animation: spinArrowPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes spinArrowPulse {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(6px); opacity: 0.7; }
-}
-
-.spin-btn {
-  width: 100%;
-  max-width: 300px;
-  height: 48px;
-  border: 1px solid rgba(255,255,255,.3);
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(100,100,100,.85), rgba(120,120,120,.85));
-  color: #fff;
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 12px;
-}
-
-.spin-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(255,255,255,.15);
-}
-
-.spin-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.spin-result {
-  min-height: 30px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  padding: 6px 10px;
-}
-
-.spin-result.win {
-  color: #4caf50;
-}
-
-.spin-result.lose {
-  color: #ff4d5a;
-}
-
-/* Анимация вращения слотов */
-.spin-slot.spinning {
-  animation: slotSpin 0.4s ease-in-out;
-}
-
-@keyframes slotSpin {
-  0% { transform: scale(1) rotateY(0deg); }
-  25% { transform: scale(1.1) rotateY(15deg); }
-  50% { transform: scale(0.95) rotateY(-15deg); }
-  75% { transform: scale(1.05) rotateY(10deg); }
-  100% { transform: scale(1) rotateY(0deg); }
-}
-
-.spin-slot.spinning:nth-child(1) { animation-delay: 0s; }
-.spin-slot.spinning:nth-child(2) { animation-delay: 0.1s; }
-.spin-slot.spinning:nth-child(3) { animation-delay: 0.2s; }
-
-@media(max-width: 520px) {
-  .spin-slots {
-    gap: 8px;
-  }
-  .spin-slot {
-    min-height: 70px;
-    padding: 10px 6px;
-  }
-  .spin-slot-name {
-    font-size: 11px;
-  }
-  .spin-slot-chance {
-    font-size: 10px;
-  }
-}
-
+<style>
+#withdrawShopModal,#withdrawConfirmModal{display:none!important}
+.profile-focus{animation:profileFocus .8s ease}
+@keyframes profileFocus{0%{box-shadow:0 0 0 rgba(255,255,255,0)}50%{box-shadow:0 0 45px rgba(255,255,255,.16)}100%{box-shadow:0 0 0 rgba(255,255,255,0)}}
 </style>
-
-<style id="snow-effect">
-#snow-layer {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9998;
-    overflow: hidden;
-}
-
-.snowflake {
-    position: absolute;
-    top: -20px;
-    color: #fff;
-    font-size: var(--size);
-    opacity: var(--opacity);
-    filter: blur(var(--blur));
-    text-shadow: 0 0 8px rgba(255,255,255,.55);
-    animation: snow-fall var(--duration) linear var(--delay) infinite;
-    will-change: transform;
-}
-
-@keyframes snow-fall {
-    0% {
-        transform: translate3d(0, -30px, 0) rotate(0deg);
-    }
-    25% {
-        transform: translate3d(var(--drift1), 25vh, 0) rotate(90deg);
-    }
-    50% {
-        transform: translate3d(var(--drift2), 50vh, 0) rotate(180deg);
-    }
-    75% {
-        transform: translate3d(var(--drift3), 75vh, 0) rotate(270deg);
-    }
-    100% {
-        transform: translate3d(var(--drift4), 110vh, 0) rotate(360deg);
-    }
-}
-
-@media (max-width: 600px) {
-    .snowflake:nth-child(n+45) {
-        display: none;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .snowflake {
-        animation: none;
-        display: none;
-    }
-}
 </style>
-
-
-<style id="mouse-glow">
-/* Smooth cursor-following ambient glow */
-#cursor-glow {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9996;
-    opacity: 0;
-    transform: translate3d(-50%, -50%, 0);
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.095) 0%,
-            rgba(255,255,255,.050) 22%,
-            rgba(255,255,255,.025) 48%,
-            rgba(255,255,255,0) 72%
-        );
-    filter: blur(16px);
-    will-change: transform, opacity;
-    transition: opacity .25s ease;
-    mix-blend-mode: screen;
-}
-@media (max-width: 700px), (pointer: coarse) {
-    #cursor-glow,
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #cursor-glow,
-}
-</style>
-
-
-<style id="effect-polish">
-/* Subtle depth and interaction polish */
-.panel,
-.game,
-.balance,
-.top-shop-button,
-.slot,
-.item,
-.shop-item,
-.withdraw-modal-box,
-.admin-panel,
-.admin-card {
-    transition:
-        transform .28s cubic-bezier(.2,.8,.2,1),
-        box-shadow .28s ease,
-        border-color .28s ease,
-        background-color .28s ease;
-}
-
-button,
-a,
-input,
-select,
-textarea {
-    transition:
-        transform .18s ease,
-        box-shadow .22s ease,
-        border-color .22s ease,
-        background-color .22s ease,
-        opacity .22s ease;
-}
-
-button:active,
-.top-shop-button:active {
-    transform: scale(.975);
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    box-shadow:
-        0 0 0 3px rgba(255,255,255,.045),
-        0 0 24px rgba(255,255,255,.055);
-}
-
-#snow-layer {
-    opacity: .92;
-}
-</style>
-
-
-<style id="smooth-polish">
-html {
-    scroll-behavior: smooth;
-}
-
-* {
-    -webkit-tap-highlight-color: transparent;
-}
-
-.panel,
-.game,
-.balance,
-.top-shop-button,
-.slot,
-.item,
-.shop-item,
-.withdraw-modal-box,
-.admin-panel,
-.admin-card {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform: translateZ(0);
-}
-
-button,
-.top-shop-button,
-.slot,
-.item,
-.shop-item {
-    will-change: transform;
-}
-
-#snow-layer,
-#cursor-glow {
-    contain: layout style paint;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    #snow-layer,
-    #cursor-glow {
-        display: none !important;
-    }
-}
-</style>
-
 </head>
 
 <body>
 
 <div class="app">
 
-  <div class="top-nav-bar">
+  <div class="top-nav-bar saint-topbar">
 
-    <div class="balance">
+    <div class="top-left-group">
+      <div class="balance">
+        🦴
+        <span>БАЛАНС:</span>
+        <b id="balance">10</b>
+        🦴
+      </div>
 
-      🦴
-
-      <span>
-        БАЛАНС:
-      </span>
-
-      <b id="balance">
-        10
-      </b>
-
-      🦴
-
+      <button class="top-action-button promo-top-button" type="button" onclick="openPromoModal()">
+        <span>🎟️</span>
+        <span>ПРОМОКОДЫ</span>
+      </button>
     </div>
 
-    <button
-      class="top-shop-button"
-      id="openWithdrawShopBtn"
-      type="button"
-      onclick="openWithdrawShopModal()"
-    >
+    <div class="top-right-group">
+      <button class="top-action-button spin-top-button" type="button" onclick="openSpinModal()">
+        <span>◉</span>
+        <span>СПИН</span>
+      </button>
 
-      <span class="top-shop-icon">
-        🏪
-      </span>
-
-      <span class="top-shop-title">
-        МАГАЗИН ВЫВОДА
-      </span>
-
-      <span
-        class="top-shop-count"
-        id="topShopCountBadge"
-      >
-        10
-      </span>
-
-    </button>
-
-    <button
-      class="top-shop-button"
-      id="openPromoBtn"
-      type="button"
-      onclick="openPromoModal()"
-      style="margin-left:8px;"
-    >
-      <span class="top-shop-icon">🎟️</span>
-      <span class="top-shop-title">ПРОМОКОД</span>
-    </button>
+      <button class="top-profile-button" type="button" onclick="openProfilePanel()">
+        <span class="mini-profile-avatar" id="miniProfileAvatar">TG</span>
+        <span>ПРОФИЛЬ</span>
+      </button>
+    </div>
 
   </div>
 
@@ -3371,34 +3029,6 @@ button,
 
   </section>
 
-  <!-- SPIN SECTION -->
-  <section class="spin-section" id="spinSection">
-    <div class="panel spin-panel">
-      <h3 class="panel-title spin-title">🎰 СПИН</h3>
-      <div class="spin-container">
-        <div class="spin-slots">
-          <div class="spin-slot" id="spinSlot1">
-            <div class="spin-slot-name">La Grande Combination</div>
-            <div class="spin-slot-chance">65%</div>
-          </div>
-          <div class="spin-slot" id="spinSlot2">
-            <div class="spin-slot-name">Bananito</div>
-            <div class="spin-slot-chance">30%</div>
-          </div>
-          <div class="spin-slot" id="spinSlot3">
-            <div class="spin-slot-name">Garama and Madundung</div>
-            <div class="spin-slot-chance">5%</div>
-          </div>
-        </div>
-        <div class="spin-arrow">▼</div>
-        <button class="spin-btn" id="spinBtn" onclick="spinWheel()">
-          КРУТНУТЬ (10 🦴)
-        </button>
-        <div class="spin-result" id="spinResult"></div>
-      </div>
-    </div>
-  </section>
-
   <section class="lower">
 
     <div
@@ -3487,46 +3117,60 @@ button,
         ПРОФИЛЬ
       </h3>
 
-      <div class="profile-card">
+      <div class="profile-card saint-profile-card">
 
-        <div
-          class="profile-avatar"
-          id="profileAvatar"
-        >
-          @
+        <div class="profile-main">
+
+          <div class="profile-avatar profile-avatar-photo" id="profileAvatar">
+            TG
+          </div>
+
+          <div class="profile-identity">
+            <div class="profile-username" id="profileUsername">
+              TELEGRAM
+            </div>
+            <div class="profile-meta" id="profileMeta">
+              Авторизация через Telegram
+            </div>
+          </div>
+
         </div>
 
-        <div
-          class="profile-username"
-          id="profileUsername"
-        >
-          TELEGRAM
-        </div>
+        <div class="profile-stats">
 
-        <div
-          class="profile-meta"
-          id="profileMeta"
-        >
-          Авторизация через Telegram
+          <div class="profile-stat">
+            <span class="profile-stat-label">ПРОМОКОДОВ ВВЕДЕНО</span>
+            <b id="profilePromoCount">0</b>
+          </div>
+
+          <div class="profile-stat">
+            <span class="profile-stat-label">МОЗГИ НА БАЛАНСЕ</span>
+            <b id="profileBones">10 🦴</b>
+          </div>
+
+          <div class="profile-stat profile-best-stat">
+            <span class="profile-stat-label">ЛУЧШИЙ АПГРЕЙД</span>
+            <div class="profile-best-row">
+              <div class="profile-best-image" id="profileBestImage">—</div>
+              <div>
+                <b id="profileBestName">Пока нет</b>
+                <span id="profileBestPrice">—</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div
           class="profile-button telegram-account-button"
           id="telegramAccountButton"
         >
-
-          <span
-            id="telegramAccountStatus"
-          >
+          <span id="telegramAccountStatus">
             ПОДКЛЮЧЕНИЕ TELEGRAM...
           </span>
-
         </div>
 
-        <div
-          class="profile-cooldown"
-          id="profileCooldown"
-        ></div>
+        <div class="profile-cooldown" id="profileCooldown"></div>
 
       </div>
 
@@ -3616,15 +3260,6 @@ button,
             🏪 ОТКРЫТЬ МАГАЗИН И РЕДАКТИРОВАТЬ
           </button>
 
-          <button
-            class="admin-button"
-            type="button"
-            style="margin-top:8px;"
-            onclick="openAdminPromoModal()"
-          >
-            🎟️ СОЗДАТЬ ПРОМОКОД
-          </button>
-
         </div>
 
       </div>
@@ -3632,373 +3267,73 @@ button,
     </div>
 
   </section>
-
-  <!-- PROMO CODE -->
-
-  <div
-    class="withdraw-modal"
-    id="promoModal"
-    hidden
-  >
-    <div class="withdraw-modal-box">
-      <div class="withdraw-modal-header">
-        <div class="withdraw-modal-title-area">
-          <div class="withdraw-modal-badge">BONUS</div>
-          <h2 class="withdraw-modal-title">🎟️ ПРОМОКОД</h2>
-        </div>
-        <button class="withdraw-modal-close" type="button" onclick="closePromoModal()">✕</button>
-      </div>
-
-      <div class="withdraw-modal-body">
-        <input
-          id="promoCodeInput"
-          class="admin-input"
-          style="width:100%;box-sizing:border-box;"
-          maxlength="40"
-          placeholder="ВВЕДИТЕ ПРОМОКОД"
-          autocomplete="off"
-        >
-        <button class="admin-button" type="button" onclick="activatePromoCode()" style="margin-top:10px;">
-          АКТИВИРОВАТЬ
-        </button>
-        <div class="admin-message" id="promoMessage"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ADMIN PROMO CODES -->
-
-  <div
-    class="withdraw-modal"
-    id="adminPromoModal"
-    hidden
-  >
-    <div class="withdraw-modal-box">
-      <div class="withdraw-modal-header">
-        <div class="withdraw-modal-title-area">
-          <div class="withdraw-modal-badge">ADMIN</div>
-          <h2 class="withdraw-modal-title">🎟️ ПРОМОКОДЫ</h2>
-        </div>
-        <button class="withdraw-modal-close" type="button" onclick="closeAdminPromoModal()">✕</button>
-      </div>
-
-      <div class="withdraw-modal-body">
-        <input id="newPromoCode" class="admin-input" style="width:100%;box-sizing:border-box;" placeholder="Промокод (англ., слитно)" maxlength="40">
-        <input id="newPromoActivations" class="admin-input" style="width:100%;box-sizing:border-box;" type="number" min="1" step="1" placeholder="Количество активаций">
-        <input id="newPromoReward" class="admin-input" style="width:100%;box-sizing:border-box;" type="number" min="1" step="1" placeholder="Сколько мозгов за активацию">
-        <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
-        <div class="admin-message" id="adminPromoMessage"></div>
-        <div id="adminPromoList" style="margin-top:12px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WITHDRAW SHOP -->
-
-  <div
-    class="withdraw-modal"
-    id="withdrawShopModal"
-    hidden
-  >
-
-    <div class="withdraw-modal-box">
-
-      <div class="withdraw-modal-header">
-
-        <div class="withdraw-modal-title-area">
-
-          <div class="withdraw-modal-badge">
-            ВЫВОД BRAINROT
-          </div>
-
-          <h2 class="withdraw-modal-title">
-            🏪 МАГАЗИН ВЫВОДА
-          </h2>
-
-        </div>
-
-        <button
-          class="withdraw-modal-close"
-          type="button"
-          onclick="closeWithdrawShopModal()"
-        >
-          ✕
-        </button>
-
-      </div>
-
-      <div class="withdraw-modal-subbar">
-
-        <div>
-
-          Твой баланс:
-
-          <b id="withdrawShopBalance">
-            10
-          </b>
-
-          🦴
-
-        </div>
-
-        <div>
-
-          Всего браинротов:
-
-          <b id="withdrawShopStockCount">
-            10
-          </b>
-
-        </div>
-
-      </div>
-
-      <div class="withdraw-modal-body">
-
-        <div
-          class="withdraw-admin-panel"
-          id="withdrawAdminPanel"
-          hidden
-        >
-
-          <div class="withdraw-admin-head">
-
-            <div class="withdraw-admin-tag">
-              ⚓ УПРАВЛЕНИЕ МАГАЗИНОМ (@saintezz7)
-            </div>
-
-            <button
-              class="withdraw-admin-add-toggle"
-              id="adminAddToggleBtn"
-              type="button"
-              onclick="toggleAdminAddForm()"
-            >
-              ＋ Добавить браинрота
-            </button>
-
-          </div>
-
-          <form
-            class="withdraw-admin-form"
-            id="withdrawAdminAddForm"
-            onsubmit="handleAdminAddBrainrot(event)"
-            hidden
-          >
-
-            <div
-              class="withdraw-admin-form-row"
-            >
-
-              <input
-                type="text"
-                id="newBrainrotName"
-                class="withdraw-admin-input"
-                placeholder="Название браинрота"
-                required
-              >
-
-              <input
-                type="number"
-                id="newBrainrotPrice"
-                class="withdraw-admin-input"
-                placeholder="Цена (🦴)"
-                min="1"
-                step="1"
-                required
-              >
-
-              <input
-                type="number"
-                id="newBrainrotStock"
-                class="withdraw-admin-input"
-                placeholder="На складе (шт)"
-                min="0"
-                step="1"
-                required
-              >
-
-            </div>
-
-            <div class="withdraw-admin-form-actions">
-
-              <button
-                type="submit"
-                class="withdraw-admin-submit-btn"
-              >
-                ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
-              </button>
-
-              <button
-                type="button"
-                class="withdraw-admin-add-toggle"
-                onclick="toggleAdminAddForm(false)"
-              >
-                Отмена
-              </button>
-
-            </div>
-
-            <div
-              class="withdraw-admin-msg"
-              id="adminAddFormMsg"
-            ></div>
-
-          </form>
-
-        </div>
-
-        <div
-          class="withdraw-items-list"
-          id="withdrawItemsList"
-        ></div>
-
-      </div>
-
-      <div class="withdraw-modal-footer">
-
-        <div class="withdraw-note">
-
-          ℹ️ При нажатии <b>ВЫВЕСТИ</b>
-          с баланса списываются кости
-          и резервируется браинрот на складе.
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- CONFIRM WITHDRAWAL -->
-
-  <div
-    class="withdraw-confirm-modal"
-    id="withdrawConfirmModal"
-    hidden
-  >
-
-    <div class="withdraw-confirm-box">
-
-      <div class="confirm-header-tag">
-        ОФОРМЛЕНИЕ ВЫВОДА
-      </div>
-
-      <div class="confirm-title">
-        Подтверждение заявки
-      </div>
-
-      <div class="confirm-item-card">
-
-        <div
-          class="confirm-item-title"
-          id="confirmItemName"
-        >
-          —
-        </div>
-
-        <div
-          class="confirm-item-cost"
-          id="confirmItemPrice"
-        >
-          — 🦴
-        </div>
-
-      </div>
-
-      <form
-        id="withdrawConfirmForm"
-        onsubmit="submitBrainrotWithdrawal(event)"
-      >
-
-        <div class="confirm-form-group">
-
-          <label
-            class="confirm-form-label"
-            for="confirmRobloxNick"
-          >
-            Никнейм в Roblox:
-          </label>
-
-          <input
-            type="text"
-            id="confirmRobloxNick"
-            class="confirm-input"
-            placeholder="Твой ник в Roblox"
-            required
-          >
-
-        </div>
-
-        <div class="confirm-form-group">
-
-          <label
-            class="confirm-form-label"
-            for="confirmReadyTime"
-          >
-            Удобное время получения (МСК):
-          </label>
-
-          <input
-            type="text"
-            id="confirmReadyTime"
-            class="confirm-input"
-            placeholder="Например: Сегодня в 19:00"
-            required
-          >
-
-        </div>
-
-        <div class="confirm-form-group">
-
-          <label
-            class="confirm-form-label"
-            for="confirmComment"
-          >
-            Комментарий (необязательно):
-          </label>
-
-          <input
-            type="text"
-            id="confirmComment"
-            class="confirm-input"
-            placeholder="Дополнительно"
-          >
-
-        </div>
-
-        <div
-          class="confirm-error"
-          id="confirmError"
-        ></div>
-
-        <div class="confirm-actions">
-
-          <button
-            type="submit"
-            class="confirm-submit-btn"
-            id="confirmSubmitBtn"
-          >
-            ПОДТВЕРДИТЬ ВЫВОД
-          </button>
-
-          <button
-            type="button"
-            class="confirm-cancel-btn"
-            onclick="closeWithdrawConfirmModal()"
-          >
-            ОТМЕНА
-          </button>
-
-        </div>
-
-      </form>
-
-    </div>
-
-  </div>
+    <!-- WITHDRAWAL SHOP UI REMOVED -->
 
 </div>
+
+  <!-- PROMO MODAL -->
+  <div class="saint-modal" id="promoModal" hidden>
+    <div class="saint-modal-box promo-modal-box">
+      <button class="saint-modal-close" type="button" onclick="closePromoModal()">×</button>
+      <div class="saint-modal-tag">BONUS SYSTEM</div>
+      <h2>ПРОМОКОД</h2>
+      <p>Введи код и получи кости на баланс.</p>
+
+      <input
+        id="promoCodeInput"
+        class="saint-input"
+        maxlength="32"
+        autocomplete="off"
+        placeholder="ВВЕДИ ПРОМОКОД"
+      >
+
+      <button class="saint-primary-button" id="promoRedeemBtn" type="button" onclick="redeemPromoCode()">
+        АКТИВИРОВАТЬ
+      </button>
+
+      <div class="saint-modal-message" id="promoMessage"></div>
+    </div>
+  </div>
+
+  <!-- SPIN MODAL -->
+  <div class="saint-modal" id="spinModal" hidden>
+    <div class="saint-modal-box spin-modal-box">
+      <button class="saint-modal-close" type="button" onclick="closeSpinModal()">×</button>
+
+      <div class="saint-modal-tag">RANDOM REWARD</div>
+      <h2>СПИН</h2>
+      <p>Выбери спин. Награда определяется сервером.</p>
+
+      <div class="spin-grid">
+
+        <div class="spin-card">
+          <div class="spin-orb">◉</div>
+          <b>STARTER</b>
+          <span>25 🦴</span>
+          <button type="button" onclick="startSpin('starter')">КРУТИТЬ</button>
+        </div>
+
+        <div class="spin-card">
+          <div class="spin-orb">◉</div>
+          <b>PREMIUM</b>
+          <span>100 🦴</span>
+          <button type="button" onclick="startSpin('premium')">КРУТИТЬ</button>
+        </div>
+
+        <div class="spin-card">
+          <div class="spin-orb">◉</div>
+          <b>LEGENDARY</b>
+          <span>500 🦴</span>
+          <button type="button" onclick="startSpin('legendary')">КРУТИТЬ</button>
+        </div>
+
+      </div>
+
+      <div class="spin-result" id="spinResult">
+        Выбери один из спинов
+      </div>
+    </div>
+  </div>
 
 <script>
 
@@ -5730,16 +5065,13 @@ async function syncWithdrawItemWithServer(
 
           headers:{
             'Content-Type':
-              'application/json',
-            'X-Admin-Username':
-              'saintezz7'
+              'application/json'
           },
 
           body:
-            JSON.stringify({
-              ...payload,
-              username: 'saintezz7'
-            })
+            JSON.stringify(
+              payload
+            )
         }
       );
 
@@ -5755,16 +5087,13 @@ async function syncWithdrawItemWithServer(
 
           headers:{
             'Content-Type':
-              'application/json',
-            'X-Admin-Username':
-              'saintezz7'
+              'application/json'
           },
 
           body:
-            JSON.stringify({
-              ...payload,
-              username: 'saintezz7'
-            })
+            JSON.stringify(
+              payload
+            )
         }
       );
 
@@ -5776,10 +5105,7 @@ async function syncWithdrawItemWithServer(
         API_URL +
         `/api/shop/items/${payload.id}`,
         {
-          method:'DELETE',
-          headers:{
-            'X-Admin-Username': 'saintezz7'
-          }
+          method:'DELETE'
         }
       );
 
@@ -6480,15 +5806,12 @@ async function grantBones(){
 
           headers:{
             'Content-Type':
-              'application/json',
-            'X-Admin-Username':
-              'saintezz7'
+              'application/json'
           },
 
           body:
             JSON.stringify({
-              target_username: username,
-              username: 'saintezz7',
+              username,
               amount
             })
         }
@@ -8075,41 +7398,18 @@ renderAll();
 
 updateTop();
 
-loadWithdrawShopItems();
 
 syncUserWithServer();
 
+
 /* =========================================================
-   PROMO CODES
+   PROMO / SPIN / PROFILE STATS
 ========================================================= */
-
-function getCurrentTelegramId(){
-  return String(
-    profile?.telegramId ||
-    getTelegramUser()?.id ||
-    ''
-  );
-}
-
-function getCurrentTelegramUsername(){
-  return normalizeUsername(
-    getTelegramUsername() ||
-    profile?.username ||
-    profile?.telegramUsername ||
-    ''
-  );
-}
 
 function openPromoModal(){
   const modal = document.getElementById('promoModal');
-  if(modal){
-    modal.hidden = false;
-    const input = document.getElementById('promoCodeInput');
-    if(input){
-      input.value = '';
-      setTimeout(() => input.focus(), 50);
-    }
-  }
+  if(modal) modal.hidden = false;
+  setTimeout(() => document.getElementById('promoCodeInput')?.focus(), 50);
 }
 
 function closePromoModal(){
@@ -8117,490 +7417,225 @@ function closePromoModal(){
   if(modal) modal.hidden = true;
 }
 
-async function activatePromoCode(){
+async function redeemPromoCode(){
   const input = document.getElementById('promoCodeInput');
   const message = document.getElementById('promoMessage');
-  const code = String(input?.value || '').trim().toUpperCase();
-  const telegramId = getCurrentTelegramId();
+  const button = document.getElementById('promoRedeemBtn');
 
-  if(!code){
-    if(message) message.textContent = 'Введите промокод.';
-    return;
-  }
+  const code = String(input?.value || '').trim().toUpperCase();
+  const telegramId = String(profile?.telegramId || getTelegramUser()?.id || '').trim();
 
   if(!telegramId){
-    if(message) message.textContent = 'Откройте SaintBet через Telegram Mini App.';
+    if(message) message.textContent = 'Открой сайт через Telegram.';
     return;
   }
 
+  if(!/^[A-Z0-9_-]{3,32}$/.test(code)){
+    if(message) message.textContent = 'Промокод должен содержать только A-Z, 0-9, _ или -.';
+    return;
+  }
+
+  if(button) button.disabled = true;
+  if(message) message.textContent = 'Проверяем промокод...';
+
   try{
-    const response = await fetch(
-      API_URL + '/api/promo-code/activate',
-      {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          telegram_id: telegramId,
-          username: getCurrentTelegramUsername(),
-          code
-        })
-      }
-    );
+    const response = await fetch(API_URL + '/api/promo/redeem',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({telegram_id:telegramId,code})
+    });
 
     const data = await response.json().catch(() => ({}));
 
     if(!response.ok || !data.success){
-      throw new Error(data.error || 'Не удалось активировать промокод.');
+      throw new Error(data.error || 'Не удалось активировать промокод');
     }
 
-    balance = Number(data.balance ?? balance);
-    saveProfileData();
-    renderAll();
+    balance = Number(data.balance || 0);
+    if(typeof balanceEl !== 'undefined' && balanceEl) balanceEl.textContent = balance;
 
-    if(message){
-      message.textContent = `✓ Промокод активирован! +${data.reward} 🦴`;
-    }
-
+    if(message) message.textContent = `✓ Активировано: +${data.reward} 🦴`;
     if(input) input.value = '';
+
+    await loadProfileStats();
+    renderAll();
   }catch(error){
-    if(message){
-      message.textContent = error.message || 'Ошибка активации промокода.';
-    }
+    if(message) message.textContent = '✕ ' + error.message;
+  }finally{
+    if(button) button.disabled = false;
   }
 }
 
-function openAdminPromoModal(){
-  if(!isAdmin()) return;
-
-  const modal = document.getElementById('adminPromoModal');
+function openSpinModal(){
+  const modal = document.getElementById('spinModal');
   if(modal) modal.hidden = false;
-
-  loadAdminPromoCodes();
 }
 
-function closeAdminPromoModal(){
-  const modal = document.getElementById('adminPromoModal');
+function closeSpinModal(){
+  const modal = document.getElementById('spinModal');
   if(modal) modal.hidden = true;
 }
 
-async function createPromoCode(){
-  if(!isAdmin()) return;
+async function startSpin(type){
+  const telegramId = String(profile?.telegramId || getTelegramUser()?.id || '').trim();
+  const result = document.getElementById('spinResult');
+  const buttons = document.querySelectorAll('.spin-card button');
 
-  const codeInput = document.getElementById('newPromoCode');
-  const activationsInput = document.getElementById('newPromoActivations');
-  const rewardInput = document.getElementById('newPromoReward');
-  const message = document.getElementById('adminPromoMessage');
-
-  const code = String(codeInput?.value || '').trim().toUpperCase();
-  const activations = Math.floor(Number(activationsInput?.value));
-  const reward = Math.floor(Number(rewardInput?.value));
-
-  if(!/^[A-Z0-9]+$/.test(code)){
-    if(message) message.textContent = 'Промокод: только английские буквы и цифры, без пробелов.';
+  if(!telegramId){
+    if(result) result.textContent = 'Открой сайт через Telegram.';
     return;
   }
 
-  if(!Number.isInteger(activations) || activations < 1){
-    if(message) message.textContent = 'Количество активаций должно быть больше 0.';
-    return;
-  }
-
-  if(!Number.isInteger(reward) || reward < 1){
-    if(message) message.textContent = 'Количество мозгов должно быть больше 0.';
-    return;
-  }
+  buttons.forEach(button => button.disabled = true);
+  if(result) result.innerHTML = '◉ Крутим...';
 
   try{
-    const response = await fetch(
-      API_URL + '/api/admin/promo-codes',
-      {
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-          'X-Admin-Username':'saintezz7'
-        },
-        body:JSON.stringify({
-          username:'saintezz7',
-          code,
-          activations,
-          reward
-        })
-      }
-    );
+    const response = await fetch(API_URL + '/api/spin',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({telegram_id:telegramId,type})
+    });
 
     const data = await response.json().catch(() => ({}));
 
     if(!response.ok || !data.success){
-      throw new Error(data.error || 'Ошибка создания промокода.');
+      throw new Error(data.error || 'Ошибка спина');
     }
 
-    if(message) message.textContent = `✓ Промокод ${code} создан.`;
-    if(codeInput) codeInput.value = '';
-    if(activationsInput) activationsInput.value = '';
-    if(rewardInput) rewardInput.value = '';
+    balance = Number(data.balance || 0);
+    if(typeof balanceEl !== 'undefined' && balanceEl) balanceEl.textContent = balance;
 
-    loadAdminPromoCodes();
-  }catch(error){
-    if(message) message.textContent = error.message || 'Ошибка создания промокода.';
-  }
-}
+    const reward = data.reward;
+    const rewardItem = items[Number(reward.item_id)];
 
-async function loadAdminPromoCodes(){
-  if(!isAdmin()) return;
-
-  const list = document.getElementById('adminPromoList');
-  if(list) list.textContent = 'Загрузка...';
-
-  try{
-    const response = await fetch(
-      API_URL + '/api/admin/promo-codes?username=saintezz7',
-      {
-        headers:{'X-Admin-Username':'saintezz7'}
-      }
-    );
-
-    const data = await response.json().catch(() => ({}));
-
-    if(!response.ok || !data.success){
-      throw new Error(data.error || 'Ошибка загрузки промокодов.');
-    }
-
-    if(!list) return;
-
-    if(!data.promoCodes.length){
-      list.innerHTML = '<div style="opacity:.65;text-align:center;padding:10px;">Промокодов пока нет.</div>';
-      return;
-    }
-
-    list.innerHTML = data.promoCodes.map(promo => `
-      <div style="padding:10px;margin-top:8px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.04);">
-        <div style="font-weight:900;font-size:16px;">${promo.code}</div>
-        <div style="font-size:12px;opacity:.75;margin-top:4px;">
-          Использовано: ${promo.used}/${promo.activations} • Награда: ${promo.reward} 🦴
+    if(result){
+      result.innerHTML = `
+        <div>
+          <div style="font-weight:900;margin-bottom:5px">🎉 ${reward.name}</div>
+          ${rewardItem ? renderItemImage(rewardItem,'spin-result-image') : ''}
+          <div style="color:#999;font-size:11px">${reward.price} 🦴 • + предмет в инвентарь</div>
         </div>
-        <button class="admin-button" type="button" style="margin-top:7px;" onclick="deletePromoCode(${promo.id})">Удалить</button>
-      </div>
-    `).join('');
+      `;
+    }
+
+    await loadInventoryFromServer();
+    await loadProfileStats();
+    renderAll();
   }catch(error){
-    if(list) list.textContent = error.message || 'Ошибка загрузки.';
+    if(result) result.textContent = '✕ ' + error.message;
+  }finally{
+    buttons.forEach(button => button.disabled = false);
   }
 }
 
-async function deletePromoCode(id){
-  if(!isAdmin()) return;
-  if(!confirm('Удалить этот промокод?')) return;
+function openProfilePanel(){
+  const panel = document.getElementById('profilePanel');
+  if(panel){
+    panel.scrollIntoView({behavior:'smooth',block:'center'});
+    panel.classList.add('profile-focus');
+    setTimeout(() => panel.classList.remove('profile-focus'), 1000);
+  }
+}
+
+async function loadProfileStats(){
+  const telegramId = String(profile?.telegramId || getTelegramUser()?.id || '').trim();
+  if(!telegramId) return;
 
   try{
-    const response = await fetch(
-      API_URL + '/api/admin/promo-codes/' + encodeURIComponent(id),
-      {
-        method:'DELETE',
-        headers:{'X-Admin-Username':'saintezz7'}
-      }
-    );
-
+    const response = await fetch(API_URL + '/api/user/' + encodeURIComponent(telegramId));
     const data = await response.json().catch(() => ({}));
+    if(!response.ok || !data.success) return;
 
-    if(!response.ok || !data.success){
-      throw new Error(data.error || 'Ошибка удаления.');
+    const stats = data.stats || {};
+    const bones = Number(stats.bones ?? data.user?.balance ?? balance ?? 0);
+
+    const promoEl = document.getElementById('profilePromoCount');
+    const bonesEl = document.getElementById('profileBones');
+
+    if(promoEl) promoEl.textContent = Number(stats.promo_codes_used || 0);
+    if(bonesEl) bonesEl.textContent = bones + ' 🦴';
+
+    const bestId = stats.best_upgrade_item_id;
+    const bestItem = Number.isInteger(bestId) && items[bestId] ? items[bestId] : null;
+    const bestImage = document.getElementById('profileBestImage');
+    const bestName = document.getElementById('profileBestName');
+    const bestPrice = document.getElementById('profileBestPrice');
+
+    if(bestItem){
+      if(bestImage) bestImage.innerHTML = renderItemImage(bestItem,'profile-best-img');
+      if(bestName) bestName.textContent = bestItem.name;
+      if(bestPrice) bestPrice.textContent = bestItem.price + ' 🦴';
+    }else{
+      if(bestImage) bestImage.textContent = '—';
+      if(bestName) bestName.textContent = 'Пока нет';
+      if(bestPrice) bestPrice.textContent = '—';
     }
 
-    loadAdminPromoCodes();
+    if(data.user?.balance !== undefined){
+      balance = Number(data.user.balance);
+      if(typeof balanceEl !== 'undefined' && balanceEl) balanceEl.textContent = balance;
+    }
   }catch(error){
-    alert(error.message || 'Ошибка удаления промокода.');
+    console.warn('Не удалось загрузить статистику профиля:',error);
   }
 }
 
+function renderTelegramProfilePhoto(){
+  const telegramUser = getTelegramUser();
+  const avatar = document.getElementById('profileAvatar');
+  const mini = document.getElementById('miniProfileAvatar');
 
+  const photoUrl = telegramUser?.photo_url || '';
 
-/* =========================================================
-   DYNAMIC EFFECTS JS
-   ========================================================= */
-(function initDynamicEffects(){
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduceMotion) return;
-
-  // Particle layer
-  const particles = document.createElement('div');
-  particles.id = 'fxParticles';
-  document.body.prepend(particles);
-
-  const count = Math.min(34, Math.max(18, Math.floor(window.innerWidth / 28)));
-  for(let i=0;i<count;i++){
-    const p = document.createElement('span');
-    p.className = 'fx-particle';
-    p.style.left = (Math.random()*100) + '%';
-    p.style.top = (75 + Math.random()*40) + '%';
-    p.style.setProperty('--fx-dx', ((Math.random()-.5)*180) + 'px');
-    p.style.animationDuration = (8 + Math.random()*12) + 's';
-    p.style.animationDelay = (-Math.random()*18) + 's';
-    p.style.opacity = (.08 + Math.random()*.25).toFixed(2);
-    particles.appendChild(p);
-  }
-
-  // Cursor light. Disabled for coarse pointers / phones.
-  const finePointer = window.matchMedia ? window.matchMedia('(pointer:fine)').matches : true;
-  if(finePointer){
-    let raf = 0;
-    let x = window.innerWidth/2;
-    let y = window.innerHeight/2;
-    let tx = x, ty = y;
-
-    window.addEventListener('pointermove', (e)=>{
-      tx = e.clientX;
-      ty = e.clientY;
-      if(raf) return;
-      raf = requestAnimationFrame(()=>{
-        x += (tx-x)*.18;
-        y += (ty-y)*.18;
-        document.documentElement.style.setProperty('--fx-mx', x+'px');
-        document.documentElement.style.setProperty('--fx-my', y+'px');
-        raf = 0;
-      });
-    }, {passive:true});
-  }
-
-  // Ripple on interactive controls.
-  document.addEventListener('click',(e)=>{
-    const target = e.target.closest('button,.item,.shop-item,.slot,.top-shop-button');
-    if(!target || target.disabled) return;
-    if(getComputedStyle(target).position === 'static') target.style.position='relative';
-    const r = document.createElement('span');
-    r.className='fx-ripple';
-    const rect=target.getBoundingClientRect();
-    r.style.left=(e.clientX-rect.left)+'px';
-    r.style.top=(e.clientY-rect.top)+'px';
-    target.appendChild(r);
-    setTimeout(()=>r.remove(),600);
-  }, {passive:true});
-
-  // Gentle 3D tilt for cards on desktop.
-  if(finePointer){
-    const selectors = '.panel,.slot,.item,.shop-item,.top-shop-button';
-    document.addEventListener('pointermove',(e)=>{
-      const el=e.target.closest(selectors);
-      if(!el || el.dataset.fxTilt === 'off') return;
-      const rect=el.getBoundingClientRect();
-      if(rect.width<80 || rect.height<60) return;
-      const px=(e.clientX-rect.left)/rect.width-.5;
-      const py=(e.clientY-rect.top)/rect.height-.5;
-      const rx=(-py*2.8).toFixed(2);
-      const ry=(px*3.2).toFixed(2);
-      el.style.transform=`perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-1px)`;
-      el.style.transition='transform .08s ease-out';
-    }, {passive:true});
-
-    document.addEventListener('pointerout',(e)=>{
-      const el=e.target.closest(selectors);
-      if(!el) return;
-      if(e.relatedTarget && el.contains(e.relatedTarget)) return;
-      el.style.transform='';
-      el.style.transition='transform .28s ease-out';
-    }, {passive:true});
-  }
-
-  // Make newly rendered shop cards animate in without touching existing render functions.
-  const observer = new MutationObserver((mutations)=>{
-    for(const mutation of mutations){
-      for(const node of mutation.addedNodes){
-        if(node.nodeType !== 1) continue;
-        if(node.matches?.('.item,.shop-item,.slot') || node.querySelector?.('.item,.shop-item,.slot')){
-          const cards=node.matches?.('.item,.shop-item,.slot') ? [node] : [...node.querySelectorAll('.item,.shop-item,.slot')];
-          cards.forEach((card,i)=>{
-            card.animate([
-              {opacity:0,transform:'translateY(8px) scale(.97)'},
-              {opacity:1,transform:'translateY(0) scale(1)'}
-            ],{duration:320,delay:Math.min(i*35,280),easing:'cubic-bezier(.2,.8,.2,1)',fill:'both'});
-          });
-        }
-      }
-    }
-  });
-  observer.observe(document.body,{childList:true,subtree:true});
-})();
-
-/* =========================================================
-   SPIN WHEEL
-========================================================= */
-
-const spinItems = [
-  { name: 'La Grande Combination', chance: 65, itemIndex: 0 },
-  { name: 'Bananito', chance: 30, itemIndex: 1 },
-  { name: 'Garama and Madundung', chance: 5, itemIndex: 4 }
-];
-
-let isSpinning = false;
-
-function spinWheel() {
-  const spinBtn = document.getElementById('spinBtn');
-  const resultEl = document.getElementById('spinResult');
-  
-  if (isSpinning) return;
-  
-  if (balance < 10) {
-    resultEl.textContent = '❌ Недостаточно костей! Нужно 10 🦴';
-    resultEl.className = 'spin-result lose';
-    return;
-  }
-  
-  // Списываем кости
-  balance -= 10;
-  saveProfileData();
-  balanceEl.textContent = balance;
-  renderAll();
-  
-  isSpinning = true;
-  spinBtn.disabled = true;
-  spinBtn.textContent = 'ВРАЩЕНИЕ...';
-  resultEl.textContent = '';
-  resultEl.className = 'spin-result';
-  
-  // Анимация вращения всех слотов
-  const slots = document.querySelectorAll('.spin-slot');
-  slots.forEach(slot => {
-    slot.classList.remove('winner', 'spinning');
-    // Триггер для перезапуска анимации
-    void slot.offsetWidth;
-    slot.classList.add('spinning');
-  });
-  
-  // Выбор победителя на основе шансов
-  const random = Math.random() * 100;
-  let cumulative = 0;
-  let winner = spinItems[0];
-  
-  for (const item of spinItems) {
-    cumulative += item.chance;
-    if (random <= cumulative) {
-      winner = item;
-      break;
+  if(avatar){
+    if(photoUrl){
+      avatar.innerHTML = `<img src="${photoUrl}" alt="Telegram" onerror="this.remove();this.parentElement.textContent='TG';">`;
+    }else{
+      avatar.textContent = String(
+        telegramUser?.first_name ||
+        telegramUser?.username ||
+        'TG'
+      ).charAt(0).toUpperCase();
     }
   }
-  
-  // Показываем результат через 1.5 секунды (после анимации)
-  setTimeout(() => {
-    // Убираем анимацию со всех слотов
-    slots.forEach(slot => slot.classList.remove('spinning'));
-    
-    // Находим победивший слот
-    const winnerIndex = spinItems.indexOf(winner);
-    const winnerSlot = document.getElementById(`spinSlot${winnerIndex + 1}`);
-    
-    if (winnerSlot) {
-      winnerSlot.classList.add('winner');
+
+  if(mini){
+    if(photoUrl){
+      mini.innerHTML = `<img src="${photoUrl}" alt="TG" onerror="this.remove();this.parentElement.textContent='TG';">`;
+    }else{
+      mini.textContent = String(
+        telegramUser?.first_name ||
+        telegramUser?.username ||
+        'TG'
+      ).charAt(0).toUpperCase();
     }
-    
-    // Добавляем предмет в инвентарь
-    const itemToAdd = winner.itemIndex;
-    if (itemToAdd !== undefined && items[itemToAdd]) {
-      inventory.push(itemToAdd);
-      saveProfileData();
-      renderAll();
-      
-      resultEl.textContent = `🎉 ВЫ ВЫИГРАЛИ: ${winner.name}! Предмет добавлен в инвентарь.`;
-      resultEl.className = 'spin-result win';
-    } else {
-      resultEl.textContent = '⚠️ Ошибка: предмет не найден.';
-      resultEl.className = 'spin-result lose';
-    }
-    
-    // Обновляем баланс
-    balanceEl.textContent = balance;
-    
-    isSpinning = false;
-    spinBtn.disabled = false;
-    spinBtn.textContent = 'КРУТНУТЬ (10 🦴)';
-    
-    // Сброс подсветки через 3 секунды
-    setTimeout(() => {
-      if (winnerSlot) {
-        winnerSlot.classList.remove('winner');
-      }
-    }, 3000);
-    
-  }, 1500);
+  }
 }
 
-</script>
-
-
-<div id="snow-layer" aria-hidden="true"></div>
-<script>
-(() => {
-    const layer = document.getElementById('snow-layer');
-    if (!layer) return;
-
-    const count = window.innerWidth < 600 ? 36 : 78;
-    const chars = ['•', '❄', '·'];
-
-    for (let i = 0; i < count; i++) {
-        const flake = document.createElement('span');
-        flake.className = 'snowflake';
-        flake.textContent = chars[Math.floor(Math.random() * chars.length)];
-
-        const size = (Math.random() * 8 + 3).toFixed(1) + 'px';
-        const opacity = (Math.random() * 0.55 + 0.2).toFixed(2);
-        const duration = (Math.random() * 9 + 8).toFixed(1) + 's';
-        const delay = (-Math.random() * 16).toFixed(1) + 's';
-        const blur = (Math.random() * 1.4).toFixed(1) + 'px';
-
-        const drift = () => (Math.random() * 160 - 80).toFixed(0) + 'px';
-
-        flake.style.left = Math.random() * 100 + 'vw';
-        flake.style.setProperty('--size', size);
-        flake.style.setProperty('--opacity', opacity);
-        flake.style.setProperty('--duration', duration);
-        flake.style.setProperty('--delay', delay);
-        flake.style.setProperty('--blur', blur);
-        flake.style.setProperty('--drift1', drift());
-        flake.style.setProperty('--drift2', drift());
-        flake.style.setProperty('--drift3', drift());
-        flake.style.setProperty('--drift4', drift());
-
-        layer.appendChild(flake);
-    }
-})();
-</script>
-
-
-<script id="mouse-glow">
-(() => {
-    const glow = document.createElement('div');
-    glow.id = 'cursor-glow';
-document.body.appendChild(glow);
-let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    let currentX = targetX;
-    let currentY = targetY;
-    let visible = false;
-
-    window.addEventListener('mousemove', (event) => {
-        targetX = event.clientX;
-        targetY = event.clientY;
-
-        if (!visible) {
-            visible = true;
-            glow.style.opacity = '1';
+/* Hook into the existing profile renderer without replacing it. */
+const originalRenderProfileSaintBet = typeof renderProfile === 'function' ? renderProfile : null;
+if(originalRenderProfileSaintBet){
+  renderProfile = function(){
+    originalRenderProfileSaintBet();
+    renderTelegramProfilePhoto();
+    loadProfileStats();
+  };
 }
-    }, { passive: true });
 
-    window.addEventListener('mouseleave', () => {
-        visible = false;
-        glow.style.opacity = '0';
+window.addEventListener('keydown', event => {
+  if(event.key === 'Escape'){
+    closePromoModal();
+    closeSpinModal();
+  }
 });
 
-    function animate() {
-        // Smooth follow, but always centered exactly around the cursor.
-        currentX += (targetX - currentX) * 0.20;
-        currentY += (targetY - currentY) * 0.20;
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    renderTelegramProfilePhoto();
+    loadProfileStats();
+  }, 300);
+});
 
-        glow.style.transform =
-            `translate3d(${currentX}px, ${currentY}px, 0) translate3d(-50%, -50%, 0)`;
-requestAnimationFrame(animate);
-    }
-
-    animate();
-})();
 </script>
 
 </body>
