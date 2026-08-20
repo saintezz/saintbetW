@@ -96,65 +96,111 @@ function getAdminUsernames() {
         .filter(Boolean);
 }
 
+function getAdminIds() {
+    return String(
+        process.env.ADMIN_TELEGRAM_IDS || ""
+    )
+        .split(",")
+        .map(v => v.trim())
+        .filter(Boolean);
+}
+
 // =========================================================
 // ADMIN CHECK
 // =========================================================
 
 function isAdmin(req) {
 
-    const headerAdmin =
+    const admins = getAdminUsernames();
+    const adminIds = getAdminIds();
+
+    // -----------------------------------------
+    // Username из headers
+    // -----------------------------------------
+
+    const headerUsername =
         normalizeUsername(
             req.headers["x-admin-username"] ||
             ""
         );
 
-    if (headerAdmin === "saintezz7") {
-        return true;
-    }
-
-    const bodyUsername =
-        normalizeUsername(
-            req.body?.username ||
-            req.body?.telegram_username ||
-            req.body?.telegramUsername ||
-            ""
-        );
-
-    if (bodyUsername === "saintezz7") {
-        return true;
-    }
-
-    const telegramId =
-        String(
-            req.body?.telegram_id ||
-            req.body?.telegramId ||
-            req.headers["x-telegram-id"] ||
-            ""
-        );
-
-    const admins = getAdminUsernames();
-
     if (
-        bodyUsername &&
-        admins.includes(bodyUsername)
+        headerUsername &&
+        admins.includes(headerUsername)
     ) {
         return true;
     }
 
-    const adminIds =
-        String(
-            process.env.ADMIN_TELEGRAM_IDS ||
-            ""
-        )
-            .split(",")
-            .map(v => v.trim())
-            .filter(Boolean);
+    // -----------------------------------------
+    // Username из body
+    // -----------------------------------------
+
+    const bodyUsernames = [
+        req.body?.username,
+        req.body?.telegram_username,
+        req.body?.telegramUsername,
+        req.body?.admin_username,
+        req.body?.adminUsername
+    ];
+
+    for (const value of bodyUsernames) {
+
+        const username =
+            normalizeUsername(value);
+
+        if (
+            username &&
+            admins.includes(username)
+        ) {
+            return true;
+        }
+    }
+
+    // -----------------------------------------
+    // Telegram ID
+    // -----------------------------------------
+
+    const telegramId = String(
+        req.body?.telegram_id ||
+        req.body?.telegramId ||
+        req.headers["x-telegram-id"] ||
+        req.headers["x-telegram_id"] ||
+        req.query?.telegram_id ||
+        req.query?.telegramId ||
+        ""
+    ).trim();
 
     if (
         telegramId &&
         adminIds.includes(telegramId)
     ) {
         return true;
+    }
+
+    // -----------------------------------------
+    // Проверяем Telegram ID через БД
+    // -----------------------------------------
+
+    if (telegramId) {
+
+        const user = db.prepare(`
+            SELECT username
+            FROM users
+            WHERE telegram_id = ?
+        `).get(telegramId);
+
+        if (user) {
+
+            const username =
+                normalizeUsername(user.username);
+
+            if (
+                username &&
+                admins.includes(username)
+            ) {
+                return true;
+            }
+        }
     }
 
     return false;
@@ -242,7 +288,7 @@ app.get("/api/health", (req, res) => {
 });
 
 // =========================================================
-// USER
+// USER CREATE / UPDATE
 // =========================================================
 
 app.post("/api/user", (req, res) => {
@@ -378,16 +424,24 @@ app.post(
 
             }
 
-            const {
-                username,
-                amount
-            } = req.body;
+            const username =
+                req.body.username ||
+                req.body.telegram_username ||
+                req.body.telegramUsername ||
+                "";
+
+            const amount = Number(
+                req.body.amount ??
+                req.body.bones ??
+                req.body.brains ??
+                req.body.reward
+            );
 
             const normalizedUsername =
                 normalizeUsername(username);
 
             const value =
-                Math.floor(Number(amount));
+                Math.floor(amount);
 
             if (!normalizedUsername) {
 
@@ -423,7 +477,8 @@ app.post(
 
                 return res.status(404).json({
                     success: false,
-                    error: "Пользователь не найден"
+                    error:
+                        `Пользователь @${normalizedUsername} не найден`
                 });
 
             }
@@ -441,12 +496,15 @@ app.post(
                 SELECT *
                 FROM users
                 WHERE id = ?
-            `).get(user.id);
+            `).get(
+                user.id
+            );
 
             res.json({
                 success: true,
                 user: updatedUser,
                 amount: value,
+                balance: updatedUser.balance,
                 message:
                     `Выдано ${value} 🦴 пользователю @${normalizedUsername}`
             });
@@ -488,22 +546,36 @@ app.post(
             }
 
             let {
-                code,
-                activations,
-                reward
+                code
             } = req.body;
 
-            code = normalizePromoCode(code);
+            let activations =
+                Number(
+                    req.body.activations ??
+                    req.body.uses ??
+                    req.body.max_uses
+                );
+
+            let reward =
+                Number(
+                    req.body.reward ??
+                    req.body.bones ??
+                    req.body.brains ??
+                    req.body.amount
+                );
+
+            code =
+                normalizePromoCode(code);
 
             activations =
-                Math.floor(
-                    Number(activations)
-                );
+                Math.floor(activations);
 
             reward =
-                Math.floor(
-                    Number(reward)
-                );
+                Math.floor(reward);
+
+            // -----------------------------------------
+            // CODE
+            // -----------------------------------------
 
             if (!code) {
 
@@ -515,6 +587,7 @@ app.post(
 
             }
 
+            // Только английские буквы и цифры
             if (!/^[A-Z0-9]+$/.test(code)) {
 
                 return res.status(400).json({
@@ -524,6 +597,10 @@ app.post(
                 });
 
             }
+
+            // -----------------------------------------
+            // ACTIVATIONS
+            // -----------------------------------------
 
             if (
                 !Number.isInteger(activations) ||
@@ -538,6 +615,10 @@ app.post(
 
             }
 
+            // -----------------------------------------
+            // REWARD
+            // -----------------------------------------
+
             if (
                 !Number.isInteger(reward) ||
                 reward < 1
@@ -550,6 +631,10 @@ app.post(
                 });
 
             }
+
+            // -----------------------------------------
+            // CHECK EXISTING
+            // -----------------------------------------
 
             const existing = db.prepare(`
                 SELECT id
@@ -566,6 +651,10 @@ app.post(
                 });
 
             }
+
+            // -----------------------------------------
+            // CREATE
+            // -----------------------------------------
 
             const result = db.prepare(`
                 INSERT INTO promo_codes (
@@ -1796,6 +1885,20 @@ app.listen(
         console.log(
             `Server started on port ${PORT}`
         );
+
+        console.log(
+            "Администраторы:",
+            getAdminUsernames().join(", ")
+        );
+
+        const ids = getAdminIds();
+
+        if (ids.length > 0) {
+            console.log(
+                "Admin Telegram IDs:",
+                ids.join(", ")
+            );
+        }
 
     }
 );
