@@ -114,10 +114,6 @@ function isAdmin(req) {
     const admins = getAdminUsernames();
     const adminIds = getAdminIds();
 
-    // -----------------------------------------
-    // Username из headers
-    // -----------------------------------------
-
     const headerUsername =
         normalizeUsername(
             req.headers["x-admin-username"] ||
@@ -130,10 +126,6 @@ function isAdmin(req) {
     ) {
         return true;
     }
-
-    // -----------------------------------------
-    // Username из body
-    // -----------------------------------------
 
     const bodyUsernames = [
         req.body?.username,
@@ -156,10 +148,6 @@ function isAdmin(req) {
         }
     }
 
-    // -----------------------------------------
-    // Telegram ID
-    // -----------------------------------------
-
     const telegramId = String(
         req.body?.telegram_id ||
         req.body?.telegramId ||
@@ -176,10 +164,6 @@ function isAdmin(req) {
     ) {
         return true;
     }
-
-    // -----------------------------------------
-    // Проверяем Telegram ID через БД
-    // -----------------------------------------
 
     if (telegramId) {
 
@@ -545,9 +529,7 @@ app.post(
 
             }
 
-            let {
-                code
-            } = req.body;
+            let code = req.body.code;
 
             let activations =
                 Number(
@@ -573,10 +555,6 @@ app.post(
             reward =
                 Math.floor(reward);
 
-            // -----------------------------------------
-            // CODE
-            // -----------------------------------------
-
             if (!code) {
 
                 return res.status(400).json({
@@ -587,7 +565,6 @@ app.post(
 
             }
 
-            // Только английские буквы и цифры
             if (!/^[A-Z0-9]+$/.test(code)) {
 
                 return res.status(400).json({
@@ -597,10 +574,6 @@ app.post(
                 });
 
             }
-
-            // -----------------------------------------
-            // ACTIVATIONS
-            // -----------------------------------------
 
             if (
                 !Number.isInteger(activations) ||
@@ -615,10 +588,6 @@ app.post(
 
             }
 
-            // -----------------------------------------
-            // REWARD
-            // -----------------------------------------
-
             if (
                 !Number.isInteger(reward) ||
                 reward < 1
@@ -631,10 +600,6 @@ app.post(
                 });
 
             }
-
-            // -----------------------------------------
-            // CHECK EXISTING
-            // -----------------------------------------
 
             const existing = db.prepare(`
                 SELECT id
@@ -651,10 +616,6 @@ app.post(
                 });
 
             }
-
-            // -----------------------------------------
-            // CREATE
-            // -----------------------------------------
 
             const result = db.prepare(`
                 INSERT INTO promo_codes (
@@ -1894,10 +1855,12 @@ app.listen(
         const ids = getAdminIds();
 
         if (ids.length > 0) {
+
             console.log(
                 "Admin Telegram IDs:",
                 ids.join(", ")
             );
+
         }
 
     }
