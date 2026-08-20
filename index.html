@@ -7477,55 +7477,14 @@ function closeSpinModal(){
 }
 
 async function startSpin(type){
-  const telegramId = String(profile?.telegramId || getTelegramUser()?.id || '').trim();
-  const result = document.getElementById('spinResult');
-  const buttons = document.querySelectorAll('.spin-card button');
-
-  if(!telegramId){
-    if(result) result.textContent = 'Открой сайт через Telegram.';
-    return;
-  }
-
-  buttons.forEach(button => button.disabled = true);
-  if(result) result.innerHTML = '◉ Крутим...';
-
-  try{
-    const response = await fetch(API_URL + '/api/spin',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({telegram_id:telegramId,type})
-    });
-
-    const data = await response.json().catch(() => ({}));
-
-    if(!response.ok || !data.success){
-      throw new Error(data.error || 'Ошибка спина');
-    }
-
-    balance = Number(data.balance || 0);
-    if(typeof balanceEl !== 'undefined' && balanceEl) balanceEl.textContent = balance;
-
-    const reward = data.reward;
-    const rewardItem = items[Number(reward.item_id)];
-
-    if(result){
-      result.innerHTML = `
-        <div>
-          <div style="font-weight:900;margin-bottom:5px">🎉 ${reward.name}</div>
-          ${rewardItem ? renderItemImage(rewardItem,'spin-result-image') : ''}
-          <div style="color:#999;font-size:11px">${reward.price} 🦴 • + предмет в инвентарь</div>
-        </div>
-      `;
-    }
-
-    await loadInventoryFromServer();
-    await loadProfileStats();
-    renderAll();
-  }catch(error){
-    if(result) result.textContent = '✕ ' + error.message;
-  }finally{
-    buttons.forEach(button => button.disabled = false);
-  }
+  const result=document.getElementById('spinResult');
+  const buttons=document.querySelectorAll('.spin-card button');
+  if(!result) return;
+  buttons.forEach(b=>b.disabled=true);
+  result.textContent='⟳ ЗАГРУЗКА...';
+  await new Promise(r=>setTimeout(r,900));
+  result.innerHTML=`<div style="font-weight:900;margin-bottom:6px">SPIN • ВИТРИНА</div><div style="color:#aaa;font-size:12px">Раздел готов. Здесь можно разместить выбранные тобой предложения.</div>`;
+  buttons.forEach(b=>b.disabled=false);
 }
 
 function openProfilePanel(){
