@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAINT DROP — DICE DEMO</title>
+<title>SAINT DROP — DICE</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -77,6 +77,7 @@ button{
   margin-bottom:12px;
   position:relative;
   z-index:30;
+  flex-wrap:wrap;
 }
 
 .balance{
@@ -503,8 +504,6 @@ button{
 
   color:#fff;
 }
-
-/* Убрана странная стрелка / символ снизу */
 
 .center-symbol{
   display:none;
@@ -3235,8 +3234,8 @@ button,
     <div class="dice-wrap">
       <div class="dice-head">
         <div class="dice-kicker">SAINT DROP</div>
-        <div class="dice-title">DICE <span style="color:#777">DEMO</span></div>
-        <div class="dice-sub">Выбери цвет и используй демо-очки. Никаких реальных ставок.</div>
+        <div class="dice-title">DICE <span style="color:#777">РЕАЛЬНЫЙ БАЛАНС</span></div>
+        <div class="dice-sub">Выбери цвет и сделай ставку реальными костями. Попадание = ×2</div>
       </div>
       <div class="dice-board">
         <div class="dice-cubes" id="diceCubes">
@@ -3256,13 +3255,13 @@ button,
             </div>
           </div>
           <div class="dice-card">
-            <div class="dice-card-title">ДЕМО-ОЧКИ</div>
+            <div class="dice-card-title">СТАВКА (🦴)</div>
             <input class="demo-input" id="diceStake" type="number" min="1" step="1" value="10">
           </div>
         </div>
         <button class="roll-btn" id="diceRollBtn" type="button">ROLL</button>
         <div class="dice-result" id="diceResult">Выбери цвет и нажми <strong>ROLL</strong></div>
-        <div class="dice-note">ПОПАДАНИЕ = ×2 ДЕМО-ОЧКИ • ПРОМАХ = 0 ДЕМО-ОЧКОВ</div>
+        <div class="dice-note">ПОПАДАНИЕ = ×2 СТАВКИ • ПРОМАХ = ПОТЕРЯ СТАВКИ</div>
       </div>
     </div>
   </section>
@@ -8364,41 +8363,72 @@ async function deletePromoCode(id){
   const cubes=[...document.querySelectorAll('.die')];
   const picks=[...document.querySelectorAll('.color-pick')];
   let selected='red';
+
   window.toggleDiceMode=()=>{
     const active=mode.classList.toggle('active');
     if(active) mode.scrollIntoView({behavior:'smooth',block:'start'});
   };
+
   picks.forEach(btn=>btn.addEventListener('click',()=>{
     picks.forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active'); selected=btn.dataset.pick;
+    btn.classList.add('active');
+    selected=btn.dataset.pick;
   }));
-  roll.addEventListener('click',()=>{
-    const amount=Math.max(1,Number(stake.value)||1);
-    roll.disabled=true;
-    result.textContent='ROLLING...';
-    cubes.forEach(c=>c.classList.remove('result','rolling'));
-    cubes.forEach(c=>c.classList.add('rolling'));
-    let ticks=0;
-    const interval=setInterval(()=>{
-      const temp=cubes[Math.floor(Math.random()*cubes.length)];
-      cubes.forEach(c=>c.classList.remove('result'));
+
+  roll.addEventListener('click', ()=>{
+    const amount = Math.max(1, Math.floor(Number(stake.value) || 1));
+
+    // Проверка баланса
+    if (balance < amount) {
+      result.innerHTML = '❌ НЕДОСТАТОЧНО КОСТЕЙ НА БАЛАНСЕ';
+      return;
+    }
+
+    roll.disabled = true;
+    result.textContent = 'ROLLING...';
+
+    // Списываем ставку
+    balance -= amount;
+    saveProfileData();
+    renderAll();
+
+    cubes.forEach(c => c.classList.remove('result', 'rolling'));
+    cubes.forEach(c => c.classList.add('rolling'));
+
+    let ticks = 0;
+    const interval = setInterval(() => {
+      const temp = cubes[Math.floor(Math.random() * cubes.length)];
+      cubes.forEach(c => c.classList.remove('result'));
       temp.classList.add('result');
       ticks++;
-      if(ticks>=12){
+      if (ticks >= 12) {
         clearInterval(interval);
-        cubes.forEach(c=>c.classList.remove('rolling','result'));
-        const winner=cubes[Math.floor(Math.random()*cubes.length)];
+        cubes.forEach(c => c.classList.remove('rolling', 'result'));
+
+        const winner = cubes[Math.floor(Math.random() * cubes.length)];
         winner.classList.add('result');
-        const color=winner.dataset.color;
-        const names={red:'RED',blue:'BLUE',yellow:'YELLOW',purple:'PURPLE'};
-        if(color===selected){
-          result.innerHTML=`ВЫПАЛ <strong>${names[color]}</strong> — ПОПАДАНИЕ! <strong>+${amount*2}</strong> ДЕМО-ОЧКОВ`;
-        }else{
-          result.innerHTML=`ВЫПАЛ <strong>${names[color]}</strong> — НЕ УГАДАЛ. <strong>0</strong> ДЕМО-ОЧКОВ`;
+        const color = winner.dataset.color;
+        const names = {red:'RED', blue:'BLUE', yellow:'YELLOW', purple:'PURPLE'};
+
+        if (color === selected) {
+          const winAmount = amount * 2;
+          balance += winAmount;
+          saveProfileData();
+          renderAll();
+
+          result.innerHTML = `🎉 ВЫПАЛ <strong>${names[color]}</strong> — ПОПАДАНИЕ! <strong>+${winAmount}</strong> 🦴`;
+        } else {
+          result.innerHTML = `❌ ВЫПАЛ <strong>${names[color]}</strong> — ПРОМАХ. Потеряно <strong>${amount}</strong> 🦴`;
         }
-        roll.disabled=false;
+
+        // Обновляем баланс на всех элементах
+        document.getElementById('balance').textContent = balance;
+        const balanceEl = document.getElementById('withdrawShopBalance');
+        if (balanceEl) balanceEl.textContent = balance;
+
+        roll.disabled = false;
       }
-    },90);
+    }, 90);
   });
 })();
 </script>
