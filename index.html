@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SaintBet выигрывай, прокачивай, выводи</title>
+<title>SAINT DROP — DICE DEMO</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -3030,6 +3030,11 @@ button,
 }
 </style>
 
+
+<style id="dice-demo-css">
+.dice-mode{display:none;padding:18px 0 30px}.dice-mode.active{display:block}.dice-wrap{max-width:980px;margin:0 auto}.dice-head{text-align:center;margin-bottom:18px}.dice-kicker{font-size:10px;letter-spacing:3px;color:#999;font-weight:900}.dice-title{font-size:34px;font-weight:1000;letter-spacing:-1px;margin:5px 0}.dice-sub{font-size:11px;color:#777}.dice-board{border:1px solid #292929;background:linear-gradient(145deg,#101010,#050505);border-radius:16px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.45)}.dice-cubes{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:760px;margin:0 auto 24px}.die{height:155px;border-radius:20px;background:#090909;border:3px solid var(--c);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 0 28px color-mix(in srgb,var(--c) 18%,transparent),inset 0 0 35px rgba(255,255,255,.025);transition:.25s}.die .face{width:88px;height:88px;border-radius:18px;background:var(--c);display:grid;place-items:center;box-shadow:inset 0 -8px 0 rgba(0,0,0,.18),0 10px 25px rgba(0,0,0,.4)}.die .dot{width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.55)}.die-label{position:absolute;bottom:10px;font-size:9px;font-weight:1000;letter-spacing:2px;color:#aaa}.die.rolling{animation:diceShake .14s infinite alternate}.die.result{transform:translateY(-8px) scale(1.04);box-shadow:0 0 45px color-mix(in srgb,var(--c) 55%,transparent),inset 0 0 35px rgba(255,255,255,.05)}@keyframes diceShake{from{transform:rotate(-2deg) scale(.98)}to{transform:rotate(2deg) scale(1.02)}}.dice-controls{display:grid;grid-template-columns:1fr 1.2fr;gap:14px;max-width:760px;margin:0 auto}.dice-card{border:1px solid #292929;border-radius:12px;background:#0b0b0b;padding:14px}.dice-card-title{font-size:9px;letter-spacing:2px;color:#888;font-weight:1000;margin-bottom:10px}.color-picks{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.color-pick{height:42px;border-radius:9px;border:1px solid #333;background:#151515;color:#fff;font-size:9px;font-weight:1000;cursor:pointer}.color-pick.active{border-color:var(--c);box-shadow:0 0 16px color-mix(in srgb,var(--c) 35%,transparent);background:#191919}.demo-input{width:100%;height:42px;border:1px solid #333;border-radius:9px;background:#050505;color:#fff;padding:0 12px;font-weight:900;outline:none}.roll-btn{display:block;width:min(360px,100%);height:62px;margin:22px auto 10px;border:1px solid #fff;border-radius:12px;background:#fff;color:#000;font-size:18px;font-weight:1000;letter-spacing:4px;cursor:pointer;transition:.18s}.roll-btn:hover{background:#ddd;transform:translateY(-2px)}.roll-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.dice-result{text-align:center;min-height:54px;font-size:12px;font-weight:900;color:#aaa}.dice-result strong{color:#fff;font-size:15px}.dice-note{text-align:center;color:#555;font-size:9px;letter-spacing:.7px;margin-top:8px}@media(max-width:700px){.dice-cubes{gap:8px}.die{height:110px;border-radius:14px}.die .face{width:60px;height:60px;border-radius:13px}.die .dot{width:11px;height:11px}.dice-controls{grid-template-columns:1fr}.dice-board{padding:14px}.dice-title{font-size:26px}}
+</style>
+
 </head>
 
 <body>
@@ -3076,6 +3081,17 @@ button,
         10
       </span>
 
+    </button>
+
+    <button
+      class="top-shop-button"
+      id="openDiceBtn"
+      type="button"
+      onclick="toggleDiceMode()"
+      style="margin-left:8px;"
+    >
+      <span class="top-shop-icon">🎲</span>
+      <span class="top-shop-title">DICE</span>
     </button>
 
     <button
@@ -3212,6 +3228,43 @@ button,
       желаемую цель.
     </div>
 
+  </section>
+
+
+  <section class="dice-mode" id="diceMode">
+    <div class="dice-wrap">
+      <div class="dice-head">
+        <div class="dice-kicker">SAINT DROP</div>
+        <div class="dice-title">DICE <span style="color:#777">DEMO</span></div>
+        <div class="dice-sub">Выбери цвет и используй демо-очки. Никаких реальных ставок.</div>
+      </div>
+      <div class="dice-board">
+        <div class="dice-cubes" id="diceCubes">
+          <div class="die" style="--c:#ef3d4f" data-color="red"><div class="face"><div class="dot"></div></div><div class="die-label">RED</div></div>
+          <div class="die" style="--c:#3182ff" data-color="blue"><div class="face"><div class="dot"></div></div><div class="die-label">BLUE</div></div>
+          <div class="die" style="--c:#f0c43c" data-color="yellow"><div class="face"><div class="dot"></div></div><div class="die-label">YELLOW</div></div>
+          <div class="die" style="--c:#a65cff" data-color="purple"><div class="face"><div class="dot"></div></div><div class="die-label">PURPLE</div></div>
+        </div>
+        <div class="dice-controls">
+          <div class="dice-card">
+            <div class="dice-card-title">ВЫБЕРИ ЦВЕТ</div>
+            <div class="color-picks">
+              <button class="color-pick active" style="--c:#ef3d4f" data-pick="red">RED</button>
+              <button class="color-pick" style="--c:#3182ff" data-pick="blue">BLUE</button>
+              <button class="color-pick" style="--c:#f0c43c" data-pick="yellow">YELLOW</button>
+              <button class="color-pick" style="--c:#a65cff" data-pick="purple">PURPLE</button>
+            </div>
+          </div>
+          <div class="dice-card">
+            <div class="dice-card-title">ДЕМО-ОЧКИ</div>
+            <input class="demo-input" id="diceStake" type="number" min="1" step="1" value="10">
+          </div>
+        </div>
+        <button class="roll-btn" id="diceRollBtn" type="button">ROLL</button>
+        <div class="dice-result" id="diceResult">Выбери цвет и нажми <strong>ROLL</strong></div>
+        <div class="dice-note">ПОПАДАНИЕ = ×2 ДЕМО-ОЧКИ • ПРОМАХ = 0 ДЕМО-ОЧКОВ</div>
+      </div>
+    </div>
   </section>
 
   <section class="lower">
@@ -8298,6 +8351,55 @@ async function deletePromoCode(id){
  const scan=()=>document.querySelectorAll(selectors.join(',')).forEach(enhance);
  scan();
  new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+
+
+<script id="dice-demo-js">
+(() => {
+  const mode=document.getElementById('diceMode');
+  const roll=document.getElementById('diceRollBtn');
+  const result=document.getElementById('diceResult');
+  const stake=document.getElementById('diceStake');
+  const cubes=[...document.querySelectorAll('.die')];
+  const picks=[...document.querySelectorAll('.color-pick')];
+  let selected='red';
+  window.toggleDiceMode=()=>{
+    const active=mode.classList.toggle('active');
+    if(active) mode.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  picks.forEach(btn=>btn.addEventListener('click',()=>{
+    picks.forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active'); selected=btn.dataset.pick;
+  }));
+  roll.addEventListener('click',()=>{
+    const amount=Math.max(1,Number(stake.value)||1);
+    roll.disabled=true;
+    result.textContent='ROLLING...';
+    cubes.forEach(c=>c.classList.remove('result','rolling'));
+    cubes.forEach(c=>c.classList.add('rolling'));
+    let ticks=0;
+    const interval=setInterval(()=>{
+      const temp=cubes[Math.floor(Math.random()*cubes.length)];
+      cubes.forEach(c=>c.classList.remove('result'));
+      temp.classList.add('result');
+      ticks++;
+      if(ticks>=12){
+        clearInterval(interval);
+        cubes.forEach(c=>c.classList.remove('rolling','result'));
+        const winner=cubes[Math.floor(Math.random()*cubes.length)];
+        winner.classList.add('result');
+        const color=winner.dataset.color;
+        const names={red:'RED',blue:'BLUE',yellow:'YELLOW',purple:'PURPLE'};
+        if(color===selected){
+          result.innerHTML=`ВЫПАЛ <strong>${names[color]}</strong> — ПОПАДАНИЕ! <strong>+${amount*2}</strong> ДЕМО-ОЧКОВ`;
+        }else{
+          result.innerHTML=`ВЫПАЛ <strong>${names[color]}</strong> — НЕ УГАДАЛ. <strong>0</strong> ДЕМО-ОЧКОВ`;
+        }
+        roll.disabled=false;
+      }
+    },90);
+  });
 })();
 </script>
 
