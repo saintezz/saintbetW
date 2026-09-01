@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port": 3000,
+    "database": "database.db"
+  },
+  "api": {
+    "baseUrl": "https://saintbetw.onrender.com",
+    "endpoints": {}
+  }
+}
