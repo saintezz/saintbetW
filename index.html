@@ -1437,6 +1437,87 @@ button{
 }
 
 /* =========================
+   TOP NAV / TABS
+========================= */
+.top-nav{
+  position:relative;
+  z-index:50;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  margin:0 auto 10px;
+  padding:4px;
+  width:max-content;
+  max-width:100%;
+  border:1px solid rgba(150,150,150,.18);
+  border-radius:13px;
+  background:rgba(18,18,18,.82);
+  backdrop-filter:blur(12px);
+  box-shadow:0 8px 28px rgba(0,0,0,.25);
+}
+.nav-btn{
+  height:32px;
+  min-width:78px;
+  padding:0 9px;
+  border:1px solid transparent;
+  border-radius:9px;
+  background:transparent;
+  color:#858d92;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.8px;
+  cursor:pointer;
+  transition:.15s;
+}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.05);}
+.nav-btn.active{
+  color:#fff;
+  border-color:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08);
+}
+.nav-icon{font-size:12px;line-height:1;}
+.tab-panel[hidden]{display:none!important;}
+.dedicated-tab{margin-top:4px;}
+.mini-title-icon{font-size:11px;margin-right:4px;color:#2ce6d2;}
+
+.promo-card{
+  max-width:480px;
+  margin:0 auto;
+  padding:18px;
+  border:1px solid rgba(150,150,150,.16);
+  border-radius:14px;
+  background:rgba(15,15,15,.7);
+}
+.promo-description{font-size:10px;color:#8fa2a7;text-align:center;margin-bottom:12px;}
+.promo-input{
+  width:100%;height:40px;padding:0 11px;
+  border:1px solid rgba(150,150,150,.2);border-radius:9px;
+  outline:none;background:#0d0f10;color:#fff;font-size:11px;
+}
+.promo-input:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(150,150,150,.08);}
+.promo-button{
+  width:100%;height:38px;margin-top:8px;
+  border:1px solid #006a4d;border-radius:9px;
+  background:#0c1715;color:#00e996;
+  font-size:9px;font-weight:900;cursor:pointer;
+}
+.promo-button:hover{background:#0e211b;}
+.promo-button:disabled{opacity:.5;cursor:not-allowed;}
+.promo-message{min-height:18px;margin-top:9px;text-align:center;font-size:10px;color:#8dd9dc;}
+.promo-message.error{color:#ff7580;}
+.promo-message.success{color:#00e996;}
+
+@media(max-width:520px){
+  .top-nav{width:100%;justify-content:stretch;}
+  .nav-btn{flex:1;min-width:0;padding:0 5px;}
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
@@ -1559,12 +1640,24 @@ button{
 
 <div class="app">
 
+  <nav class="top-nav" aria-label="Навигация">
+    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
+      <span class="nav-icon">⌂</span><span>ИГРА</span>
+    </button>
+    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">
+      <span class="nav-icon">%</span><span>ПРОМО</span>
+    </button>
+    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">
+      <span class="nav-icon">◉</span><span>ПРОФИЛЬ</span>
+    </button>
+  </nav>
+
   <div class="balance">
     🦴 <span>БАЛАНС:</span>
     <b id="balance">10</b> 🦴
   </div>
 
-  <section class="game">
+  <section class="tab-panel active" data-tab="game">\n  <section class="game">
 
     <div class="top-area">
 
@@ -1686,8 +1779,9 @@ button{
     </div>
 
   </section>
+  </section>
 
-  <section class="lower">
+  <section class="lower tab-panel" data-tab="game">
 
     <!-- INVENTORY APGRADER -->
 
@@ -1782,112 +1876,7 @@ button{
 
     </div>
 
-    <!-- PROFILE -->
-
-    <div
-      class="panel profile-panel"
-      id="profilePanel"
-    >
-
-      <h3 class="panel-title profile-title">
-        ПРОФИЛЬ
-      </h3>
-
-      <div class="profile-card">
-
-        <div
-          class="profile-avatar"
-          id="profileAvatar"
-        >
-          @
-        </div>
-
-        <div
-          class="profile-username"
-          id="profileUsername"
-        >
-          TELEGRAM
-        </div>
-
-        <div
-          class="profile-meta"
-          id="profileMeta"
-        >
-          Авторизация через Telegram
-        </div>
-
-       <div
-  class="profile-button telegram-account-button"
-  id="telegramAccountButton"
->
-  <span id="telegramAccountStatus">ПОДКЛЮЧЕНИЕ TELEGRAM...</span>
-</div>
-
-        <div
-          class="profile-cooldown"
-          id="profileCooldown"
-        ></div>
-
-      </div>
-
-      <!-- ADMIN -->
-
-      <div
-        class="admin-panel"
-        id="adminPanel"
-        hidden
-      >
-
-        <div class="admin-title">
-          ⚓ ADMIN •
-          <span id="adminName">@saint</span>
-        </div>
-
-        <div class="admin-subtitle">
-          Выдача костей пользователям
-        </div>
-
-        <input
-          class="admin-input"
-          id="adminUsername"
-          placeholder="@telegram_username"
-          maxlength="40"
-        >
-
-        <input
-          class="admin-input"
-          id="adminBones"
-          type="number"
-          min="1"
-          step="1"
-          placeholder="Количество костей"
-        >
-
-        <button
-          class="admin-button"
-          type="button"
-          onclick="grantBones()"
-        >
-          ВЫДАТЬ КОСТИ
-        </button>
-
-        <div
-          class="admin-message"
-          id="adminMessage"
-        ></div>
-
-        <div class="admin-withdrawals">
-          <div class="admin-subtitle">ВЫВОДЫ ПРЕДМЕТОВ</div>
-          <div id="adminWithdrawalsList"></div>
-        </div>
-
-      </div>
-
-
-
-    </div>
-
-      <!-- NORMAL INVENTORY -->
+    <!-- NORMAL INVENTORY -->
       <div
         class="panel normal-inventory-panel"
         id="normalInventoryPanel"
@@ -1906,6 +1895,56 @@ button{
 
       </div>
 
+  </section>
+
+  <section class="tab-panel dedicated-tab" data-tab="profile" hidden>
+    <div class="panel profile-panel">
+      <h3 class="panel-title profile-title"><span class="mini-title-icon">◉</span> ПРОФИЛЬ</h3>
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">@</div>
+        <div class="profile-username" id="profileUsername">TELEGRAM</div>
+        <div class="profile-meta" id="profileMeta">Авторизация через Telegram</div>
+        <div class="profile-button telegram-account-button" id="telegramAccountButton">
+          <span id="telegramAccountStatus">ПОДКЛЮЧЕНИЕ TELEGRAM...</span>
+        </div>
+        <div class="profile-cooldown" id="profileCooldown"></div>
+      </div>
+
+      <div class="admin-panel" id="adminPanel" hidden>
+        <div class="admin-title">⚓ ADMIN • <span id="adminName">@saintezz7</span></div>
+        <div class="admin-subtitle">Создание промокодов</div>
+
+        <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
+        <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="Количество активаций">
+        <input class="admin-input" id="adminPromoMinutes" type="number" min="1" step="1" placeholder="Через сколько минут истекает">
+        <input class="admin-input" id="adminPromoReward" type="number" min="1" step="1" value="10" placeholder="Награда 🦴">
+
+        <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
+        <div class="admin-message" id="adminMessage"></div>
+
+        <div class="admin-withdrawals">
+          <div class="admin-subtitle">ПРОМОКОДЫ</div>
+          <div id="adminPromoList"></div>
+        </div>
+
+        <div class="admin-withdrawals">
+          <div class="admin-subtitle">ВЫВОДЫ ПРЕДМЕТОВ</div>
+          <div id="adminWithdrawalsList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-panel dedicated-tab" data-tab="promo" hidden>
+    <div class="panel promo-panel">
+      <h3 class="panel-title promo-title"><span class="mini-title-icon">%</span> ПРОМОКОД</h3>
+      <div class="promo-card">
+        <div class="promo-description">Введи промокод и получи награду.</div>
+        <input class="promo-input" id="promoInput" maxlength="40" placeholder="Введи промокод">
+        <button class="promo-button" type="button" onclick="redeemPromoCode()">АКТИВИРОВАТЬ</button>
+        <div class="promo-message" id="promoMessage"></div>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -2313,6 +2352,17 @@ function isAdmin(){
 
 }
 
+async function syncTelegramUserWithServer(){
+  const tgUser=getTelegramUser(); const initData=getTelegramInitData();
+  if(!tgUser?.id||!initData) return;
+  try{
+    const r=await fetch(getApiBase()+'/api/user',{method:'POST',headers:{'Content-Type':'application/json','X-Telegram-Init-Data':initData},body:JSON.stringify({telegram_id:String(tgUser.id),username:normalizeUsername(tgUser.username||''),first_name:String(tgUser.first_name||''),roblox_name:null})});
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok||!data.success||!data.user) return;
+    if(data.user.balance!==undefined){ balance=Number(data.user.balance); if(profile?.username&&users[profile.username]) users[profile.username].balance=balance; saveProfileData(); updateTop(); renderAll(); }
+  }catch(e){ console.warn('Не удалось синхронизировать баланс с сервером:',e); }
+}
+
 function renderProfile(){
 
   const telegramUser = getTelegramUser();
@@ -2430,128 +2480,27 @@ function renderProfile(){
   }
 
   renderAdminWithdrawals();
+  renderAdminPromos();
 
 }
 
 function grantBones(){
-
-  if(!isAdmin()){
-    return;
-  }
-
-  const input =
-    document.getElementById(
-      'adminUsername'
-    );
-
-  const amountInput =
-    document.getElementById(
-      'adminBones'
-    );
-
-  const message =
-    document.getElementById(
-      'adminMessage'
-    );
-
-  const username =
-    normalizeUsername(
-      input.value
-    );
-
-  const amount =
-    Math.floor(
-      Number(
-        amountInput.value
-      )
-    );
-
-  if(!validUsername(username)){
-
-    message.textContent =
-      'Укажи корректный Telegram @username.';
-
-    return;
-
-  }
-
-  if(
-    !Number.isFinite(amount) ||
-    amount < 1
-  ){
-
-    message.textContent =
-      'Количество костей должно быть больше 0.';
-
-    return;
-
-  }
-
-  const targetUsername =
-    Object.keys(users).find(
-      key =>
-        normalizeUsername(key) === username ||
-        normalizeUsername(users[key]?.telegramUsername) === username
-    );
-
-  if(
-    !targetUsername ||
-    !users[targetUsername]
-  ){
-
-    message.textContent =
-      'Пользователь не найден на этом браузере. Сначала он должен открыть сайт и авторизоваться.';
-
-    return;
-
-  }
-
-  users[targetUsername].balance =
-    Number(
-      users[targetUsername].balance || 0
-    ) + amount;
-
-  if(
-    normalizeUsername(profile.username) === username ||
-    normalizeUsername(profile.telegramUsername) === username
-  ){
-
-    balance =
-      Number(
-        users[targetUsername].balance
-      );
-
-    balanceEl.textContent =
-      balance;
-
-    renderShop();
-
-  }
-
-  localStorage.setItem(
-    USERS_KEY,
-    JSON.stringify(users)
-  );
-
-  if(
-    normalizeUsername(
-      profile.username
-    ) === username
-  ){
-
-    saveProfileData();
-
-  }
-
-  message.textContent =
-    'Выдано ' +
-    amount +
-    ' 🦴 пользователю @' +
-    username +
-    '.';
-
-  amountInput.value = '';
-
+  if(!isAdmin()) return;
+  const input=document.getElementById('adminUsername');
+  const amountInput=document.getElementById('adminBones');
+  const message=document.getElementById('adminMessage');
+  const username=normalizeUsername(input?.value||'');
+  const amount=Math.floor(Number(amountInput?.value));
+  if(!validUsername(username)){ message.textContent='Укажи корректный Telegram @username.'; return; }
+  if(!Number.isFinite(amount)||amount<1){ message.textContent='Количество костей должно быть больше 0.'; return; }
+  const initData=getTelegramInitData();
+  if(!initData){ message.textContent='Открой приложение через Telegram.'; return; }
+  const button=document.querySelector('#adminPanel .admin-button'); if(button) button.disabled=true;
+  message.textContent='Выдаём кости...';
+  fetch(getApiBase()+'/api/admin/grant-bones',{method:'POST',headers:{'Content-Type':'application/json','X-Telegram-Init-Data':initData},body:JSON.stringify({username,amount})})
+    .then(async r=>{ const data=await r.json().catch(()=>({})); if(!r.ok||!data.success) throw new Error(data.error||'Не удалось выдать кости.'); message.textContent=data.message||('Выдано '+amount+' 🦴 пользователю @'+username+'.'); if(normalizeUsername(profile?.telegramUsername||'')===username){ balance=Number(data.user?.balance??balance); saveProfileData(); updateTop(); renderAll(); } if(amountInput) amountInput.value=''; })
+    .catch(e=>{console.error(e);message.textContent=e.message||'Ошибка соединения с сервером.';})
+    .finally(()=>{if(button)button.disabled=false;});
 }
 
 /* =========================================================
@@ -3942,6 +3891,194 @@ function filterItems(){
 }
 
 /* =========================================================
+   TABS
+========================================================= */
+
+function showTab(tab){
+  document.querySelectorAll('.tab-panel').forEach(panel=>{
+    panel.hidden = panel.dataset.tab !== tab;
+    panel.classList.toggle('active', panel.dataset.tab === tab);
+  });
+
+  document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
+  const nav = document.getElementById(
+    tab === 'profile' ? 'navProfile' :
+    tab === 'promo' ? 'navPromo' : 'navGame'
+  );
+  if(nav) nav.classList.add('active');
+
+  if(tab === 'profile'){
+    renderProfile();
+    renderAdminWithdrawals();
+    renderAdminPromos();
+  }
+}
+
+/* =========================================================
+   PROMOCODES
+========================================================= */
+
+function getApiBase(){
+  return window.location.origin;
+}
+
+function getTelegramInitData(){
+  const tg = window.Telegram && window.Telegram.WebApp
+    ? window.Telegram.WebApp
+    : null;
+  return tg?.initData || '';
+}
+
+async function redeemPromoCode(){
+  const input=document.getElementById('promoInput');
+  const message=document.getElementById('promoMessage');
+  const button=document.querySelector('.promo-button');
+  const code=String(input?.value||'').trim();
+
+  if(!code){
+    message.className='promo-message error';
+    message.textContent='Введи промокод.';
+    return;
+  }
+
+  const initData=getTelegramInitData();
+  if(!initData){
+    message.className='promo-message error';
+    message.textContent='Открой приложение через Telegram.';
+    return;
+  }
+
+  button.disabled=true;
+  message.className='promo-message';
+  message.textContent='Проверяем промокод...';
+
+  try{
+    const response=await fetch(getApiBase()+'/api/promo/redeem',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-Telegram-Init-Data':initData
+      },
+      body:JSON.stringify({code})
+    });
+
+    const data=await response.json();
+
+    if(!response.ok || !data.success){
+      message.className='promo-message error';
+      message.textContent=data.error || 'Не удалось активировать промокод.';
+      return;
+    }
+
+    balance=Number(data.balance ?? balance);
+    saveProfileData();
+    updateTop();
+    renderAll();
+
+    message.className='promo-message success';
+    message.textContent=`Промокод активирован! +${data.reward} 🦴`;
+    input.value='';
+  }catch(error){
+    console.error(error);
+    message.className='promo-message error';
+    message.textContent='Ошибка соединения с сервером.';
+  }finally{
+    button.disabled=false;
+  }
+}
+
+async function createPromoCode(){
+  if(!isAdmin()) return;
+
+  const code=document.getElementById('adminPromoCode');
+  const activations=document.getElementById('adminPromoActivations');
+  const minutes=document.getElementById('adminPromoMinutes');
+  const reward=document.getElementById('adminPromoReward');
+  const message=document.getElementById('adminMessage');
+
+  const payload={
+    code:String(code?.value||'').trim(),
+    max_activations:Math.floor(Number(activations?.value)),
+    expires_in_minutes:Math.floor(Number(minutes?.value)),
+    reward:Math.floor(Number(reward?.value))
+  };
+
+  if(!payload.code){
+    message.textContent='Укажи название промокода.';
+    return;
+  }
+  if(payload.max_activations<1 || payload.expires_in_minutes<1 || payload.reward<1){
+    message.textContent='Активации, минуты и награда должны быть больше 0.';
+    return;
+  }
+
+  try{
+    const response=await fetch(getApiBase()+'/api/admin/promos',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'X-Telegram-Init-Data':getTelegramInitData()
+      },
+      body:JSON.stringify(payload)
+    });
+    const data=await response.json();
+
+    if(!response.ok || !data.success){
+      message.textContent=data.error || 'Не удалось создать промокод.';
+      return;
+    }
+
+    message.textContent=`Промокод ${data.promo.code} создан.`;
+    code.value='';
+    activations.value='';
+    minutes.value='';
+    reward.value='10';
+    renderAdminPromos();
+  }catch(error){
+    console.error(error);
+    message.textContent='Ошибка соединения с сервером.';
+  }
+}
+
+async function renderAdminPromos(){
+  const list=document.getElementById('adminPromoList');
+  if(!list) return;
+  if(!isAdmin()){list.innerHTML='';return;}
+
+  try{
+    const response=await fetch(getApiBase()+'/api/admin/promos',{
+      headers:{'X-Telegram-Init-Data':getTelegramInitData()}
+    });
+    const data=await response.json();
+
+    if(!response.ok || !data.success){
+      list.innerHTML='<div class="admin-subtitle">Не удалось загрузить промокоды.</div>';
+      return;
+    }
+
+    if(!data.promos.length){
+      list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
+      return;
+    }
+
+    list.innerHTML=data.promos.map(p=>{
+      const expired=Date.now()>=Number(p.expires_at);
+      return `<div class="admin-withdrawal">
+        <div class="admin-withdrawal-title">${escapeHtml(p.code)}</div>
+        <div class="admin-withdrawal-meta">
+          ${expired?'⌛ ИСТЁК':'✓ АКТИВЕН'} • ${p.used_count}/${p.max_activations} активаций • ${p.reward} 🦴
+        </div>
+        <div class="admin-withdrawal-details">
+          Истекает: ${new Date(Number(p.expires_at)).toLocaleString('ru-RU')}
+        </div>
+      </div>`;
+    }).join('');
+  }catch(error){
+    console.error(error);
+  }
+}
+
+/* =========================================================
    START
 ========================================================= */
 
@@ -3955,6 +4092,8 @@ if(window.Telegram && window.Telegram.WebApp){
 }
 
 loadProfileData();
+
+syncTelegramUserWithServer();
 
 renderAll();
 
