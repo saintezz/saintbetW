@@ -8,6 +8,11 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 
+// Раздаём файлы Mini App с этого же сервера.
+// Это предотвращает ситуацию, когда /api/... возвращает HTML
+// вместо JSON.
+app.use(express.static(__dirname));
+
 // =========================================================
 // DATABASE
 // =========================================================
@@ -86,7 +91,6 @@ db.exec(`
 function validateTelegramInitData(initData) {
     const botToken = process.env.BOT_TOKEN;
 
-    // Если токен не установлен — временно разрешаем запросы.
     if (!botToken) {
         console.warn("BOT_TOKEN не установлен.");
         return true;
@@ -212,6 +216,19 @@ function requireAdmin(req, res) {
 // =========================================================
 
 app.get("/", (req, res) => {
+    const fs = require("fs");
+    const path = require("path");
+
+    const indexPath =
+        path.join(__dirname, "index.html");
+
+    // Если index.html находится рядом с server.js,
+    // отдаём Mini App.
+    if (fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath);
+    }
+
+    // Если index.html нет — отдаём JSON.
     res.json({
         status: "ok",
         message: "Telegram Mini App API работает!",
@@ -1078,8 +1095,7 @@ app.post("/api/promo/redeem", (req, res) => {
             });
         }
 
-        // Создаём пользователя,
-        // если он ещё не существует.
+        // Создаём пользователя, если его ещё нет.
         db.prepare(`
             INSERT INTO users (
                 telegram_id,
@@ -1103,6 +1119,9 @@ app.post("/api/promo/redeem", (req, res) => {
         const result =
             db.transaction(() => {
 
+                // ВАЖНО:
+                // Ищем код без учёта регистра
+                // и лишних пробелов.
                 const promo =
                     db.prepare(`
                         SELECT *
@@ -1122,7 +1141,7 @@ app.post("/api/promo/redeem", (req, res) => {
                     };
                 }
 
-                // Проверяем срок
+                // Проверяем срок.
                 if (
                     Date.now() >=
                     Number(promo.expires_at)
@@ -1132,13 +1151,40 @@ app.post("/api/promo/redeem", (req, res) => {
                         body: {
                             success: false,
                             error:
-                                "Ты не успел ввести"
+                                "Промокод истёк."
                         }
                     };
                 }
 
-                // Проверяем лимит и не позволяем двум одновременным
-                // запросам выдать больше наград, чем разрешено.
+                // Сначала проверяем,
+                // активировал ли этот Telegram-пользователь
+                // промокод ранее.
+                const alreadyRedeemed =
+                    db.prepare(`
+                        SELECT id
+                        FROM promo_redemptions
+                        WHERE promo_id = ?
+                          AND telegram_id = ?
+                        LIMIT 1
+                    `).get(
+                        promo.id,
+                        telegramId
+                    );
+
+                if (alreadyRedeemed) {
+                    return {
+                        status: 409,
+                        body: {
+                            success: false,
+                            error:
+                                "Ты уже активировал этот промокод."
+                        }
+                    };
+                }
+
+                // Атомарно увеличиваем количество активаций.
+                // Благодаря этому несколько пользователей
+                // одновременно не смогут превысить лимит.
                 const limitUpdate =
                     db.prepare(`
                         UPDATE promo_codes
@@ -1158,11 +1204,10 @@ app.post("/api/promo/redeem", (req, res) => {
                     };
                 }
 
-                // Проверяем,
-                // активировал ли игрок раньше.
+                // Записываем активацию.
                 const inserted =
                     db.prepare(`
-                        INSERT OR IGNORE INTO promo_redemptions (
+                        INSERT INTO promo_redemptions (
                             promo_id,
                             telegram_id
                         )
@@ -1173,19 +1218,12 @@ app.post("/api/promo/redeem", (req, res) => {
                     );
 
                 if (inserted.changes !== 1) {
-                    return {
-                        status: 409,
-                        body: {
-                            success: false,
-                            error:
-                                "Ты уже активировал этот промокод."
-                        }
-                    };
+                    throw new Error(
+                        "Не удалось записать активацию промокода"
+                    );
                 }
 
-                // used_count уже увеличен атомарно выше.
-
-                // ВЫДАЁМ КОСТИ РЕАЛЬНО В БАЗУ
+                // Выдаём награду в ОБЩУЮ БАЗУ.
                 db.prepare(`
                     UPDATE users
                     SET balance =
@@ -1221,7 +1259,10 @@ app.post("/api/promo/redeem", (req, res) => {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Ошибка активации промокода:",
+            error
+        );
 
         res.status(500).json({
             success: false,
@@ -1371,6 +1412,18 @@ app.post(
         }
     }
 );
+
+// =========================================================
+// API 404
+// =========================================================
+
+app.use("/api", (req, res) => {
+    res.status(404).json({
+        success: false,
+        error: "API маршрут не найден",
+        path: req.originalUrl
+    });
+});
 
 // =========================================================
 // ERROR HANDLER
