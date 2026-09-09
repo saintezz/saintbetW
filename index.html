@@ -1762,10 +1762,19 @@ button{
           <span id="telegramAccountStatus">ПОДКЛЮЧЕНИЕ TELEGRAM...</span>
         </div>
         <div class="profile-cooldown" id="profileCooldown"></div>
+        <div style="margin-top:7px;font-size:8px;color:#6ca5b5;cursor:pointer;text-align:center;letter-spacing:0.5px;" onclick="changeServerUrlPrompt()">⚙ Сервер API: <span id="currentApiDisplay">—</span> (нажмите для смены)</div>
       </div>
 
       <div class="admin-panel" id="adminPanel" hidden>
         <div class="admin-title">⚓ ADMIN • <span id="adminName">@saintezz7</span></div>
+
+        <div class="admin-withdrawals" style="margin-top:0;border-top:none;padding-top:0;margin-bottom:12px;">
+          <div class="admin-subtitle">АДРЕС СЕРВЕРА RENDER (API URL)</div>
+          <input class="admin-input" id="adminServerUrl" placeholder="https://ваш-проект.onrender.com">
+          <button class="admin-button" type="button" onclick="saveAdminServerUrl()">СОХРАНИТЬ АДРЕС СЕРВЕРА</button>
+          <div class="admin-message" id="adminServerUrlMessage"></div>
+        </div>
+
         <div class="admin-subtitle">Создание промокодов</div>
 
         <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
@@ -2378,6 +2387,7 @@ function renderProfile(){
 
   renderAdminWithdrawals();
   renderAdminPromos();
+  if(typeof renderServerUrlConfig === 'function') renderServerUrlConfig();
 
 }
 
@@ -3740,8 +3750,61 @@ function showTab(tab){
    PROMOCODES API & HELPERS
 ========================================================= */
 
-const API_BASE_URL =
-  String(window.API_BASE_URL || window.location.origin).replace(/\/$/, '');
+function getApiBaseUrl(){
+  if(window.API_BASE_URL && String(window.API_BASE_URL).trim()){
+    return String(window.API_BASE_URL).trim().replace(/\/$/, '');
+  }
+  const saved = localStorage.getItem('api_base_url');
+  if(saved && saved.trim()){
+    return saved.trim().replace(/\/$/, '');
+  }
+  const origin = window.location.origin;
+  if(origin && origin !== 'null' && !origin.startsWith('file:') && !origin.includes('github.io')){
+    return origin.replace(/\/$/, '');
+  }
+  return '';
+}
+
+function setApiBaseUrl(url){
+  const clean = String(url || '').trim().replace(/\/$/, '');
+  if(clean){
+    localStorage.setItem('api_base_url', clean);
+  } else {
+    localStorage.removeItem('api_base_url');
+  }
+  renderServerUrlConfig();
+}
+
+function renderServerUrlConfig(){
+  const input = document.getElementById('adminServerUrl');
+  if(input){
+    input.value = localStorage.getItem('api_base_url') || '';
+  }
+  const display = document.getElementById('currentApiDisplay');
+  if(display){
+    const url = getApiBaseUrl();
+    display.textContent = url ? url : 'текущий домен';
+  }
+}
+
+function saveAdminServerUrl(){
+  const input = document.getElementById('adminServerUrl');
+  const message = document.getElementById('adminServerUrlMessage');
+  const val = String(input?.value || '').trim();
+  setApiBaseUrl(val);
+  if(message){
+    message.textContent = val ? '✓ Адрес сервера сохранён: ' + val : 'Используется адрес по умолчанию';
+  }
+}
+
+function changeServerUrlPrompt(){
+  const current = getApiBaseUrl();
+  const entered = prompt('Укажите адрес сервера на Render (например, https://saintbet.onrender.com):', current);
+  if(entered !== null){
+    setApiBaseUrl(entered);
+    alert('Адрес сервера установлен: ' + (getApiBaseUrl() || 'по умолчанию'));
+  }
+}
 
 function getTelegramInitData(){
   const tg = window.Telegram && window.Telegram.WebApp
@@ -3751,6 +3814,18 @@ function getTelegramInitData(){
 }
 
 async function apiRequest(path, options={}){
+  const baseUrl = getApiBaseUrl();
+
+  if(!baseUrl && (path.startsWith('/api/') || path.startsWith('/'))){
+    const entered = prompt('Для связи с сервером укажи адрес Render бэкенда (например, https://saintbet.onrender.com):');
+    if(entered && entered.trim()){
+      setApiBaseUrl(entered);
+      return apiRequest(path, options);
+    } else {
+      throw new Error('Не указан адрес сервера Render. Укажи его в Профиле.');
+    }
+  }
+
   const headers = {
     'Content-Type':'application/json',
     ...(options.headers || {})
@@ -3767,17 +3842,55 @@ async function apiRequest(path, options={}){
     headers['X-User-Id'] = userId;
   }
 
-  const response = await fetch(API_BASE_URL + path, { ...options, headers });
-  let data;
-  try{ data = await response.json(); }
-  catch(e){ data = {success:false,error:'Сервер вернул некорректный ответ.'}; }
+  const fullUrl = baseUrl + path;
+  let response;
+
+  try {
+    response = await fetch(fullUrl, { ...options, headers });
+  } catch(netErr) {
+    console.error('Fetch network error:', netErr, fullUrl);
+    throw new Error('Не удалось подключиться к серверу ' + fullUrl + '. Проверь интернет или запущен ли сервер на Render.');
+  }
+
+  const text = await response.text();
+  let data = null;
+
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch(parseErr) {
+    console.warn('Ответ сервера не JSON:', text, 'Статус:', response.status);
+  }
 
   if(!response.ok){
-    const error = new Error(data?.error || `HTTP ${response.status}`);
-    error.status = response.status;
-    error.data = data;
-    throw error;
+    if(data && data.error){
+      const err = new Error(data.error);
+      err.status = response.status;
+      err.data = data;
+      throw err;
+    }
+
+    if(response.status === 502 || response.status === 503 || response.status === 504){
+      const err = new Error('Сервер на Render просыпается (Cold Start, код ' + response.status + '). Подожди 30-40 секунд и нажми ещё раз!');
+      err.status = response.status;
+      throw err;
+    }
+
+    if(response.status === 404){
+      const err = new Error('Ошибка 404: адрес ' + fullUrl + ' не найден. Проверь адрес сервера Render.');
+      err.status = 404;
+      throw err;
+    }
+
+    const preview = text ? text.slice(0, 100).replace(/<[^>]*>?/gm, '') : '';
+    const err = new Error('Ошибка сервера (HTTP ' + response.status + '): ' + (preview || 'пустой ответ'));
+    err.status = response.status;
+    throw err;
   }
+
+  if(data === null){
+    throw new Error('Сервер вернул ответ не в формате JSON (HTTP ' + response.status + ').');
+  }
+
   return data;
 }
 
@@ -3842,7 +3955,7 @@ async function redeemPromoCode(){
     else if(error.status===409) message.textContent=error.data?.error || 'Промокод уже использован или лимит активаций исчерпан.';
     else if(error.status===410) message.textContent='Срок действия промокода истёк.';
     else if(error.status===401) message.textContent='Не удалось подтвердить аккаунт. Открой приложение заново.';
-    else message.textContent=error.data?.error || error.message || 'Не удалось активировать промокод.';
+    else message.textContent=error.message || 'Не удалось активировать промокод.';
   }finally{
     if(button) button.disabled=false;
   }
