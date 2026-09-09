@@ -1283,160 +1283,6 @@ button{
 }
 
 /* =========================
-   USERNAME MODAL
-========================= */
-
-.username-modal{
-  position:fixed;
-
-  inset:0;
-
-  z-index:9999;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  padding:20px;
-
-  background:
-    rgba(0,8,14,.72);
-
-  backdrop-filter:blur(8px);
-}
-
-.username-modal[hidden]{
-  display:none;
-}
-
-.username-modal-box{
-  width:min(420px,100%);
-
-  padding:24px;
-
-  border:1px solid rgba(150,150,150,.35);
-
-  border-radius:16px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #2a2a2a,
-      #0f0f0f
-    );
-
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.5),
-    0 0 35px rgba(150,150,150,.12);
-}
-
-.username-modal-title{
-  color:#fff;
-
-  font-size:16px;
-
-  font-weight:900;
-
-  letter-spacing:1.5px;
-
-  text-align:center;
-}
-
-.username-modal-subtitle{
-  margin:8px 0 16px;
-
-  color:#79aeba;
-
-  font-size:11px;
-
-  text-align:center;
-}
-
-.username-modal-input{
-  width:100%;
-  height:44px;
-
-  padding:0 13px;
-
-  border:1px solid rgba(100,100,100,.3);
-
-  border-radius:9px;
-
-  outline:none;
-
-  background:#1a1a1a;
-
-  color:#fff;
-
-  font-size:14px;
-}
-
-.username-modal-input:focus{
-  border-color:#fff;
-
-  box-shadow:
-    0 0 18px rgba(150,150,150,.12);
-}
-
-.username-modal-error{
-  min-height:18px;
-
-  margin-top:8px;
-
-  color:#ff7580;
-
-  font-size:11px;
-
-  text-align:center;
-}
-
-.username-modal-actions{
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    1fr;
-
-  gap:8px;
-
-  margin-top:6px;
-}
-
-.username-modal-actions button{
-  height:40px;
-
-  border-radius:9px;
-
-  cursor:pointer;
-
-  font-size:11px;
-
-  font-weight:900;
-}
-
-.username-modal-cancel{
-  border:1px solid rgba(100,160,175,.25);
-
-  background:#06202d;
-
-  color:#9ac5cf;
-}
-
-.username-modal-save{
-  border:1px solid rgba(150,150,150,.4);
-
-  background:
-    linear-gradient(
-      135deg,
-      #999,
-      #666
-    );
-
-  color:#000;
-}
-
-/* =========================
    TOP NAV / TABS
 ========================= */
 .top-nav{
@@ -2186,17 +2032,7 @@ function loadProfileData(){
   }
 
   // Загружаем промокоды
-  try{
-    const saved = localStorage.getItem(PROMO_CODES_KEY);
-    if(saved){
-      promoCodes = JSON.parse(saved);
-      if(!Array.isArray(promoCodes)) promoCodes = [];
-    } else {
-      promoCodes = [];
-    }
-  }catch(e){
-    promoCodes = [];
-  }
+  loadPromoCodes();
 
   if(
     !profile ||
@@ -2265,10 +2101,6 @@ function loadProfileData(){
     if(!Array.isArray(withdrawals)) withdrawals=[];
   }catch(e){ withdrawals=[]; }
 
-  /*
-    Важно: проверяем pending upgrade ДО первого сохранения профиля.
-    Иначе после перезагрузки старый инвентарь мог бы снова записаться.
-  */
   removePendingUpgradeOnReload();
 
   saveProfileData();
@@ -2302,11 +2134,26 @@ function saveProfileData(){
   );
 
   // Сохраняем промокоды
-  localStorage.setItem(
-    PROMO_CODES_KEY,
-    JSON.stringify(promoCodes)
-  );
+  savePromoCodes();
 
+}
+
+function loadPromoCodes(){
+  try{
+    const saved = localStorage.getItem(PROMO_CODES_KEY);
+    if(saved && saved !== 'undefined' && saved !== 'null'){
+      promoCodes = JSON.parse(saved);
+      if(!Array.isArray(promoCodes)) promoCodes = [];
+    } else {
+      promoCodes = [];
+    }
+  }catch(e){
+    promoCodes = [];
+  }
+}
+
+function savePromoCodes(){
+  localStorage.setItem(PROMO_CODES_KEY, JSON.stringify(promoCodes));
 }
 
 function getTelegramUser(){
@@ -2374,11 +2221,9 @@ function isAdmin(){
 
 }
 
-// Локальная версия синхронизации (без сервера)
 function syncTelegramUserWithServer(){
   const tgUser=getTelegramUser();
   if(tgUser?.id){
-    // Просто обновляем локальный профиль
     getTelegramUsername();
     saveProfileData();
     renderAll();
@@ -3401,7 +3246,8 @@ function selectTarget(index){
 
 }
 
-/* =========================================================   CLEAR SOURCE
+/* =========================================================
+   CLEAR SOURCE
 ========================================================= */
 
 function clearSourceDisplay(){
@@ -3875,6 +3721,9 @@ function redeemPromoCode(){
     return;
   }
 
+  // Перезагружаем промокоды из localStorage
+  loadPromoCodes();
+
   // Ищем промокод
   const promo = promoCodes.find(p => p.code === code);
 
@@ -3945,6 +3794,9 @@ function createPromoCode(){
     return;
   }
 
+  // Перезагружаем промокоды из localStorage
+  loadPromoCodes();
+
   // Проверяем дубликат
   if(promoCodes.some(p => p.code === codeValue)){
     message.textContent='Такой промокод уже существует.';
@@ -3978,16 +3830,8 @@ function renderAdminPromos(){
   if(!list) return;
   if(!isAdmin()){list.innerHTML='';return;}
 
-  // Перезагружаем промокоды из localStorage, чтобы всегда были актуальные
-  try{
-    const saved = localStorage.getItem(PROMO_CODES_KEY);
-    if(saved){
-      promoCodes = JSON.parse(saved);
-      if(!Array.isArray(promoCodes)) promoCodes = [];
-    }
-  }catch(e){
-    promoCodes = [];
-  }
+  // Перезагружаем промокоды из localStorage
+  loadPromoCodes();
 
   if(!promoCodes.length){
     list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
