@@ -3702,6 +3702,57 @@ function showTab(tab){
     renderProfile();
     renderAdminWithdrawals();
     renderAdminPromos();
+    loadPromoCodesFromServer();
+  }
+}
+
+/* =========================================================
+   PROMOCODES (СЕРВЕРНЫЕ)
+========================================================= */
+
+const API_BASE_URL =
+  String(window.API_BASE_URL || window.location.origin).replace(/\/$/, '');
+
+function getTelegramInitData(){
+  const tg = window.Telegram && window.Telegram.WebApp
+    ? window.Telegram.WebApp
+    : null;
+  return tg?.initData || '';
+}
+
+async function apiRequest(path, options={}){
+  const headers = {
+    'Content-Type':'application/json',
+    ...(options.headers || {})
+  };
+
+  const initData = getTelegramInitData();
+  if(initData){
+    headers['X-Telegram-Init-Data'] = initData;
+  }
+
+  const response = await fetch(API_BASE_URL + path, { ...options, headers });
+  let data;
+  try{ data = await response.json(); }
+  catch(e){ data = {success:false,error:'Сервер вернул некорректный ответ.'}; }
+
+  if(!response.ok){
+    const error = new Error(data?.error || `HTTP ${response.status}`);
+    error.status = response.status;
+    error.data = data;
+    throw error;
+  }
+  return data;
+}
+
+async function loadPromoCodesFromServer(){
+  if(!isAdmin()) return;
+  try{
+    const data = await apiRequest('/api/admin/promos');
+    promoCodes = Array.isArray(data?.promos) ? data.promos : [];
+    renderAdminPromos();
+  }catch(error){
+    console.error('Ошибка загрузки промокодов:', error);
   }
 }
 
@@ -3709,7 +3760,7 @@ function showTab(tab){
    PROMOCODES (ЛОКАЛЬНЫЕ)
 ========================================================= */
 
-function redeemPromoCode(){
+async function redeemPromoCode(){
   const input=document.getElementById('promoInput');
   const message=document.getElementById('promoMessage');
   const button=document.querySelector('.promo-button');
@@ -3721,123 +3772,92 @@ function redeemPromoCode(){
     return;
   }
 
-  // Перезагружаем промокоды из localStorage
-  loadPromoCodes();
-
-  // Ищем промокод
-  const promo = promoCodes.find(p => p.code === code);
-
-  if(!promo){
+  if(!getTelegramUser()?.id || !getTelegramInitData()){
     message.className='promo-message error';
-    message.textContent='Промокод не найден.';
+    message.textContent='Открой Mini App через Telegram.';
     return;
   }
 
-  // Проверяем срок
-  if(Date.now() >= Number(promo.expires_at)){
+  if(button) button.disabled=true;
+  try{
+    const data=await apiRequest('/api/promo/redeem',{
+      method:'POST',
+      body:JSON.stringify({code})
+    });
+
+    balance = data?.balance !== undefined
+      ? Number(data.balance)
+      : Number(balance||0) + Number(data?.reward||0);
+
+    saveProfileData();
+    message.className='promo-message success';
+    message.textContent=`Промокод активирован! +${Number(data.reward||0)} 🦴`;
+    input.value='';
+    renderAll();
+    updateTop();
+  }catch(error){
     message.className='promo-message error';
-    message.textContent='Промокод истёк.';
-    return;
+    if(error.status===404) message.textContent='Промокод не найден.';
+    else if(error.status===409) message.textContent=error.data?.error || 'Промокод уже использован или лимит активаций исчерпан.';
+    else if(error.status===410) message.textContent='Промокод истёк.';
+    else if(error.status===401) message.textContent='Не удалось подтвердить Telegram аккаунт. Открой Mini App заново.';
+    else message.textContent=error.data?.error || 'Не удалось активировать промокод.';
+  }finally{
+    if(button) button.disabled=false;
   }
-
-  // Проверяем лимит
-  if(Number(promo.used_count) >= Number(promo.max_activations)){
-    message.className='promo-message error';
-    message.textContent='Лимит активаций исчерпан.';
-    return;
-  }
-
-  // Проверяем, активировал ли игрок
-  const telegramId = String(profile?.telegramId || '');
-  if(promo.redeemed_by && promo.redeemed_by.includes(telegramId)){
-    message.className='promo-message error';
-    message.textContent='Ты уже активировал этот промокод.';
-    return;
-  }
-
-  // Активируем
-  promo.used_count = (promo.used_count || 0) + 1;
-  if(!promo.redeemed_by) promo.redeemed_by = [];
-  promo.redeemed_by.push(telegramId);
-
-  balance = (balance || 0) + Number(promo.reward);
-  saveProfileData();
-
-  message.className='promo-message success';
-  message.textContent=`Промокод активирован! +${promo.reward} 🦴`;
-  input.value='';
-
-  renderAll();
-  updateTop();
 }
 
-function createPromoCode(){
+async function createPromoCode(){
   if(!isAdmin()) return;
-
   const codeInput=document.getElementById('adminPromoCode');
   const activationsInput=document.getElementById('adminPromoActivations');
   const minutesInput=document.getElementById('adminPromoMinutes');
   const rewardInput=document.getElementById('adminPromoReward');
   const message=document.getElementById('adminMessage');
+  const button=document.querySelector('.admin-button');
 
-  const codeValue = String(codeInput?.value||'').trim().toUpperCase();
-  const maxActivations = Math.floor(Number(activationsInput?.value));
-  const minutesValue = Math.floor(Number(minutesInput?.value));
-  const rewardValue = Math.floor(Number(rewardInput?.value));
+  const codeValue=String(codeInput?.value||'').trim().toUpperCase();
+  const maxActivations=Math.floor(Number(activationsInput?.value));
+  const minutesValue=Math.floor(Number(minutesInput?.value));
+  const rewardValue=Math.floor(Number(rewardInput?.value));
 
-  if(!codeValue){
-    message.textContent='Укажи название промокода.';
-    return;
+  if(!codeValue){ message.textContent='Укажи название промокода.'; return; }
+  if(maxActivations<1 || minutesValue<1 || rewardValue<1){ message.textContent='Активации, минуты и награда должны быть больше 0.'; return; }
+  if(!getTelegramInitData()){ message.textContent='Открой Mini App через Telegram.'; return; }
+
+  if(button) button.disabled=true;
+  try{
+    const data=await apiRequest('/api/admin/promos',{
+      method:'POST',
+      body:JSON.stringify({
+        code:codeValue,
+        max_activations:maxActivations,
+        expires_in_minutes:minutesValue,
+        reward:rewardValue
+      })
+    });
+
+    message.textContent=`Промокод ${data?.promo?.code||codeValue} создан на сервере!`;
+    codeInput.value='';
+    activationsInput.value='';
+    minutesInput.value='';
+    rewardInput.value='10';
+    await loadPromoCodesFromServer();
+  }catch(error){
+    message.textContent=error.data?.error || 'Не удалось создать промокод.';
+  }finally{
+    if(button) button.disabled=false;
   }
-  if(maxActivations<1 || minutesValue<1 || rewardValue<1){
-    message.textContent='Активации, минуты и награда должны быть больше 0.';
-    return;
-  }
-
-  // Перезагружаем промокоды из localStorage
-  loadPromoCodes();
-
-  // Проверяем дубликат
-  if(promoCodes.some(p => p.code === codeValue)){
-    message.textContent='Такой промокод уже существует.';
-    return;
-  }
-
-  const promo = {
-    code: codeValue,
-    max_activations: maxActivations,
-    used_count: 0,
-    expires_at: Date.now() + minutesValue * 60000,
-    reward: rewardValue,
-    created_by: getTelegramUsername() || 'admin',
-    created_at: Date.now(),
-    redeemed_by: []
-  };
-
-  promoCodes.push(promo);
-  saveProfileData();
-
-  message.textContent=`Промокод ${codeValue} создан!`;
-  codeInput.value='';
-  activationsInput.value='';
-  minutesInput.value='';
-  rewardInput.value='10';
-  renderAdminPromos();
 }
 
 function renderAdminPromos(){
   const list=document.getElementById('adminPromoList');
   if(!list) return;
-  if(!isAdmin()){list.innerHTML='';return;}
-
-  // Перезагружаем промокоды из localStorage
-  loadPromoCodes();
-
+  if(!isAdmin()){ list.innerHTML=''; return; }
   if(!promoCodes.length){
     list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
     return;
   }
-
   list.innerHTML=promoCodes.map(p=>{
     const expired=Date.now()>=Number(p.expires_at);
     return `<div class="admin-withdrawal">
@@ -3870,6 +3890,8 @@ syncTelegramUserWithServer();
 renderAll();
 
 updateTop();
+
+setTimeout(()=>loadPromoCodesFromServer(),0);
 
 </script>
 
