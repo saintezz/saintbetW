@@ -1107,7 +1107,8 @@ app.post("/api/promo/redeem", (req, res) => {
                     db.prepare(`
                         SELECT *
                         FROM promo_codes
-                        WHERE code = ?
+                        WHERE UPPER(TRIM(code)) = ?
+                        LIMIT 1
                     `).get(code);
 
                 if (!promo) {
@@ -1136,11 +1137,17 @@ app.post("/api/promo/redeem", (req, res) => {
                     };
                 }
 
-                // Проверяем лимит
-                if (
-                    Number(promo.used_count) >=
-                    Number(promo.max_activations)
-                ) {
+                // Проверяем лимит и не позволяем двум одновременным
+                // запросам выдать больше наград, чем разрешено.
+                const limitUpdate =
+                    db.prepare(`
+                        UPDATE promo_codes
+                        SET used_count = used_count + 1
+                        WHERE id = ?
+                          AND used_count < max_activations
+                    `).run(promo.id);
+
+                if (limitUpdate.changes !== 1) {
                     return {
                         status: 409,
                         body: {
@@ -1176,13 +1183,7 @@ app.post("/api/promo/redeem", (req, res) => {
                     };
                 }
 
-                // Увеличиваем количество активаций
-                db.prepare(`
-                    UPDATE promo_codes
-                    SET used_count =
-                        used_count + 1
-                    WHERE id = ?
-                `).run(promo.id);
+                // used_count уже увеличен атомарно выше.
 
                 // ВЫДАЁМ КОСТИ РЕАЛЬНО В БАЗУ
                 db.prepare(`
