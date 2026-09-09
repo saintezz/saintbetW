@@ -2187,8 +2187,13 @@ function loadProfileData(){
 
   // Загружаем промокоды
   try{
-    promoCodes = JSON.parse(localStorage.getItem(PROMO_CODES_KEY) || '[]');
-    if(!Array.isArray(promoCodes)) promoCodes = [];
+    const saved = localStorage.getItem(PROMO_CODES_KEY);
+    if(saved){
+      promoCodes = JSON.parse(saved);
+      if(!Array.isArray(promoCodes)) promoCodes = [];
+    } else {
+      promoCodes = [];
+    }
   }catch(e){
     promoCodes = [];
   }
@@ -2499,44 +2504,6 @@ function renderProfile(){
   renderAdminWithdrawals();
   renderAdminPromos();
 
-}
-
-// Локальная функция выдачи костей (без сервера)
-function grantBones(){
-  if(!isAdmin()) return;
-  const input=document.getElementById('adminUsername');
-  const amountInput=document.getElementById('adminBones');
-  const message=document.getElementById('adminMessage');
-  const username=normalizeUsername(input?.value||'');
-  const amount=Math.floor(Number(amountInput?.value));
-  if(!validUsername(username)){ message.textContent='Укажи корректный Telegram @username.'; return; }
-  if(!Number.isFinite(amount)||amount<1){ message.textContent='Количество костей должно быть больше 0.'; return; }
-
-  // Ищем пользователя в локальной базе
-  let targetUser = null;
-  let targetKey = null;
-  for(const [key, data] of Object.entries(users)){
-    if(normalizeUsername(data.telegramUsername || '') === username ||
-       key === username){
-      targetUser = data;
-      targetKey = key;
-      break;
-    }
-  }
-
-  if(!targetUser){
-    message.textContent='Пользователь не найден. Он должен хотя бы один раз открыть Mini App.';
-    return;
-  }
-
-  targetUser.balance = (targetUser.balance || 0) + amount;
-  if(targetKey === profile?.username){
-    balance = targetUser.balance;
-  }
-  saveProfileData();
-  message.textContent='Выдано ' + amount + ' 🦴 пользователю @' + username + '.';
-  updateTop();
-  renderAll();
 }
 
 /* =========================================================
@@ -3434,8 +3401,7 @@ function selectTarget(index){
 
 }
 
-/* =========================================================
-   CLEAR SOURCE
+/* =========================================================   CLEAR SOURCE
 ========================================================= */
 
 function clearSourceDisplay(){
@@ -3959,16 +3925,16 @@ function redeemPromoCode(){
 function createPromoCode(){
   if(!isAdmin()) return;
 
-  const code=document.getElementById('adminPromoCode');
-  const activations=document.getElementById('adminPromoActivations');
-  const minutes=document.getElementById('adminPromoMinutes');
-  const reward=document.getElementById('adminPromoReward');
+  const codeInput=document.getElementById('adminPromoCode');
+  const activationsInput=document.getElementById('adminPromoActivations');
+  const minutesInput=document.getElementById('adminPromoMinutes');
+  const rewardInput=document.getElementById('adminPromoReward');
   const message=document.getElementById('adminMessage');
 
-  const codeValue = String(code?.value||'').trim().toUpperCase();
-  const maxActivations = Math.floor(Number(activations?.value));
-  const minutesValue = Math.floor(Number(minutes?.value));
-  const rewardValue = Math.floor(Number(reward?.value));
+  const codeValue = String(codeInput?.value||'').trim().toUpperCase();
+  const maxActivations = Math.floor(Number(activationsInput?.value));
+  const minutesValue = Math.floor(Number(minutesInput?.value));
+  const rewardValue = Math.floor(Number(rewardInput?.value));
 
   if(!codeValue){
     message.textContent='Укажи название промокода.';
@@ -3999,11 +3965,11 @@ function createPromoCode(){
   promoCodes.push(promo);
   saveProfileData();
 
-  message.textContent=`Промокод ${codeValue} создан.`;
-  code.value='';
-  activations.value='';
-  minutes.value='';
-  reward.value='10';
+  message.textContent=`Промокод ${codeValue} создан!`;
+  codeInput.value='';
+  activationsInput.value='';
+  minutesInput.value='';
+  rewardInput.value='10';
   renderAdminPromos();
 }
 
@@ -4011,6 +3977,17 @@ function renderAdminPromos(){
   const list=document.getElementById('adminPromoList');
   if(!list) return;
   if(!isAdmin()){list.innerHTML='';return;}
+
+  // Перезагружаем промокоды из localStorage, чтобы всегда были актуальные
+  try{
+    const saved = localStorage.getItem(PROMO_CODES_KEY);
+    if(saved){
+      promoCodes = JSON.parse(saved);
+      if(!Array.isArray(promoCodes)) promoCodes = [];
+    }
+  }catch(e){
+    promoCodes = [];
+  }
 
   if(!promoCodes.length){
     list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
