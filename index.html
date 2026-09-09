@@ -208,6 +208,8 @@ html, body {
     inset 0 -1px 0 rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .panel-title {
@@ -223,6 +225,7 @@ html, body {
   align-items: center;
   gap: 8px;
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
 }
 
 /* =========================================================
@@ -329,8 +332,26 @@ html, body {
   text-align: center;
 }
 
+/* Placeholder for items missing PNG image */
+.item-img-placeholder {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
 /* =========================================================
-   WHEEL & CONTROLS
+   WHEEL & CONTROLS (Seamless Rendering)
 ========================================================= */
 .center {
   display: flex;
@@ -344,17 +365,14 @@ html, body {
   border-radius: 50%;
   position: relative;
   margin-top: 0;
-  --wheel-chance: 0;
-  background: conic-gradient(
-    #ffffff 0 calc(var(--wheel-chance) * 1%),
-    #16181d calc(var(--wheel-chance) * 1%) 100%
-  );
+  background: #16181d;
   border: 6px solid rgba(255, 255, 255, 0.22);
   box-shadow:
     0 0 50px rgba(0, 0, 0, 0.6),
     0 0 25px rgba(255, 255, 255, 0.15),
     inset 0 0 35px rgba(0, 0, 0, 0.6);
   transition: border-color 0.3s ease;
+  overflow: hidden;
 }
 
 .wheel::before {
@@ -365,6 +383,7 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: radial-gradient(circle, #08090b 0 56%, #12151b 57% 100%);
   box-shadow: inset 0 0 30px #000000;
+  z-index: 1;
 }
 
 .tick-ring {
@@ -377,6 +396,7 @@ html, body {
   );
   -webkit-mask: radial-gradient(transparent 0 91%, #000 92% 100%);
   mask: radial-gradient(transparent 0 91%, #000 92% 100%);
+  z-index: 2;
 }
 
 .pointer-wrap {
@@ -446,7 +466,7 @@ html, body {
 
 .upgrade {
   height: 48px;
-  min-width: 190px;
+  min-width: 220px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 14px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
@@ -478,27 +498,6 @@ html, body {
   transform: none;
 }
 
-.energy {
-  width: 48px;
-  height: 48px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.energy:hover {
-  transform: translateY(-2px) rotate(10deg);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.25);
-}
-
 .instruction {
   text-align: center;
   color: #8c98a5;
@@ -509,7 +508,7 @@ html, body {
 }
 
 /* =========================================================
-   LOWER SECTION - SHOP, TARGETS, INVENTORY
+   LOWER SECTION - SHOP, TARGETS, INVENTORY (Fixed Scroll whitespace)
 ========================================================= */
 .lower {
   display: grid;
@@ -519,8 +518,11 @@ html, body {
 }
 
 .panel {
-  min-height: 360px;
+  min-height: 380px;
+  max-height: 480px;
   padding: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 .search {
@@ -535,6 +537,7 @@ html, body {
   margin-bottom: 12px;
   border-radius: 12px;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .search:focus {
@@ -546,7 +549,7 @@ html, body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-  max-height: 380px;
+  flex: 1;
   overflow-y: auto;
   padding-right: 2px;
 }
@@ -610,7 +613,7 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 380px;
+  flex: 1;
   overflow-y: auto;
   padding-right: 2px;
 }
@@ -692,13 +695,15 @@ html, body {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+/* Upgrader Inventory Container Fix */
 .inventory-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 10px;
-  max-height: 320px;
+  flex: 1;
   overflow-y: auto;
+  padding-right: 2px;
+  margin-top: 4px;
 }
 
 .inventory-item {
@@ -848,20 +853,22 @@ html, body {
 .inventory-status {
   color: #8c96a2;
   font-size: 10px;
-  margin: 10px 0;
+  margin-bottom: 6px;
+  flex-shrink: 0;
 }
 
 .selected-card {
   display: none;
-  margin-top: 14px;
+  margin-top: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(12, 14, 18, 0.8);
-  min-height: 100px;
+  min-height: 80px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   border-radius: 14px;
   padding: 10px;
+  flex-shrink: 0;
 }
 
 .selected-card.show {
@@ -869,7 +876,7 @@ html, body {
 }
 
 .selected-number {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
   color: #ffffff;
   text-align: center;
@@ -979,6 +986,10 @@ html, body {
   .lower {
     grid-template-columns: 1fr;
   }
+  .panel {
+    max-height: none;
+    min-height: 320px;
+  }
 }
 
 @media (max-width: 520px) {
@@ -987,7 +998,7 @@ html, body {
     height: 190px;
   }
   .upgrade {
-    min-width: 150px;
+    min-width: 180px;
     font-size: 13px;
   }
 }
@@ -1071,9 +1082,6 @@ html, body {
 
           <div class="controls">
             <button class="upgrade" id="upgradeBtn" onclick="upgrade()">ПРОКАЧАТЬ ›</button>
-            <button class="energy" title="Случайная цель" onclick="randomTarget()">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg>
-            </button>
           </div>
         </div>
 
@@ -1227,17 +1235,23 @@ html, body {
 
 <script>
 /* =========================================================
-   ITEMS CONFIGURATION WITH IMAGES & RAW FALLBACKS
+   ITEMS CONFIGURATION (Updated Brainrots & Prices)
 ========================================================= */
 const items = [
-  { name: 'La Grande Combination', price: 1, img: 'Grande.png' },
-  { name: 'Bananito', price: 7, img: 'Bananchik.png' },
-  { name: 'Money Money Puggy', price: 17, img: 'Mops.png' },
-  { name: 'Tang Tang Keletang', price: 30, img: 'TangTangKeletang.png' },
-  { name: 'Garama and Madundung', price: 50, img: 'Garama.png' },
+  { name: 'Bananito', price: 1, img: 'Bananchik.png' },
+  { name: 'Money Money Puggy', price: 5, img: 'Mops.png' },
+  { name: 'Tang Tang Keletang', price: 20, img: 'TangTangKeletang.png' },
+  { name: 'Ketchuru and Musturu', price: 45, img: 'Ketchuru.png' },
+  { name: 'Garama and Madundung', price: 46, img: 'Garama.png' },
+  { name: 'Cangurato Gelato', price: 65, img: 'Cangurato.png' },
+  { name: 'Cash or Card', price: 70, img: 'Cash.png' },
+  { name: 'Capitano moby', price: 100, img: 'Capitano.png' },
   { name: 'Cerberus', price: 175, img: 'Cerberus.png' },
   { name: 'Dragon Cannelloni', price: 1250, img: 'Dragon.png' },
-  { name: 'Skibidi toilet', price: 15000, img: 'Skibidi.png' }
+  { name: 'Grabatron', price: 1700, img: 'Grabatron.png' },
+  { name: 'Skibidi toilet', price: 15000, img: 'Skibidi.png' },
+  { name: 'Meowl', price: 30000, img: 'Meowl.png' },
+  { name: 'Strawberry Elephant', price: 50000, img: 'Elephant.png' }
 ];
 
 function getCrystalHtml(extraClass = 'crystal-icon') {
@@ -1248,10 +1262,14 @@ function getCrystalHtml(extraClass = 'crystal-icon') {
 
 function getItemImgHtml(item, extraClass = 'item-img') {
   if (typeof item === 'number') item = items[item];
-  if (!item || !item.img) return '';
-  const localSrc = `image/${item.img}`;
-  const remoteSrc = `https://raw.githubusercontent.com/saintezz/saintbetW/main/image/${item.img}`;
-  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}'" class="${extraClass}" alt="${escapeHtml(item.name)}">`;
+  if (!item) return '';
+  const name = escapeHtml(item.name);
+  if (item.img) {
+    const localSrc = `image/${item.img}`;
+    const remoteSrc = `https://raw.githubusercontent.com/saintezz/saintbetW/main/image/${item.img}`;
+    return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';this.onerror=function(){this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';};" class="${extraClass}" alt="${name}"><div class="item-img-placeholder ${extraClass}" style="display:none;">${name.charAt(0)}</div>`;
+  }
+  return `<div class="item-img-placeholder ${extraClass}">${name.charAt(0)}</div>`;
 }
 
 /* =========================================================
@@ -1277,7 +1295,7 @@ let profile = null;
 let users = {};
 
 /* =========================================================
-   AUDIO & SYNTHESIZER FOR SOUND EFFECTS
+   AUDIO SYNTHESIZER
 ========================================================= */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
@@ -1355,7 +1373,6 @@ function playSound(type) {
   function animate() {
     ctx.clearRect(0, 0, w, h);
     
-    // Ambient liquid glowing gradient blobs
     const time = Date.now() * 0.0005;
     const blob1X = w * 0.5 + Math.sin(time) * 150;
     const blob1Y = h * 0.2 + Math.cos(time * 0.8) * 100;
@@ -1374,7 +1391,6 @@ function playSound(type) {
     ctx.fillStyle = grad2;
     ctx.fillRect(0, 0, w, h);
     
-    // Draw floating glass shard particles
     particles.forEach(p => {
       p.x += p.speedX;
       p.y += p.speedY;
@@ -1539,20 +1555,6 @@ async function syncTelegramUserWithServer() {
 }
 
 /* =========================================================
-   UPGRADE CHANCES MATRIX
-========================================================= */
-const upgradeChances = {
-  0:{0:100, 1:19.7, 2:9.7, 3:4.7, 4:2.7, 5:1, 6:0, 7:0},
-  1:{1:100, 2:49.7, 3:38.7, 4:14.7, 5:4, 6:4.7, 7:0},
-  2:{2:100, 3:59.7, 4:24.7, 5:10, 6:9.7, 7:0},
-  3:{3:100, 4:54.7, 5:14, 6:19.7, 7:0},
-  4:{4:100, 5:29, 6:5, 7:1},
-  5:{5:100, 6:10, 7:0},
-  6:{6:100, 5:0, 7:5},
-  7:{7:100, 5:0, 6:0}
-};
-
-/* =========================================================
    DOM ELEMENTS
 ========================================================= */
 const itemGrid = document.getElementById('items');
@@ -1658,7 +1660,9 @@ function renderInventory() {
     list.appendChild(row);
   });
 
-  document.getElementById('upgraderInventoryPanel').appendChild(list);
+  const panel = document.getElementById('upgraderInventoryPanel');
+  const statusEl = document.getElementById('inventoryStatus');
+  panel.insertBefore(list, statusEl.nextSibling);
 }
 
 /* =========================================================
@@ -1852,7 +1856,7 @@ function submitWithdrawal() {
 }
 
 /* =========================================================
-   SELECTION & WHEEL LOGIC
+   SELECTION & DYNAMIC WHEEL LOGIC (FIXED SEAM PROPLESHINY)
 ========================================================= */
 function selectSource(slotIndex) {
   if (spinning || inventory[slotIndex] === undefined) return;
@@ -1918,15 +1922,38 @@ function focusTargets() {
 
 function getUpgradeChance() {
   if (sourceItem === null || targetItem === null) return 0;
-  const sourceIndex = inventory[sourceItem];
-  if (!upgradeChances[sourceIndex] || upgradeChances[sourceIndex][targetItem] === undefined) return 0;
-  return upgradeChances[sourceIndex][targetItem];
+  const sourceSlotIndex = sourceItem;
+  const sourceIndex = inventory[sourceSlotIndex];
+  const targetIndex = targetItem;
+  
+  if (sourceIndex === undefined || targetIndex === undefined) return 0;
+  const source = items[sourceIndex];
+  const target = items[targetIndex];
+  if (!source || !target) return 0;
+
+  if (sourceIndex === targetIndex) return 100;
+  if (source.price >= target.price) return 100;
+
+  let rawChance = (source.price / target.price) * 100 * 0.92;
+  if (rawChance < 0.1) rawChance = 0.1;
+  if (rawChance > 99.9) rawChance = 99.9;
+
+  return Math.round(rawChance * 10) / 10;
 }
 
 function updateDisplayedChance() {
   const chance = getUpgradeChance();
   wheelChance.textContent = chance + '%';
-  wheel.style.setProperty('--wheel-chance', chance);
+  
+  // Direct JavaScript conic-gradient rendering to prevent sub-pixel seams
+  if (chance <= 0) {
+    wheel.style.background = '#16181d';
+  } else if (chance >= 100) {
+    wheel.style.background = '#ffffff';
+  } else {
+    const deg = Math.min(359.9, chance * 3.6);
+    wheel.style.background = `conic-gradient(#ffffff 0deg ${deg}deg, #16181d ${deg}deg 360deg)`;
+  }
 }
 
 function updateTop() {
@@ -2041,12 +2068,6 @@ function upgrade() {
     upgradeBtn.disabled = false;
     upgradeBtn.textContent = 'ПРОКАЧАТЬ ›';
   }, 1800);
-}
-
-function randomTarget() {
-  if (spinning) return;
-  playSound('click');
-  selectTarget(Math.floor(Math.random() * items.length));
 }
 
 function filterItems() {
