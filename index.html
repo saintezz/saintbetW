@@ -1657,7 +1657,8 @@ button{
     <b id="balance">10</b> 🦴
   </div>
 
-  <section class="tab-panel active" data-tab="game">\n  <section class="game">
+  <section class="tab-panel active" data-tab="game">
+  <section class="game">
 
     <div class="top-area">
 
@@ -2041,6 +2042,10 @@ const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
 let withdrawals = [];
 let withdrawalSlot = null;
 
+// Промокоды (локальные)
+const PROMO_CODES_KEY = 'upgrader_promocodes_v1';
+let promoCodes = [];
+
 /*
   Если игрок начал апгрейд и обновил страницу во время прокрутки,
   предмет, поставленный на апгрейд, должен исчезнуть из инвентаря.
@@ -2180,6 +2185,14 @@ function loadProfileData(){
 
   }
 
+  // Загружаем промокоды
+  try{
+    promoCodes = JSON.parse(localStorage.getItem(PROMO_CODES_KEY) || '[]');
+    if(!Array.isArray(promoCodes)) promoCodes = [];
+  }catch(e){
+    promoCodes = [];
+  }
+
   if(
     !profile ||
     !profile.username
@@ -2283,12 +2296,16 @@ function saveProfileData(){
     JSON.stringify(users)
   );
 
+  // Сохраняем промокоды
+  localStorage.setItem(
+    PROMO_CODES_KEY,
+    JSON.stringify(promoCodes)
+  );
+
 }
 
 function getTelegramUser(){
 
-  // Telegram WebApp передаёт данные пользователя, когда сайт открыт
-  // именно внутри Telegram Mini App.
   const tg = window.Telegram && window.Telegram.WebApp
     ? window.Telegram.WebApp
     : null;
@@ -2352,15 +2369,15 @@ function isAdmin(){
 
 }
 
-async function syncTelegramUserWithServer(){
-  const tgUser=getTelegramUser(); const initData=getTelegramInitData();
-  if(!tgUser?.id||!initData) return;
-  try{
-    const r=await fetch(getApiBase()+'/api/user',{method:'POST',headers:{'Content-Type':'application/json','X-Telegram-Init-Data':initData},body:JSON.stringify({telegram_id:String(tgUser.id),username:normalizeUsername(tgUser.username||''),first_name:String(tgUser.first_name||''),roblox_name:null})});
-    const data=await r.json().catch(()=>({}));
-    if(!r.ok||!data.success||!data.user) return;
-    if(data.user.balance!==undefined){ balance=Number(data.user.balance); if(profile?.username&&users[profile.username]) users[profile.username].balance=balance; saveProfileData(); updateTop(); renderAll(); }
-  }catch(e){ console.warn('Не удалось синхронизировать баланс с сервером:',e); }
+// Локальная версия синхронизации (без сервера)
+function syncTelegramUserWithServer(){
+  const tgUser=getTelegramUser();
+  if(tgUser?.id){
+    // Просто обновляем локальный профиль
+    getTelegramUsername();
+    saveProfileData();
+    renderAll();
+  }
 }
 
 function renderProfile(){
@@ -2448,7 +2465,7 @@ function renderProfile(){
 
     if(accountStatus){
       accountStatus.textContent =
-        'ОТКРОЙТЕ SAINTBET В TELEGRAM';
+        'ОТКРОЙТЕ В TELEGRAM';
     }
 
     if(cooldown){
@@ -2484,6 +2501,7 @@ function renderProfile(){
 
 }
 
+// Локальная функция выдачи костей (без сервера)
 function grantBones(){
   if(!isAdmin()) return;
   const input=document.getElementById('adminUsername');
@@ -2493,39 +2511,36 @@ function grantBones(){
   const amount=Math.floor(Number(amountInput?.value));
   if(!validUsername(username)){ message.textContent='Укажи корректный Telegram @username.'; return; }
   if(!Number.isFinite(amount)||amount<1){ message.textContent='Количество костей должно быть больше 0.'; return; }
-  const initData=getTelegramInitData();
-  if(!initData){ message.textContent='Открой приложение через Telegram.'; return; }
-  const button=document.querySelector('#adminPanel .admin-button'); if(button) button.disabled=true;
-  message.textContent='Выдаём кости...';
-  fetch(getApiBase()+'/api/admin/grant-bones',{method:'POST',headers:{'Content-Type':'application/json','X-Telegram-Init-Data':initData},body:JSON.stringify({username,amount})})
-    .then(async r=>{ const data=await r.json().catch(()=>({})); if(!r.ok||!data.success) throw new Error(data.error||'Не удалось выдать кости.'); message.textContent=data.message||('Выдано '+amount+' 🦴 пользователю @'+username+'.'); if(normalizeUsername(profile?.telegramUsername||'')===username){ balance=Number(data.user?.balance??balance); saveProfileData(); updateTop(); renderAll(); } if(amountInput) amountInput.value=''; })
-    .catch(e=>{console.error(e);message.textContent=e.message||'Ошибка соединения с сервером.';})
-    .finally(()=>{if(button)button.disabled=false;});
+
+  // Ищем пользователя в локальной базе
+  let targetUser = null;
+  let targetKey = null;
+  for(const [key, data] of Object.entries(users)){
+    if(normalizeUsername(data.telegramUsername || '') === username ||
+       key === username){
+      targetUser = data;
+      targetKey = key;
+      break;
+    }
+  }
+
+  if(!targetUser){
+    message.textContent='Пользователь не найден. Он должен хотя бы один раз открыть Mini App.';
+    return;
+  }
+
+  targetUser.balance = (targetUser.balance || 0) + amount;
+  if(targetKey === profile?.username){
+    balance = targetUser.balance;
+  }
+  saveProfileData();
+  message.textContent='Выдано ' + amount + ' 🦴 пользователю @' + username + '.';
+  updateTop();
+  renderAll();
 }
 
 /* =========================================================
    ШАНСЫ АПГРЕЙДА
-=========================================================
-
-   Старые шансы сохранены.
-
-   НОВЫЕ ШАНСЫ:
-
-   La Grande -> Cerberus       1%
-   Bananito -> Cerberus        4%
-   Money Money Puggy -> Cerberus 10%
-   Tang Tang Keletang -> Cerberus 14%
-   Garama -> Cerberus          29%
-
-   Dragon -> Cerberus          0%
-   Skibidi -> Cerberus         0%
-
-   Cerberus -> Dragon          10%
-
-   Dragon -> Skibidi           5%
-   Garama -> Skibidi           1%
-
-   Остальные -> Skibidi        0%
 ========================================================= */
 
 const upgradeChances = {
@@ -3345,10 +3360,6 @@ function selectSource(slotIndex){
     'selected'
   );
 
-  /*
-    БЕЗ КАРТИНОК И БЕЗ РОМБОВ
-  */
-
   sourceSlot.innerHTML = `
 
     <div class="slot-text">
@@ -3397,10 +3408,6 @@ function selectTarget(index){
   targetSlot.classList.add(
     'selected'
   );
-
-  /*
-    БЕЗ КАРТИНОК И БЕЗ РОМБОВ
-  */
 
   targetSlot.innerHTML = `
 
@@ -3653,11 +3660,6 @@ function upgrade(){
   spinning =
     true;
 
-  /*
-    Сразу помечаем предмет как находящийся на апгрейде.
-    Если страницу обновить во время 1.8-секундной анимации,
-    при следующей загрузке этот предмет будет удалён из инвентаря.
-  */
   localStorage.setItem(
     PENDING_UPGRADE_KEY,
     JSON.stringify({
@@ -3675,17 +3677,9 @@ function upgrade(){
   upgradeBtn.textContent =
     'ПРОКАЧКА...';
 
-  /*
-    Результат определяется здесь.
-  */
-
   const win =
     Math.random() * 100 <
     chance;
-
-  /*
-    Положение стрелки.
-  */
 
   const greenAngle =
     chance * 3.6;
@@ -3748,16 +3742,9 @@ function upgrade(){
 
   setTimeout(()=>{
 
-    /*
-      Анимация закончилась — апгрейд завершён, поэтому pending больше не нужен.
-    */
     localStorage.removeItem(
       PENDING_UPGRADE_KEY
     );
-
-    /* =========================
-       ПОБЕДА
-    ========================= */
 
     if(win){
 
@@ -3784,10 +3771,6 @@ function upgrade(){
       sourceSlot.classList.add(
         'selected'
       );
-
-      /*
-        БЕЗ РОМБОВ И КАРТИНОК
-      */
 
       sourceSlot.innerHTML = `
 
@@ -3816,10 +3799,6 @@ function upgrade(){
         ' получен!';
 
     }
-
-    /* =========================
-       ПРОИГРЫШ
-    ========================= */
 
     else{
 
@@ -3915,25 +3894,14 @@ function showTab(tab){
 }
 
 /* =========================================================
-   PROMOCODES
+   PROMOCODES (ЛОКАЛЬНЫЕ)
 ========================================================= */
 
-function getApiBase(){
-  return window.location.origin;
-}
-
-function getTelegramInitData(){
-  const tg = window.Telegram && window.Telegram.WebApp
-    ? window.Telegram.WebApp
-    : null;
-  return tg?.initData || '';
-}
-
-async function redeemPromoCode(){
+function redeemPromoCode(){
   const input=document.getElementById('promoInput');
   const message=document.getElementById('promoMessage');
   const button=document.querySelector('.promo-button');
-  const code=String(input?.value||'').trim();
+  const code=String(input?.value||'').trim().toUpperCase();
 
   if(!code){
     message.className='promo-message error';
@@ -3941,53 +3909,54 @@ async function redeemPromoCode(){
     return;
   }
 
-  const initData=getTelegramInitData();
-  if(!initData){
+  // Ищем промокод
+  const promo = promoCodes.find(p => p.code === code);
+
+  if(!promo){
     message.className='promo-message error';
-    message.textContent='Открой приложение через Telegram.';
+    message.textContent='Промокод не найден.';
     return;
   }
 
-  button.disabled=true;
-  message.className='promo-message';
-  message.textContent='Проверяем промокод...';
-
-  try{
-    const response=await fetch(getApiBase()+'/api/promo/redeem',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Telegram-Init-Data':initData
-      },
-      body:JSON.stringify({code})
-    });
-
-    const data=await response.json();
-
-    if(!response.ok || !data.success){
-      message.className='promo-message error';
-      message.textContent=data.error || 'Не удалось активировать промокод.';
-      return;
-    }
-
-    balance=Number(data.balance ?? balance);
-    saveProfileData();
-    updateTop();
-    renderAll();
-
-    message.className='promo-message success';
-    message.textContent=`Промокод активирован! +${data.reward} 🦴`;
-    input.value='';
-  }catch(error){
-    console.error(error);
+  // Проверяем срок
+  if(Date.now() >= Number(promo.expires_at)){
     message.className='promo-message error';
-    message.textContent='Ошибка соединения с сервером.';
-  }finally{
-    button.disabled=false;
+    message.textContent='Промокод истёк.';
+    return;
   }
+
+  // Проверяем лимит
+  if(Number(promo.used_count) >= Number(promo.max_activations)){
+    message.className='promo-message error';
+    message.textContent='Лимит активаций исчерпан.';
+    return;
+  }
+
+  // Проверяем, активировал ли игрок
+  const telegramId = String(profile?.telegramId || '');
+  if(promo.redeemed_by && promo.redeemed_by.includes(telegramId)){
+    message.className='promo-message error';
+    message.textContent='Ты уже активировал этот промокод.';
+    return;
+  }
+
+  // Активируем
+  promo.used_count = (promo.used_count || 0) + 1;
+  if(!promo.redeemed_by) promo.redeemed_by = [];
+  promo.redeemed_by.push(telegramId);
+
+  balance = (balance || 0) + Number(promo.reward);
+  saveProfileData();
+
+  message.className='promo-message success';
+  message.textContent=`Промокод активирован! +${promo.reward} 🦴`;
+  input.value='';
+
+  renderAll();
+  updateTop();
 }
 
-async function createPromoCode(){
+function createPromoCode(){
   if(!isAdmin()) return;
 
   const code=document.getElementById('adminPromoCode');
@@ -3996,94 +3965,76 @@ async function createPromoCode(){
   const reward=document.getElementById('adminPromoReward');
   const message=document.getElementById('adminMessage');
 
-  const payload={
-    code:String(code?.value||'').trim(),
-    max_activations:Math.floor(Number(activations?.value)),
-    expires_in_minutes:Math.floor(Number(minutes?.value)),
-    reward:Math.floor(Number(reward?.value))
-  };
+  const codeValue = String(code?.value||'').trim().toUpperCase();
+  const maxActivations = Math.floor(Number(activations?.value));
+  const minutesValue = Math.floor(Number(minutes?.value));
+  const rewardValue = Math.floor(Number(reward?.value));
 
-  if(!payload.code){
+  if(!codeValue){
     message.textContent='Укажи название промокода.';
     return;
   }
-  if(payload.max_activations<1 || payload.expires_in_minutes<1 || payload.reward<1){
+  if(maxActivations<1 || minutesValue<1 || rewardValue<1){
     message.textContent='Активации, минуты и награда должны быть больше 0.';
     return;
   }
 
-  try{
-    const response=await fetch(getApiBase()+'/api/admin/promos',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Telegram-Init-Data':getTelegramInitData()
-      },
-      body:JSON.stringify(payload)
-    });
-    const data=await response.json();
-
-    if(!response.ok || !data.success){
-      message.textContent=data.error || 'Не удалось создать промокод.';
-      return;
-    }
-
-    message.textContent=`Промокод ${data.promo.code} создан.`;
-    code.value='';
-    activations.value='';
-    minutes.value='';
-    reward.value='10';
-    renderAdminPromos();
-  }catch(error){
-    console.error(error);
-    message.textContent='Ошибка соединения с сервером.';
+  // Проверяем дубликат
+  if(promoCodes.some(p => p.code === codeValue)){
+    message.textContent='Такой промокод уже существует.';
+    return;
   }
+
+  const promo = {
+    code: codeValue,
+    max_activations: maxActivations,
+    used_count: 0,
+    expires_at: Date.now() + minutesValue * 60000,
+    reward: rewardValue,
+    created_by: getTelegramUsername() || 'admin',
+    created_at: Date.now(),
+    redeemed_by: []
+  };
+
+  promoCodes.push(promo);
+  saveProfileData();
+
+  message.textContent=`Промокод ${codeValue} создан.`;
+  code.value='';
+  activations.value='';
+  minutes.value='';
+  reward.value='10';
+  renderAdminPromos();
 }
 
-async function renderAdminPromos(){
+function renderAdminPromos(){
   const list=document.getElementById('adminPromoList');
   if(!list) return;
   if(!isAdmin()){list.innerHTML='';return;}
 
-  try{
-    const response=await fetch(getApiBase()+'/api/admin/promos',{
-      headers:{'X-Telegram-Init-Data':getTelegramInitData()}
-    });
-    const data=await response.json();
-
-    if(!response.ok || !data.success){
-      list.innerHTML='<div class="admin-subtitle">Не удалось загрузить промокоды.</div>';
-      return;
-    }
-
-    if(!data.promos.length){
-      list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
-      return;
-    }
-
-    list.innerHTML=data.promos.map(p=>{
-      const expired=Date.now()>=Number(p.expires_at);
-      return `<div class="admin-withdrawal">
-        <div class="admin-withdrawal-title">${escapeHtml(p.code)}</div>
-        <div class="admin-withdrawal-meta">
-          ${expired?'⌛ ИСТЁК':'✓ АКТИВЕН'} • ${p.used_count}/${p.max_activations} активаций • ${p.reward} 🦴
-        </div>
-        <div class="admin-withdrawal-details">
-          Истекает: ${new Date(Number(p.expires_at)).toLocaleString('ru-RU')}
-        </div>
-      </div>`;
-    }).join('');
-  }catch(error){
-    console.error(error);
+  if(!promoCodes.length){
+    list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
+    return;
   }
+
+  list.innerHTML=promoCodes.map(p=>{
+    const expired=Date.now()>=Number(p.expires_at);
+    return `<div class="admin-withdrawal">
+      <div class="admin-withdrawal-title">${escapeHtml(p.code)}</div>
+      <div class="admin-withdrawal-meta">
+        ${expired?'⌛ ИСТЁК':'✓ АКТИВЕН'} • ${p.used_count}/${p.max_activations} активаций • ${p.reward} 🦴
+      </div>
+      <div class="admin-withdrawal-details">
+        Истекает: ${new Date(Number(p.expires_at)).toLocaleString('ru-RU')}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 /* =========================================================
    START
 ========================================================= */
 
-// Инициализируем Telegram Mini App до загрузки профиля,
-// чтобы сразу определить аккаунт пользователя.
 if(window.Telegram && window.Telegram.WebApp){
   try{
     window.Telegram.WebApp.ready();
