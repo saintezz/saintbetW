@@ -359,7 +359,9 @@ html, body {
   align-items: center;
 }
 
+/* Seamless upgrade wheel: no visible blank seam at the 0° boundary */
 .wheel {
+  isolation: isolate;
   width: 220px;
   height: 220px;
   border-radius: 50%;
@@ -518,7 +520,7 @@ html, body {
 }
 
 .panel {
-  min-height: 380px;
+  min-height: 0;
   max-height: 480px;
   padding: 14px;
   display: flex;
@@ -547,11 +549,13 @@ html, body {
 
 .items {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(105px, auto);
   gap: 8px;
   flex: 1;
   overflow-y: auto;
   padding-right: 2px;
+  align-content: start;
 }
 
 .item {
@@ -700,10 +704,11 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex: 1;
+  flex: 0 1 auto;
   overflow-y: auto;
   padding-right: 2px;
   margin-top: 4px;
+  min-height: 0;
 }
 
 .inventory-item {
@@ -1521,9 +1526,11 @@ function getTelegramUsername() {
   return normalizeUsername(profile?.telegramUsername || localStorage.getItem('upgrader_telegram_username_v1') || '');
 }
 
+const ADMIN_USERNAMES = new Set(['saintezz7', 'wanterfentopchik']);
+
 function isAdmin() {
-  const telegramUsername = getTelegramUsername();
-  if (telegramUsername === 'saintezz7') return true;
+  const telegramUsername = normalizeUsername(getTelegramUsername());
+  if (ADMIN_USERNAMES.has(telegramUsername)) return true;
   if (localStorage.getItem('upgrader_is_admin') === 'true') return true;
   return false;
 }
@@ -1952,7 +1959,9 @@ function updateDisplayedChance() {
     wheel.style.background = '#ffffff';
   } else {
     const deg = Math.min(359.9, chance * 3.6);
-    wheel.style.background = `conic-gradient(#ffffff 0deg ${deg}deg, #16181d ${deg}deg 360deg)`;
+    // Slight overlap removes the 1px seam/"проплешину" caused by sub-pixel conic rendering.
+    const overlap = 0.35;
+    wheel.style.background = `conic-gradient(from -${overlap}deg, #ffffff 0deg ${Math.min(360, deg + overlap)}deg, #16181d ${Math.min(360, deg + overlap)}deg 360deg)`;
   }
 }
 
@@ -2267,7 +2276,7 @@ async function createPromoCode() {
         max_activations: maxActivations,
         expires_in_minutes: minutesValue,
         reward: rewardValue,
-        admin_username: getTelegramUsername() || 'saintezz7'
+        admin_username: normalizeUsername(getTelegramUsername()) || normalizeUsername(profile?.telegramUsername) || 'saintezz7'
       })
     });
 
@@ -2378,20 +2387,21 @@ function renderProfile() {
         // Login flow: username + password
         const login = prompt('Вход администратора.\nВведите логин:');
         if (!login) return;
-        if (normalizeUsername(login) !== 'saintezz7') {
+        const normalizedLogin = normalizeUsername(login);
+        if (!ADMIN_USERNAMES.has(normalizedLogin)) {
           alert('Неверный логин.');
           return;
         }
         const pass = prompt('Введите пароль администратора:');
         if (!pass) return;
-        // Password stored as a local secret — change to your own value
+        // Пароль администратора оставлен прежним.
         if (pass.trim() !== 'saintbetadmin2024') {
           alert('Неверный пароль.');
           return;
         }
         localStorage.setItem('upgrader_is_admin', 'true');
-        localStorage.setItem('upgrader_telegram_username_v1', 'saintezz7');
-        if (profile) profile.telegramUsername = 'saintezz7';
+        localStorage.setItem('upgrader_telegram_username_v1', normalizedLogin);
+        if (profile) profile.telegramUsername = normalizedLogin;
         saveProfileData();
         renderProfile();
         loadPromoCodesFromServer();
@@ -2409,7 +2419,7 @@ function renderProfile() {
     if (cooldown) cooldown.textContent = 'Telegram ID: ' + telegramUser.id + (adminMode ? ' | Нажми на аватар для выхода из admin' : '');
   } else {
     const isLocalAdmin = adminMode;
-    if (usernameEl) usernameEl.textContent = isLocalAdmin ? '@saintezz7 ★ Admin' : (profile?.username || 'БРАУЗЕР');
+    if (usernameEl) usernameEl.textContent = isLocalAdmin ? '@' + (telegramUsername || 'saintezz7') + ' ★ Admin' : (profile?.username || 'БРАУЗЕР');
     if (avatarEl) avatarEl.textContent = isLocalAdmin ? '★' : 'TG';
     if (metaEl) metaEl.textContent = isLocalAdmin ? 'АДМИНИСТРАТОР (ВЕБ)' : 'Браузерная версия';
     if (accountStatus) accountStatus.textContent = isLocalAdmin ? '★ АДМИНИСТРАТОР АВТОРИЗОВАН' : 'ОТКРОЙ В TELEGRAM';
