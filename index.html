@@ -1243,15 +1243,15 @@ const items = [
   { name: 'Tang Tang Keletang', price: 20, img: 'TangTangKeletang.png' },
   { name: 'Ketchuru and Musturu', price: 45, img: 'Ketchuru.png' },
   { name: 'Garama and Madundung', price: 46, img: 'Garama.png' },
-  { name: 'Cangurato Gelato', price: 65, img: 'Cangurato.png' },
-  { name: 'Cash or Card', price: 70, img: 'Cash.png' },
-  { name: 'Capitano moby', price: 100, img: 'Capitano.png' },
+  { name: 'Cangurato Gelato', price: 65, img: 'cangurato.png' },
+  { name: 'Cash or Card', price: 70, img: 'Cashorcard.png' },
+  { name: 'Capitano moby', price: 100, img: 'capitan.png' },
   { name: 'Cerberus', price: 175, img: 'Cerberus.png' },
   { name: 'Dragon Cannelloni', price: 1250, img: 'Dragon.png' },
-  { name: 'Grabatron', price: 1700, img: 'Grabatron.png' },
+  { name: 'Grabatron', price: 1700, img: 'grabatron.png' },
   { name: 'Skibidi toilet', price: 15000, img: 'Skibidi.png' },
-  { name: 'Meowl', price: 30000, img: 'Meowl.png' },
-  { name: 'Strawberry Elephant', price: 50000, img: 'Elephant.png' }
+  { name: 'Meowl', price: 30000, img: 'meowl.png' },
+  { name: 'Strawberry Elephant', price: 50000, img: 'strawberry.png' }
 ];
 
 function getCrystalHtml(extraClass = 'crystal-icon') {
@@ -1934,7 +1934,7 @@ function getUpgradeChance() {
   if (sourceIndex === targetIndex) return 100;
   if (source.price >= target.price) return 100;
 
-  let rawChance = (source.price / target.price) * 100 * 0.92;
+  let rawChance = (source.price / target.price) * 100 * 0.644; // 30% house edge reduction applied
   if (rawChance < 0.1) rawChance = 0.1;
   if (rawChance > 99.9) rawChance = 99.9;
 
@@ -2352,6 +2352,7 @@ function renderAdminWithdrawals() {
 function renderProfile() {
   const telegramUser = getTelegramUser();
   const telegramUsername = getTelegramUsername();
+  const adminMode = isAdmin();
 
   const usernameEl = document.getElementById('profileUsername');
   const avatarEl = document.getElementById('profileAvatar');
@@ -2360,40 +2361,68 @@ function renderProfile() {
   const accountStatus = document.getElementById('telegramAccountStatus');
   const adminPanel = document.getElementById('adminPanel');
 
+  // Admin avatar click — login or logout
   if (avatarEl) {
     avatarEl.onclick = function() {
-      if (!isAdmin()) {
-        const login = prompt('Вход администратора. Введите логин:');
-        if (login && normalizeUsername(login) === 'saintezz7') {
-          localStorage.setItem('upgrader_is_admin', 'true');
-          localStorage.setItem('upgrader_telegram_username_v1', 'saintezz7');
-          if (profile) profile.telegramUsername = 'saintezz7';
+      if (adminMode) {
+        // Already admin: offer logout
+        if (confirm('Выйти из режима администратора?')) {
+          localStorage.removeItem('upgrader_is_admin');
+          localStorage.removeItem('upgrader_telegram_username_v1');
+          if (profile) profile.telegramUsername = '';
           saveProfileData();
           renderProfile();
-          loadPromoCodesFromServer();
-          alert('Режим администратора активирован!');
+          alert('Вышли из режима администратора.');
         }
+      } else {
+        // Login flow: username + password
+        const login = prompt('Вход администратора.\nВведите логин:');
+        if (!login) return;
+        if (normalizeUsername(login) !== 'saintezz7') {
+          alert('Неверный логин.');
+          return;
+        }
+        const pass = prompt('Введите пароль администратора:');
+        if (!pass) return;
+        // Password stored as a local secret — change to your own value
+        if (pass.trim() !== 'saintbetadmin2024') {
+          alert('Неверный пароль.');
+          return;
+        }
+        localStorage.setItem('upgrader_is_admin', 'true');
+        localStorage.setItem('upgrader_telegram_username_v1', 'saintezz7');
+        if (profile) profile.telegramUsername = 'saintezz7';
+        saveProfileData();
+        renderProfile();
+        loadPromoCodesFromServer();
+        alert('✓ Режим администратора активирован!');
       }
     };
   }
 
   if (telegramUser) {
     const fullName = [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(' ') || 'Пользователь';
-    if (usernameEl) usernameEl.textContent = telegramUsername ? '@' + telegramUsername : fullName;
+    if (usernameEl) usernameEl.textContent = (telegramUsername ? '@' + telegramUsername : fullName) + (adminMode ? ' ★' : '');
     if (avatarEl) avatarEl.textContent = (telegramUser.first_name || telegramUsername || 'T').charAt(0).toUpperCase();
-    if (metaEl) metaEl.textContent = 'TELEGRAM • ' + fullName;
-    if (accountStatus) accountStatus.textContent = '✓ TELEGRAM ПОДКЛЮЧЁН';
-    if (cooldown) cooldown.textContent = 'Telegram ID: ' + telegramUser.id;
+    if (metaEl) metaEl.textContent = 'TELEGRAM • ' + fullName + (adminMode ? ' • ADMIN' : '');
+    if (accountStatus) accountStatus.textContent = adminMode ? '★ ADMIN + TELEGRAM ПОДКЛЮЧЁН' : '✓ TELEGRAM ПОДКЛЮЧЁН';
+    if (cooldown) cooldown.textContent = 'Telegram ID: ' + telegramUser.id + (adminMode ? ' | Нажми на аватар для выхода из admin' : '');
   } else {
-    const isLocalAdmin = localStorage.getItem('upgrader_is_admin') === 'true';
-    if (usernameEl) usernameEl.textContent = isLocalAdmin ? '@saintezz7 (Admin)' : (profile?.username || 'БРАУЗЕР');
+    const isLocalAdmin = adminMode;
+    if (usernameEl) usernameEl.textContent = isLocalAdmin ? '@saintezz7 ★ Admin' : (profile?.username || 'БРАУЗЕР');
     if (avatarEl) avatarEl.textContent = isLocalAdmin ? '★' : 'TG';
     if (metaEl) metaEl.textContent = isLocalAdmin ? 'АДМИНИСТРАТОР (ВЕБ)' : 'Браузерная версия';
-    if (accountStatus) accountStatus.textContent = isLocalAdmin ? '✓ АДМИНИСТРАТОР АВТОРИЗОВАН' : 'ОТКРОЙ В TELEGRAM';
-    if (cooldown) cooldown.textContent = isLocalAdmin ? 'Режим администратора активен' : 'Нажми на аватарку для входа админа';
+    if (accountStatus) accountStatus.textContent = isLocalAdmin ? '★ АДМИНИСТРАТОР АВТОРИЗОВАН' : 'ОТКРОЙ В TELEGRAM';
+    if (cooldown) {
+      if (isLocalAdmin) {
+        cooldown.innerHTML = 'Режим администратора активен &nbsp;|&nbsp; <span style="color:#ff9999;cursor:pointer;" onclick="exitAdminMode()">[ Выйти ]</span>';
+      } else {
+        cooldown.innerHTML = 'Нажми на аватарку для входа администратора';
+      }
+    }
   }
 
-  if (isAdmin()) {
+  if (adminMode) {
     adminPanel.hidden = false;
     const adminName = document.getElementById('adminName');
     if (adminName) adminName.textContent = '@' + (telegramUsername || 'saintezz7');
@@ -2404,6 +2433,17 @@ function renderProfile() {
   renderAdminWithdrawals();
   renderAdminPromos();
   renderServerUrlConfig();
+}
+
+function exitAdminMode() {
+  if (confirm('Выйти из режима администратора?')) {
+    localStorage.removeItem('upgrader_is_admin');
+    localStorage.removeItem('upgrader_telegram_username_v1');
+    if (profile) profile.telegramUsername = '';
+    saveProfileData();
+    renderProfile();
+    alert('Вышли из режима администратора.');
+  }
 }
 
 function escapeHtml(value) {
