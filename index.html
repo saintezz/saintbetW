@@ -878,21 +878,7 @@ body::after {
           <div class="admin-message" id="adminServerUrlMessage"></div>
         </div>
 
-        <div class="admin-subtitle">Создание промокодов</div>
-
-        <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
-        <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="Количество активаций">
-        <input class="admin-input" id="adminPromoMinutes" type="number" min="1" step="1" placeholder="Через сколько минут истекает">
-        <input class="admin-input" id="adminPromoReward" type="number" min="1" step="1" value="10" placeholder="Награда 🦴">
-
-        <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
-        <div class="admin-message" id="adminMessage"></div>
-
         <div class="admin-withdrawals">
-          <div class="admin-subtitle">ПРОМОКОДЫ (СЕРВЕР)</div>
-          <div id="adminPromoList"></div>
-        </div>
-
         <div class="admin-withdrawals">
           <div class="admin-subtitle">ВЫВОДЫ ПРЕДМЕТОВ</div>
           <div id="adminWithdrawalsList"></div>
@@ -910,6 +896,18 @@ body::after {
         <button class="promo-button" type="button" onclick="redeemPromoCode()">АКТИВИРОВАТЬ</button>
         <div class="promo-message" id="promoMessage"></div>
       </div>
+
+      <div class="admin-promo-tools" id="adminPromoPanel" hidden>
+        <div class="admin-title">⚡ СОЗДАНИЕ ПРОМОКОДА</div>
+        <div class="admin-subtitle">Создание промокодов</div>
+        <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
+        <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="Количество активаций">
+        <input class="admin-input" id="adminPromoMinutes" type="number" min="1" step="1" placeholder="Через сколько минут истекает">
+        <input class="admin-input" id="adminPromoReward" type="number" min="1" step="1" value="10" placeholder="Награда 🦴">
+        <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
+        <div class="admin-message" id="adminMessage"></div>
+      </div>
+
     </div>
   </section>
 
@@ -1466,9 +1464,12 @@ function renderProfile(){
     }
   }
 
+  const adminPromoPanel = document.getElementById('adminPromoPanel');
+
   if(isAdmin()){
 
     adminPanel.hidden = false;
+    if(adminPromoPanel) adminPromoPanel.hidden = false;
 
     const adminName =
       document.getElementById('adminName');
@@ -1485,6 +1486,7 @@ function renderProfile(){
   }else{
 
     adminPanel.hidden = true;
+    if(adminPromoPanel) adminPromoPanel.hidden = true;
 
   }
 
