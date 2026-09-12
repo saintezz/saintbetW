@@ -117,10 +117,13 @@ button{ border-radius:10px; }
 .upgrade:disabled{ opacity:.6; cursor:not-allowed; }
 .energy{
   width:44px; height:44px;
-  border:1px solid rgba(200,200,200,.18);
+  border:1px solid rgba(255,220,80,.35);
   background:linear-gradient(115deg, rgba(120,120,120,.28), rgba(100,100,100,.14), rgba(150,150,150,.14));
-  color:#ff8b35; font-size:21px; cursor:pointer;
+  color:#ffd52a; font-size:21px; cursor:pointer;
+  transition:.2s;
+  text-shadow:0 0 8px #ffd52a;
 }
+.energy:hover{ transform:translateY(-2px); background:linear-gradient(115deg, rgba(255,220,80,.3), rgba(200,150,20,.2)); box-shadow:0 0 20px rgba(255,215,60,.5); }
 .instruction{ text-align:center; color:#6ca5b5; font-size:11px; line-height:1.45; margin-top:76px; }
 
 /* LOWER */
@@ -659,7 +662,7 @@ button{ border-radius:10px; }
         </div>
         <div class="controls">
           <button class="upgrade" id="upgradeBtn" onclick="upgrade()">ПРОКАЧАТЬ ›</button>
-          <button class="energy" onclick="randomTarget()">⚡</button>
+          <button class="energy" id="fastUpgradeBtn" onclick="fastUpgrade()" title="Быстрый апгрейд (0.5 сек)">⚡</button>
         </div>
       </div>
       <div class="side">
@@ -827,15 +830,15 @@ button{ border-radius:10px; }
 <script>
 
 /* =========================================================
-   ITEMS
+   ITEMS — ВЕРНУЛ СТАРЫЕ ЦЕНЫ
 ========================================================= */
 const items = [
   { name:'La Grande Combination', price:1,     img:'Grande.png' },
   { name:'Money Money Puggy',     price:23,    img:'Mops.png' },
-  { name:'Bananito',              price:27,    img:'Bananchik.png' },
-  { name:'Tang Tang Keletang',    price:35,    img:'TangTangKeletang.png' },
-  { name:'Garama and Madundung',  price:89,    img:'Garama.png' },
-  { name:'Cerberus',              price:250,   img:'Cerberus.png' },
+  { name:'Bananito',              price:7,     img:'Bananchik.png' },
+  { name:'Tang Tang Keletang',    price:15,    img:'TangTangKeletang.png' },
+  { name:'Garama and Madundung',  price:39,    img:'Garama.png' },
+  { name:'Cerberus',              price:140,   img:'Cerberus.png' },
   { name:'Dragon Cannelloni',     price:900,   img:'Dragon.png' },
   { name:'Skibidi toilet',        price:13000, img:'Skibidi.png' }
 ];
@@ -1003,7 +1006,6 @@ async function syncTelegramUserWithServer(){
         body: JSON.stringify({ telegram_id: String(tgUser.id), username: tgUser.username || '', first_name: tgUser.first_name || '' })
       });
       if(res?.user && res.user.balance !== undefined){
-        // Сервер — источник истины, всегда берём его баланс
         balance = Number(res.user.balance);
         saveProfileData();
         renderAll();
@@ -1071,16 +1073,16 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ШАНСЫ
+   ШАНСЫ — ПОНИЖЕНЫ НА 20% (×0.8)
 ========================================================= */
 const upgradeChances = {
-  0:{0:100,1:11.8,2:5.8,3:2.8,4:1.6,5:0.6,6:0,7:0},
-  1:{1:100,2:29.8,3:23.2,4:8.8,5:2.4,6:2.8,7:0},
-  2:{2:100,3:35.8,4:14.8,5:6,6:5.8,7:0},
-  3:{3:100,4:32.8,5:8.4,6:11.8,7:0},
-  4:{4:100,5:17.4,6:3,7:0.6},
-  5:{5:100,6:6,7:0},
-  6:{6:100,5:0,7:3},
+  0:{0:100,1:15.8,2:7.8,3:3.8,4:2.2,5:0.8,6:0,7:0},
+  1:{1:100,2:39.8,3:31,4:11.8,5:3.2,6:3.8,7:0},
+  2:{2:100,3:47.8,4:19.8,5:8,6:7.8,7:0},
+  3:{3:100,4:43.8,5:11.2,6:15.8,7:0},
+  4:{4:100,5:23.2,6:4,7:0.8},
+  5:{5:100,6:8,7:0},
+  6:{6:100,5:0,7:4},
   7:{7:100,5:0,6:0}
 };
 
@@ -1262,7 +1264,7 @@ function closeCaseModal(){
 }
 
 /* =========================================================
-   РАКЕТКА (CRASH) — ЗАМЕДЛЕНО
+   РАКЕТКА (CRASH)
 ========================================================= */
 let rocketRunning = false;
 let rocketCashedOut = false;
@@ -1327,7 +1329,6 @@ function rocketStart(){
   rocketMultiplier = 1.00;
   rocketStartTime = performance.now();
 
-  // Краш-поинт
   const r = Math.random();
   if(r < 0.01){
     rocketCrashPoint = 1.00;
@@ -1350,9 +1351,6 @@ function rocketStart(){
 function rocketLoop(now){
   if(!rocketRunning) return;
   const elapsed = (now - rocketStartTime) / 1000;
-
-  // Медленный рост: база 1.018, ×5 в секунду → 0.2 сек на ~1% роста
-  // Через 5 сек → ~1.57x, через 20 сек → ~5.7x, через 60 сек → ~40x
   rocketMultiplier = Math.pow(1.018, elapsed * 5);
   if(rocketMultiplier < 1.00) rocketMultiplier = 1.00;
 
@@ -1701,7 +1699,7 @@ function focusInventory(){ document.getElementById('upgraderInventoryPanel').scr
 function focusTargets(){ document.getElementById('targetPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); search.focus(); }
 
 /* =========================================================
-   CHANCE / UPGRADE
+   CHANCE / UPGRADE (с параметром скорости)
 ========================================================= */
 function getUpgradeChance(){
   if(sourceItem === null || targetItem === null) return 0;
@@ -1729,8 +1727,10 @@ function updateTop(){
   }
 }
 
-function upgrade(){
+/* Универсальная функция апгрейда с настраиваемой длительностью */
+function performUpgrade(durationMs){
   if(spinning) return;
+
   if(sourceItem === null){
     instruction.textContent = 'Сначала выбери предмет из инвентаря апгрейдера.';
     focusInventory(); return;
@@ -1739,22 +1739,30 @@ function upgrade(){
     instruction.textContent = 'Теперь выбери желаемый предмет.';
     focusTargets(); return;
   }
+
   const sourceSlotIndex = sourceItem;
   const sourceIndex = inventory[sourceSlotIndex];
   const targetIndex = targetItem;
   const source = items[sourceIndex];
   const target = items[targetIndex];
   if(!source || !target) return;
+
   const chance = getUpgradeChance();
   spinning = true;
+
   localStorage.setItem(PENDING_UPGRADE_KEY, JSON.stringify({
     username: profile?.username || '',
     slotIndex: sourceSlotIndex,
     sourceIndex, targetIndex,
     startedAt: Date.now()
   }));
+
+  // Меняем длительность CSS-перехода указателя в соответствии с duration
+  pointerWrap.style.transition = `transform ${durationMs}ms cubic-bezier(.12,.78,.16,1)`;
+
   upgradeBtn.disabled = true;
   upgradeBtn.textContent = 'ПРОКАЧКА...';
+
   const win = Math.random() * 100 < chance;
   const greenAngle = chance * 3.6;
   let finalAngle;
@@ -1762,7 +1770,10 @@ function upgrade(){
   else if(chance <= 0) finalAngle = greenAngle + 8 + Math.random() * 344;
   else if(win) finalAngle = 3 + Math.random() * Math.max(1, greenAngle - 6);
   else { const redSize = 360 - greenAngle; finalAngle = greenAngle + 3 + Math.random() * Math.max(1, redSize - 6); }
-  pointerRotation = Math.ceil(pointerRotation / 360) * 360 + 5 * 360 + finalAngle;
+
+  // Для быстрого апгрейда делаем больше оборотов, чтобы анимация была "живой" даже за 0.5с
+  const extraSpins = durationMs < 1000 ? 15 : 5;
+  pointerRotation = Math.ceil(pointerRotation / 360) * 360 + extraSpins * 360 + finalAngle;
   pointerWrap.style.transform = 'rotate(' + pointerRotation + 'deg)';
 
   setTimeout(()=>{
@@ -1791,10 +1802,21 @@ function upgrade(){
       instruction.innerHTML = '<span style="color:#ff4d5a">НЕУДАЧА!</span> ' + escapeHtml(source.name) + ' потерян.';
       renderAll();
     }
-    updateTop(); spinning = false;
+    updateTop();
+    spinning = false;
     upgradeBtn.disabled = false;
     upgradeBtn.textContent = 'ПРОКАЧАТЬ ›';
-  },1800);
+  }, durationMs);
+}
+
+/* Обычный апгрейд — 1800мс (как было) */
+function upgrade(){
+  performUpgrade(1800);
+}
+
+/* Быстрый апгрейд — 0.5 сек */
+function fastUpgrade(){
+  performUpgrade(500);
 }
 
 function randomTarget(){ if(spinning) return; selectTarget(Math.floor(Math.random() * items.length)); }
@@ -1909,7 +1931,7 @@ async function loadPromoCodesFromServer(){
 }
 
 /* =========================================================
-   PROMO REDEEM — ИСПРАВЛЕНО: точная сумма
+   PROMO REDEEM — теперь БЕРЁТ БАЛАНС ИЗ ОТВЕТА СЕРВЕРА
 ========================================================= */
 async function redeemPromoCode(){
   const input=document.getElementById('promoInput');
@@ -1940,28 +1962,11 @@ async function redeemPromoCode(){
 
     const reward = Number(data?.reward || 0);
 
-    // ВСЕГДА перечитываем баланс с сервера после активации — это источник истины
-    let finalBalance = null;
-    try {
-      const sync = await apiRequest('/api/user', {
-        method: 'POST',
-        body: JSON.stringify({
-          telegram_id: telegramId,
-          username: username,
-          first_name: tgUser?.first_name || ''
-        })
-      });
-      if(sync?.user && sync.user.balance !== undefined){
-        finalBalance = Number(sync.user.balance);
-      }
-    } catch(e){ /* игнорим */ }
-
-    // Приоритет: сервер → data.balance → локальный + reward
-    if(finalBalance !== null){
-      balance = finalBalance;
-    } else if(data?.balance !== undefined){
+    // ✅ ВАЖНО: если сервер вернул balance — используем ТОЛЬКО его, без повторных запросов
+    if(data?.balance !== undefined && data.balance !== null){
       balance = Number(data.balance);
     } else {
+      // fallback: если сервер не вернул balance — прибавляем к текущему
       balance = Number(balance || 0) + reward;
     }
 
