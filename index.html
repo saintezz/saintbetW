@@ -38,836 +38,505 @@ button{ border-radius:10px; }
   z-index:1;
 }
 
-/* =========================
-   BALANCE
-========================= */
+/* BALANCE */
 .balance{
-  position:absolute;
-  left:16px;
-  top:15px;
-  z-index:20;
-  min-width:150px;
-  padding:10px 14px;
-  border:1px solid rgba(150,150,150,.28);
-  border-radius:12px;
-  background:rgba(30,30,30,.88);
-  color:#fff;
-  font-size:14px;
-  font-weight:900;
+  position:absolute; left:16px; top:15px; z-index:20;
+  min-width:150px; padding:10px 14px;
+  border:1px solid rgba(150,150,150,.28); border-radius:12px;
+  background:rgba(30,30,30,.88); color:#fff;
+  font-size:14px; font-weight:900;
   box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 25px rgba(150,150,150,.08);
   backdrop-filter:blur(10px);
 }
-.balance span{
-  color:#6ea9b8;
-  font-size:10px;
-  letter-spacing:1.5px;
-  margin:0 4px;
-}
+.balance span{ color:#6ea9b8; font-size:10px; letter-spacing:1.5px; margin:0 4px; }
 
-/* =========================
-   GAME
-========================= */
+/* GAME */
 .game{
   min-height:430px;
-  border:1px solid rgba(150,150,150,.22);
-  border-radius:14px;
+  border:1px solid rgba(150,150,150,.22); border-radius:14px;
   overflow:hidden;
   background:linear-gradient(180deg, rgba(30,30,30,.95), rgba(10,10,10,.98));
-  position:relative;
-  padding-top:8px;
+  position:relative; padding-top:8px;
   box-shadow:0 0 70px rgba(100,100,100,.08), inset 0 1px 0 rgba(200,200,200,.08);
 }
 .top-area{
   display:grid;
   grid-template-columns: minmax(190px,1fr) 330px minmax(190px,1fr);
-  align-items:start;
-  justify-content:center;
-  gap:18px;
-  max-width:1050px;
-  margin:auto;
+  align-items:start; justify-content:center;
+  gap:18px; max-width:1050px; margin:auto;
 }
 .side{ text-align:center; padding-top:0; }
 .side-title{
-  color:#ccc;
-  font-size:9px;
-  letter-spacing:2px;
-  font-weight:900;
-  margin-bottom:13px;
-  text-shadow:0 0 14px rgba(100,100,100,.35);
+  color:#ccc; font-size:9px; letter-spacing:2px; font-weight:900;
+  margin-bottom:13px; text-shadow:0 0 14px rgba(100,100,100,.35);
 }
 .slot{
-  width:160px;
-  height:124px;
-  margin:auto;
-  border:1px solid rgba(100,100,100,.25);
-  border-radius:12px;
+  width:160px; height:124px; margin:auto;
+  border:1px solid rgba(100,100,100,.25); border-radius:12px;
   background:linear-gradient(145deg, rgba(40,40,40,.9), rgba(15,15,15,.95));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  cursor:pointer;
-  color:#888;
-  transition:.15s;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  cursor:pointer; color:#888; transition:.15s;
   box-shadow:inset 0 0 25px rgba(100,100,100,.045);
-  padding:8px;
-  overflow:hidden;
+  padding:8px; overflow:hidden;
 }
-.slot:hover{
-  border-color:rgba(180,180,180,.65);
-  box-shadow:0 0 24px rgba(150,150,150,.12), inset 0 0 25px rgba(100,100,100,.08);
-}
-.slot.selected{
-  border-color:#fff;
-  box-shadow:0 0 28px rgba(200,200,200,.17), inset 0 0 25px rgba(150,150,150,.08);
-  color:#fff;
-}
-.slot-icon{
-  font-size:28px;
-  margin-bottom:9px;
-  color:#888;
-  text-shadow:0 0 18px rgba(150,150,150,.35);
-}
-.slot-item-img{
-  width:60px;
-  height:60px;
-  object-fit:contain;
-  margin-bottom:4px;
-  filter:drop-shadow(0 0 6px rgba(150,150,150,.5));
-}
-.slot-text{
-  color:#c8f6fb;
-  font-size:9px;
-  letter-spacing:1px;
-  font-weight:800;
-  line-height:1.4;
-  text-align:center;
-}
+.slot:hover{ border-color:rgba(180,180,180,.65); box-shadow:0 0 24px rgba(150,150,150,.12), inset 0 0 25px rgba(100,100,100,.08); }
+.slot.selected{ border-color:#fff; box-shadow:0 0 28px rgba(200,200,200,.17), inset 0 0 25px rgba(150,150,150,.08); color:#fff; }
+.slot-icon{ font-size:28px; margin-bottom:9px; color:#888; text-shadow:0 0 18px rgba(150,150,150,.35); }
+.slot-item-img{ width:60px; height:60px; object-fit:contain; margin-bottom:4px; filter:drop-shadow(0 0 6px rgba(150,150,150,.5)); }
+.slot-text{ color:#c8f6fb; font-size:9px; letter-spacing:1px; font-weight:800; line-height:1.4; text-align:center; }
 
-/* =========================
-   WHEEL
-========================= */
+/* WHEEL */
 .center{ display:flex; flex-direction:column; align-items:center; }
 .wheel{
-  width:218px;
-  height:218px;
-  border-radius:50%;
-  position:relative;
-  margin-top:0;
+  width:218px; height:218px; border-radius:50%; position:relative; margin-top:0;
   --wheel-chance:30;
-  background:conic-gradient(
-    #10df4b 0 calc(var(--wheel-chance) * 1%),
-    #d91f2f calc(var(--wheel-chance) * 1%) 100%
-  );
+  background:conic-gradient(#10df4b 0 calc(var(--wheel-chance) * 1%), #d91f2f calc(var(--wheel-chance) * 1%) 100%);
   border:5px solid #ccc;
   box-shadow:0 0 35px rgba(150,150,150,.15),0 0 12px rgba(100,100,100,.16),inset 0 0 35px rgba(100,100,100,.08);
 }
 .wheel:before{
-  content:"";
-  position:absolute;
-  inset:10px;
-  border-radius:50%;
+  content:""; position:absolute; inset:10px; border-radius:50%;
   border:1px solid rgba(255,218,65,.38);
   background:radial-gradient(circle, #080b0e 0 56%, #15130c 57% 100%);
   box-shadow:inset 0 0 25px #000;
 }
 .tick-ring{
-  position:absolute;
-  inset:-1px;
-  border-radius:50%;
+  position:absolute; inset:-1px; border-radius:50%;
   background:repeating-conic-gradient(transparent 0deg 9deg, rgba(255,226,88,.5) 9deg 10deg);
   -webkit-mask:radial-gradient(transparent 0 91%, #000 92% 100%);
   mask:radial-gradient(transparent 0 91%, #000 92% 100%);
 }
-.pointer-wrap{
-  position:absolute;
-  z-index:4;
-  inset:0;
-  transform:rotate(0deg);
-  transition:transform 1.8s cubic-bezier(.12,.78,.16,1);
-}
-.pointer{
-  position:absolute;
-  left:50%;
-  top:-7px;
-  width:3px;
-  height:39px;
-  background:#f3f3e7;
-  transform:translateX(-50%);
-  box-shadow:0 0 4px #fff;
-}
-.pointer:after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  transform:translate(-50%,-2px);
-  border-left:6px solid transparent;
-  border-right:6px solid transparent;
-  border-top:9px solid #fff;
-}
-.wheel-center{
-  position:absolute;
-  z-index:5;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-}
-.wheel-label{
-  font-size:9px;
-  letter-spacing:3px;
-  color:#78808a;
-  font-weight:900;
-  margin-bottom:8px;
-}
-.wheel-chance{
-  font-size:31px;
-  font-weight:900;
-  color:#e8eef4;
-}
-.center-symbol{
-  margin-top:12px;
-  width:22px;
-  height:12px;
-  border-top:2px solid #d8e0e4;
-  position:relative;
-}
-.center-symbol:after{
-  content:"";
-  position:absolute;
-  left:5px;
-  top:-2px;
-  width:10px;
-  height:8px;
-  border-bottom:1px solid #d8e0e4;
-  border-radius:0 0 9px 9px;
-}
-.controls{
-  display:flex;
-  align-items:center;
-  margin-top:14px;
-  gap:7px;
-}
+.pointer-wrap{ position:absolute; z-index:4; inset:0; transform:rotate(0deg); transition:transform 1.8s cubic-bezier(.12,.78,.16,1); }
+.pointer{ position:absolute; left:50%; top:-7px; width:3px; height:39px; background:#f3f3e7; transform:translateX(-50%); box-shadow:0 0 4px #fff; }
+.pointer:after{ content:""; position:absolute; left:50%; top:0; transform:translate(-50%,-2px); border-left:6px solid transparent; border-right:6px solid transparent; border-top:9px solid #fff; }
+.wheel-center{ position:absolute; z-index:5; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+.wheel-label{ font-size:9px; letter-spacing:3px; color:#78808a; font-weight:900; margin-bottom:8px; }
+.wheel-chance{ font-size:31px; font-weight:900; color:#e8eef4; }
+.center-symbol{ margin-top:12px; width:22px; height:12px; border-top:2px solid #d8e0e4; position:relative; }
+.center-symbol:after{ content:""; position:absolute; left:5px; top:-2px; width:10px; height:8px; border-bottom:1px solid #d8e0e4; border-radius:0 0 9px 9px; }
+.controls{ display:flex; align-items:center; margin-top:14px; gap:7px; }
 .upgrade{
-  height:44px;
-  min-width:180px;
+  height:44px; min-width:180px;
   border:1px solid rgba(200,200,200,.18);
   background:linear-gradient(115deg, rgba(120,120,120,.28), rgba(100,100,100,.14), rgba(150,150,150,.14));
-  color:#fff;
-  letter-spacing:3px;
-  font-size:18px;
-  cursor:pointer;
-  transition:.2s;
+  color:#fff; letter-spacing:3px; font-size:18px; cursor:pointer; transition:.2s;
 }
-.upgrade.ready{
-  color:#fff;
-  border-color:rgba(255,255,255,.32);
-}
-.upgrade:hover{
-  transform:translateY(-2px);
-  background:linear-gradient(115deg, rgba(150,150,150,.48), rgba(120,120,120,.25), rgba(170,170,170,.25));
-  box-shadow:0 10px 30px rgba(150,150,150,.25), inset 0 1px rgba(255,255,255,.18);
-}
-.upgrade:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
+.upgrade.ready{ color:#fff; border-color:rgba(255,255,255,.32); }
+.upgrade:hover{ transform:translateY(-2px); background:linear-gradient(115deg, rgba(150,150,150,.48), rgba(120,120,120,.25), rgba(170,170,170,.25)); box-shadow:0 10px 30px rgba(150,150,150,.25), inset 0 1px rgba(255,255,255,.18); }
+.upgrade:disabled{ opacity:.6; cursor:not-allowed; }
 .energy{
-  width:44px;
-  height:44px;
+  width:44px; height:44px;
   border:1px solid rgba(200,200,200,.18);
   background:linear-gradient(115deg, rgba(120,120,120,.28), rgba(100,100,100,.14), rgba(150,150,150,.14));
-  color:#ff8b35;
-  font-size:21px;
-  cursor:pointer;
+  color:#ff8b35; font-size:21px; cursor:pointer;
 }
-.instruction{
-  text-align:center;
-  color:#6ca5b5;
-  font-size:11px;
-  line-height:1.45;
-  margin-top:76px;
-}
+.instruction{ text-align:center; color:#6ca5b5; font-size:11px; line-height:1.45; margin-top:76px; }
 
-/* =========================
-   LOWER
-========================= */
-.lower{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:12px;
-  margin-top:12px;
-}
+/* LOWER */
+.lower{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px; }
 .panel{
-  min-height:342px;
-  padding:10px;
-  border:1px solid rgba(150,150,150,.16);
-  border-radius:20px;
+  min-height:342px; padding:10px;
+  border:1px solid rgba(150,150,150,.16); border-radius:20px;
   background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035) 55%, rgba(150,150,150,.045)), rgba(30,30,30,.55);
   backdrop-filter:blur(20px) saturate(145%);
   box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11), inset 0 -1px 0 rgba(255,255,255,.035);
 }
 .panel-title{
-  color:#ccc;
-  font-size:10px;
-  letter-spacing:2px;
-  font-weight:900;
-  border-left:3px solid #ffd900;
-  padding-left:8px;
-  margin:0 0 10px;
+  color:#ccc; font-size:10px; letter-spacing:2px; font-weight:900;
+  border-left:3px solid #ffd900; padding-left:8px; margin:0 0 10px;
   text-shadow:0 0 12px rgba(100,100,100,.25);
 }
-.target-panel{
-  background:linear-gradient(145deg, rgba(35,35,35,.95), rgba(8,8,8,.98)) !important;
-}
+.target-panel{ background:linear-gradient(145deg, rgba(35,35,35,.95), rgba(8,8,8,.98)) !important; }
 .target-panel .panel-title{ border-left-color:#aaa; }
 .shop-title{ border-left-color:#aaa; }
-.inventory-status{
-  color:#5787a9;
-  font-size:10px;
-  margin:15px 2px;
-}
+.inventory-status{ color:#5787a9; font-size:10px; margin:15px 2px; }
 .selected-card{
-  display:none;
-  margin-top:14px;
-  border:1px solid #555;
-  background:#111;
-  min-height:110px;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  border-radius:12px;
-  padding:10px;
+  display:none; margin-top:14px;
+  border:1px solid #555; background:#111;
+  min-height:110px; align-items:center; justify-content:center;
+  flex-direction:column; border-radius:12px; padding:10px;
 }
 .selected-card.show{ display:flex; }
-.selected-number{
-  font-size:17px;
-  font-weight:900;
-  color:#e7edf1;
-  text-align:center;
-  max-width:90%;
-  line-height:1.25;
-}
-.selected-caption{
-  font-size:9px;
-  color:#aaa;
-  letter-spacing:2px;
-  margin-top:5px;
-}
+.selected-number{ font-size:17px; font-weight:900; color:#e7edf1; text-align:center; max-width:90%; line-height:1.25; }
+.selected-caption{ font-size:9px; color:#aaa; letter-spacing:2px; margin-top:5px; }
 .search{
-  width:100%;
-  height:29px;
+  width:100%; height:29px;
   border:1px solid rgba(150,150,150,.13);
-  background:rgba(25,25,25,.48);
-  color:#fff;
-  padding:0 10px;
-  outline:none;
-  font-size:10px;
-  margin-bottom:10px;
-  border-radius:13px;
+  background:rgba(25,25,25,.48); color:#fff;
+  padding:0 10px; outline:none; font-size:10px;
+  margin-bottom:10px; border-radius:13px;
 }
-.search:focus{
-  border-color:rgba(150,150,150,.65);
-  box-shadow:0 0 0 3px rgba(150,150,150,.12), 0 0 25px rgba(120,120,120,.08);
-}
+.search:focus{ border-color:rgba(150,150,150,.65); box-shadow:0 0 0 3px rgba(150,150,150,.12), 0 0 25px rgba(120,120,120,.08); }
 
-/* =========================
-   TARGET ITEMS
-========================= */
-.items{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-}
+/* TARGET ITEMS */
+.items{ display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
 .item{
   min-height:82px;
   border:1px solid rgba(150,150,150,.16);
   background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035) 55%, rgba(150,150,150,.045));
   padding:9px 6px 7px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  cursor:pointer;
-  transition:.15s ease;
-  position:relative;
-  border-radius:10px !important;
-  color:#fff;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; cursor:pointer; transition:.15s ease;
+  position:relative; border-radius:10px !important; color:#fff;
 }
-.item:hover{
-  border-color:rgba(150,150,150,.55);
-  transform:translateY(-1px);
-  box-shadow:0 0 18px rgba(150,150,150,.08);
-}
-.item.selected{
-  border-color:#fff;
-  background:linear-gradient(145deg, #202020, #111);
-  box-shadow:0 0 20px rgba(200,200,200,.12);
-}
-.item-img{
-  width:44px;
-  height:44px;
-  object-fit:contain;
-  margin-bottom:4px;
-  filter:drop-shadow(0 0 6px rgba(150,150,150,.4));
-}
-.item-name{
-  color:#d9e0e5;
-  font-size:11px;
-  line-height:1.25;
-  font-weight:800;
-}
-.item-price{
-  margin-top:7px;
-  color:#ffd52a;
-  font-size:12px;
-  font-weight:900;
-}
+.item:hover{ border-color:rgba(150,150,150,.55); transform:translateY(-1px); box-shadow:0 0 18px rgba(150,150,150,.08); }
+.item.selected{ border-color:#fff; background:linear-gradient(145deg, #202020, #111); box-shadow:0 0 20px rgba(200,200,200,.12); }
+.item-img{ width:44px; height:44px; object-fit:contain; margin-bottom:4px; filter:drop-shadow(0 0 6px rgba(150,150,150,.4)); }
+.item-name{ color:#d9e0e5; font-size:11px; line-height:1.25; font-weight:800; }
+.item-price{ margin-top:7px; color:#ffd52a; font-size:12px; font-weight:900; }
 
-/* =========================
-   SHOP
-========================= */
+/* SHOP */
 .shop-items{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  max-height:400px;
-  overflow-y:auto;
-  padding-right:2px;
+  display:flex; flex-direction:column; gap:6px;
+  max-height:400px; overflow-y:auto; padding-right:2px;
 }
 .shop-item{
   min-height:64px;
   border:1px solid rgba(150,150,150,.16);
   background:linear-gradient(145deg, rgba(35,35,35,.75), rgba(15,15,15,.9));
   padding:7px 8px;
-  display:grid;
-  grid-template-columns:44px minmax(0,1fr) auto;
-  column-gap:10px;
-  align-items:center;
-  cursor:pointer;
-  transition:.15s;
-  position:relative;
-  border-radius:10px;
+  display:grid; grid-template-columns:44px minmax(0,1fr) auto;
+  column-gap:10px; align-items:center; cursor:pointer;
+  transition:.15s; position:relative; border-radius:10px;
 }
-.shop-item-img{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 6px rgba(150,150,150,.4));
-}
+.shop-item-img{ width:42px; height:42px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(150,150,150,.4)); }
 .shop-item-info{ min-width:0; display:flex; flex-direction:column; }
-.shop-item-name{
-  color:#d9e0e5;
-  font-size:10px;
-  font-weight:800;
-  line-height:1.2;
-  text-align:left;
-  min-width:0;
-}
-.shop-item-price{
-  color:#ffd52a;
-  font-size:11px;
-  font-weight:900;
-  margin-top:4px;
-}
-.shop-item:hover{
-  border-color:rgba(150,150,150,.55);
-  background:linear-gradient(145deg, rgba(50,50,50,.82), rgba(20,20,20,.95));
-  box-shadow:0 0 18px rgba(150,150,150,.08);
-}
+.shop-item-name{ color:#d9e0e5; font-size:10px; font-weight:800; line-height:1.2; text-align:left; min-width:0; }
+.shop-item-price{ color:#ffd52a; font-size:11px; font-weight:900; margin-top:4px; }
+.shop-item:hover{ border-color:rgba(150,150,150,.55); background:linear-gradient(145deg, rgba(50,50,50,.82), rgba(20,20,20,.95)); box-shadow:0 0 18px rgba(150,150,150,.08); }
 .buy-item{
-  height:30px;
-  padding:0 10px;
+  height:30px; padding:0 10px;
   border:1px solid #006a4d !important;
-  background:#0c1715 !important;
-  color:#00e996 !important;
-  font-size:9px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
+  background:#0c1715 !important; color:#00e996 !important;
+  font-size:9px; font-weight:900; cursor:pointer; white-space:nowrap;
 }
 .buy-item:hover{ background:#0e211b !important; }
 .buy-item:disabled{ opacity:.3; cursor:not-allowed; }
 
-/* =========================
-   CASES
-========================= */
-.cases-panel{
-  background:linear-gradient(145deg, rgba(35,35,35,.95), rgba(8,8,8,.98)) !important;
-}
+/* CASES */
+.cases-panel{ background:linear-gradient(145deg, rgba(35,35,35,.95), rgba(8,8,8,.98)) !important; }
 .cases-panel .panel-title{ border-left-color:#a64dff; }
 .case-card{
   border:1px solid rgba(166,77,255,.35);
   background:linear-gradient(145deg, rgba(40,20,70,.85), rgba(15,8,30,.95));
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:10px;
-  cursor:pointer;
-  transition:.2s;
+  padding:12px; border-radius:12px; margin-bottom:10px;
+  cursor:pointer; transition:.2s;
 }
-.case-card:hover{
-  border-color:#a64dff;
-  box-shadow:0 0 25px rgba(166,77,255,.3);
-  transform:translateY(-1px);
-}
-.case-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:10px;
-}
-.case-emoji{
-  font-size:28px;
-  filter:drop-shadow(0 0 10px rgba(166,77,255,.6));
-}
+.case-card:hover{ border-color:#a64dff; box-shadow:0 0 25px rgba(166,77,255,.3); transform:translateY(-1px); }
+.case-header{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.case-emoji{ font-size:28px; filter:drop-shadow(0 0 10px rgba(166,77,255,.6)); }
 .case-info{ flex:1; min-width:0; }
-.case-name{
-  color:#fff;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-.case-price{
-  color:#ffd52a;
-  font-size:11px;
-  font-weight:900;
-  margin-top:2px;
-}
-.case-chances{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  padding-top:8px;
-  border-top:1px solid rgba(166,77,255,.15);
-}
-.case-chance-row{
-  display:flex;
-  justify-content:space-between;
-  font-size:9px;
-  color:#c8b8e0;
-}
-.case-chance-percent{
-  color:#a64dff;
-  font-weight:900;
-  text-shadow:0 0 6px #a64dff;
-}
+.case-name{ color:#fff; font-size:13px; font-weight:900; letter-spacing:1px; }
+.case-price{ color:#ffd52a; font-size:11px; font-weight:900; margin-top:2px; }
+.case-chances{ display:flex; flex-direction:column; gap:4px; padding-top:8px; border-top:1px solid rgba(166,77,255,.15); }
+.case-chance-row{ display:flex; justify-content:space-between; font-size:9px; color:#c8b8e0; }
+.case-chance-percent{ color:#a64dff; font-weight:900; text-shadow:0 0 6px #a64dff; }
 .open-case-btn{
-  width:100%;
-  height:36px;
-  margin-top:10px;
-  border:1px solid #a64dff;
-  border-radius:8px;
+  width:100%; height:36px; margin-top:10px;
+  border:1px solid #a64dff; border-radius:8px;
   background:linear-gradient(180deg, rgba(166,77,255,.4), rgba(80,20,140,.6));
-  color:#fff;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:2px;
-  cursor:pointer;
-  transition:.2s;
-  text-shadow:0 0 6px #fff;
+  color:#fff; font-size:10px; font-weight:900; letter-spacing:2px;
+  cursor:pointer; transition:.2s; text-shadow:0 0 6px #fff;
 }
-.open-case-btn:hover{
-  background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7));
-  box-shadow:0 0 22px rgba(166,77,255,.7);
-}
+.open-case-btn:hover{ background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7)); box-shadow:0 0 22px rgba(166,77,255,.7); }
 .open-case-btn:disabled{ opacity:.4; cursor:not-allowed; box-shadow:none; }
 
-/* =========================================================
-   CASE OPENING MODAL
-========================================================= */
+/* CASE MODAL */
 .case-modal{
-  position:fixed;
-  inset:0;
-  z-index:9999;
+  position:fixed; inset:0; z-index:9999;
   background:rgba(0,0,0,.92);
   backdrop-filter:blur(12px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  padding:20px;
-  animation:fadeIn .25s ease;
+  display:none; align-items:center; justify-content:center; flex-direction:column;
+  padding:20px; animation:fadeIn .25s ease;
 }
 .case-modal.show{ display:flex; }
-@keyframes fadeIn{
-  from{ opacity:0; }
-  to{ opacity:1; }
-}
+@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
 .case-modal-title{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:5px;
-  color:#fff;
-  text-shadow:
-    0 0 12px #a64dff,
-    0 0 30px #a64dff,
-    0 0 50px #a64dff;
-  margin-bottom:28px;
-  text-align:center;
+  font-size:22px; font-weight:900; letter-spacing:5px; color:#fff;
+  text-shadow:0 0 12px #a64dff, 0 0 30px #a64dff, 0 0 50px #a64dff;
+  margin-bottom:28px; text-align:center;
   animation:titlePulse 1.5s ease-in-out infinite;
 }
 @keyframes titlePulse{
   0%,100%{ text-shadow:0 0 12px #a64dff, 0 0 30px #a64dff, 0 0 50px #a64dff; }
   50%{ text-shadow:0 0 20px #c880ff, 0 0 45px #c880ff, 0 0 70px #c880ff; }
 }
-
-/* Рулетка */
 .case-roulette{
-  position:relative;
-  width:100%;
-  max-width:640px;
-  height:180px;
+  position:relative; width:100%; max-width:640px; height:180px;
   overflow:hidden;
-  border:2px solid rgba(166,77,255,.6);
-  border-radius:14px;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(166,77,255,.15), transparent 70%),
-    linear-gradient(180deg, rgba(20,10,40,.95), rgba(8,4,20,.98));
-  box-shadow:
-    0 0 40px rgba(166,77,255,.4),
-    inset 0 0 60px rgba(0,0,0,.9);
+  border:2px solid rgba(166,77,255,.6); border-radius:14px;
+  background:radial-gradient(circle at 50% 50%, rgba(166,77,255,.15), transparent 70%), linear-gradient(180deg, rgba(20,10,40,.95), rgba(8,4,20,.98));
+  box-shadow:0 0 40px rgba(166,77,255,.4), inset 0 0 60px rgba(0,0,0,.9);
 }
-.case-roulette::before,
-.case-roulette::after{
-  content:"";
-  position:absolute;
-  top:0;
-  bottom:0;
-  width:100px;
-  z-index:3;
-  pointer-events:none;
+.case-roulette::before, .case-roulette::after{
+  content:""; position:absolute; top:0; bottom:0; width:100px; z-index:3; pointer-events:none;
 }
-.case-roulette::before{
-  left:0;
-  background:linear-gradient(90deg, rgba(8,4,20,1) 0%, rgba(8,4,20,0.85) 40%, transparent 100%);
-}
-.case-roulette::after{
-  right:0;
-  background:linear-gradient(270deg, rgba(8,4,20,1) 0%, rgba(8,4,20,0.85) 40%, transparent 100%);
-}
-
-/* Указатель по центру */
+.case-roulette::before{ left:0; background:linear-gradient(90deg, rgba(8,4,20,1) 0%, rgba(8,4,20,0.85) 40%, transparent 100%); }
+.case-roulette::after{ right:0; background:linear-gradient(270deg, rgba(8,4,20,1) 0%, rgba(8,4,20,0.85) 40%, transparent 100%); }
 .case-marker{
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:3px;
+  position:absolute; top:0; bottom:0; left:50%;
+  transform:translateX(-50%); width:3px;
   background:linear-gradient(180deg, transparent, #ffd52a, #fff, #ffd52a, transparent);
   box-shadow:0 0 15px #ffd52a, 0 0 30px #ffd52a;
-  z-index:5;
-  pointer-events:none;
+  z-index:5; pointer-events:none;
 }
 .case-marker::before{
-  content:"";
-  position:absolute;
-  top:-6px;
-  left:50%;
+  content:""; position:absolute; top:-6px; left:50%;
   transform:translateX(-50%);
-  border-left:9px solid transparent;
-  border-right:9px solid transparent;
+  border-left:9px solid transparent; border-right:9px solid transparent;
   border-top:14px solid #ffd52a;
   filter:drop-shadow(0 0 8px #ffd52a);
 }
 .case-marker::after{
-  content:"";
-  position:absolute;
-  bottom:-6px;
-  left:50%;
+  content:""; position:absolute; bottom:-6px; left:50%;
   transform:translateX(-50%);
-  border-left:9px solid transparent;
-  border-right:9px solid transparent;
+  border-left:9px solid transparent; border-right:9px solid transparent;
   border-bottom:14px solid #ffd52a;
   filter:drop-shadow(0 0 8px #ffd52a);
 }
-
-/* Лента с картинками */
 .case-strip{
-  position:absolute;
-  top:50%;
-  left:0;
+  position:absolute; top:50%; left:0;
   transform:translateY(-50%);
-  display:flex;
-  gap:16px;
-  padding-left:20px;
+  display:flex; gap:16px; padding-left:20px;
   will-change:transform;
 }
-
 .case-strip-item{
-  flex:0 0 auto;
-  width:130px;
-  height:130px;
-  border:1px solid rgba(166,77,255,.25);
-  border-radius:12px;
-  background:
-    radial-gradient(circle at 50% 30%, rgba(166,77,255,.15), transparent 70%),
-    rgba(20,10,40,.7);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px;
+  flex:0 0 auto; width:130px; height:130px;
+  border:1px solid rgba(166,77,255,.25); border-radius:12px;
+  background:radial-gradient(circle at 50% 30%, rgba(166,77,255,.15), transparent 70%), rgba(20,10,40,.7);
+  display:flex; align-items:center; justify-content:center; padding:8px;
   position:relative;
 }
-.case-strip-item img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  filter:drop-shadow(0 0 10px rgba(166,77,255,.5));
-}
-
-/* Итог */
+.case-strip-item img{ width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 0 10px rgba(166,77,255,.5)); }
 .case-result{
-  margin-top:28px;
-  text-align:center;
-  opacity:0;
-  transform:translateY(20px);
-  transition:all .5s ease;
+  margin-top:28px; text-align:center;
+  opacity:0; transform:translateY(20px);
+  transition:all .5s ease; pointer-events:none;
+}
+.case-result.show{ opacity:1; transform:translateY(0); }
+.case-result-label{ font-size:11px; color:#a64dff; letter-spacing:3px; font-weight:900; text-shadow:0 0 10px #a64dff; margin-bottom:6px; }
+.case-result-name{ font-size:20px; color:#fff; font-weight:900; letter-spacing:1px; text-shadow:0 0 12px #ffd52a, 0 0 30px #ffd52a; }
+.case-close-btn{
+  margin-top:24px; height:42px; min-width:180px; padding:0 28px;
+  border:1px solid #a64dff; border-radius:10px;
+  background:linear-gradient(180deg, rgba(166,77,255,.35), rgba(80,20,140,.55));
+  color:#fff; font-size:11px; font-weight:900; letter-spacing:3px;
+  cursor:pointer; transition:.2s; text-shadow:0 0 6px #fff;
+  opacity:0; pointer-events:none;
+}
+.case-close-btn.show{ opacity:1; pointer-events:auto; }
+.case-close-btn:hover{ background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7)); box-shadow:0 0 22px rgba(166,77,255,.7); }
+
+/* =========================================================
+   РАКЕТКА (CRASH)
+========================================================= */
+.rocket-panel{
+  background:linear-gradient(145deg, rgba(35,20,20,.95), rgba(8,4,8,.98)) !important;
+}
+.rocket-panel .panel-title{ border-left-color:#ff4444; }
+.rocket-stage{
+  position:relative;
+  width:100%;
+  height:340px;
+  border:1px solid rgba(255,70,70,.3);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(255,80,80,.15), transparent 60%),
+    linear-gradient(180deg, rgba(20,8,15,.95), rgba(5,2,8,.98));
+  overflow:hidden;
+  margin-bottom:12px;
+}
+.rocket-grid{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,100,100,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,100,100,.06) 1px, transparent 1px);
+  background-size:40px 40px;
   pointer-events:none;
 }
-.case-result.show{
-  opacity:1;
-  transform:translateY(0);
+.rocket-canvas{
+  position:absolute; inset:0;
+  pointer-events:none;
 }
-.case-result-label{
-  font-size:11px;
-  color:#a64dff;
-  letter-spacing:3px;
+.rocket-multiplier{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:52px;
   font-weight:900;
-  text-shadow:0 0 10px #a64dff;
-  margin-bottom:6px;
-}
-.case-result-name{
-  font-size:20px;
   color:#fff;
-  font-weight:900;
-  letter-spacing:1px;
-  text-shadow:0 0 12px #ffd52a, 0 0 30px #ffd52a;
+  text-shadow:
+    0 0 15px #ff4444,
+    0 0 30px #ff4444,
+    0 0 45px #ff8800;
+  letter-spacing:2px;
+  z-index:5;
+  transition:color .3s ease, text-shadow .3s ease;
+  font-variant-numeric:tabular-nums;
+}
+.rocket-multiplier.cashed{
+  color:#00e996;
+  text-shadow:0 0 20px #00e996, 0 0 40px #00e996;
+  animation:cashPulse .6s ease;
+}
+.rocket-multiplier.crashed{
+  color:#ff2d2d;
+  text-shadow:0 0 20px #ff2d2d, 0 0 40px #ff2d2d;
+  animation:crashShake .5s ease;
+}
+@keyframes cashPulse{
+  0%{ transform:translate(-50%,-50%) scale(1); }
+  50%{ transform:translate(-50%,-50%) scale(1.25); }
+  100%{ transform:translate(-50%,-50%) scale(1); }
+}
+@keyframes crashShake{
+  0%,100%{ transform:translate(-50%,-50%); }
+  20%{ transform:translate(calc(-50% - 8px), calc(-50% + 4px)); }
+  40%{ transform:translate(calc(-50% + 8px), calc(-50% - 4px)); }
+  60%{ transform:translate(calc(-50% - 6px), calc(-50% + 3px)); }
+  80%{ transform:translate(calc(-50% + 6px), calc(-50% - 3px)); }
 }
 
-.case-close-btn{
-  margin-top:24px;
+.rocket-controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+.rocket-input{
+  flex:1;
+  min-width:90px;
   height:42px;
-  min-width:180px;
-  padding:0 28px;
-  border:1px solid #a64dff;
-  border-radius:10px;
-  background:linear-gradient(180deg, rgba(166,77,255,.35), rgba(80,20,140,.55));
+  border:1px solid rgba(255,100,100,.3);
+  background:rgba(20,8,15,.9);
   color:#fff;
-  font-size:11px;
+  border-radius:10px;
+  padding:0 12px;
+  font-size:14px;
   font-weight:900;
-  letter-spacing:3px;
+  outline:none;
+}
+.rocket-input:focus{ border-color:#ff4444; box-shadow:0 0 15px rgba(255,70,70,.3); }
+.rocket-btn{
+  height:42px;
+  padding:0 22px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
   cursor:pointer;
   transition:.2s;
-  text-shadow:0 0 6px #fff;
-  opacity:0;
-  pointer-events:none;
 }
-.case-close-btn.show{
-  opacity:1;
-  pointer-events:auto;
+.rocket-btn-bet{
+  border:1px solid #ff4444;
+  background:linear-gradient(180deg, rgba(255,60,60,.3), rgba(120,10,10,.6));
+  color:#fff;
+  text-shadow:0 0 6px #ff4444;
 }
-.case-close-btn:hover{
-  background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7));
-  box-shadow:0 0 22px rgba(166,77,255,.7);
+.rocket-btn-bet:hover:not(:disabled){
+  background:linear-gradient(180deg, rgba(255,100,100,.5), rgba(160,20,20,.8));
+  box-shadow:0 0 22px rgba(255,70,70,.6);
+}
+.rocket-btn-bet:disabled{ opacity:.4; cursor:not-allowed; }
+.rocket-btn-cash{
+  border:1px solid #00e996;
+  background:linear-gradient(180deg, rgba(0,200,120,.3), rgba(0,80,50,.6));
+  color:#00e996;
+  text-shadow:0 0 6px #00e996;
+  animation:readyCash 1s ease-in-out infinite;
+}
+@keyframes readyCash{
+  0%,100%{ box-shadow:0 0 12px rgba(0,233,150,.4); }
+  50%{ box-shadow:0 0 25px rgba(0,233,150,.8); }
+}
+.rocket-btn-cash:hover{ background:linear-gradient(180deg, rgba(0,233,150,.5), rgba(0,120,70,.8)); color:#fff; }
+.rocket-btn-cash:disabled{ opacity:.35; cursor:not-allowed; animation:none; }
+.rocket-quick{
+  display:flex;
+  gap:6px;
+  width:100%;
+  flex-wrap:wrap;
+}
+.rocket-quick button{
+  flex:1;
+  min-width:50px;
+  height:32px;
+  border:1px solid rgba(255,100,100,.25);
+  background:rgba(20,8,15,.7);
+  color:#ff8888;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  transition:.15s;
+}
+.rocket-quick button:hover{ background:rgba(255,60,60,.2); border-color:#ff4444; color:#fff; }
+.rocket-history{
+  margin-top:10px;
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+.rocket-history-pill{
+  padding:3px 9px;
+  border-radius:12px;
+  font-size:10px;
+  font-weight:900;
+  border:1px solid rgba(255,100,100,.3);
+  background:rgba(30,10,15,.7);
+  color:#ff9999;
+}
+.rocket-history-pill.win{ border-color:rgba(0,233,150,.5); color:#00e996; background:rgba(0,50,30,.5); }
+.rocket-history-pill.loss{ border-color:rgba(255,50,50,.5); color:#ff5555; background:rgba(50,10,10,.5); }
+
+.rocket-status{
+  text-align:center;
+  font-size:11px;
+  color:#ff8888;
+  margin-top:8px;
+  min-height:18px;
+  font-weight:700;
+  letter-spacing:1px;
 }
 
-/* =========================
-   INVENTORY
-========================= */
+/* INVENTORY */
 .inventory-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  margin-top:10px;
-  max-height:380px;
-  overflow-y:auto;
-  padding-right:2px;
+  display:flex; flex-direction:column; gap:6px;
+  margin-top:10px; max-height:380px; overflow-y:auto; padding-right:2px;
 }
 .inventory-item{
   border:1px solid rgba(150,150,150,.16);
   background:linear-gradient(145deg, rgba(35,35,35,.75), rgba(15,15,15,.9));
   padding:8px;
-  display:grid;
-  grid-template-columns:40px minmax(0,1fr) auto;
-  align-items:center;
-  gap:9px;
-  cursor:pointer;
-  border-radius:10px;
-  transition:.15s;
+  display:grid; grid-template-columns:40px minmax(0,1fr) auto;
+  align-items:center; gap:9px; cursor:pointer;
+  border-radius:10px; transition:.15s;
 }
-.inventory-item-img{
-  width:38px;
-  height:38px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 5px rgba(150,150,150,.4));
-}
-.inventory-item:hover{
-  border-color:rgba(150,150,150,.55);
-  background:linear-gradient(145deg, rgba(50,50,50,.82), rgba(20,20,20,.95));
-  box-shadow:0 0 18px rgba(150,150,150,.08);
-}
-.inventory-item.selected{
-  border-color:#fff;
-  background:#201e0d;
-}
+.inventory-item-img{ width:38px; height:38px; object-fit:contain; filter:drop-shadow(0 0 5px rgba(150,150,150,.4)); }
+.inventory-item:hover{ border-color:rgba(150,150,150,.55); background:linear-gradient(145deg, rgba(50,50,50,.82), rgba(20,20,20,.95)); box-shadow:0 0 18px rgba(150,150,150,.08); }
+.inventory-item.selected{ border-color:#fff; background:#201e0d; }
 .inventory-item-info{ min-width:0; }
-.inventory-item-actions{
-  display:flex;
-  gap:5px;
-  align-items:center;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-.inventory-item-name{
-  font-size:10px;
-  color:#dce2e6;
-  font-weight:800;
-  line-height:1.2;
-}
-.inventory-item-price{
-  font-size:10px;
-  color:#ffd52a;
-  font-weight:900;
-  margin-top:3px;
-}
+.inventory-item-actions{ display:flex; gap:5px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+.inventory-item-name{ font-size:10px; color:#dce2e6; font-weight:800; line-height:1.2; }
+.inventory-item-price{ font-size:10px; color:#ffd52a; font-weight:900; margin-top:3px; }
 .sell-item{
-  height:30px;
-  padding:0 9px;
+  height:30px; padding:0 9px;
   border:1px solid rgba(220,70,80,.45) !important;
   background:rgba(80,20,25,.65) !important;
   color:#ff7882 !important;
-  font-size:8px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
+  font-size:8px; font-weight:900; cursor:pointer; white-space:nowrap;
 }
-.sell-item:hover{
-  background:rgba(120,25,35,.8) !important;
-  border-color:#ff5b68 !important;
-  color:#fff !important;
-}
+.sell-item:hover{ background:rgba(120,25,35,.8) !important; border-color:#ff5b68 !important; color:#fff !important; }
 .normal-inventory-title{ border-left-color:#2ce6d2 !important; }
 .normal-inventory-panel{ min-height:342px; }
 .withdraw-item{
-  height:30px;
-  padding:0 9px;
+  height:30px; padding:0 9px;
   border:1px solid #006a4d !important;
-  background:#0c1715 !important;
-  color:#00e996 !important;
-  font-size:8px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
+  background:#0c1715 !important; color:#00e996 !important;
+  font-size:8px; font-weight:900; cursor:pointer; white-space:nowrap;
 }
-.withdraw-item:hover{
-  background:#0e211b !important;
-  border-color:#00e996 !important;
-  color:#fff !important;
-}
+.withdraw-item:hover{ background:#0e211b !important; border-color:#00e996 !important; color:#fff !important; }
 
 .withdraw-form{margin-top:12px;padding:12px;border:1px solid rgba(0,233,150,.18);background:rgba(8,20,17,.75);border-radius:10px;}
 .withdraw-form[hidden]{display:none;}
@@ -887,142 +556,82 @@ button{ border-radius:10px; }
 .admin-withdrawal-details{display:none;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);font-size:9px;line-height:1.5;color:#cfd4d7;}
 .admin-withdrawal.open .admin-withdrawal-details{display:block;}
 
-/* =========================
-   PROFILE
-========================= */
+/* PROFILE */
 .profile-panel{ position:relative; }
 .profile-title{ border-left-color:#2ce6d2 !important; }
 .profile-card{
-  min-height:205px;
-  display:flex;
-  align-items:center;
-  flex-direction:column;
-  justify-content:center;
-  padding:12px;
-  border:1px solid rgba(100,100,100,.16);
-  border-radius:12px;
+  min-height:205px; display:flex; align-items:center;
+  flex-direction:column; justify-content:center; padding:12px;
+  border:1px solid rgba(100,100,100,.16); border-radius:12px;
   background:radial-gradient(circle at 50% 0%, rgba(100,100,100,.12), transparent 42%), rgba(25,25,25,.7);
 }
 .profile-avatar{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  font-weight:900;
-  color:#000;
+  width:58px; height:58px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; font-weight:900; color:#000;
   background:linear-gradient(145deg, #aaa, #777);
   box-shadow:0 0 24px rgba(150,150,150,.22);
-  margin-bottom:10px;
-  cursor:pointer;
-  transition:.15s;
+  margin-bottom:10px; cursor:pointer; transition:.15s;
 }
-.profile-avatar:hover{
-  filter:brightness(1.15);
-  transform:scale(1.05);
-}
+.profile-avatar:hover{ filter:brightness(1.15); transform:scale(1.05); }
 .profile-username{ font-size:18px; font-weight:900; color:#e4feff; letter-spacing:.5px; }
 .profile-meta{ margin-top:5px; color:#6ca5b5; font-size:9px; letter-spacing:1.4px; text-transform:uppercase; }
 .telegram-account-button{ display:flex; align-items:center; justify-content:center; text-decoration:none; box-sizing:border-box; }
 .profile-button, .admin-button{
-  width:100%;
-  height:36px;
-  margin-top:14px;
+  width:100%; height:36px; margin-top:14px;
   border:1px solid rgba(150,150,150,.3);
   background:linear-gradient(135deg, rgba(100,100,100,.85), rgba(120,120,120,.85));
-  color:#fff;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1.2px;
+  color:#fff; font-size:10px; font-weight:900; letter-spacing:1.2px;
   cursor:pointer;
 }
-.profile-button:hover, .admin-button:hover{
-  filter:brightness(1.12);
-  box-shadow:0 0 20px rgba(150,150,150,.13);
-}
+.profile-button:hover, .admin-button:hover{ filter:brightness(1.12); box-shadow:0 0 20px rgba(150,150,150,.13); }
 .profile-cooldown{ min-height:25px; margin-top:8px; color:#6ca5b5; font-size:9px; line-height:1.4; text-align:center; }
 .admin-panel{
-  margin-top:12px;
-  padding:12px;
-  border:1px solid rgba(150,150,150,.3);
-  border-radius:12px;
+  margin-top:12px; padding:12px;
+  border:1px solid rgba(150,150,150,.3); border-radius:12px;
   background:linear-gradient(145deg, rgba(50,50,50,.42), rgba(20,20,20,.75));
 }
 .admin-title{ color:#fff; font-weight:900; font-size:11px; letter-spacing:1.5px; }
 .admin-subtitle{ margin:4px 0 10px; color:#9eb3b6; font-size:9px; }
 .admin-input{
-  width:100%;
-  height:32px;
-  margin-top:7px;
-  padding:0 9px;
-  outline:none;
-  border:1px solid rgba(100,100,100,.2);
-  border-radius:7px;
-  background:rgba(20,20,20,.9);
-  color:#fff;
-  font-size:10px;
+  width:100%; height:32px; margin-top:7px; padding:0 9px;
+  outline:none; border:1px solid rgba(100,100,100,.2);
+  border-radius:7px; background:rgba(20,20,20,.9);
+  color:#fff; font-size:10px;
 }
 .admin-input:focus{ border-color:#fff; }
 .admin-button{ color:#000; background:linear-gradient(135deg, #bbb, #888); }
 .admin-message{ min-height:18px; margin-top:8px; color:#8dd9dc; font-size:9px; line-height:1.4; }
 
-/* =========================
-   TOP NAV / TABS
-========================= */
+/* TOP NAV */
 .top-nav{
-  position:relative;
-  z-index:50;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:5px;
-  margin:0 auto 10px;
-  padding:4px;
-  width:max-content;
-  max-width:100%;
-  border:1px solid rgba(150,150,150,.18);
-  border-radius:13px;
-  background:rgba(18,18,18,.82);
-  backdrop-filter:blur(12px);
+  position:relative; z-index:50;
+  display:flex; justify-content:center; align-items:center;
+  gap:5px; margin:0 auto 10px; padding:4px;
+  width:max-content; max-width:100%;
+  border:1px solid rgba(150,150,150,.18); border-radius:13px;
+  background:rgba(18,18,18,.82); backdrop-filter:blur(12px);
   box-shadow:0 8px 28px rgba(0,0,0,.25);
+  flex-wrap:wrap;
 }
 .nav-btn{
-  height:32px;
-  min-width:78px;
-  padding:0 9px;
-  border:1px solid transparent;
-  border-radius:9px;
-  background:transparent;
-  color:#858d92;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  font-size:8px;
-  font-weight:900;
-  letter-spacing:.8px;
-  cursor:pointer;
-  transition:.15s;
+  height:32px; min-width:78px; padding:0 9px;
+  border:1px solid transparent; border-radius:9px;
+  background:transparent; color:#858d92;
+  display:flex; align-items:center; justify-content:center; gap:5px;
+  font-size:8px; font-weight:900; letter-spacing:.8px;
+  cursor:pointer; transition:.15s;
 }
 .nav-btn:hover{color:#fff;background:rgba(255,255,255,.05);}
-.nav-btn.active{
-  color:#fff;
-  border-color:rgba(255,255,255,.18);
-  background:rgba(255,255,255,.08);
-}
+.nav-btn.active{ color:#fff; border-color:rgba(255,255,255,.18); background:rgba(255,255,255,.08); }
 .nav-icon{font-size:12px;line-height:1;}
 .tab-panel[hidden]{display:none!important;}
 .dedicated-tab{margin-top:4px;}
 .mini-title-icon{font-size:11px;margin-right:4px;color:#2ce6d2;}
 
 .promo-card{
-  max-width:480px;
-  margin:0 auto;
-  padding:18px;
-  border:1px solid rgba(150,150,150,.16);
-  border-radius:14px;
+  max-width:480px; margin:0 auto; padding:18px;
+  border:1px solid rgba(150,150,150,.16); border-radius:14px;
   background:rgba(15,15,15,.7);
 }
 .promo-description{font-size:10px;color:#8fa2a7;text-align:center;margin-bottom:12px;}
@@ -1048,7 +657,6 @@ button{ border-radius:10px; }
   .top-nav{width:100%;justify-content:stretch;}
   .nav-btn{flex:1;min-width:0;padding:0 5px;}
 }
-
 @media(max-width:850px){
   .balance{position:relative;left:auto;top:auto;width:max-content;margin-bottom:10px;}
   .top-area{grid-template-columns:1fr;gap:14px;}
@@ -1059,7 +667,6 @@ button{ border-radius:10px; }
   .lower{grid-template-columns:1fr;}
   .panel{min-height:280px;}
 }
-
 @media(max-width:520px){
   .items{grid-template-columns:repeat(2,1fr);}
   .wheel{width:190px;height:190px;}
@@ -1071,18 +678,14 @@ button{ border-radius:10px; }
   .case-roulette{height:150px;}
   .case-strip-item{width:110px;height:110px;}
   .case-modal-title{font-size:18px;letter-spacing:3px;}
+  .rocket-multiplier{font-size:40px;}
+  .rocket-stage{height:260px;}
 }
 
-*{
-  scrollbar-color:#147e91 #03131e;
-  scrollbar-width:thin;
-}
+*{ scrollbar-color:#147e91 #03131e; scrollbar-width:thin; }
 ::-webkit-scrollbar{ width:8px; }
 ::-webkit-scrollbar-track{ background:#03131e; }
-::-webkit-scrollbar-thumb{
-  background:linear-gradient(#0b7890, #19c6c7);
-  border-radius:10px;
-}
+::-webkit-scrollbar-thumb{ background:linear-gradient(#0b7890, #19c6c7); border-radius:10px; }
 </style>
 </head>
 
@@ -1096,6 +699,9 @@ button{ border-radius:10px; }
     </button>
     <button class="nav-btn" id="navCases" type="button" onclick="showTab('cases')">
       <span class="nav-icon">🎁</span><span>КЕЙСЫ</span>
+    </button>
+    <button class="nav-btn" id="navRocket" type="button" onclick="showTab('rocket')">
+      <span class="nav-icon">🚀</span><span>РАКЕТКА</span>
     </button>
     <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">
       <span class="nav-icon">%</span><span>ПРОМО</span>
@@ -1112,7 +718,6 @@ button{ border-radius:10px; }
 
   <section class="tab-panel active" data-tab="game">
   <section class="game">
-
     <div class="top-area">
       <div class="side">
         <div class="side-title">ТВОЙ ПРЕДМЕТ</div>
@@ -1121,13 +726,10 @@ button{ border-radius:10px; }
           <div class="slot-text">ВЫБРАТЬ ИЗ<br>ИНВЕНТАРЯ</div>
         </div>
       </div>
-
       <div class="center">
         <div class="wheel" id="wheel">
           <div class="tick-ring"></div>
-          <div class="pointer-wrap" id="pointerWrap">
-            <div class="pointer"></div>
-          </div>
+          <div class="pointer-wrap" id="pointerWrap"><div class="pointer"></div></div>
           <div class="wheel-center">
             <div class="wheel-label">ШАНС</div>
             <div class="wheel-chance" id="wheelChance">0%</div>
@@ -1139,7 +741,6 @@ button{ border-radius:10px; }
           <button class="energy" onclick="randomTarget()">⚡</button>
         </div>
       </div>
-
       <div class="side">
         <div class="side-title">ЖЕЛАЕМЫЙ ПРЕДМЕТ</div>
         <div class="slot" id="targetSlot" onclick="focusTargets()">
@@ -1148,21 +749,16 @@ button{ border-radius:10px; }
         </div>
       </div>
     </div>
-
     <div class="instruction" id="instruction">
-      Выбери предмет из инвентаря апгрейдера и<br>
-      желаемую цель.
+      Выбери предмет из инвентаря апгрейдера и<br>желаемую цель.
     </div>
-
   </section>
   </section>
 
   <section class="lower tab-panel" data-tab="game">
-
     <div class="panel" id="upgraderInventoryPanel">
       <h3 class="panel-title">ИНВЕНТАРЬ АПГРЕЙДЕРА</h3>
       <div class="inventory-status" id="inventoryStatus">Инвентарь пуст</div>
-
       <div class="withdraw-form" id="withdrawForm" hidden>
         <div class="withdraw-form-title">ВЫВОД ПРЕДМЕТА</div>
         <input class="withdraw-input" id="withdrawRobloxUsername" maxlength="40" placeholder="Ник в Roblox">
@@ -1174,7 +770,6 @@ button{ border-radius:10px; }
         </div>
         <div class="withdraw-message" id="withdrawMessage"></div>
       </div>
-
       <div class="selected-card" id="selectedCard">
         <div class="selected-number" id="selectedNumber">—</div>
         <div class="selected-caption">ВЫБРАННЫЙ ПРЕДМЕТ АПГРЕЙДЕРА</div>
@@ -1196,13 +791,43 @@ button{ border-radius:10px; }
       <h3 class="panel-title normal-inventory-title">ИНВЕНТАРЬ</h3>
       <div class="inventory-status" id="normalInventoryStatus">Инвентарь пуст</div>
     </div>
-
   </section>
 
   <section class="tab-panel dedicated-tab" data-tab="cases" hidden>
     <div class="panel cases-panel">
       <h3 class="panel-title"><span class="mini-title-icon">🎁</span> КЕЙСЫ</h3>
       <div id="casesList"></div>
+    </div>
+  </section>
+
+  <section class="tab-panel dedicated-tab" data-tab="rocket" hidden>
+    <div class="panel rocket-panel">
+      <h3 class="panel-title"><span class="mini-title-icon" style="color:#ff4444;">🚀</span> РАКЕТКА</h3>
+
+      <div class="rocket-stage">
+        <div class="rocket-grid"></div>
+        <div class="rocket-multiplier" id="rocketMultiplier">1.00x</div>
+      </div>
+
+      <div class="rocket-controls">
+        <input class="rocket-input" id="rocketBetInput" type="number" min="1" step="1" value="10" placeholder="Ставка">
+        <button class="rocket-btn rocket-btn-bet" id="rocketBetBtn" type="button" onclick="rocketStart()">СТАВКА</button>
+        <button class="rocket-btn rocket-btn-cash" id="rocketCashBtn" type="button" onclick="rocketCashout()" disabled>ЗАБРАТЬ</button>
+      </div>
+
+      <div class="rocket-quick">
+        <button type="button" onclick="rocketSetBet(10)">10</button>
+        <button type="button" onclick="rocketSetBet(25)">25</button>
+        <button type="button" onclick="rocketSetBet(50)">50</button>
+        <button type="button" onclick="rocketSetBet(100)">100</button>
+        <button type="button" onclick="rocketSetBet('half')">½</button>
+        <button type="button" onclick="rocketSetBet('double')">2×</button>
+        <button type="button" onclick="rocketSetBet('max')">MAX</button>
+      </div>
+
+      <div class="rocket-status" id="rocketStatus">Введи ставку и нажми СТАВКА. Забери до того, как ракетка взорвётся!</div>
+
+      <div class="rocket-history" id="rocketHistory"></div>
     </div>
   </section>
 
@@ -1231,12 +856,10 @@ button{ border-radius:10px; }
         </div>
 
         <div class="admin-subtitle">Создание промокодов</div>
-
         <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
         <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="Количество активаций">
         <input class="admin-input" id="adminPromoMinutes" type="number" min="1" step="1" placeholder="Через сколько минут истекает">
         <input class="admin-input" id="adminPromoReward" type="number" min="1" step="1" value="10" placeholder="Награда 💎">
-
         <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
         <div class="admin-message" id="adminMessage"></div>
 
@@ -1267,35 +890,32 @@ button{ border-radius:10px; }
 
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО КЕЙСА -->
+<!-- CASE MODAL -->
 <div class="case-modal" id="caseModal">
   <div class="case-modal-title" id="caseModalTitle">КЕЙС НУБИНИ</div>
-
   <div class="case-roulette">
     <div class="case-marker"></div>
     <div class="case-strip" id="caseStrip"></div>
   </div>
-
   <div class="case-result" id="caseResult">
     <div class="case-result-label">ТЫ ПОЛУЧИЛ</div>
     <div class="case-result-name" id="caseResultName">—</div>
   </div>
-
   <button class="case-close-btn" id="caseCloseBtn" type="button" onclick="closeCaseModal()">ЗАБРАТЬ</button>
 </div>
 
 <script>
 
 /* =========================================================
-   ITEMS
+   ITEMS — отсортированы по возрастанию цены
 ========================================================= */
 const items = [
   { name:'La Grande Combination', price:1,     img:'Grande.png' },
-  { name:'Bananito',              price:7,     img:'Bananchik.png' },
-  { name:'Money Money Puggy',     price:4,     img:'Mops.png' },
-  { name:'Tang Tang Keletang',    price:15,    img:'TangTangKeletang.png' },
-  { name:'Garama and Madundung',  price:39,    img:'Garama.png' },
-  { name:'Cerberus',              price:140,   img:'Cerberus.png' },
+  { name:'Money Money Puggy',     price:23,    img:'Mops.png' },
+  { name:'Bananito',              price:27,    img:'Bananchik.png' },
+  { name:'Tang Tang Keletang',    price:35,    img:'TangTangKeletang.png' },
+  { name:'Garama and Madundung',  price:89,    img:'Garama.png' },
+  { name:'Cerberus',              price:250,   img:'Cerberus.png' },
   { name:'Dragon Cannelloni',     price:900,   img:'Dragon.png' },
   { name:'Skibidi toilet',        price:13000, img:'Skibidi.png' }
 ];
@@ -1343,17 +963,18 @@ let users = {};
 
 /* =========================================================
    КЕЙСЫ
+   itemIndex: 0=La Grande, 1=Mops, 2=Bananito, 3=Tang, 4=Garama, 5=Cerb, 6=Dragon, 7=Skibidi
 ========================================================= */
 const CASES = [
   {
     id: 'noobini',
     name: 'КЕЙС НУБИНИ',
     emoji: '🎁',
-    price: 23,
+    price: 39,
     rewards: [
-      { itemIndex: 2, chance: 67 },
-      { itemIndex: 3, chance: 27 },
-      { itemIndex: 4, chance: 6  }
+      { itemIndex: 1, chance: 30 }, // Money Money Puggy
+      { itemIndex: 3, chance: 65 }, // Tang Tang Keletang
+      { itemIndex: 4, chance: 5  }  // Garama and Madundung
     ]
   }
 ];
@@ -1361,32 +982,21 @@ const CASES = [
 /* =========================================================
    PROFILE
 ========================================================= */
-function makeUsername(){
-  return 'user' + Math.floor(100000 + Math.random() * 900000);
-}
-function normalizeUsername(value){
-  return String(value || '').trim().replace(/^@+/, '').toLowerCase();
-}
-function validUsername(value){
-  return /^[a-z0-9_]{3,20}$/.test(value);
-}
+function makeUsername(){ return 'user' + Math.floor(100000 + Math.random() * 900000); }
+function normalizeUsername(value){ return String(value || '').trim().replace(/^@+/, '').toLowerCase(); }
+function validUsername(value){ return /^[a-z0-9_]{3,20}$/.test(value); }
 
 function removePendingUpgradeOnReload(){
   let pending = null;
-  try{
-    pending = JSON.parse(localStorage.getItem(PENDING_UPGRADE_KEY) || 'null');
-  }catch(e){ pending = null; }
-
+  try{ pending = JSON.parse(localStorage.getItem(PENDING_UPGRADE_KEY) || 'null'); }catch(e){ pending = null; }
   if(!pending || !pending.username || !Number.isInteger(pending.slotIndex)){
-    localStorage.removeItem(PENDING_UPGRADE_KEY);
-    return;
+    localStorage.removeItem(PENDING_UPGRADE_KEY); return;
   }
   const pendingUsername = normalizeUsername(pending.username);
   const currentUsername = normalizeUsername(profile?.username || '');
   if(pendingUsername !== currentUsername) return;
   if(pending.slotIndex >= 0 && pending.slotIndex < inventory.length){
-    inventory.splice(pending.slotIndex, 1);
-    saveProfileData();
+    inventory.splice(pending.slotIndex, 1); saveProfileData();
   }
   localStorage.removeItem(PENDING_UPGRADE_KEY);
 }
@@ -1397,33 +1007,10 @@ function loadProfileData(){
 
   if(!profile || !profile.username){
     const username = makeUsername();
-    profile = {
-      username,
-      lastUsernameChange:0,
-      telegramUsername:'',
-      telegramId:'',
-      telegramFirstName:'',
-      telegramLastName:''
-    };
-    users[username] = {
-      balance:10,
-      inventory:[],
-      normalInventory:[],
-      telegramUsername:'',
-      telegramId:'',
-      telegramFirstName:'',
-      telegramLastName:''
-    };
+    profile = { username, lastUsernameChange:0, telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
+    users[username] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
   } else if(!users[profile.username]){
-    users[profile.username] = {
-      balance:10,
-      inventory:[],
-      normalInventory:[],
-      telegramUsername:'',
-      telegramId:'',
-      telegramFirstName:'',
-      telegramLastName:''
-    };
+    users[profile.username] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
   }
 
   balance = Number(users[profile.username].balance ?? 10);
@@ -1442,9 +1029,7 @@ function loadProfileData(){
 function saveProfileData(){
   if(!profile) return;
   users[profile.username] = {
-    balance,
-    inventory,
-    normalInventory,
+    balance, inventory, normalInventory,
     telegramUsername: normalizeUsername(profile?.telegramUsername || ''),
     telegramId: String(profile?.telegramId || ''),
     telegramFirstName: String(profile?.telegramFirstName || ''),
@@ -1469,7 +1054,6 @@ function getTelegramUsername(){
     profile.telegramId = String(telegramUser.id || '');
     profile.telegramFirstName = String(telegramUser.first_name || '');
     profile.telegramLastName = String(telegramUser.last_name || '');
-
     if(profile.username && users[profile.username]){
       users[profile.username].telegramUsername = username;
       users[profile.username].telegramId = String(telegramUser.id || '');
@@ -1493,23 +1077,15 @@ function isAdmin(){
 async function syncTelegramUserWithServer(){
   const tgUser = getTelegramUser();
   if(tgUser?.id){
-    getTelegramUsername();
-    saveProfileData();
-    renderAll();
+    getTelegramUsername(); saveProfileData(); renderAll();
     try{
       const res = await apiRequest('/api/user', {
         method: 'POST',
-        body: JSON.stringify({
-          telegram_id: String(tgUser.id),
-          username: tgUser.username || '',
-          first_name: tgUser.first_name || ''
-        })
+        body: JSON.stringify({ telegram_id: String(tgUser.id), username: tgUser.username || '', first_name: tgUser.first_name || '' })
       });
       if(res?.user && res.user.balance !== undefined){
         if(Number(res.user.balance) > balance){
-          balance = Number(res.user.balance);
-          saveProfileData();
-          renderAll();
+          balance = Number(res.user.balance); saveProfileData(); renderAll();
         }
       }
     }catch(e){}
@@ -1534,9 +1110,7 @@ function renderProfile(){
           localStorage.setItem('upgrader_is_admin', 'true');
           localStorage.setItem('upgrader_telegram_username_v1', 'saintezz7');
           if(profile) profile.telegramUsername = 'saintezz7';
-          saveProfileData();
-          renderProfile();
-          loadPromoCodesFromServer();
+          saveProfileData(); renderProfile(); loadPromoCodesFromServer();
           alert('Режим администратора активирован!');
         }
       }
@@ -1548,7 +1122,6 @@ function renderProfile(){
     const lastName = String(telegramUser.last_name || '').trim();
     const fullName = [firstName,lastName].filter(Boolean).join(' ') || 'Telegram пользователь';
     const displayName = telegramUsername ? '@' + telegramUsername : fullName;
-
     if(usernameEl) usernameEl.textContent = displayName;
     if(avatarEl) avatarEl.textContent = (firstName || telegramUsername || 'T').charAt(0).toUpperCase();
     if(metaEl) metaEl.textContent = 'TELEGRAM • ' + fullName;
@@ -1578,7 +1151,7 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ШАНСЫ АПГРЕЙДА — понижены на 40%
+   ШАНСЫ (без изменений)
 ========================================================= */
 const upgradeChances = {
   0:{0:100,1:11.8,2:5.8,3:2.8,4:1.6,5:0.6,6:0,7:0},
@@ -1660,15 +1233,14 @@ function renderCases(){
       <button class="open-case-btn" data-case-id="${c.id}">ОТКРЫТЬ ЗА ${c.price} 💎</button>
     `;
     card.querySelector('.open-case-btn').onclick = e => {
-      e.stopPropagation();
-      openCase(c.id);
+      e.stopPropagation(); openCase(c.id);
     };
     list.appendChild(card);
   });
 }
 
 /* =========================================================
-   ОТКРЫТИЕ КЕЙСА С АНИМАЦИЕЙ
+   ОТКРЫТИЕ КЕЙСА
 ========================================================= */
 let caseRolling = false;
 
@@ -1681,12 +1253,10 @@ function openCase(caseId){
     return;
   }
 
-  // Списываем стоимость
   balance -= c.price;
   saveProfileData();
   balanceEl.textContent = balance;
 
-  // Определяем победителя по шансам
   const roll = Math.random() * 100;
   let acc = 0;
   let reward = c.rewards[c.rewards.length - 1];
@@ -1695,7 +1265,6 @@ function openCase(caseId){
     if(roll < acc){ reward = r; break; }
   }
 
-  // Настраиваем модалку
   const modal = document.getElementById('caseModal');
   const title = document.getElementById('caseModalTitle');
   const strip = document.getElementById('caseStrip');
@@ -1708,17 +1277,13 @@ function openCase(caseId){
   closeBtn.classList.remove('show');
   resultName.textContent = '—';
 
-  // Формируем ленту из ~40 картинок (случайные из пула кейса + победитель в конце)
-  // Лента: [случайные... , ..., победитель на позиции 30]
   const TOTAL_ITEMS = 40;
   const WINNER_POSITION = 32;
-
   const sequence = [];
   for(let i = 0; i < TOTAL_ITEMS; i++){
     if(i === WINNER_POSITION){
       sequence.push(reward.itemIndex);
     } else {
-      // Случайный предмет из пула кейса (взвешенно по шансам)
       const poolRoll = Math.random() * 100;
       let poolAcc = 0;
       let pick = c.rewards[c.rewards.length - 1];
@@ -1735,40 +1300,28 @@ function openCase(caseId){
     return `<div class="case-strip-item">${getItemImgHtml(it, 'case-strip-img')}</div>`;
   }).join('');
 
-  // Сбросим transform
   strip.style.transition = 'none';
   strip.style.transform = 'translateY(-50%) translateX(0px)';
-
   modal.classList.add('show');
   caseRolling = true;
 
-  // Ждём кадр, чтобы применились стили
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      // Размеры: ширина карточки 130 + gap 16 = 146
       const ITEM_WIDTH = 130;
       const GAP = 16;
       const STEP = ITEM_WIDTH + GAP;
-      // Центрируем победителя в окне (окно 640px → центр 320px)
-      // Лента начинается с padding-left 20 + i*STEP + ITEM_WIDTH/2 должно совпасть с 320
-      // Смещение = WINNER_POSITION * STEP + 20 + ITEM_WIDTH/2 - (окно/2)
       const roulette = strip.parentElement;
       const rouletteWidth = roulette.clientWidth;
       const winnerCenter = 20 + WINNER_POSITION * STEP + ITEM_WIDTH / 2;
       const offset = winnerCenter - rouletteWidth / 2;
-
-      // Добавим финальный небольшой рандом, чтобы не всегда точно по центру
       const jitter = (Math.random() - 0.5) * (ITEM_WIDTH * 0.6);
       const finalOffset = offset + jitter;
-
       strip.style.transition = 'transform 3.8s cubic-bezier(0.12, 0.75, 0.15, 1)';
       strip.style.transform = `translateY(-50%) translateX(${-finalOffset}px)`;
     });
   });
 
-  // Через 3.9 сек — показываем результат
   setTimeout(() => {
-    // Добавляем предмет в инвентарь
     inventory.push(reward.itemIndex);
     saveProfileData();
     renderAll();
@@ -1778,7 +1331,6 @@ function openCase(caseId){
     result.classList.add('show');
     closeBtn.classList.add('show');
     caseRolling = false;
-
     instruction.innerHTML = `<span style="color:#a64dff">🎁 КЕЙС ОТКРЫТ!</span> Выпал <b>${escapeHtml(it.name)}</b>!`;
   }, 3900);
 }
@@ -1787,6 +1339,187 @@ function closeCaseModal(){
   const modal = document.getElementById('caseModal');
   if(!modal) return;
   modal.classList.remove('show');
+}
+
+/* =========================================================
+   РАКЕТКА (CRASH)
+========================================================= */
+let rocketRunning = false;
+let rocketCashedOut = false;
+let rocketCrashed = false;
+let rocketMultiplier = 1.00;
+let rocketCrashPoint = 1.00;
+let rocketBet = 0;
+let rocketRafId = null;
+let rocketStartTime = 0;
+let rocketHistory = [];
+let rocketReadyToStart = false;
+
+function rocketSetBet(value){
+  const input = document.getElementById('rocketBetInput');
+  if(!input) return;
+  if(value === 'half'){
+    const cur = Math.max(1, Math.floor(Number(input.value) || 0));
+    input.value = Math.max(1, Math.floor(cur / 2));
+  } else if(value === 'double'){
+    const cur = Math.max(1, Math.floor(Number(input.value) || 0));
+    input.value = Math.max(1, cur * 2);
+  } else if(value === 'max'){
+    input.value = Math.max(1, Math.floor(balance));
+  } else {
+    input.value = value;
+  }
+}
+
+function rocketResetVisuals(){
+  const mult = document.getElementById('rocketMultiplier');
+  mult.classList.remove('cashed','crashed');
+  mult.textContent = '1.00x';
+  mult.style.color = '';
+  mult.style.textShadow = '';
+}
+
+function rocketUpdateMultiplierDisplay(){
+  const mult = document.getElementById('rocketMultiplier');
+  mult.textContent = rocketMultiplier.toFixed(2) + 'x';
+}
+
+function rocketStart(){
+  if(rocketRunning) return;
+  const input = document.getElementById('rocketBetInput');
+  const bet = Math.floor(Number(input?.value));
+  if(!bet || bet < 1){
+    rocketSetStatus('Введи ставку больше 0.', '#ff5555');
+    return;
+  }
+  if(bet > balance){
+    rocketSetStatus('Недостаточно кристаллов.', '#ff5555');
+    return;
+  }
+
+  // Списываем ставку
+  balance -= bet;
+  saveProfileData();
+  balanceEl.textContent = balance;
+
+  rocketBet = bet;
+  rocketRunning = true;
+  rocketCashedOut = false;
+  rocketCrashed = false;
+  rocketMultiplier = 1.00;
+  rocketStartTime = performance.now();
+
+  // Определяем точку краша
+  // 1% — мгновенный краш на 1.00x
+  // 99% — рост до случайного значения от 1.01 до 100x с распределением (heavy tail)
+  const r = Math.random();
+  if(r < 0.01){
+    rocketCrashPoint = 1.00;
+  } else {
+    // Формула crash: 1 / (1 - r'), где r' ∈ [0, 0.99]
+    // Ограничим сверху 100
+    const r2 = Math.random();
+    let cp = 1 / Math.max(0.01, 1 - r2 * 0.99);
+    if(cp > 100) cp = 100;
+    if(cp < 1.01) cp = 1.01;
+    rocketCrashPoint = cp;
+  }
+
+  rocketResetVisuals();
+  rocketSetStatus('Ракета взлетела! Забирай до краха!', '#ffd52a');
+  document.getElementById('rocketBetBtn').disabled = true;
+  document.getElementById('rocketCashBtn').disabled = false;
+
+  rocketRafId = requestAnimationFrame(rocketLoop);
+}
+
+function rocketLoop(now){
+  if(!rocketRunning) return;
+  const elapsed = (now - rocketStartTime) / 1000; // секунд
+
+  // Рост множителя: экспоненциальный
+  // Через 1 сек → ~1.5, через 5 сек → ~4, через 10 сек → ~10
+  rocketMultiplier = Math.pow(1.0718, elapsed * 10); // ~1.07^10 за сек
+  if(rocketMultiplier < 1.00) rocketMultiplier = 1.00;
+
+  if(rocketMultiplier >= 100){
+    rocketMultiplier = 100;
+    rocketUpdateMultiplierDisplay();
+    rocketBust(true);
+    return;
+  }
+
+  if(rocketMultiplier >= rocketCrashPoint){
+    rocketMultiplier = rocketCrashPoint;
+    rocketUpdateMultiplierDisplay();
+    rocketBust(false);
+    return;
+  }
+
+  rocketUpdateMultiplierDisplay();
+  rocketRafId = requestAnimationFrame(rocketLoop);
+}
+
+function rocketCashout(){
+  if(!rocketRunning || rocketCashedOut || rocketCrashed) return;
+  rocketCashedOut = true;
+  rocketRunning = false;
+  if(rocketRafId) cancelAnimationFrame(rocketRafId);
+
+  const winAmount = Math.floor(rocketBet * rocketMultiplier);
+  balance += winAmount;
+  saveProfileData();
+  balanceEl.textContent = balance;
+
+  const mult = document.getElementById('rocketMultiplier');
+  mult.classList.add('cashed');
+  rocketSetStatus(`✅ Забрал ${winAmount} 💎 (${rocketMultiplier.toFixed(2)}x)`, '#00e996');
+
+  rocketAddHistory(rocketMultiplier, true);
+  rocketFinish();
+}
+
+function rocketBust(reached100){
+  if(!rocketRunning && !reached100) return;
+  rocketRunning = false;
+  rocketCrashed = true;
+  if(rocketRafId) cancelAnimationFrame(rocketRafId);
+
+  const mult = document.getElementById('rocketMultiplier');
+  mult.classList.add('crashed');
+  rocketUpdateMultiplierDisplay();
+
+  if(reached100){
+    rocketSetStatus(`💥 Долетел до 100x, но не забрал — ставка сгорела!`, '#ff2d2d');
+  } else {
+    rocketSetStatus(`💥 Ракета взорвалась на ${rocketCrashPoint.toFixed(2)}x — ставка сгорела!`, '#ff2d2d');
+  }
+
+  rocketAddHistory(rocketCrashPoint, false);
+  rocketFinish();
+}
+
+function rocketFinish(){
+  document.getElementById('rocketBetBtn').disabled = false;
+  document.getElementById('rocketCashBtn').disabled = true;
+  rocketReadyToStart = true;
+}
+
+function rocketSetStatus(text, color){
+  const el = document.getElementById('rocketStatus');
+  if(!el) return;
+  el.textContent = text;
+  el.style.color = color || '#ff8888';
+}
+
+function rocketAddHistory(multiplier, win){
+  rocketHistory.unshift({ m: multiplier, w: win });
+  if(rocketHistory.length > 12) rocketHistory.pop();
+  const historyEl = document.getElementById('rocketHistory');
+  if(!historyEl) return;
+  historyEl.innerHTML = rocketHistory.map(h =>
+    `<span class="rocket-history-pill ${h.w ? 'win' : 'loss'}">${h.m.toFixed(2)}x</span>`
+  ).join('');
 }
 
 /* =========================================================
@@ -1837,10 +1570,7 @@ function renderNormalInventory(){
   const oldList = document.getElementById('normalInventoryList');
   if(oldList) oldList.remove();
   const status = document.getElementById('normalInventoryStatus');
-  if(normalInventory.length === 0){
-    status.textContent = 'Инвентарь пуст';
-    return;
-  }
+  if(normalInventory.length === 0){ status.textContent = 'Инвентарь пуст'; return; }
   status.textContent = 'Предметов в инвентаре: ' + normalInventory.length;
   const list = document.createElement('div');
   list.id = 'normalInventoryList';
@@ -1863,7 +1593,7 @@ function renderNormalInventory(){
 }
 
 /* =========================================================
-   WITHDRAW
+   WITHDRAW / SELL
 ========================================================= */
 function openWithdrawForm(slotIndex){
   if(spinning || inventory[slotIndex] === undefined) return;
@@ -1942,9 +1672,6 @@ function renderAdminWithdrawals(){
   });
 }
 
-/* =========================================================
-   SELL
-========================================================= */
 function sellItem(slotIndex){
   if(spinning) return;
   if(inventory[slotIndex] === undefined) return;
@@ -1958,8 +1685,7 @@ function sellItem(slotIndex){
   saveProfileData();
   balanceEl.textContent = balance;
   instruction.innerHTML = '<span style="color:#00e996">ПРОДАНО!</span> ' + escapeHtml(item.name) + ' продан за ' + item.price + ' 💎.';
-  renderAll();
-  updateTop();
+  renderAll(); updateTop();
 }
 
 /* =========================================================
@@ -1983,9 +1709,6 @@ function renderTargets(){
   });
 }
 
-/* =========================================================
-   RENDER ALL
-========================================================= */
 function renderAll(){
   balanceEl.textContent = balance;
   renderShop();
@@ -2035,8 +1758,7 @@ function selectSource(slotIndex){
       <b style="color:#00df91;font-size:12px">${item.price} 💎</b>
     </div>
   `;
-  renderInventory();
-  updateTop();
+  renderInventory(); updateTop();
 }
 
 function selectTarget(index){
@@ -2052,8 +1774,7 @@ function selectTarget(index){
       <b style="color:#00df91;font-size:12px">${item.price} 💎</b>
     </div>
   `;
-  renderTargets();
-  updateTop();
+  renderTargets(); updateTop();
 }
 
 function clearSourceDisplay(){
@@ -2066,14 +1787,11 @@ function clearSourceDisplay(){
   `;
 }
 
-/* =========================================================
-   FOCUS
-========================================================= */
 function focusInventory(){ document.getElementById('upgraderInventoryPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); }
 function focusTargets(){ document.getElementById('targetPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); search.focus(); }
 
 /* =========================================================
-   CHANCE / WHEEL
+   CHANCE / UPGRADE
 ========================================================= */
 function getUpgradeChance(){
   if(sourceItem === null || targetItem === null) return 0;
@@ -2101,9 +1819,6 @@ function updateTop(){
   }
 }
 
-/* =========================================================
-   UPGRADE
-========================================================= */
 function upgrade(){
   if(spinning) return;
   if(sourceItem === null){
@@ -2166,8 +1881,7 @@ function upgrade(){
       instruction.innerHTML = '<span style="color:#ff4d5a">НЕУДАЧА!</span> ' + escapeHtml(source.name) + ' потерян.';
       renderAll();
     }
-    updateTop();
-    spinning = false;
+    updateTop(); spinning = false;
     upgradeBtn.disabled = false;
     upgradeBtn.textContent = 'ПРОКАЧАТЬ ›';
   },1800);
@@ -2188,14 +1902,12 @@ function showTab(tab){
   const nav = document.getElementById(
     tab === 'profile' ? 'navProfile' :
     tab === 'promo' ? 'navPromo' :
-    tab === 'cases' ? 'navCases' : 'navGame'
+    tab === 'cases' ? 'navCases' :
+    tab === 'rocket' ? 'navRocket' : 'navGame'
   );
   if(nav) nav.classList.add('active');
   if(tab === 'profile'){
-    renderProfile();
-    renderAdminWithdrawals();
-    renderAdminPromos();
-    loadPromoCodesFromServer();
+    renderProfile(); renderAdminWithdrawals(); renderAdminPromos(); loadPromoCodesFromServer();
   }
   if(tab === 'cases') renderCases();
 }
@@ -2236,10 +1948,7 @@ function saveAdminServerUrl(){
 function changeServerUrlPrompt(){
   const current = getApiBaseUrl();
   const entered = prompt('Укажите адрес сервера на Render (например, https://saintbet.onrender.com):', current);
-  if(entered !== null){
-    setApiBaseUrl(entered);
-    alert('Адрес сервера установлен: ' + (getApiBaseUrl() || 'по умолчанию'));
-  }
+  if(entered !== null){ setApiBaseUrl(entered); alert('Адрес сервера установлен: ' + (getApiBaseUrl() || 'по умолчанию')); }
 }
 function getTelegramInitData(){
   const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
@@ -2266,18 +1975,12 @@ async function apiRequest(path, options={}){
   let data = null;
   try { data = text ? JSON.parse(text) : null; } catch(e){}
   if(!response.ok){
-    if(data && data.error){
-      const err = new Error(data.error);
-      err.status = response.status; err.data = data; throw err;
-    }
+    if(data && data.error){ const err = new Error(data.error); err.status = response.status; err.data = data; throw err; }
     if(response.status === 502 || response.status === 503 || response.status === 504){
       const err = new Error('Сервер на Render просыпается. Подожди 30-40 сек и нажми ещё раз!');
       err.status = response.status; throw err;
     }
-    if(response.status === 404){
-      const err = new Error('Ошибка 404: адрес ' + fullUrl + ' не найден.');
-      err.status = 404; throw err;
-    }
+    if(response.status === 404){ const err = new Error('Ошибка 404: адрес ' + fullUrl + ' не найден.'); err.status = 404; throw err; }
     const preview = text ? text.slice(0, 100).replace(/<[^>]*>?/gm, '') : '';
     const err = new Error('Ошибка сервера (HTTP ' + response.status + '): ' + (preview || 'пустой ответ'));
     err.status = response.status; throw err;
@@ -2305,27 +2008,18 @@ async function redeemPromoCode(){
   const telegramId = tgUser?.id ? String(tgUser.id) : (profile?.username || '');
   const username = tgUser?.username || profile?.username || '';
   if(button) button.disabled=true;
-  message.className='promo-message';
-  message.textContent='Проверяем промокод...';
+  message.className='promo-message'; message.textContent='Проверяем промокод...';
   try{
     const data=await apiRequest('/api/promo/redeem',{
       method:'POST',
-      body:JSON.stringify({
-        code,
-        telegram_id: telegramId,
-        username: username,
-        first_name: tgUser?.first_name || '',
-        current_balance: balance
-      })
+      body:JSON.stringify({ code, telegram_id: telegramId, username, first_name: tgUser?.first_name || '', current_balance: balance })
     });
     const reward = Number(data?.reward || 0);
     balance = data?.balance !== undefined ? Number(data.balance) : Number(balance||0) + reward;
     saveProfileData();
     message.className='promo-message success';
     message.textContent=`Промокод активирован! +${reward} 💎`;
-    input.value='';
-    renderAll();
-    updateTop();
+    input.value=''; renderAll(); updateTop();
   }catch(error){
     message.className='promo-message error';
     if(error.status===404) message.textContent='Промокод не найден.';
@@ -2333,9 +2027,7 @@ async function redeemPromoCode(){
     else if(error.status===410) message.textContent='Срок действия промокода истёк.';
     else if(error.status===401) message.textContent='Не удалось подтвердить аккаунт.';
     else message.textContent=error.message || 'Не удалось активировать промокод.';
-  }finally{
-    if(button) button.disabled=false;
-  }
+  }finally{ if(button) button.disabled=false; }
 }
 
 async function createPromoCode(){
@@ -2357,22 +2049,14 @@ async function createPromoCode(){
   try{
     const data=await apiRequest('/api/admin/promos',{
       method:'POST',
-      body:JSON.stringify({
-        code:codeValue,
-        max_activations:maxActivations,
-        expires_in_minutes:minutesValue,
-        reward:rewardValue,
-        admin_username: getTelegramUsername() || 'saintezz7'
-      })
+      body:JSON.stringify({ code:codeValue, max_activations:maxActivations, expires_in_minutes:minutesValue, reward:rewardValue, admin_username: getTelegramUsername() || 'saintezz7' })
     });
     message.textContent=`Промокод ${data?.promo?.code||codeValue} создан!`;
     codeInput.value=''; activationsInput.value=''; minutesInput.value=''; rewardInput.value='10';
     await loadPromoCodesFromServer();
   }catch(error){
     message.textContent=error.data?.error || error.message || 'Не удалось создать промокод.';
-  }finally{
-    if(button) button.disabled=false;
-  }
+  }finally{ if(button) button.disabled=false; }
 }
 
 async function deletePromoCode(promoId){
@@ -2380,19 +2064,14 @@ async function deletePromoCode(promoId){
   try{
     await apiRequest('/api/admin/promos/' + promoId, { method: 'DELETE' });
     await loadPromoCodesFromServer();
-  }catch(error){
-    alert(error.data?.error || error.message || 'Не удалось удалить промокод');
-  }
+  }catch(error){ alert(error.data?.error || error.message || 'Не удалось удалить промокод'); }
 }
 
 function renderAdminPromos(){
   const list=document.getElementById('adminPromoList');
   if(!list) return;
   if(!isAdmin()){ list.innerHTML=''; return; }
-  if(!promoCodes.length){
-    list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>';
-    return;
-  }
+  if(!promoCodes.length){ list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>'; return; }
   list.innerHTML=promoCodes.map(p=>{
     const expiresAt = Number(p.expires_at || 0);
     const expired = expiresAt > 0 && Date.now() >= expiresAt;
@@ -2423,10 +2102,7 @@ function renderAdminPromos(){
    START
 ========================================================= */
 if(window.Telegram && window.Telegram.WebApp){
-  try{
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
-  }catch(e){}
+  try{ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }catch(e){}
 }
 
 loadProfileData();
