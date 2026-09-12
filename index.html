@@ -549,7 +549,6 @@ button{ border-radius:10px; }
   font-size:9px;
   color:#c8b8e0;
 }
-.case-chance-row b{ color:#fff; }
 .case-chance-percent{
   color:#a64dff;
   font-weight:900;
@@ -574,10 +573,206 @@ button{ border-radius:10px; }
   background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7));
   box-shadow:0 0 22px rgba(166,77,255,.7);
 }
-.open-case-btn:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-  box-shadow:none;
+.open-case-btn:disabled{ opacity:.4; cursor:not-allowed; box-shadow:none; }
+
+/* =========================================================
+   CASE OPENING MODAL
+========================================================= */
+.case-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.92);
+  backdrop-filter:blur(12px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  padding:20px;
+  animation:fadeIn .25s ease;
+}
+.case-modal.show{ display:flex; }
+@keyframes fadeIn{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+.case-modal-title{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:5px;
+  color:#fff;
+  text-shadow:
+    0 0 12px #a64dff,
+    0 0 30px #a64dff,
+    0 0 50px #a64dff;
+  margin-bottom:28px;
+  text-align:center;
+  animation:titlePulse 1.5s ease-in-out infinite;
+}
+@keyframes titlePulse{
+  0%,100%{ text-shadow:0 0 12px #a64dff, 0 0 30px #a64dff, 0 0 50px #a64dff; }
+  50%{ text-shadow:0 0 20px #c880ff, 0 0 45px #c880ff, 0 0 70px #c880ff; }
+}
+
+/* Рулетка */
+.case-roulette{
+  position:relative;
+  width:100%;
+  max-width:640px;
+  height:180px;
+  overflow:hidden;
+  border:2px solid rgba(166,77,255,.6);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(166,77,255,.15), transparent 70%),
+    linear-gradient(180deg, rgba(20,10,40,.95), rgba(8,4,20,.98));
+  box-shadow:
+    0 0 40px rgba(166,77,255,.4),
+    inset 0 0 60px rgba(0,0,0,.9);
+}
+.case-roulette::before,
+.case-roulette::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100px;
+  z-index:3;
+  pointer-events:none;
+}
+.case-roulette::before{
+  left:0;
+  background:linear-gradient(90deg, rgba(8,4,20,1) 0%, rgba(8,4,20,0.85) 40%, transparent 100%);
+}
+.case-roulette::after{
+  right:0;
+  background:linear-gradient(270deg, rgba(8,4,20,1) 0%, rgba(8,4,20,0.85) 40%, transparent 100%);
+}
+
+/* Указатель по центру */
+.case-marker{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:3px;
+  background:linear-gradient(180deg, transparent, #ffd52a, #fff, #ffd52a, transparent);
+  box-shadow:0 0 15px #ffd52a, 0 0 30px #ffd52a;
+  z-index:5;
+  pointer-events:none;
+}
+.case-marker::before{
+  content:"";
+  position:absolute;
+  top:-6px;
+  left:50%;
+  transform:translateX(-50%);
+  border-left:9px solid transparent;
+  border-right:9px solid transparent;
+  border-top:14px solid #ffd52a;
+  filter:drop-shadow(0 0 8px #ffd52a);
+}
+.case-marker::after{
+  content:"";
+  position:absolute;
+  bottom:-6px;
+  left:50%;
+  transform:translateX(-50%);
+  border-left:9px solid transparent;
+  border-right:9px solid transparent;
+  border-bottom:14px solid #ffd52a;
+  filter:drop-shadow(0 0 8px #ffd52a);
+}
+
+/* Лента с картинками */
+.case-strip{
+  position:absolute;
+  top:50%;
+  left:0;
+  transform:translateY(-50%);
+  display:flex;
+  gap:16px;
+  padding-left:20px;
+  will-change:transform;
+}
+
+.case-strip-item{
+  flex:0 0 auto;
+  width:130px;
+  height:130px;
+  border:1px solid rgba(166,77,255,.25);
+  border-radius:12px;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(166,77,255,.15), transparent 70%),
+    rgba(20,10,40,.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px;
+  position:relative;
+}
+.case-strip-item img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 0 10px rgba(166,77,255,.5));
+}
+
+/* Итог */
+.case-result{
+  margin-top:28px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(20px);
+  transition:all .5s ease;
+  pointer-events:none;
+}
+.case-result.show{
+  opacity:1;
+  transform:translateY(0);
+}
+.case-result-label{
+  font-size:11px;
+  color:#a64dff;
+  letter-spacing:3px;
+  font-weight:900;
+  text-shadow:0 0 10px #a64dff;
+  margin-bottom:6px;
+}
+.case-result-name{
+  font-size:20px;
+  color:#fff;
+  font-weight:900;
+  letter-spacing:1px;
+  text-shadow:0 0 12px #ffd52a, 0 0 30px #ffd52a;
+}
+
+.case-close-btn{
+  margin-top:24px;
+  height:42px;
+  min-width:180px;
+  padding:0 28px;
+  border:1px solid #a64dff;
+  border-radius:10px;
+  background:linear-gradient(180deg, rgba(166,77,255,.35), rgba(80,20,140,.55));
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:3px;
+  cursor:pointer;
+  transition:.2s;
+  text-shadow:0 0 6px #fff;
+  opacity:0;
+  pointer-events:none;
+}
+.case-close-btn.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.case-close-btn:hover{
+  background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7));
+  box-shadow:0 0 22px rgba(166,77,255,.7);
 }
 
 /* =========================
@@ -873,6 +1068,9 @@ button{ border-radius:10px; }
   .sell-item, .withdraw-item{padding:0 6px;font-size:7px;}
   .shop-item{grid-template-columns:minmax(0,1fr) auto;column-gap:6px;}
   .buy-item{padding:0 7px;font-size:8px;}
+  .case-roulette{height:150px;}
+  .case-strip-item{width:110px;height:110px;}
+  .case-modal-title{font-size:18px;letter-spacing:3px;}
 }
 
 *{
@@ -916,7 +1114,6 @@ button{ border-radius:10px; }
   <section class="game">
 
     <div class="top-area">
-
       <div class="side">
         <div class="side-title">ТВОЙ ПРЕДМЕТ</div>
         <div class="slot" id="sourceSlot" onclick="focusInventory()">
@@ -950,7 +1147,6 @@ button{ border-radius:10px; }
           <div class="slot-text">ВЫБРАТЬ ЦЕЛЬ</div>
         </div>
       </div>
-
     </div>
 
     <div class="instruction" id="instruction">
@@ -1071,10 +1267,27 @@ button{ border-radius:10px; }
 
 </div>
 
+<!-- МОДАЛЬНОЕ ОКНО КЕЙСА -->
+<div class="case-modal" id="caseModal">
+  <div class="case-modal-title" id="caseModalTitle">КЕЙС НУБИНИ</div>
+
+  <div class="case-roulette">
+    <div class="case-marker"></div>
+    <div class="case-strip" id="caseStrip"></div>
+  </div>
+
+  <div class="case-result" id="caseResult">
+    <div class="case-result-label">ТЫ ПОЛУЧИЛ</div>
+    <div class="case-result-name" id="caseResultName">—</div>
+  </div>
+
+  <button class="case-close-btn" id="caseCloseBtn" type="button" onclick="closeCaseModal()">ЗАБРАТЬ</button>
+</div>
+
 <script>
 
 /* =========================================================
-   ITEMS — пониженные цены
+   ITEMS
 ========================================================= */
 const items = [
   { name:'La Grande Combination', price:1,     img:'Grande.png' },
@@ -1087,7 +1300,6 @@ const items = [
   { name:'Skibidi toilet',        price:13000, img:'Skibidi.png' }
 ];
 
-/* Кристалл 💎 */
 function getCrystalHtml() {
   return `<span style="font-size:13px;filter:drop-shadow(0 0 6px #00ffff);vertical-align:middle;display:inline-block;margin:0 3px;">💎</span>`;
 }
@@ -1139,15 +1351,15 @@ const CASES = [
     emoji: '🎁',
     price: 23,
     rewards: [
-      { itemIndex: 2, chance: 67 }, // Money Money Puggy
-      { itemIndex: 3, chance: 27 }, // Tang Tang Keletang
-      { itemIndex: 4, chance: 6  }  // Garama and Madundung
+      { itemIndex: 2, chance: 67 },
+      { itemIndex: 3, chance: 27 },
+      { itemIndex: 4, chance: 6  }
     ]
   }
 ];
 
 /* =========================================================
-   PROFILE (без изменений)
+   PROFILE
 ========================================================= */
 function makeUsername(){
   return 'user' + Math.floor(100000 + Math.random() * 900000);
@@ -1366,7 +1578,7 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ШАНСЫ АПГРЕЙДА — ПОНИЖЕНЫ НА 40% (× 0.6)
+   ШАНСЫ АПГРЕЙДА — понижены на 40%
 ========================================================= */
 const upgradeChances = {
   0:{0:100,1:11.8,2:5.8,3:2.8,4:1.6,5:0.6,6:0,7:0},
@@ -1455,15 +1667,26 @@ function renderCases(){
   });
 }
 
+/* =========================================================
+   ОТКРЫТИЕ КЕЙСА С АНИМАЦИЕЙ
+========================================================= */
+let caseRolling = false;
+
 function openCase(caseId){
-  if(spinning) return;
+  if(caseRolling || spinning) return;
   const c = CASES.find(x => x.id === caseId);
   if(!c) return;
   if(balance < c.price){
     instruction.innerHTML = '<span style="color:#ff4d5a">Недостаточно кристаллов для кейса.</span>';
     return;
   }
+
+  // Списываем стоимость
   balance -= c.price;
+  saveProfileData();
+  balanceEl.textContent = balance;
+
+  // Определяем победителя по шансам
   const roll = Math.random() * 100;
   let acc = 0;
   let reward = c.rewards[c.rewards.length - 1];
@@ -1471,11 +1694,99 @@ function openCase(caseId){
     acc += r.chance;
     if(roll < acc){ reward = r; break; }
   }
-  inventory.push(reward.itemIndex);
-  saveProfileData();
-  const it = items[reward.itemIndex];
-  instruction.innerHTML = `<span style="color:#a64dff">🎁 КЕЙС ОТКРЫТ!</span> Выпал <b>${escapeHtml(it.name)}</b>!`;
-  renderAll();
+
+  // Настраиваем модалку
+  const modal = document.getElementById('caseModal');
+  const title = document.getElementById('caseModalTitle');
+  const strip = document.getElementById('caseStrip');
+  const result = document.getElementById('caseResult');
+  const resultName = document.getElementById('caseResultName');
+  const closeBtn = document.getElementById('caseCloseBtn');
+
+  title.textContent = c.name;
+  result.classList.remove('show');
+  closeBtn.classList.remove('show');
+  resultName.textContent = '—';
+
+  // Формируем ленту из ~40 картинок (случайные из пула кейса + победитель в конце)
+  // Лента: [случайные... , ..., победитель на позиции 30]
+  const TOTAL_ITEMS = 40;
+  const WINNER_POSITION = 32;
+
+  const sequence = [];
+  for(let i = 0; i < TOTAL_ITEMS; i++){
+    if(i === WINNER_POSITION){
+      sequence.push(reward.itemIndex);
+    } else {
+      // Случайный предмет из пула кейса (взвешенно по шансам)
+      const poolRoll = Math.random() * 100;
+      let poolAcc = 0;
+      let pick = c.rewards[c.rewards.length - 1];
+      for(const r of c.rewards){
+        poolAcc += r.chance;
+        if(poolRoll < poolAcc){ pick = r; break; }
+      }
+      sequence.push(pick.itemIndex);
+    }
+  }
+
+  strip.innerHTML = sequence.map(idx => {
+    const it = items[idx];
+    return `<div class="case-strip-item">${getItemImgHtml(it, 'case-strip-img')}</div>`;
+  }).join('');
+
+  // Сбросим transform
+  strip.style.transition = 'none';
+  strip.style.transform = 'translateY(-50%) translateX(0px)';
+
+  modal.classList.add('show');
+  caseRolling = true;
+
+  // Ждём кадр, чтобы применились стили
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // Размеры: ширина карточки 130 + gap 16 = 146
+      const ITEM_WIDTH = 130;
+      const GAP = 16;
+      const STEP = ITEM_WIDTH + GAP;
+      // Центрируем победителя в окне (окно 640px → центр 320px)
+      // Лента начинается с padding-left 20 + i*STEP + ITEM_WIDTH/2 должно совпасть с 320
+      // Смещение = WINNER_POSITION * STEP + 20 + ITEM_WIDTH/2 - (окно/2)
+      const roulette = strip.parentElement;
+      const rouletteWidth = roulette.clientWidth;
+      const winnerCenter = 20 + WINNER_POSITION * STEP + ITEM_WIDTH / 2;
+      const offset = winnerCenter - rouletteWidth / 2;
+
+      // Добавим финальный небольшой рандом, чтобы не всегда точно по центру
+      const jitter = (Math.random() - 0.5) * (ITEM_WIDTH * 0.6);
+      const finalOffset = offset + jitter;
+
+      strip.style.transition = 'transform 3.8s cubic-bezier(0.12, 0.75, 0.15, 1)';
+      strip.style.transform = `translateY(-50%) translateX(${-finalOffset}px)`;
+    });
+  });
+
+  // Через 3.9 сек — показываем результат
+  setTimeout(() => {
+    // Добавляем предмет в инвентарь
+    inventory.push(reward.itemIndex);
+    saveProfileData();
+    renderAll();
+
+    const it = items[reward.itemIndex];
+    resultName.textContent = it.name;
+    result.classList.add('show');
+    closeBtn.classList.add('show');
+    caseRolling = false;
+
+    instruction.innerHTML = `<span style="color:#a64dff">🎁 КЕЙС ОТКРЫТ!</span> Выпал <b>${escapeHtml(it.name)}</b>!`;
+  }, 3900);
+}
+
+function closeCaseModal(){
+  const modal = document.getElementById('caseModal');
+  if(!modal) return;
+  modal.classList.remove('show');
 }
 
 /* =========================================================
@@ -1762,7 +2073,7 @@ function focusInventory(){ document.getElementById('upgraderInventoryPanel').scr
 function focusTargets(){ document.getElementById('targetPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); search.focus(); }
 
 /* =========================================================
-   CHANCE / WHEEL / TOP
+   CHANCE / WHEEL
 ========================================================= */
 function getUpgradeChance(){
   if(sourceItem === null || targetItem === null) return 0;
