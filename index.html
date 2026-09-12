@@ -30,13 +30,7 @@ body{
 button, input{ font:inherit; }
 button{ border-radius:10px; }
 
-.app{
-  width:100%;
-  min-height:100vh;
-  padding:14px 12px 28px;
-  position:relative;
-  z-index:1;
-}
+.app{ width:100%; min-height:100vh; padding:14px 12px 28px; position:relative; z-index:1; }
 
 /* BALANCE */
 .balance{
@@ -66,10 +60,7 @@ button{ border-radius:10px; }
   gap:18px; max-width:1050px; margin:auto;
 }
 .side{ text-align:center; padding-top:0; }
-.side-title{
-  color:#ccc; font-size:9px; letter-spacing:2px; font-weight:900;
-  margin-bottom:13px; text-shadow:0 0 14px rgba(100,100,100,.35);
-}
+.side-title{ color:#ccc; font-size:9px; letter-spacing:2px; font-weight:900; margin-bottom:13px; text-shadow:0 0 14px rgba(100,100,100,.35); }
 .slot{
   width:160px; height:124px; margin:auto;
   border:1px solid rgba(100,100,100,.25); border-radius:12px;
@@ -187,10 +178,7 @@ button{ border-radius:10px; }
 .item-price{ margin-top:7px; color:#ffd52a; font-size:12px; font-weight:900; }
 
 /* SHOP */
-.shop-items{
-  display:flex; flex-direction:column; gap:6px;
-  max-height:400px; overflow-y:auto; padding-right:2px;
-}
+.shop-items{ display:flex; flex-direction:column; gap:6px; max-height:400px; overflow-y:auto; padding-right:2px; }
 .shop-item{
   min-height:64px;
   border:1px solid rgba(150,150,150,.16);
@@ -328,24 +316,16 @@ button{ border-radius:10px; }
 .case-close-btn.show{ opacity:1; pointer-events:auto; }
 .case-close-btn:hover{ background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7)); box-shadow:0 0 22px rgba(166,77,255,.7); }
 
-/* =========================================================
-   РАКЕТКА (CRASH)
-========================================================= */
-.rocket-panel{
-  background:linear-gradient(145deg, rgba(35,20,20,.95), rgba(8,4,8,.98)) !important;
-}
+/* ROCKET */
+.rocket-panel{ background:linear-gradient(145deg, rgba(35,20,20,.95), rgba(8,4,8,.98)) !important; }
 .rocket-panel .panel-title{ border-left-color:#ff4444; }
 .rocket-stage{
-  position:relative;
-  width:100%;
-  height:340px;
-  border:1px solid rgba(255,70,70,.3);
-  border-radius:14px;
+  position:relative; width:100%; height:340px;
+  border:1px solid rgba(255,70,70,.3); border-radius:14px;
   background:
     radial-gradient(circle at 50% 100%, rgba(255,80,80,.15), transparent 60%),
     linear-gradient(180deg, rgba(20,8,15,.95), rgba(5,2,8,.98));
-  overflow:hidden;
-  margin-bottom:12px;
+  overflow:hidden; margin-bottom:12px;
 }
 .rocket-grid{
   position:absolute; inset:0;
@@ -355,17 +335,11 @@ button{ border-radius:10px; }
   background-size:40px 40px;
   pointer-events:none;
 }
-.rocket-canvas{
-  position:absolute; inset:0;
-  pointer-events:none;
-}
 .rocket-multiplier{
   position:absolute;
   top:50%; left:50%;
   transform:translate(-50%,-50%);
-  font-size:52px;
-  font-weight:900;
-  color:#fff;
+  font-size:52px; font-weight:900; color:#fff;
   text-shadow:
     0 0 15px #ff4444,
     0 0 30px #ff4444,
@@ -375,16 +349,8 @@ button{ border-radius:10px; }
   transition:color .3s ease, text-shadow .3s ease;
   font-variant-numeric:tabular-nums;
 }
-.rocket-multiplier.cashed{
-  color:#00e996;
-  text-shadow:0 0 20px #00e996, 0 0 40px #00e996;
-  animation:cashPulse .6s ease;
-}
-.rocket-multiplier.crashed{
-  color:#ff2d2d;
-  text-shadow:0 0 20px #ff2d2d, 0 0 40px #ff2d2d;
-  animation:crashShake .5s ease;
-}
+.rocket-multiplier.cashed{ color:#00e996; text-shadow:0 0 20px #00e996, 0 0 40px #00e996; animation:cashPulse .6s ease; }
+.rocket-multiplier.crashed{ color:#ff2d2d; text-shadow:0 0 20px #ff2d2d, 0 0 40px #ff2d2d; animation:crashShake .5s ease; }
 @keyframes cashPulse{
   0%{ transform:translate(-50%,-50%) scale(1); }
   50%{ transform:translate(-50%,-50%) scale(1.25); }
@@ -398,41 +364,24 @@ button{ border-radius:10px; }
   80%{ transform:translate(calc(-50% + 6px), calc(-50% - 3px)); }
 }
 
-.rocket-controls{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  align-items:center;
-}
+.rocket-controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
 .rocket-input{
-  flex:1;
-  min-width:90px;
-  height:42px;
+  flex:1; min-width:90px; height:42px;
   border:1px solid rgba(255,100,100,.3);
-  background:rgba(20,8,15,.9);
-  color:#fff;
-  border-radius:10px;
-  padding:0 12px;
-  font-size:14px;
-  font-weight:900;
-  outline:none;
+  background:rgba(20,8,15,.9); color:#fff;
+  border-radius:10px; padding:0 12px;
+  font-size:14px; font-weight:900; outline:none;
 }
 .rocket-input:focus{ border-color:#ff4444; box-shadow:0 0 15px rgba(255,70,70,.3); }
 .rocket-btn{
-  height:42px;
-  padding:0 22px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:2px;
-  cursor:pointer;
-  transition:.2s;
+  height:42px; padding:0 22px; border-radius:10px;
+  font-size:12px; font-weight:900; letter-spacing:2px;
+  cursor:pointer; transition:.2s;
 }
 .rocket-btn-bet{
   border:1px solid #ff4444;
   background:linear-gradient(180deg, rgba(255,60,60,.3), rgba(120,10,10,.6));
-  color:#fff;
-  text-shadow:0 0 6px #ff4444;
+  color:#fff; text-shadow:0 0 6px #ff4444;
 }
 .rocket-btn-bet:hover:not(:disabled){
   background:linear-gradient(180deg, rgba(255,100,100,.5), rgba(160,20,20,.8));
@@ -442,8 +391,7 @@ button{ border-radius:10px; }
 .rocket-btn-cash{
   border:1px solid #00e996;
   background:linear-gradient(180deg, rgba(0,200,120,.3), rgba(0,80,50,.6));
-  color:#00e996;
-  text-shadow:0 0 6px #00e996;
+  color:#00e996; text-shadow:0 0 6px #00e996;
   animation:readyCash 1s ease-in-out infinite;
 }
 @keyframes readyCash{
@@ -452,59 +400,32 @@ button{ border-radius:10px; }
 }
 .rocket-btn-cash:hover{ background:linear-gradient(180deg, rgba(0,233,150,.5), rgba(0,120,70,.8)); color:#fff; }
 .rocket-btn-cash:disabled{ opacity:.35; cursor:not-allowed; animation:none; }
-.rocket-quick{
-  display:flex;
-  gap:6px;
-  width:100%;
-  flex-wrap:wrap;
-}
+.rocket-quick{ display:flex; gap:6px; width:100%; flex-wrap:wrap; }
 .rocket-quick button{
-  flex:1;
-  min-width:50px;
-  height:32px;
+  flex:1; min-width:50px; height:32px;
   border:1px solid rgba(255,100,100,.25);
-  background:rgba(20,8,15,.7);
-  color:#ff8888;
-  border-radius:8px;
-  font-size:11px;
-  font-weight:900;
-  cursor:pointer;
-  transition:.15s;
+  background:rgba(20,8,15,.7); color:#ff8888;
+  border-radius:8px; font-size:11px; font-weight:900;
+  cursor:pointer; transition:.15s;
 }
 .rocket-quick button:hover{ background:rgba(255,60,60,.2); border-color:#ff4444; color:#fff; }
-.rocket-history{
-  margin-top:10px;
-  display:flex;
-  gap:5px;
-  flex-wrap:wrap;
-}
+.rocket-history{ margin-top:10px; display:flex; gap:5px; flex-wrap:wrap; }
 .rocket-history-pill{
-  padding:3px 9px;
-  border-radius:12px;
-  font-size:10px;
-  font-weight:900;
+  padding:3px 9px; border-radius:12px;
+  font-size:10px; font-weight:900;
   border:1px solid rgba(255,100,100,.3);
-  background:rgba(30,10,15,.7);
-  color:#ff9999;
+  background:rgba(30,10,15,.7); color:#ff9999;
 }
 .rocket-history-pill.win{ border-color:rgba(0,233,150,.5); color:#00e996; background:rgba(0,50,30,.5); }
 .rocket-history-pill.loss{ border-color:rgba(255,50,50,.5); color:#ff5555; background:rgba(50,10,10,.5); }
-
 .rocket-status{
-  text-align:center;
-  font-size:11px;
-  color:#ff8888;
-  margin-top:8px;
-  min-height:18px;
-  font-weight:700;
-  letter-spacing:1px;
+  text-align:center; font-size:11px; color:#ff8888;
+  margin-top:8px; min-height:18px;
+  font-weight:700; letter-spacing:1px;
 }
 
 /* INVENTORY */
-.inventory-list{
-  display:flex; flex-direction:column; gap:6px;
-  margin-top:10px; max-height:380px; overflow-y:auto; padding-right:2px;
-}
+.inventory-list{ display:flex; flex-direction:column; gap:6px; margin-top:10px; max-height:380px; overflow-y:auto; padding-right:2px; }
 .inventory-item{
   border:1px solid rgba(150,150,150,.16);
   background:linear-gradient(145deg, rgba(35,35,35,.75), rgba(15,15,15,.9));
@@ -890,7 +811,6 @@ button{ border-radius:10px; }
 
 </div>
 
-<!-- CASE MODAL -->
 <div class="case-modal" id="caseModal">
   <div class="case-modal-title" id="caseModalTitle">КЕЙС НУБИНИ</div>
   <div class="case-roulette">
@@ -907,7 +827,7 @@ button{ border-radius:10px; }
 <script>
 
 /* =========================================================
-   ITEMS — отсортированы по возрастанию цены
+   ITEMS
 ========================================================= */
 const items = [
   { name:'La Grande Combination', price:1,     img:'Grande.png' },
@@ -963,7 +883,6 @@ let users = {};
 
 /* =========================================================
    КЕЙСЫ
-   itemIndex: 0=La Grande, 1=Mops, 2=Bananito, 3=Tang, 4=Garama, 5=Cerb, 6=Dragon, 7=Skibidi
 ========================================================= */
 const CASES = [
   {
@@ -972,9 +891,9 @@ const CASES = [
     emoji: '🎁',
     price: 39,
     rewards: [
-      { itemIndex: 1, chance: 30 }, // Money Money Puggy
-      { itemIndex: 3, chance: 65 }, // Tang Tang Keletang
-      { itemIndex: 4, chance: 5  }  // Garama and Madundung
+      { itemIndex: 1, chance: 30 },
+      { itemIndex: 3, chance: 65 },
+      { itemIndex: 4, chance: 5  }
     ]
   }
 ];
@@ -1084,9 +1003,10 @@ async function syncTelegramUserWithServer(){
         body: JSON.stringify({ telegram_id: String(tgUser.id), username: tgUser.username || '', first_name: tgUser.first_name || '' })
       });
       if(res?.user && res.user.balance !== undefined){
-        if(Number(res.user.balance) > balance){
-          balance = Number(res.user.balance); saveProfileData(); renderAll();
-        }
+        // Сервер — источник истины, всегда берём его баланс
+        balance = Number(res.user.balance);
+        saveProfileData();
+        renderAll();
       }
     }catch(e){}
   }
@@ -1151,7 +1071,7 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ШАНСЫ (без изменений)
+   ШАНСЫ
 ========================================================= */
 const upgradeChances = {
   0:{0:100,1:11.8,2:5.8,3:2.8,4:1.6,5:0.6,6:0,7:0},
@@ -1342,7 +1262,7 @@ function closeCaseModal(){
 }
 
 /* =========================================================
-   РАКЕТКА (CRASH)
+   РАКЕТКА (CRASH) — ЗАМЕДЛЕНО
 ========================================================= */
 let rocketRunning = false;
 let rocketCashedOut = false;
@@ -1353,7 +1273,6 @@ let rocketBet = 0;
 let rocketRafId = null;
 let rocketStartTime = 0;
 let rocketHistory = [];
-let rocketReadyToStart = false;
 
 function rocketSetBet(value){
   const input = document.getElementById('rocketBetInput');
@@ -1397,7 +1316,6 @@ function rocketStart(){
     return;
   }
 
-  // Списываем ставку
   balance -= bet;
   saveProfileData();
   balanceEl.textContent = balance;
@@ -1409,15 +1327,11 @@ function rocketStart(){
   rocketMultiplier = 1.00;
   rocketStartTime = performance.now();
 
-  // Определяем точку краша
-  // 1% — мгновенный краш на 1.00x
-  // 99% — рост до случайного значения от 1.01 до 100x с распределением (heavy tail)
+  // Краш-поинт
   const r = Math.random();
   if(r < 0.01){
     rocketCrashPoint = 1.00;
   } else {
-    // Формула crash: 1 / (1 - r'), где r' ∈ [0, 0.99]
-    // Ограничим сверху 100
     const r2 = Math.random();
     let cp = 1 / Math.max(0.01, 1 - r2 * 0.99);
     if(cp > 100) cp = 100;
@@ -1435,11 +1349,11 @@ function rocketStart(){
 
 function rocketLoop(now){
   if(!rocketRunning) return;
-  const elapsed = (now - rocketStartTime) / 1000; // секунд
+  const elapsed = (now - rocketStartTime) / 1000;
 
-  // Рост множителя: экспоненциальный
-  // Через 1 сек → ~1.5, через 5 сек → ~4, через 10 сек → ~10
-  rocketMultiplier = Math.pow(1.0718, elapsed * 10); // ~1.07^10 за сек
+  // Медленный рост: база 1.018, ×5 в секунду → 0.2 сек на ~1% роста
+  // Через 5 сек → ~1.57x, через 20 сек → ~5.7x, через 60 сек → ~40x
+  rocketMultiplier = Math.pow(1.018, elapsed * 5);
   if(rocketMultiplier < 1.00) rocketMultiplier = 1.00;
 
   if(rocketMultiplier >= 100){
@@ -1502,7 +1416,6 @@ function rocketBust(reached100){
 function rocketFinish(){
   document.getElementById('rocketBetBtn').disabled = false;
   document.getElementById('rocketCashBtn').disabled = true;
-  rocketReadyToStart = true;
 }
 
 function rocketSetStatus(text, color){
@@ -1562,9 +1475,6 @@ function renderInventory(){
   document.getElementById('upgraderInventoryPanel').appendChild(list);
 }
 
-/* =========================================================
-   NORMAL INVENTORY
-========================================================= */
 function renderNormalInventory(){
   const panel = document.getElementById('normalInventoryPanel');
   const oldList = document.getElementById('normalInventoryList');
@@ -1998,28 +1908,70 @@ async function loadPromoCodesFromServer(){
   }catch(error){}
 }
 
+/* =========================================================
+   PROMO REDEEM — ИСПРАВЛЕНО: точная сумма
+========================================================= */
 async function redeemPromoCode(){
   const input=document.getElementById('promoInput');
   const message=document.getElementById('promoMessage');
   const button=document.querySelector('.promo-button');
   const code=String(input?.value||'').trim().toUpperCase();
   if(!code){ message.className='promo-message error'; message.textContent='Введи промокод.'; return; }
+
   const tgUser = getTelegramUser();
   const telegramId = tgUser?.id ? String(tgUser.id) : (profile?.username || '');
   const username = tgUser?.username || profile?.username || '';
+
   if(button) button.disabled=true;
-  message.className='promo-message'; message.textContent='Проверяем промокод...';
+  message.className='promo-message';
+  message.textContent='Проверяем промокод...';
+
   try{
-    const data=await apiRequest('/api/promo/redeem',{
+    const data = await apiRequest('/api/promo/redeem',{
       method:'POST',
-      body:JSON.stringify({ code, telegram_id: telegramId, username, first_name: tgUser?.first_name || '', current_balance: balance })
+      body:JSON.stringify({
+        code,
+        telegram_id: telegramId,
+        username: username,
+        first_name: tgUser?.first_name || '',
+        current_balance: balance
+      })
     });
+
     const reward = Number(data?.reward || 0);
-    balance = data?.balance !== undefined ? Number(data.balance) : Number(balance||0) + reward;
+
+    // ВСЕГДА перечитываем баланс с сервера после активации — это источник истины
+    let finalBalance = null;
+    try {
+      const sync = await apiRequest('/api/user', {
+        method: 'POST',
+        body: JSON.stringify({
+          telegram_id: telegramId,
+          username: username,
+          first_name: tgUser?.first_name || ''
+        })
+      });
+      if(sync?.user && sync.user.balance !== undefined){
+        finalBalance = Number(sync.user.balance);
+      }
+    } catch(e){ /* игнорим */ }
+
+    // Приоритет: сервер → data.balance → локальный + reward
+    if(finalBalance !== null){
+      balance = finalBalance;
+    } else if(data?.balance !== undefined){
+      balance = Number(data.balance);
+    } else {
+      balance = Number(balance || 0) + reward;
+    }
+
     saveProfileData();
+    renderAll();
+    updateTop();
+
     message.className='promo-message success';
-    message.textContent=`Промокод активирован! +${reward} 💎`;
-    input.value=''; renderAll(); updateTop();
+    message.textContent = `Промокод активирован! +${reward} 💎`;
+    input.value='';
   }catch(error){
     message.className='promo-message error';
     if(error.status===404) message.textContent='Промокод не найден.';
@@ -2027,7 +1979,9 @@ async function redeemPromoCode(){
     else if(error.status===410) message.textContent='Срок действия промокода истёк.';
     else if(error.status===401) message.textContent='Не удалось подтвердить аккаунт.';
     else message.textContent=error.message || 'Не удалось активировать промокод.';
-  }finally{ if(button) button.disabled=false; }
+  }finally{
+    if(button) button.disabled=false;
+  }
 }
 
 async function createPromoCode(){
