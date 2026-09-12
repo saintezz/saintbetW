@@ -65,7 +65,7 @@ body::after {
 }
 
 /* =========================================================
-   TOP NAV — NEON PILLS
+   TOP NAV
 ========================================================= */
 .top-nav {
   position: relative;
@@ -113,7 +113,7 @@ body::after {
 .nav-icon { font-size: 14px; line-height: 1; }
 
 /* =========================================================
-   BALANCE — NEON HUD
+   BALANCE
 ========================================================= */
 .balance {
   position: absolute;
@@ -147,7 +147,7 @@ body::after {
 }
 
 /* =========================================================
-   PANELS — CYBER FRAMES
+   PANELS
 ========================================================= */
 .panel, .game {
   position: relative;
@@ -282,7 +282,7 @@ body::after {
 }
 
 /* =========================================================
-   WHEEL — NEON REACTOR
+   WHEEL
 ========================================================= */
 .center { display: flex; flex-direction: column; align-items: center; }
 .wheel {
@@ -466,7 +466,7 @@ body::after {
 }
 
 /* =========================================================
-   LOWER PANELS
+   LOWER
 ========================================================= */
 .lower {
   display: grid;
@@ -480,9 +480,6 @@ body::after {
   padding: 16px;
 }
 
-/* =========================================================
-   SEARCH
-========================================================= */
 .search {
   width: 100%; height: 38px;
   padding: 0 14px;
@@ -505,7 +502,7 @@ body::after {
 }
 
 /* =========================================================
-   TARGET ITEMS — HEX CARDS
+   TARGET ITEMS
 ========================================================= */
 .items {
   display: grid;
@@ -578,7 +575,7 @@ body::after {
 }
 
 /* =========================================================
-   SHOP — HUD LIST
+   SHOP
 ========================================================= */
 .shop-items {
   display: flex; flex-direction: column;
@@ -840,7 +837,7 @@ body::after {
 }
 
 /* =========================================================
-   ADMIN / WITHDRAWAL LISTS
+   ADMIN / WITHDRAWALS
 ========================================================= */
 .admin-withdrawals {
   margin-top: 14px;
@@ -1115,7 +1112,7 @@ body::after {
 
   <div class="balance">
     💎 <span class="balance-label">БАЛАНС:</span>
-    <b class="balance-val" id="balance">10</b>
+    <b class="balance-val" id="balance">0</b>
   </div>
 
   <section class="tab-panel active" data-tab="game">
@@ -1273,10 +1270,10 @@ body::after {
 
 <script>
 /* =========================================================
-   ITEMS с картинками
+   ITEMS — La Grande = Grande.png
 ========================================================= */
 const items = [
-  { name: 'La Grande Combination', price: 1,     img: 'LaGrande.png' },
+  { name: 'La Grande Combination', price: 1,     img: 'Grande.png' },
   { name: 'Bananito',              price: 7,     img: 'Bananchik.png' },
   { name: 'Money Money Puggy',     price: 17,    img: 'Mops.png' },
   { name: 'Tang Tang Keletang',    price: 30,    img: 'TangTangKeletang.png' },
@@ -1286,10 +1283,9 @@ const items = [
   { name: 'Skibidi toilet',        price: 15000, img: 'Skibidi.png' }
 ];
 
+/* 💎 Кристалл — просто emoji, без картинки */
 function getCrystalHtml(extraClass = 'crystal-icon') {
-  const localSrc = 'image/Balans.png';
-  const remoteSrc = 'https://raw.githubusercontent.com/saintezz/saintbetW/main/image/Balans.png';
-  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}'" class="${extraClass}" alt="💎" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;display:inline-block;filter:drop-shadow(0 0 6px #00ffff);">`;
+  return `<span class="${extraClass}" style="font-size:14px;filter:drop-shadow(0 0 6px #00ffff);vertical-align:middle;display:inline-block;margin:0 3px;">💎</span>`;
 }
 
 function getItemImgHtml(item, extraClass = 'item-img') {
@@ -1305,9 +1301,9 @@ function getItemImgHtml(item, extraClass = 'item-img') {
 }
 
 /* =========================================================
-   STATE
+   STATE — начальный баланс 0
 ========================================================= */
-let balance = 10;
+let balance = 0;
 let inventory = [];
 let normalInventory = [];
 let sourceItem = null;
@@ -1327,7 +1323,7 @@ let profile = null;
 let users = {};
 
 /* =========================================================
-   PROFILE
+   PROFILE — стартовый баланс 0
 ========================================================= */
 function makeUsername() { return 'user' + Math.floor(100000 + Math.random() * 900000); }
 function normalizeUsername(v) { return String(v || '').trim().replace(/^@+/, '').toLowerCase(); }
@@ -1352,11 +1348,11 @@ function loadProfileData() {
   if (!profile || !profile.username) {
     const username = makeUsername();
     profile = { username, lastUsernameChange:0, telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
-    users[username] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
+    users[username] = { balance:0, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
   } else if (!users[profile.username]) {
-    users[profile.username] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
+    users[profile.username] = { balance:0, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
   }
-  balance = Number(users[profile.username].balance ?? 10);
+  balance = Number(users[profile.username].balance ?? 0);
   inventory = Array.isArray(users[profile.username].inventory) ? users[profile.username].inventory : [];
   normalInventory = Array.isArray(users[profile.username].normalInventory) ? users[profile.username].normalInventory : [];
   try {
@@ -1998,7 +1994,7 @@ function showTab(tab) {
 }
 
 /* =========================================================
-   SERVER & PROMO
+   SERVER & PROMO — логика не тронута
 ========================================================= */
 function getApiBaseUrl() {
   if (window.API_BASE_URL && String(window.API_BASE_URL).trim()) return String(window.API_BASE_URL).trim().replace(/\/$/, '');
