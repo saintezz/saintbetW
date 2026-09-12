@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>UPGRADER • NEON CYBER</title>
-
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
@@ -21,9 +20,7 @@ html, body {
 
 body::before {
   content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+  position: fixed; inset: 0; z-index: 0;
   pointer-events: none;
   background-image:
     linear-gradient(rgba(140, 0, 255, 0.06) 1px, transparent 1px),
@@ -35,9 +32,7 @@ body::before {
 
 body::after {
   content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
+  position: fixed; inset: 0; z-index: 1;
   pointer-events: none;
   background: repeating-linear-gradient(
     0deg,
@@ -57,207 +52,132 @@ body::after {
   position: relative; z-index: 2;
 }
 
-/* ========== TOP NAV ========== */
+/* TOP NAV */
 .top-nav {
   position: relative;
   display: flex; justify-content: center; align-items: center;
-  gap: 8px;
-  margin: 0 auto 18px;
-  padding: 6px;
+  gap: 8px; margin: 0 auto 18px; padding: 6px;
   width: max-content; max-width: 100%;
   border-radius: 16px;
   background: rgba(10, 6, 25, 0.85);
   border: 1px solid rgba(140, 0, 255, 0.35);
-  box-shadow:
-    0 0 30px rgba(140, 0, 255, 0.25),
-    0 0 60px rgba(0, 255, 255, 0.08),
-    inset 0 0 20px rgba(140, 0, 255, 0.1);
+  box-shadow: 0 0 30px rgba(140, 0, 255, 0.25), 0 0 60px rgba(0, 255, 255, 0.08), inset 0 0 20px rgba(140, 0, 255, 0.1);
 }
 .nav-btn {
-  position: relative;
   height: 40px; padding: 0 22px;
-  border: 1px solid transparent;
-  border-radius: 11px;
-  background: transparent;
-  color: #6d5b99;
+  border: 1px solid transparent; border-radius: 11px;
+  background: transparent; color: #6d5b99;
   display: flex; align-items: center; justify-content: center; gap: 8px;
   font-size: 11px; font-weight: 900; letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-transform: uppercase;
+  cursor: pointer; transition: all 0.25s ease; text-transform: uppercase;
 }
-.nav-btn:hover {
-  color: #00ffff;
-  background: rgba(0, 255, 255, 0.06);
-  border-color: rgba(0, 255, 255, 0.35);
-  text-shadow: 0 0 10px #00ffff;
-}
+.nav-btn:hover { color: #00ffff; background: rgba(0, 255, 255, 0.06); border-color: rgba(0, 255, 255, 0.35); text-shadow: 0 0 10px #00ffff; }
 .nav-btn.active {
   color: #fff;
   background: linear-gradient(180deg, rgba(140, 0, 255, 0.5), rgba(0, 200, 255, 0.15));
   border-color: #a64dff;
-  box-shadow:
-    0 0 20px rgba(166, 77, 255, 0.7),
-    inset 0 0 12px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(166, 77, 255, 0.7), inset 0 0 12px rgba(255, 255, 255, 0.15);
   text-shadow: 0 0 10px #fff;
 }
 .nav-icon { font-size: 14px; line-height: 1; }
 
-/* ========== BALANCE ========== */
+/* BALANCE */
 .balance {
-  position: absolute;
-  left: 16px; top: 16px;
-  z-index: 20;
+  position: absolute; left: 16px; top: 16px; z-index: 20;
   display: flex; align-items: center; gap: 8px;
-  padding: 10px 18px;
-  border-radius: 10px;
+  padding: 10px 18px; border-radius: 10px;
   background: rgba(10, 6, 25, 0.85);
   border: 1px solid rgba(0, 255, 255, 0.4);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  box-shadow:
-    0 0 20px rgba(0, 255, 255, 0.3),
-    inset 0 0 12px rgba(0, 255, 255, 0.1);
+  color: #fff; font-size: 14px; font-weight: 900; letter-spacing: 1px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 12px rgba(0, 255, 255, 0.1);
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
 }
-.balance-label {
-  color: #00ffff;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px #00ffff;
-}
-.balance-val {
-  color: #fff;
-  font-size: 18px;
-  font-weight: 900;
-  text-shadow: 0 0 12px #a64dff, 0 0 24px #a64dff;
-}
+.balance-label { color: #00ffff; font-size: 10px; letter-spacing: 2px; text-shadow: 0 0 8px #00ffff; }
+.balance-val { color: #fff; font-size: 18px; font-weight: 900; text-shadow: 0 0 12px #a64dff, 0 0 24px #a64dff; }
 
-/* ========== PANELS ========== */
+/* PANELS */
 .panel, .game {
   position: relative;
   border-radius: 4px;
-  background:
-    linear-gradient(180deg, rgba(20, 10, 45, 0.85) 0%, rgba(8, 4, 20, 0.95) 100%);
+  background: linear-gradient(180deg, rgba(20, 10, 45, 0.85) 0%, rgba(8, 4, 20, 0.95) 100%);
   border: 1px solid rgba(140, 0, 255, 0.4);
-  box-shadow:
-    0 0 30px rgba(140, 0, 255, 0.2),
-    inset 0 0 40px rgba(0, 255, 255, 0.05);
+  box-shadow: 0 0 30px rgba(140, 0, 255, 0.2), inset 0 0 40px rgba(0, 255, 255, 0.05);
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
   overflow: hidden;
   display: flex; flex-direction: column;
 }
 .panel::before, .game::before {
-  content: "";
-  position: absolute;
+  content: ""; position: absolute;
   top: 6px; left: 6px; right: 6px; bottom: 6px;
-  border: 1px solid rgba(0, 255, 255, 0.15);
-  border-radius: 2px;
+  border: 1px solid rgba(0, 255, 255, 0.15); border-radius: 2px;
   pointer-events: none;
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
 }
 .panel-title {
   position: relative;
-  color: #00ffff;
-  font-size: 11px;
-  letter-spacing: 3px;
-  font-weight: 900;
-  text-transform: uppercase;
-  padding: 4px 0 12px 0;
-  margin-bottom: 14px;
+  color: #00ffff; font-size: 11px; letter-spacing: 3px;
+  font-weight: 900; text-transform: uppercase;
+  padding: 4px 0 12px 0; margin-bottom: 14px;
   border-bottom: 1px solid rgba(0, 255, 255, 0.2);
   text-shadow: 0 0 10px #00ffff;
   display: flex; align-items: center; gap: 8px;
   flex-shrink: 0;
 }
 .panel-title::after {
-  content: "";
-  position: absolute;
+  content: ""; position: absolute;
   bottom: -1px; left: 0;
   width: 60px; height: 2px;
   background: #a64dff;
   box-shadow: 0 0 10px #a64dff, 0 0 20px #a64dff;
 }
 
-/* ========== GAME ========== */
-.game {
-  min-height: 460px;
-  padding: 22px 16px 20px;
-}
+/* GAME */
+.game { min-height: 460px; padding: 22px 16px 20px; }
 .top-area {
   display: grid;
   grid-template-columns: minmax(180px, 1fr) 340px minmax(180px, 1fr);
   align-items: center; justify-content: center;
-  gap: 20px;
-  max-width: 1050px;
-  margin: auto;
+  gap: 20px; max-width: 1050px; margin: auto;
 }
 .side { text-align: center; }
 .side-title {
-  color: #a64dff;
-  font-size: 10px;
-  letter-spacing: 3px;
-  font-weight: 900;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-  text-shadow: 0 0 10px #a64dff;
+  color: #a64dff; font-size: 10px; letter-spacing: 3px;
+  font-weight: 900; text-transform: uppercase;
+  margin-bottom: 14px; text-shadow: 0 0 10px #a64dff;
 }
 .slot {
-  width: 175px; height: 145px;
-  margin: auto;
+  width: 175px; height: 145px; margin: auto;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  cursor: pointer;
-  color: #6d5b99;
+  cursor: pointer; color: #6d5b99;
   background: linear-gradient(180deg, rgba(20, 10, 45, 0.7), rgba(8, 4, 20, 0.9));
   border: 1px solid rgba(140, 0, 255, 0.4);
   border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-  transition: all 0.25s ease;
-  padding: 10px;
+  transition: all 0.25s ease; padding: 10px;
   box-shadow: inset 0 0 20px rgba(140, 0, 255, 0.15);
 }
 .slot:hover {
   border-color: #00ffff;
-  box-shadow:
-    0 0 24px rgba(0, 255, 255, 0.5),
-    inset 0 0 25px rgba(0, 255, 255, 0.15);
+  box-shadow: 0 0 24px rgba(0, 255, 255, 0.5), inset 0 0 25px rgba(0, 255, 255, 0.15);
   transform: translateY(-2px);
 }
 .slot.selected {
   border-color: #00ffff;
   background: linear-gradient(180deg, rgba(140, 0, 255, 0.35), rgba(0, 200, 255, 0.15));
-  box-shadow:
-    0 0 30px rgba(0, 255, 255, 0.6),
-    inset 0 0 25px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.1);
   color: #fff;
 }
-.slot-icon {
-  margin-bottom: 8px;
-  color: #a64dff;
-  text-shadow: 0 0 12px #a64dff;
-  transition: all 0.25s ease;
-}
+.slot-icon { margin-bottom: 8px; color: #a64dff; text-shadow: 0 0 12px #a64dff; transition: all 0.25s ease; }
 .slot:hover .slot-icon { transform: scale(1.15); color: #00ffff; }
-.slot-item-img {
-  width: 68px; height: 68px; object-fit: contain;
-  margin-bottom: 6px;
-  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.5));
-}
+.slot-item-img { width: 68px; height: 68px; object-fit: contain; margin-bottom: 6px; filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.5)); }
 .slot-text {
-  color: #e6f7ff;
-  font-size: 10px;
-  letter-spacing: 1px;
-  font-weight: 800;
-  line-height: 1.4;
-  text-align: center;
+  color: #e6f7ff; font-size: 10px; letter-spacing: 1px;
+  font-weight: 800; line-height: 1.4; text-align: center;
   text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
 }
 .item-img-placeholder {
-  width: 52px; height: 52px;
-  border-radius: 4px;
+  width: 52px; height: 52px; border-radius: 4px;
   background: linear-gradient(135deg, rgba(140, 0, 255, 0.35), rgba(0, 255, 255, 0.1));
   border: 1px solid rgba(0, 255, 255, 0.35);
   display: flex; align-items: center; justify-content: center;
@@ -266,18 +186,13 @@ body::after {
   text-shadow: 0 0 10px #00ffff;
 }
 
-/* ========== WHEEL ========== */
+/* WHEEL */
 .center { display: flex; flex-direction: column; align-items: center; }
 .wheel {
-  width: 230px; height: 230px;
-  border-radius: 50%;
-  position: relative;
-  background: #05030d;
+  width: 230px; height: 230px; border-radius: 50%;
+  position: relative; background: #05030d;
   border: 3px solid #a64dff;
-  box-shadow:
-    0 0 30px rgba(166, 77, 255, 0.7),
-    0 0 60px rgba(166, 77, 255, 0.3),
-    inset 0 0 30px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 30px rgba(166, 77, 255, 0.7), 0 0 60px rgba(166, 77, 255, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.9);
   overflow: hidden;
   animation: wheelPulse 3s ease-in-out infinite;
 }
@@ -286,29 +201,21 @@ body::after {
   50% { box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 80px rgba(0, 255, 255, 0.4), inset 0 0 30px rgba(0, 0, 0, 0.9); }
 }
 .wheel::before {
-  content: "";
-  position: absolute; inset: 12px;
+  content: ""; position: absolute; inset: 12px;
   border-radius: 50%;
   border: 1px solid rgba(0, 255, 255, 0.4);
   background: radial-gradient(circle, #02010a 0 55%, #0a0420 56% 100%);
-  box-shadow: inset 0 0 30px #000;
-  z-index: 1;
+  box-shadow: inset 0 0 30px #000; z-index: 1;
 }
 .wheel::after {
-  content: "";
-  position: absolute; inset: 0;
+  content: ""; position: absolute; inset: 0;
   border-radius: 50%;
-  background: conic-gradient(
-    from -90deg,
-    #00ffff 0deg var(--wheel-green, 0deg),
-    #0a0420 var(--wheel-green, 0deg) 360deg
-  );
+  background: conic-gradient(from -90deg, #00ffff 0deg var(--wheel-green, 0deg), #0a0420 var(--wheel-green, 0deg) 360deg);
   filter: drop-shadow(0 0 12px #00ffff);
   z-index: 0;
 }
 .tick-ring {
-  position: absolute; inset: -1px;
-  border-radius: 50%;
+  position: absolute; inset: -1px; border-radius: 50%;
   background: repeating-conic-gradient(transparent 0deg 8deg, rgba(166, 77, 255, 0.6) 8deg 9deg);
   -webkit-mask: radial-gradient(transparent 0 90%, #000 91% 100%);
   mask: radial-gradient(transparent 0 90%, #000 91% 100%);
@@ -322,13 +229,11 @@ body::after {
 .pointer {
   position: absolute; left: 50%; top: -8px;
   width: 3px; height: 40px;
-  background: #00ffff;
-  transform: translateX(-50%);
+  background: #00ffff; transform: translateX(-50%);
   box-shadow: 0 0 12px #00ffff, 0 0 24px #00ffff;
 }
 .pointer::after {
-  content: "";
-  position: absolute; left: 50%; top: 0;
+  content: ""; position: absolute; left: 50%; top: 0;
   transform: translate(-50%, -3px);
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
@@ -341,70 +246,43 @@ body::after {
   align-items: center; justify-content: center;
 }
 .wheel-label {
-  font-size: 9px;
-  letter-spacing: 4px;
-  color: #a64dff;
-  font-weight: 900;
-  margin-bottom: 6px;
-  text-transform: uppercase;
+  font-size: 9px; letter-spacing: 4px; color: #a64dff;
+  font-weight: 900; margin-bottom: 6px; text-transform: uppercase;
   text-shadow: 0 0 10px #a64dff;
 }
 .wheel-chance {
-  font-size: 34px;
-  font-weight: 900;
-  color: #fff;
-  text-shadow:
-    0 0 12px #00ffff,
-    0 0 24px #00ffff,
-    0 0 40px #a64dff;
+  font-size: 34px; font-weight: 900; color: #fff;
+  text-shadow: 0 0 12px #00ffff, 0 0 24px #00ffff, 0 0 40px #a64dff;
 }
 .center-symbol {
-  margin-top: 12px;
-  width: 22px; height: 12px;
+  margin-top: 12px; width: 22px; height: 12px;
   border-top: 2px solid #00ffff;
-  position: relative;
-  box-shadow: 0 0 8px #00ffff;
+  position: relative; box-shadow: 0 0 8px #00ffff;
 }
 .center-symbol::after {
-  content: "";
-  position: absolute;
-  left: 5px; top: -2px;
-  width: 10px; height: 8px;
+  content: ""; position: absolute;
+  left: 5px; top: -2px; width: 10px; height: 8px;
   border-bottom: 1px solid #00ffff;
   border-radius: 0 0 9px 9px;
   box-shadow: 0 0 8px #00ffff;
 }
 
-/* ========== CONTROLS ========== */
-.controls {
-  display: flex; align-items: center;
-  margin-top: 18px; gap: 10px;
-}
+/* CONTROLS */
+.controls { display: flex; align-items: center; margin-top: 18px; gap: 10px; }
 .upgrade {
-  height: 50px;
-  min-width: 220px;
-  padding: 0 28px;
-  border: 1px solid #a64dff;
-  border-radius: 4px;
+  height: 50px; min-width: 220px; padding: 0 28px;
+  border: 1px solid #a64dff; border-radius: 4px;
   background: linear-gradient(180deg, rgba(140, 0, 255, 0.4), rgba(60, 0, 130, 0.7));
-  color: #fff;
-  font-size: 14px;
-  font-weight: 900;
-  letter-spacing: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: #fff; font-size: 14px; font-weight: 900; letter-spacing: 4px;
+  cursor: pointer; transition: all 0.2s ease;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   text-shadow: 0 0 8px #fff;
-  box-shadow:
-    0 0 20px rgba(166, 77, 255, 0.4),
-    inset 0 0 15px rgba(0, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(166, 77, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.15);
 }
 .upgrade.ready {
   border-color: #00ffff;
   background: linear-gradient(180deg, rgba(0, 255, 255, 0.3), rgba(140, 0, 255, 0.6));
-  box-shadow:
-    0 0 30px rgba(0, 255, 255, 0.6),
-    inset 0 0 20px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.15);
   animation: readyPulse 1.6s ease-in-out infinite;
 }
 @keyframes readyPulse {
@@ -413,19 +291,14 @@ body::after {
 }
 .upgrade:hover {
   transform: translateY(-2px);
-  box-shadow:
-    0 0 30px rgba(0, 255, 255, 0.7),
-    inset 0 0 20px rgba(0, 255, 255, 0.25);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), inset 0 0 20px rgba(0, 255, 255, 0.25);
 }
 .upgrade:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .energy {
   width: 50px; height: 50px;
-  border: 1px solid #00ffff;
-  border-radius: 4px;
+  border: 1px solid #00ffff; border-radius: 4px;
   background: linear-gradient(180deg, rgba(0, 200, 255, 0.2), rgba(0, 60, 100, 0.5));
-  color: #00ffff;
-  font-size: 22px;
-  cursor: pointer;
+  color: #00ffff; font-size: 22px; cursor: pointer;
   transition: all 0.2s ease;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
@@ -436,331 +309,154 @@ body::after {
   background: linear-gradient(180deg, rgba(0, 255, 255, 0.4), rgba(0, 100, 150, 0.6));
 }
 .instruction {
-  text-align: center;
-  color: #a64dff;
-  font-size: 11px;
-  line-height: 1.6;
-  margin-top: 38px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  text-align: center; color: #a64dff;
+  font-size: 11px; line-height: 1.6;
+  margin-top: 38px; font-weight: 700; letter-spacing: 1px;
   text-shadow: 0 0 8px rgba(166, 77, 255, 0.5);
 }
 
-/* ========== LOWER ========== */
-.lower {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-top: 16px;
-}
-.panel {
-  min-height: 380px;
-  max-height: 480px;
-  padding: 16px;
-}
+/* LOWER */
+.lower { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px; }
+.panel { min-height: 380px; max-height: 480px; padding: 16px; }
 
 .search {
-  width: 100%; height: 38px;
-  padding: 0 14px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  border-radius: 4px;
-  background: rgba(5, 3, 15, 0.9);
-  color: #00ffff;
-  font-size: 11px;
-  outline: none;
-  transition: all 0.2s ease;
+  width: 100%; height: 38px; padding: 0 14px; margin-bottom: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 4px;
+  background: rgba(5, 3, 15, 0.9); color: #00ffff;
+  font-size: 11px; outline: none; transition: all 0.2s ease;
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
-  flex-shrink: 0;
-  letter-spacing: 1px;
+  flex-shrink: 0; letter-spacing: 1px;
 }
 .search::placeholder { color: #6d5b99; }
-.search:focus {
-  border-color: #00ffff;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.1);
-}
+.search:focus { border-color: #00ffff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.1); }
 
-/* ========== TARGET ITEMS ========== */
-.items {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 2px;
-}
+/* TARGET ITEMS */
+.items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; flex: 1; overflow-y: auto; padding-right: 2px; }
 .item {
-  position: relative;
-  min-height: 118px;
-  padding: 10px 8px;
+  position: relative; min-height: 118px; padding: 10px 8px;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  text-align: center;
-  cursor: pointer;
-  color: #fff;
+  text-align: center; cursor: pointer; color: #fff;
   background: linear-gradient(180deg, rgba(20, 10, 45, 0.8), rgba(8, 4, 20, 0.95));
-  border: 1px solid rgba(140, 0, 255, 0.3);
-  border-radius: 4px;
+  border: 1px solid rgba(140, 0, 255, 0.3); border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   transition: all 0.2s ease;
 }
 .item::after {
-  content: "";
-  position: absolute;
-  top: 4px; right: 4px;
-  width: 6px; height: 6px;
-  background: #a64dff;
+  content: ""; position: absolute; top: 4px; right: 4px;
+  width: 6px; height: 6px; background: #a64dff;
   box-shadow: 0 0 8px #a64dff;
 }
 .item:hover {
-  border-color: #00ffff;
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 25px rgba(0, 255, 255, 0.5),
-    inset 0 0 15px rgba(0, 255, 255, 0.1);
+  border-color: #00ffff; transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.5), inset 0 0 15px rgba(0, 255, 255, 0.1);
 }
 .item.selected {
   border-color: #00ffff;
   background: linear-gradient(180deg, rgba(140, 0, 255, 0.4), rgba(0, 200, 255, 0.15));
-  box-shadow:
-    0 0 30px rgba(0, 255, 255, 0.6),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
-.item.selected::after {
-  background: #00ffff;
-  box-shadow: 0 0 12px #00ffff;
-}
-.item-img {
-  width: 52px; height: 52px; object-fit: contain;
-  margin-bottom: 6px;
-  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.4));
-}
-.item-name {
-  color: #e6f7ff;
-  font-size: 10px;
-  line-height: 1.25;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-}
+.item.selected::after { background: #00ffff; box-shadow: 0 0 12px #00ffff; }
+.item-img { width: 52px; height: 52px; object-fit: contain; margin-bottom: 6px; filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.4)); }
+.item-name { color: #e6f7ff; font-size: 10px; line-height: 1.25; font-weight: 800; letter-spacing: 0.5px; }
 .item-price {
-  margin-top: 5px;
-  color: #00ffff;
-  font-size: 11px;
-  font-weight: 900;
+  margin-top: 5px; color: #00ffff; font-size: 11px; font-weight: 900;
   display: flex; align-items: center; justify-content: center;
   text-shadow: 0 0 8px #00ffff;
 }
 
-/* ========== SHOP ========== */
-.shop-items {
-  display: flex; flex-direction: column;
-  gap: 8px; flex: 1; overflow-y: auto; padding-right: 2px;
-}
+/* SHOP */
+.shop-items { display: flex; flex-direction: column; gap: 8px; flex: 1; overflow-y: auto; padding-right: 2px; }
 .shop-item {
-  min-height: 68px;
-  padding: 8px 10px;
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) auto;
-  align-items: center; gap: 10px;
-  cursor: pointer;
+  min-height: 68px; padding: 8px 10px;
+  display: grid; grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center; gap: 10px; cursor: pointer;
   background: linear-gradient(90deg, rgba(20, 10, 45, 0.85), rgba(8, 4, 20, 0.95));
-  border: 1px solid rgba(140, 0, 255, 0.3);
-  border-radius: 4px;
+  border: 1px solid rgba(140, 0, 255, 0.3); border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
-  transition: all 0.2s ease;
-  position: relative;
+  transition: all 0.2s ease; position: relative;
 }
 .shop-item::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 50%;
+  content: ""; position: absolute; left: 0; top: 50%;
   transform: translateY(-50%);
-  width: 3px; height: 60%;
-  background: #a64dff;
-  box-shadow: 0 0 10px #a64dff;
-  transition: all 0.2s ease;
+  width: 3px; height: 60%; background: #a64dff;
+  box-shadow: 0 0 10px #a64dff; transition: all 0.2s ease;
 }
-.shop-item:hover {
-  border-color: #00ffff;
-  transform: translateX(3px);
-  box-shadow:
-    0 0 20px rgba(0, 255, 255, 0.4),
-    inset 0 0 15px rgba(0, 255, 255, 0.08);
-}
-.shop-item:hover::before {
-  background: #00ffff;
-  box-shadow: 0 0 15px #00ffff;
-}
+.shop-item:hover { border-color: #00ffff; transform: translateX(3px); box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.08); }
+.shop-item:hover::before { background: #00ffff; box-shadow: 0 0 15px #00ffff; }
 .shop-item-img { width: 44px; height: 44px; object-fit: contain; }
 .shop-item-info { display: flex; flex-direction: column; min-width: 0; }
-.shop-item-name {
-  color: #e6f7ff;
-  font-size: 10px;
-  font-weight: 800;
-  line-height: 1.2;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  letter-spacing: 0.5px;
-}
-.shop-item-price {
-  color: #00ffff;
-  font-size: 11px;
-  font-weight: 900;
-  margin-top: 3px;
-  display: flex; align-items: center;
-  text-shadow: 0 0 6px #00ffff;
-}
+.shop-item-name { color: #e6f7ff; font-size: 10px; font-weight: 800; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.5px; }
+.shop-item-price { color: #00ffff; font-size: 11px; font-weight: 900; margin-top: 3px; display: flex; align-items: center; text-shadow: 0 0 6px #00ffff; }
 .buy-item {
-  height: 34px;
-  padding: 0 14px;
-  border: 1px solid #00ffff;
-  border-radius: 3px;
+  height: 34px; padding: 0 14px;
+  border: 1px solid #00ffff; border-radius: 3px;
   background: linear-gradient(180deg, rgba(0, 200, 255, 0.2), rgba(0, 80, 120, 0.5));
-  color: #00ffff;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  color: #00ffff; font-size: 9px; font-weight: 900; letter-spacing: 1.5px;
+  cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
   clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
   text-shadow: 0 0 6px #00ffff;
 }
-.buy-item:hover {
-  background: linear-gradient(180deg, rgba(0, 255, 255, 0.4), rgba(0, 150, 200, 0.7));
-  color: #fff;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-}
-.buy-item:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  border-color: rgba(0, 255, 255, 0.2);
-}
+.buy-item:hover { background: linear-gradient(180deg, rgba(0, 255, 255, 0.4), rgba(0, 150, 200, 0.7)); color: #fff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); }
+.buy-item:disabled { opacity: 0.3; cursor: not-allowed; border-color: rgba(0, 255, 255, 0.2); }
 
-/* ========== INVENTORY ========== */
-.inventory-list {
-  display: flex; flex-direction: column;
-  gap: 8px; flex: 1;
-  overflow-y: auto; padding-right: 2px;
-  margin-top: 6px;
-}
+/* INVENTORY */
+.inventory-list { display: flex; flex-direction: column; gap: 8px; flex: 1; overflow-y: auto; padding-right: 2px; margin-top: 6px; }
 .inventory-item {
-  padding: 8px 10px;
-  display: grid;
+  padding: 8px 10px; display: grid;
   grid-template-columns: 44px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+  align-items: center; gap: 10px; cursor: pointer;
   background: linear-gradient(90deg, rgba(20, 10, 45, 0.85), rgba(8, 4, 20, 0.95));
-  border: 1px solid rgba(140, 0, 255, 0.3);
-  border-radius: 4px;
+  border: 1px solid rgba(140, 0, 255, 0.3); border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
   transition: all 0.2s ease;
 }
-.inventory-item:hover {
-  border-color: #00ffff;
-  transform: translateX(3px);
-  box-shadow: 0 0 18px rgba(0, 255, 255, 0.4);
-}
+.inventory-item:hover { border-color: #00ffff; transform: translateX(3px); box-shadow: 0 0 18px rgba(0, 255, 255, 0.4); }
 .inventory-item.selected {
   border-color: #00ffff;
   background: linear-gradient(90deg, rgba(140, 0, 255, 0.4), rgba(0, 200, 255, 0.15));
-  box-shadow:
-    0 0 22px rgba(0, 255, 255, 0.6),
-    inset 0 0 15px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 22px rgba(0, 255, 255, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.1);
 }
 .inventory-item-img { width: 42px; height: 42px; object-fit: contain; }
 .inventory-item-info { min-width: 0; }
-.inventory-item-actions {
-  display: flex; gap: 6px; align-items: center;
-  flex-wrap: wrap; justify-content: flex-end;
-}
-.inventory-item-name {
-  font-size: 10px;
-  color: #e6f7ff;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: 0.5px;
-}
-.inventory-item-price {
-  font-size: 10px;
-  color: #00ffff;
-  font-weight: 900;
-  margin-top: 3px;
-  display: flex; align-items: center;
-  text-shadow: 0 0 6px #00ffff;
-}
+.inventory-item-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.inventory-item-name { font-size: 10px; color: #e6f7ff; font-weight: 800; line-height: 1.2; letter-spacing: 0.5px; }
+.inventory-item-price { font-size: 10px; color: #00ffff; font-weight: 900; margin-top: 3px; display: flex; align-items: center; text-shadow: 0 0 6px #00ffff; }
 .sell-item, .withdraw-item {
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 3px;
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  height: 28px; padding: 0 10px; border-radius: 3px;
+  font-size: 8px; font-weight: 900; letter-spacing: 1px;
+  cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
   clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
 }
-.sell-item {
-  border: 1px solid #ff2d7e;
-  background: rgba(80, 0, 40, 0.5);
-  color: #ff2d7e;
-  text-shadow: 0 0 6px #ff2d7e;
-}
-.sell-item:hover {
-  background: rgba(255, 45, 126, 0.3);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(255, 45, 126, 0.7);
-}
-.withdraw-item {
-  border: 1px solid #00ffff;
-  background: rgba(0, 80, 120, 0.4);
-  color: #00ffff;
-  text-shadow: 0 0 6px #00ffff;
-}
-.withdraw-item:hover {
-  background: rgba(0, 255, 255, 0.3);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
-}
+.sell-item { border: 1px solid #ff2d7e; background: rgba(80, 0, 40, 0.5); color: #ff2d7e; text-shadow: 0 0 6px #ff2d7e; }
+.sell-item:hover { background: rgba(255, 45, 126, 0.3); color: #fff; box-shadow: 0 0 15px rgba(255, 45, 126, 0.7); }
+.withdraw-item { border: 1px solid #00ffff; background: rgba(0, 80, 120, 0.4); color: #00ffff; text-shadow: 0 0 6px #00ffff; }
+.withdraw-item:hover { background: rgba(0, 255, 255, 0.3); color: #fff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); }
 
-/* ========== FORMS ========== */
+/* FORMS */
 .withdraw-form, .promo-card, .profile-card, .admin-panel {
-  padding: 16px;
-  margin-top: 12px;
+  padding: 16px; margin-top: 12px;
   background: linear-gradient(180deg, rgba(20, 10, 45, 0.85), rgba(8, 4, 20, 0.95));
-  border: 1px solid rgba(0, 255, 255, 0.35);
-  border-radius: 4px;
+  border: 1px solid rgba(0, 255, 255, 0.35); border-radius: 4px;
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
 }
 .withdraw-form[hidden] { display: none; }
 .withdraw-form-title {
-  font-size: 10px;
-  font-weight: 900;
-  color: #00ffff;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+  font-size: 10px; font-weight: 900; color: #00ffff;
+  letter-spacing: 2px; margin-bottom: 10px;
   text-shadow: 0 0 8px #00ffff;
 }
 .withdraw-input, .withdraw-textarea, .promo-input, .admin-input {
   width: 100%;
   border: 1px solid rgba(0, 255, 255, 0.3);
-  background: rgba(5, 3, 15, 0.9);
-  color: #00ffff;
-  border-radius: 4px;
-  padding: 10px 12px;
-  outline: none;
-  font: inherit;
-  font-size: 11px;
-  margin-top: 8px;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
+  background: rgba(5, 3, 15, 0.9); color: #00ffff;
+  border-radius: 4px; padding: 10px 12px;
+  outline: none; font: inherit; font-size: 11px;
+  margin-top: 8px; transition: all 0.2s ease; letter-spacing: 0.5px;
 }
-.withdraw-input::placeholder,
-.withdraw-textarea::placeholder,
-.promo-input::placeholder,
-.admin-input::placeholder { color: #6d5b99; }
+.withdraw-input::placeholder, .withdraw-textarea::placeholder,
+.promo-input::placeholder, .admin-input::placeholder { color: #6d5b99; }
 .withdraw-input:focus, .withdraw-textarea:focus,
 .promo-input:focus, .admin-input:focus {
   border-color: #00ffff;
@@ -769,152 +465,62 @@ body::after {
 .withdraw-textarea { min-height: 65px; resize: vertical; }
 .withdraw-actions { display: flex; gap: 8px; margin-top: 10px; }
 .withdraw-submit, .withdraw-cancel {
-  flex: 1;
-  min-height: 36px;
-  border-radius: 3px;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  flex: 1; min-height: 36px; border-radius: 3px;
+  font-size: 9px; font-weight: 900; letter-spacing: 1.5px;
+  cursor: pointer; transition: all 0.2s ease;
   clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
-.withdraw-submit {
-  border: 1px solid #00ffff;
-  background: linear-gradient(180deg, rgba(0, 200, 255, 0.25), rgba(0, 80, 120, 0.5));
-  color: #00ffff;
-  text-shadow: 0 0 6px #00ffff;
-}
-.withdraw-submit:hover {
-  background: linear-gradient(180deg, rgba(0, 255, 255, 0.45), rgba(0, 150, 200, 0.7));
-  color: #fff;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-}
-.withdraw-cancel {
-  border: 1px solid rgba(166, 77, 255, 0.5);
-  background: rgba(60, 0, 130, 0.4);
-  color: #a64dff;
-}
-.withdraw-cancel:hover {
-  background: rgba(166, 77, 255, 0.3);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(166, 77, 255, 0.6);
-}
-.withdraw-message {
-  margin-top: 7px;
-  font-size: 9px;
-  color: #ff2d7e;
-  line-height: 1.3;
-}
+.withdraw-submit { border: 1px solid #00ffff; background: linear-gradient(180deg, rgba(0, 200, 255, 0.25), rgba(0, 80, 120, 0.5)); color: #00ffff; text-shadow: 0 0 6px #00ffff; }
+.withdraw-submit:hover { background: linear-gradient(180deg, rgba(0, 255, 255, 0.45), rgba(0, 150, 200, 0.7)); color: #fff; box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); }
+.withdraw-cancel { border: 1px solid rgba(166, 77, 255, 0.5); background: rgba(60, 0, 130, 0.4); color: #a64dff; }
+.withdraw-cancel:hover { background: rgba(166, 77, 255, 0.3); color: #fff; box-shadow: 0 0 15px rgba(166, 77, 255, 0.6); }
+.withdraw-message { margin-top: 7px; font-size: 9px; color: #ff2d7e; line-height: 1.3; }
 
-/* ========== ADMIN LISTS ========== */
-.admin-withdrawals {
-  margin-top: 14px;
-  border-top: 1px solid rgba(0, 255, 255, 0.15);
-  padding-top: 12px;
-}
+/* ADMIN LISTS */
+.admin-withdrawals { margin-top: 14px; border-top: 1px solid rgba(0, 255, 255, 0.15); padding-top: 12px; }
 .admin-withdrawal {
-  padding: 10px;
-  margin-top: 8px;
-  cursor: pointer;
+  padding: 10px; margin-top: 8px; cursor: pointer;
   background: rgba(5, 3, 15, 0.8);
   border: 1px solid rgba(140, 0, 255, 0.3);
-  border-left: 3px solid #a64dff;
-  border-radius: 3px;
+  border-left: 3px solid #a64dff; border-radius: 3px;
   transition: all 0.2s ease;
 }
-.admin-withdrawal:hover {
-  border-color: #00ffff;
-  border-left-color: #00ffff;
-  box-shadow: 0 0 18px rgba(0, 255, 255, 0.3);
-}
-.admin-withdrawal-title {
-  font-size: 10px;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: 1px;
-}
-.admin-withdrawal-meta {
-  margin-top: 4px;
-  font-size: 9px;
-  color: #a64dff;
-  letter-spacing: 0.5px;
-}
+.admin-withdrawal:hover { border-color: #00ffff; border-left-color: #00ffff; box-shadow: 0 0 18px rgba(0, 255, 255, 0.3); }
+.admin-withdrawal-title { font-size: 10px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+.admin-withdrawal-meta { margin-top: 4px; font-size: 9px; color: #a64dff; letter-spacing: 0.5px; }
 .admin-withdrawal-details {
-  display: none;
-  margin-top: 8px;
-  padding-top: 8px;
+  display: none; margin-top: 8px; padding-top: 8px;
   border-top: 1px solid rgba(0, 255, 255, 0.15);
-  font-size: 9px;
-  line-height: 1.6;
-  color: #b8d4e6;
+  font-size: 9px; line-height: 1.6; color: #b8d4e6;
 }
 .admin-withdrawal.open .admin-withdrawal-details { display: block; }
 
-/* ========== PROFILE ========== */
+/* PROFILE */
 .profile-panel { position: relative; }
 .profile-title { border-left-color: #00ffff !important; }
 .profile-card {
-  min-height: 220px;
-  display: flex; align-items: center;
-  flex-direction: column; justify-content: center;
-  padding: 22px;
+  min-height: 220px; display: flex; align-items: center;
+  flex-direction: column; justify-content: center; padding: 22px;
 }
 .profile-avatar {
-  width: 70px; height: 70px;
-  border-radius: 50%;
+  width: 70px; height: 70px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
-  font-weight: 900;
-  color: #05030d;
+  font-size: 28px; font-weight: 900; color: #05030d;
   background: linear-gradient(135deg, #00ffff, #a64dff);
-  box-shadow:
-    0 0 25px rgba(0, 255, 255, 0.6),
-    0 0 50px rgba(166, 77, 255, 0.4);
-  margin-bottom: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.6), 0 0 50px rgba(166, 77, 255, 0.4);
+  margin-bottom: 14px; cursor: pointer; transition: all 0.25s ease;
   border: 2px solid #fff;
 }
-.profile-avatar:hover {
-  transform: scale(1.08);
-  box-shadow:
-    0 0 35px rgba(0, 255, 255, 0.9),
-    0 0 70px rgba(166, 77, 255, 0.6);
-}
-.profile-username {
-  font-size: 18px;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: 1px;
-  text-shadow: 0 0 12px #00ffff;
-}
-.profile-meta {
-  margin-top: 6px;
-  color: #a64dff;
-  font-size: 9px;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  text-shadow: 0 0 8px #a64dff;
-}
-.telegram-account-button {
-  display: flex; align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  box-sizing: border-box;
-}
+.profile-avatar:hover { transform: scale(1.08); box-shadow: 0 0 35px rgba(0, 255, 255, 0.9), 0 0 70px rgba(166, 77, 255, 0.6); }
+.profile-username { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 0 12px #00ffff; }
+.profile-meta { margin-top: 6px; color: #a64dff; font-size: 9px; letter-spacing: 1.8px; text-transform: uppercase; text-shadow: 0 0 8px #a64dff; }
+.telegram-account-button { display: flex; align-items: center; justify-content: center; text-decoration: none; box-sizing: border-box; }
 .profile-button, .admin-button {
-  width: 100%; height: 42px;
-  margin-top: 14px;
-  border: 1px solid #a64dff;
-  border-radius: 4px;
+  width: 100%; height: 42px; margin-top: 14px;
+  border: 1px solid #a64dff; border-radius: 4px;
   background: linear-gradient(180deg, rgba(140, 0, 255, 0.35), rgba(60, 0, 130, 0.6));
-  color: #fff;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: #fff; font-size: 10px; font-weight: 900; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.2s ease;
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   text-shadow: 0 0 6px #fff;
 }
@@ -923,102 +529,37 @@ body::after {
   border-color: #00ffff;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
 }
-.profile-cooldown {
-  min-height: 25px;
-  margin-top: 8px;
-  color: #a64dff;
-  font-size: 9px;
-  line-height: 1.5;
-  text-align: center;
-  letter-spacing: 1px;
-}
+.profile-cooldown { min-height: 25px; margin-top: 8px; color: #a64dff; font-size: 9px; line-height: 1.5; text-align: center; letter-spacing: 1px; }
 .admin-panel { margin-top: 12px; }
-.admin-title {
-  color: #00ffff;
-  font-weight: 900;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 10px #00ffff;
-}
-.admin-subtitle {
-  margin: 6px 0 10px;
-  color: #a64dff;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-}
-.admin-message {
-  min-height: 18px;
-  margin-top: 8px;
-  color: #00ffff;
-  font-size: 9px;
-  line-height: 1.4;
-}
+.admin-title { color: #00ffff; font-weight: 900; font-size: 11px; letter-spacing: 2px; text-shadow: 0 0 10px #00ffff; }
+.admin-subtitle { margin: 6px 0 10px; color: #a64dff; font-size: 9px; letter-spacing: 1.5px; }
+.admin-message { min-height: 18px; margin-top: 8px; color: #00ffff; font-size: 9px; line-height: 1.4; }
 
-/* ========== TABS ========== */
+/* TABS */
 .tab-panel[hidden] { display: none !important; }
 .dedicated-tab { margin-top: 10px; }
-.mini-title-icon {
-  font-size: 12px;
-  margin-right: 4px;
-  color: #00ffff;
-  text-shadow: 0 0 10px #00ffff;
-}
+.mini-title-icon { font-size: 12px; margin-right: 4px; color: #00ffff; text-shadow: 0 0 10px #00ffff; }
 
-/* ========== PROMO ========== */
-.promo-card {
-  max-width: 480px;
-  margin: 0 auto;
-  text-align: center;
-}
-.promo-description {
-  font-size: 11px;
-  color: #a64dff;
-  margin-bottom: 14px;
-  letter-spacing: 1px;
-}
-.promo-input {
-  height: 46px;
-  padding: 0 16px;
-  font-size: 13px;
-  letter-spacing: 3px;
-  text-align: center;
-  text-transform: uppercase;
-}
+/* PROMO */
+.promo-card { max-width: 480px; margin: 0 auto; text-align: center; }
+.promo-description { font-size: 11px; color: #a64dff; margin-bottom: 14px; letter-spacing: 1px; }
+.promo-input { height: 46px; padding: 0 16px; font-size: 13px; letter-spacing: 3px; text-align: center; text-transform: uppercase; }
 .promo-button {
-  width: 100%;
-  height: 50px;
-  margin-top: 10px;
-  border: 1px solid #00ffff;
-  border-radius: 4px;
+  width: 100%; height: 50px; margin-top: 10px;
+  border: 1px solid #00ffff; border-radius: 4px;
   background: linear-gradient(180deg, rgba(0, 200, 255, 0.25), rgba(0, 80, 120, 0.5));
-  color: #00ffff;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: #00ffff; font-size: 12px; font-weight: 900; letter-spacing: 4px;
+  cursor: pointer; transition: all 0.2s ease;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   text-shadow: 0 0 8px #00ffff;
 }
-.promo-button:hover {
-  background: linear-gradient(180deg, rgba(0, 255, 255, 0.45), rgba(0, 150, 200, 0.7));
-  color: #fff;
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
-  transform: translateY(-2px);
-}
+.promo-button:hover { background: linear-gradient(180deg, rgba(0, 255, 255, 0.45), rgba(0, 150, 200, 0.7)); color: #fff; box-shadow: 0 0 25px rgba(0, 255, 255, 0.8); transform: translateY(-2px); }
 .promo-button:disabled { opacity: 0.5; cursor: not-allowed; }
-.promo-message {
-  min-height: 18px;
-  margin-top: 10px;
-  text-align: center;
-  font-size: 11px;
-  color: #00ffff;
-  letter-spacing: 1px;
-}
+.promo-message { min-height: 18px; margin-top: 10px; text-align: center; font-size: 11px; color: #00ffff; letter-spacing: 1px; }
 .promo-message.error { color: #ff2d7e; }
 .promo-message.success { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
 
-/* ========== RESPONSIVE ========== */
+/* RESPONSIVE */
 @media (max-width: 850px) {
   .balance { position: relative; left: auto; top: auto; margin: 0 auto 14px; width: max-content; }
   .top-area { grid-template-columns: 1fr; gap: 16px; }
@@ -1039,15 +580,9 @@ body::after {
   .shop-item { grid-template-columns: minmax(0, 1fr) auto; column-gap: 6px; }
   .buy-item { padding: 0 8px; font-size: 8px; }
 }
-
-/* ========== SCROLLBARS ========== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: rgba(5, 3, 15, 0.9); }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #a64dff, #00ffff);
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
-}
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a64dff, #00ffff); border-radius: 6px; box-shadow: 0 0 8px rgba(0, 255, 255, 0.5); }
 ::-webkit-scrollbar-thumb:hover { background: #00ffff; }
 * { scrollbar-color: #a64dff #05030d; scrollbar-width: thin; }
 </style>
@@ -1058,15 +593,9 @@ body::after {
 <div class="app">
 
   <nav class="top-nav" aria-label="Навигация">
-    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
-      <span class="nav-icon">⌂</span><span>ИГРА</span>
-    </button>
-    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">
-      <span class="nav-icon">%</span><span>ПРОМО</span>
-    </button>
-    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">
-      <span class="nav-icon">◉</span><span>ПРОФИЛЬ</span>
-    </button>
+    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')"><span class="nav-icon">⌂</span><span>ИГРА</span></button>
+    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')"><span class="nav-icon">%</span><span>ПРОМО</span></button>
+    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')"><span class="nav-icon">◉</span><span>ПРОФИЛЬ</span></button>
   </nav>
 
   <div class="balance">
@@ -1087,9 +616,7 @@ body::after {
       <div class="center">
         <div class="wheel" id="wheel" style="--wheel-green: 0deg;">
           <div class="tick-ring"></div>
-          <div class="pointer-wrap" id="pointerWrap">
-            <div class="pointer"></div>
-          </div>
+          <div class="pointer-wrap" id="pointerWrap"><div class="pointer"></div></div>
           <div class="wheel-center">
             <div class="wheel-label">ШАНС</div>
             <div class="wheel-chance" id="wheelChance">0%</div>
@@ -1215,7 +742,7 @@ body::after {
 </div>
 
 <script>
-/* ITEMS — La Grande = Grande.png */
+/* ============ ITEMS ============ */
 const items = [
   { name: 'La Grande Combination', price: 1,     img: 'Grande.png' },
   { name: 'Bananito',              price: 7,     img: 'Bananchik.png' },
@@ -1227,7 +754,10 @@ const items = [
   { name: 'Skibidi toilet',        price: 15000, img: 'Skibidi.png' }
 ];
 
-/* 💎 emoji вместо Balans.png */
+function escapeHtml(value) {
+  return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 function getCrystalHtml(extraClass = 'crystal-icon') {
   return `<span class="${extraClass}" style="font-size:14px;filter:drop-shadow(0 0 6px #00ffff);vertical-align:middle;display:inline-block;margin:0 3px;">💎</span>`;
 }
@@ -1244,7 +774,7 @@ function getItemImgHtml(item, extraClass = 'item-img') {
   return `<div class="item-img-placeholder ${extraClass}">${name.charAt(0)}</div>`;
 }
 
-/* STATE — старт баланс 0 */
+/* ============ STATE ============ */
 let balance = 0;
 let inventory = [];
 let normalInventory = [];
@@ -1264,7 +794,7 @@ let promoCodes = [];
 let profile = null;
 let users = {};
 
-/* PROFILE */
+/* ============ PROFILE ============ */
 function makeUsername() { return 'user' + Math.floor(100000 + Math.random() * 900000); }
 function normalizeUsername(v) { return String(v || '').trim().replace(/^@+/, '').toLowerCase(); }
 function validUsername(v) { return /^[a-z0-9_]{3,20}$/.test(v); }
@@ -1430,9 +960,10 @@ function renderProfile() {
 
   renderAdminWithdrawals();
   renderAdminPromos();
-  if (typeof renderServerUrlConfig === 'function') renderServerUrlConfig();
+  renderServerUrlConfig();
 }
 
+/* ============ CHANCES ============ */
 const upgradeChances = {
   0:{0:100,1:19.7,2:9.7,3:4.7,4:2.7,5:1,6:0,7:0},
   1:{1:100,2:49.7,3:38.7,4:14.7,5:4,6:4.7,7:0},
@@ -1444,6 +975,7 @@ const upgradeChances = {
   7:{7:100,5:0,6:0}
 };
 
+/* ============ DOM ============ */
 const itemGrid = document.getElementById('items');
 const shopGrid = document.getElementById('shopItems');
 const search = document.getElementById('search');
@@ -1459,6 +991,7 @@ const upgradeBtn = document.getElementById('upgradeBtn');
 const instruction = document.getElementById('instruction');
 const balanceEl = document.getElementById('balance');
 
+/* ============ RENDER SHOP ============ */
 function renderShop() {
   shopGrid.innerHTML = '';
   items.forEach((item,index)=>{
@@ -1478,6 +1011,7 @@ function renderShop() {
   });
 }
 
+/* ============ RENDER INVENTORY ============ */
 function renderInventory() {
   const oldList = document.getElementById('inventoryList');
   if (oldList) oldList.remove();
@@ -1515,15 +1049,13 @@ function renderInventory() {
   document.getElementById('upgraderInventoryPanel').appendChild(list);
 }
 
+/* ============ NORMAL INVENTORY ============ */
 function renderNormalInventory() {
   const panel = document.getElementById('normalInventoryPanel');
   const oldList = document.getElementById('normalInventoryList');
   if (oldList) oldList.remove();
   const status = document.getElementById('normalInventoryStatus');
-  if (normalInventory.length === 0) {
-    status.textContent = 'Инвентарь пуст';
-    return;
-  }
+  if (normalInventory.length === 0) { status.textContent = 'Инвентарь пуст'; return; }
   status.textContent = 'Предметов: ' + normalInventory.length;
   const list = document.createElement('div');
   list.id = 'normalInventoryList';
@@ -1545,6 +1077,7 @@ function renderNormalInventory() {
   panel.appendChild(list);
 }
 
+/* ============ WITHDRAW ============ */
 function openWithdrawForm(slotIndex) {
   if (spinning || inventory[slotIndex] === undefined) return;
   withdrawalSlot = slotIndex;
@@ -1555,7 +1088,6 @@ function openWithdrawForm(slotIndex) {
   const username = document.getElementById('withdrawRobloxUsername');
   if (username) username.focus();
 }
-
 function closeWithdrawForm() {
   withdrawalSlot = null;
   const form = document.getElementById('withdrawForm');
@@ -1566,7 +1098,6 @@ function closeWithdrawForm() {
   const message = document.getElementById('withdrawMessage');
   if (message) message.textContent = '';
 }
-
 function submitWithdrawal() {
   if (spinning || withdrawalSlot === null || inventory[withdrawalSlot] === undefined) return;
   const usernameEl = document.getElementById('withdrawRobloxUsername');
@@ -1599,10 +1130,7 @@ function submitWithdrawal() {
   closeWithdrawForm(); renderAll(); updateTop();
 }
 
-function escapeHtml(value) {
-  return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
-
+/* ============ ADMIN WITHDRAWALS ============ */
 function renderAdminWithdrawals() {
   const list = document.getElementById('adminWithdrawalsList');
   if (!list) return;
@@ -1631,6 +1159,7 @@ function renderAdminWithdrawals() {
   });
 }
 
+/* ============ SELL ============ */
 function sellItem(slotIndex) {
   if (spinning) return;
   if (inventory[slotIndex] === undefined) return;
@@ -1648,6 +1177,7 @@ function sellItem(slotIndex) {
   updateTop();
 }
 
+/* ============ TARGETS ============ */
 function renderTargets() {
   const query = search.value.trim().toLowerCase();
   itemGrid.innerHTML = '';
@@ -1666,6 +1196,7 @@ function renderTargets() {
   });
 }
 
+/* ============ RENDER ALL ============ */
 function renderAll() {
   balanceEl.textContent = balance;
   renderShop();
@@ -1674,8 +1205,10 @@ function renderAll() {
   renderTargets();
   renderProfile();
   renderAdminWithdrawals();
+  renderAdminPromos();
 }
 
+/* ============ BUY ============ */
 function buyItem(index) {
   if (spinning) return;
   const item = items[index];
@@ -1691,6 +1224,7 @@ function buyItem(index) {
   renderAll();
 }
 
+/* ============ SELECT SOURCE ============ */
 function selectSource(slotIndex) {
   if (spinning) return;
   if (inventory[slotIndex] === undefined) return;
@@ -1712,6 +1246,7 @@ function selectSource(slotIndex) {
   updateTop();
 }
 
+/* ============ SELECT TARGET ============ */
 function selectTarget(index) {
   if (spinning) return;
   targetItem = index;
@@ -1729,6 +1264,7 @@ function selectTarget(index) {
   updateTop();
 }
 
+/* ============ CLEAR SOURCE ============ */
 function clearSourceDisplay() {
   selectedCard.style.display = 'none';
   selectedNumber.textContent = '—';
@@ -1739,28 +1275,23 @@ function clearSourceDisplay() {
   `;
 }
 
-function focusInventory() {
-  document.getElementById('upgraderInventoryPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-function focusTargets() {
-  document.getElementById('targetPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
-  search.focus();
-}
+/* ============ FOCUS ============ */
+function focusInventory() { document.getElementById('upgraderInventoryPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); }
+function focusTargets() { document.getElementById('targetPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); search.focus(); }
 
+/* ============ CHANCE ============ */
 function getUpgradeChance() {
   if (sourceItem === null || targetItem === null) return 0;
   const sourceIndex = inventory[sourceItem];
   if (!upgradeChances[sourceIndex] || upgradeChances[sourceIndex][targetItem] === undefined) return 0;
   return upgradeChances[sourceIndex][targetItem];
 }
-
 function updateDisplayedChance() {
   const chance = getUpgradeChance();
   wheelChance.textContent = chance + '%';
   const deg = Math.min(359.99, chance * 3.6);
   wheel.style.setProperty('--wheel-green', deg + 'deg');
 }
-
 function updateTop() {
   updateDisplayedChance();
   if (sourceItem !== null && targetItem !== null) {
@@ -1776,16 +1307,11 @@ function updateTop() {
   }
 }
 
+/* ============ UPGRADE ============ */
 function upgrade() {
   if (spinning) return;
-  if (sourceItem === null) {
-    instruction.textContent = 'Сначала выбери предмет из инвентаря апгрейдера.';
-    focusInventory(); return;
-  }
-  if (targetItem === null) {
-    instruction.textContent = 'Теперь выбери желаемый предмет.';
-    focusTargets(); return;
-  }
+  if (sourceItem === null) { instruction.textContent = 'Сначала выбери предмет из инвентаря апгрейдера.'; focusInventory(); return; }
+  if (targetItem === null) { instruction.textContent = 'Теперь выбери желаемый предмет.'; focusTargets(); return; }
   const sourceSlotIndex = sourceItem;
   const sourceIndex = inventory[sourceSlotIndex];
   const targetIndex = targetItem;
@@ -1794,12 +1320,7 @@ function upgrade() {
   if (!source || !target) return;
   const chance = getUpgradeChance();
   spinning = true;
-  localStorage.setItem(PENDING_UPGRADE_KEY, JSON.stringify({
-    username: profile?.username || '',
-    slotIndex: sourceSlotIndex,
-    sourceIndex, targetIndex,
-    startedAt: Date.now()
-  }));
+  localStorage.setItem(PENDING_UPGRADE_KEY, JSON.stringify({ username: profile?.username || '', slotIndex: sourceSlotIndex, sourceIndex, targetIndex, startedAt: Date.now() }));
   upgradeBtn.disabled = true;
   upgradeBtn.textContent = 'ПРОКАЧКА...';
   const win = Math.random() * 100 < chance;
@@ -1808,13 +1329,9 @@ function upgrade() {
   if (chance >= 100) finalAngle = Math.random() * 360;
   else if (chance <= 0) finalAngle = greenAngle + 8 + Math.random() * 344;
   else if (win) finalAngle = 3 + Math.random() * Math.max(1, greenAngle - 6);
-  else {
-    const redSize = 360 - greenAngle;
-    finalAngle = greenAngle + 3 + Math.random() * Math.max(1, redSize - 6);
-  }
+  else { const redSize = 360 - greenAngle; finalAngle = greenAngle + 3 + Math.random() * Math.max(1, redSize - 6); }
   pointerRotation = Math.ceil(pointerRotation / 360) * 360 + 5 * 360 + finalAngle;
   pointerWrap.style.transform = 'rotate(' + pointerRotation + 'deg)';
-
   setTimeout(()=>{
     localStorage.removeItem(PENDING_UPGRADE_KEY);
     if (win) {
@@ -1848,22 +1365,17 @@ function upgrade() {
   }, 1800);
 }
 
-function randomTarget() {
-  if (spinning) return;
-  selectTarget(Math.floor(Math.random() * items.length));
-}
-
+function randomTarget() { if (spinning) return; selectTarget(Math.floor(Math.random() * items.length)); }
 function filterItems() { renderTargets(); }
 
+/* ============ TABS ============ */
 function showTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(panel=>{
     panel.hidden = panel.dataset.tab !== tab;
     panel.classList.toggle('active', panel.dataset.tab === tab);
   });
   document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
-  const nav = document.getElementById(
-    tab === 'profile' ? 'navProfile' : tab === 'promo' ? 'navPromo' : 'navGame'
-  );
+  const nav = document.getElementById(tab === 'profile' ? 'navProfile' : tab === 'promo' ? 'navPromo' : 'navGame');
   if (nav) nav.classList.add('active');
   if (tab === 'profile') {
     renderProfile();
@@ -1873,6 +1385,7 @@ function showTab(tab) {
   }
 }
 
+/* ============ SERVER ============ */
 function getApiBaseUrl() {
   if (window.API_BASE_URL && String(window.API_BASE_URL).trim()) return String(window.API_BASE_URL).trim().replace(/\/$/, '');
   const saved = localStorage.getItem('api_base_url');
@@ -1881,14 +1394,12 @@ function getApiBaseUrl() {
   if (origin && origin !== 'null' && !origin.startsWith('file:') && !origin.includes('github.io')) return origin.replace(/\/$/, '');
   return '';
 }
-
 function setApiBaseUrl(url) {
   const clean = String(url || '').trim().replace(/\/$/, '');
   if (clean) localStorage.setItem('api_base_url', clean);
   else localStorage.removeItem('api_base_url');
   renderServerUrlConfig();
 }
-
 function renderServerUrlConfig() {
   const input = document.getElementById('adminServerUrl');
   if (input) input.value = localStorage.getItem('api_base_url') || '';
@@ -1898,7 +1409,6 @@ function renderServerUrlConfig() {
     display.textContent = url ? url : 'текущий домен';
   }
 }
-
 function saveAdminServerUrl() {
   const input = document.getElementById('adminServerUrl');
   const message = document.getElementById('adminServerUrlMessage');
@@ -1906,7 +1416,6 @@ function saveAdminServerUrl() {
   setApiBaseUrl(val);
   if (message) message.textContent = val ? '✓ Адрес сервера сохранён: ' + val : 'Используется адрес по умолчанию';
 }
-
 function changeServerUrlPrompt() {
   const current = getApiBaseUrl();
   const entered = prompt('Укажите адрес сервера на Render (например, https://saintbet.onrender.com):', current);
@@ -1915,22 +1424,16 @@ function changeServerUrlPrompt() {
     alert('Адрес сервера установлен: ' + (getApiBaseUrl() || 'по умолчанию'));
   }
 }
-
 function getTelegramInitData() {
   const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
   return tg?.initData || '';
 }
-
 async function apiRequest(path, options={}) {
   const baseUrl = getApiBaseUrl();
   if (!baseUrl && (path.startsWith('/api/') || path.startsWith('/'))) {
     const entered = prompt('Для связи с сервером укажи адрес Render бэкенда (например, https://saintbet.onrender.com):');
-    if (entered && entered.trim()) {
-      setApiBaseUrl(entered);
-      return apiRequest(path, options);
-    } else {
-      throw new Error('Не указан адрес сервера Render. Укажи его в Профиле.');
-    }
+    if (entered && entered.trim()) { setApiBaseUrl(entered); return apiRequest(path, options); }
+    else { throw new Error('Не указан адрес сервера Render. Укажи его в Профиле.'); }
   }
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
   const initData = getTelegramInitData();
@@ -1946,25 +1449,19 @@ async function apiRequest(path, options={}) {
   let data = null;
   try { data = text ? JSON.parse(text) : null; } catch(e) {}
   if (!response.ok) {
-    if (data && data.error) {
-      const err = new Error(data.error);
-      err.status = response.status; err.data = data;
-      throw err;
-    }
+    if (data && data.error) { const err = new Error(data.error); err.status = response.status; err.data = data; throw err; }
     if (response.status === 502 || response.status === 503 || response.status === 504) {
       const err = new Error('Сервер на Render просыпается (Cold Start, код ' + response.status + '). Подожди 30-40 секунд и нажми ещё раз!');
       err.status = response.status; throw err;
     }
-    if (response.status === 404) {
-      const err = new Error('Ошибка 404: адрес ' + fullUrl + ' не найден.');
-      err.status = 404; throw err;
-    }
+    if (response.status === 404) { const err = new Error('Ошибка 404: адрес ' + fullUrl + ' не найден.'); err.status = 404; throw err; }
     throw new Error('Ошибка сервера HTTP ' + response.status);
   }
   if (data === null) throw new Error('Сервер вернул не JSON.');
   return data;
 }
 
+/* ============ PROMO LOAD ============ */
 async function loadPromoCodesFromServer() {
   if (!isAdmin()) return;
   try {
@@ -1974,6 +1471,7 @@ async function loadPromoCodesFromServer() {
   } catch(e) {}
 }
 
+/* ============ PROMO REDEEM ============ */
 async function redeemPromoCode() {
   const input = document.getElementById('promoInput');
   const message = document.getElementById('promoMessage');
@@ -1993,11 +1491,7 @@ async function redeemPromoCode() {
   try {
     const data = await apiRequest('/api/promo/redeem', {
       method: 'POST',
-      body: JSON.stringify({
-        code, telegram_id: telegramId, username,
-        first_name: tgUser?.first_name || '',
-        current_balance: balance
-      })
+      body: JSON.stringify({ code, telegram_id: telegramId, username, first_name: tgUser?.first_name || '', current_balance: balance })
     });
     const reward = Number(data?.reward || 0);
     balance = data?.balance !== undefined ? Number(data.balance) : Number(balance || 0) + reward;
@@ -2019,6 +1513,7 @@ async function redeemPromoCode() {
   }
 }
 
+/* ============ PROMO CREATE ============ */
 async function createPromoCode() {
   if (!isAdmin()) return;
   const codeInput = document.getElementById('adminPromoCode');
@@ -2056,6 +1551,7 @@ async function createPromoCode() {
   }
 }
 
+/* ============ PROMO DELETE ============ */
 async function deletePromoCode(promoId) {
   if (!confirm('Удалить этот промокод?')) return;
   try {
@@ -2066,6 +1562,7 @@ async function deletePromoCode(promoId) {
   }
 }
 
+/* ============ RENDER PROMOS ============ */
 function renderAdminPromos() {
   const list = document.getElementById('adminPromoList');
   if (!list) return;
@@ -2089,9 +1586,7 @@ function renderAdminPromos() {
         <div class="admin-withdrawal-title">${escapeHtml(p.code)}</div>
         <button type="button" class="sell-item" style="height:22px;padding:0 8px;" onclick="event.stopPropagation(); deletePromoCode(${p.id})">УДАЛИТЬ</button>
       </div>
-      <div class="admin-withdrawal-meta">
-        ${statusText} • ${usedActs}/${maxActs} активаций • ${p.reward} 💎
-      </div>
+      <div class="admin-withdrawal-meta">${statusText} • ${usedActs}/${maxActs} активаций • ${p.reward} 💎</div>
       <div class="admin-withdrawal-details">
         <b>Код:</b> ${escapeHtml(p.code)}<br>
         <b>Награда:</b> ${p.reward} 💎<br>
@@ -2102,19 +1597,27 @@ function renderAdminPromos() {
   }).join('');
 }
 
-/* START */
+/* ============ START ============ */
 if (window.Telegram && window.Telegram.WebApp) {
-  try {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
-  } catch(e) {}
+  try { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); } catch(e) {}
 }
 
 loadProfileData();
 syncTelegramUserWithServer();
 renderAll();
 updateTop();
-setTimeout(() => loadPromoCodesFromServer(), 100);
+
+/* Промокоды грузим ПОСЛЕ того как профиль и Telegram-юзер уже определены */
+setTimeout(() => {
+  getTelegramUsername();
+  saveProfileData();
+  renderProfile();
+  loadPromoCodesFromServer();
+}, 500);
+
+setTimeout(() => {
+  if (isAdmin()) loadPromoCodesFromServer();
+}, 2000);
 </script>
 
 </body>
