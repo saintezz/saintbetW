@@ -133,9 +133,6 @@ db.exec(`
 function validateTelegramInitData(initData) {
     const botToken = process.env.BOT_TOKEN;
 
-    // Пока токен не указан, разрешаем запросы.
-    // После подключения Mini App обязательно добавим
-    // проверку Telegram initData через BOT_TOKEN.
     if (!botToken) {
         console.warn("BOT_TOKEN не установлен.");
         return true;
@@ -147,7 +144,6 @@ function validateTelegramInitData(initData) {
 
     try {
         const params = new URLSearchParams(initData);
-
         const receivedHash = params.get("hash");
 
         if (!receivedHash) {
@@ -186,7 +182,6 @@ function validateTelegramInitData(initData) {
 function getTelegramUser(initData) {
     try {
         const params = new URLSearchParams(initData);
-
         const userString = params.get("user");
 
         if (!userString) {
@@ -223,13 +218,7 @@ app.get(["/", "/index.html"], (req, res) => {
 
 app.post("/api/user", (req, res) => {
     try {
-
-        const {
-            telegram_id,
-            username,
-            first_name,
-            roblox_name
-        } = req.body;
+        const { telegram_id, username, first_name, roblox_name } = req.body;
 
         if (!telegram_id) {
             return res.status(400).json({
@@ -241,13 +230,10 @@ app.post("/api/user", (req, res) => {
         const telegramId = String(telegram_id);
 
         const existingUser = db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
+            SELECT * FROM users WHERE telegram_id = ?
         `).get(telegramId);
 
         if (existingUser) {
-
             db.prepare(`
                 UPDATE users
                 SET
@@ -261,17 +247,11 @@ app.post("/api/user", (req, res) => {
                 roblox_name || null,
                 telegramId
             );
-
         } else {
-
+            // ✅ Новый пользователь всегда с балансом 0
             db.prepare(`
-                INSERT INTO users (
-                    telegram_id,
-                    username,
-                    first_name,
-                    roblox_name
-                )
-                VALUES (?, ?, ?, ?)
+                INSERT INTO users (telegram_id, username, first_name, roblox_name, balance)
+                VALUES (?, ?, ?, ?, 0)
             `).run(
                 telegramId,
                 username || null,
@@ -281,9 +261,7 @@ app.post("/api/user", (req, res) => {
         }
 
         const user = db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
+            SELECT * FROM users WHERE telegram_id = ?
         `).get(telegramId);
 
         res.json({
@@ -292,9 +270,7 @@ app.post("/api/user", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -307,15 +283,11 @@ app.post("/api/user", (req, res) => {
 // =========================================================
 
 app.get("/api/user/:telegram_id", (req, res) => {
-
     try {
-
         const telegramId = String(req.params.telegram_id);
 
         const user = db.prepare(`
-            SELECT *
-            FROM users
-            WHERE telegram_id = ?
+            SELECT * FROM users WHERE telegram_id = ?
         `).get(telegramId);
 
         if (!user) {
@@ -331,9 +303,7 @@ app.get("/api/user/:telegram_id", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -346,13 +316,8 @@ app.get("/api/user/:telegram_id", (req, res) => {
 // =========================================================
 
 app.post("/api/user/roblox", (req, res) => {
-
     try {
-
-        const {
-            telegram_id,
-            roblox_name
-        } = req.body;
+        const { telegram_id, roblox_name } = req.body;
 
         if (!telegram_id) {
             return res.status(400).json({
@@ -369,9 +334,7 @@ app.post("/api/user/roblox", (req, res) => {
         }
 
         db.prepare(`
-            UPDATE users
-            SET roblox_name = ?
-            WHERE telegram_id = ?
+            UPDATE users SET roblox_name = ? WHERE telegram_id = ?
         `).run(
             roblox_name.trim(),
             String(telegram_id)
@@ -383,9 +346,7 @@ app.post("/api/user/roblox", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -398,14 +359,8 @@ app.post("/api/user/roblox", (req, res) => {
 // =========================================================
 
 app.post("/api/inventory/add", (req, res) => {
-
     try {
-
-        const {
-            telegram_id,
-            item_id,
-            inventory_type
-        } = req.body;
+        const { telegram_id, item_id, inventory_type } = req.body;
 
         if (!telegram_id) {
             return res.status(400).json({
@@ -421,17 +376,10 @@ app.post("/api/inventory/add", (req, res) => {
             });
         }
 
-        const type =
-            inventory_type === "normal"
-                ? "normal"
-                : "upgrader";
+        const type = inventory_type === "normal" ? "normal" : "upgrader";
 
         db.prepare(`
-            INSERT INTO inventory (
-                telegram_id,
-                item_id,
-                inventory_type
-            )
+            INSERT INTO inventory (telegram_id, item_id, inventory_type)
             VALUES (?, ?, ?)
         `).run(
             String(telegram_id),
@@ -445,9 +393,7 @@ app.post("/api/inventory/add", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -460,14 +406,11 @@ app.post("/api/inventory/add", (req, res) => {
 // =========================================================
 
 app.get("/api/inventory/:telegram_id", (req, res) => {
-
     try {
-
         const telegramId = String(req.params.telegram_id);
 
         const inventory = db.prepare(`
-            SELECT *
-            FROM inventory
+            SELECT * FROM inventory
             WHERE telegram_id = ?
             ORDER BY id ASC
         `).all(telegramId);
@@ -478,9 +421,7 @@ app.get("/api/inventory/:telegram_id", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -493,13 +434,8 @@ app.get("/api/inventory/:telegram_id", (req, res) => {
 // =========================================================
 
 app.post("/api/inventory/move", (req, res) => {
-
     try {
-
-        const {
-            telegram_id,
-            inventory_id
-        } = req.body;
+        const { telegram_id, inventory_id } = req.body;
 
         if (!telegram_id || !inventory_id) {
             return res.status(400).json({
@@ -509,8 +445,7 @@ app.post("/api/inventory/move", (req, res) => {
         }
 
         const item = db.prepare(`
-            SELECT *
-            FROM inventory
+            SELECT * FROM inventory
             WHERE id = ?
               AND telegram_id = ?
               AND inventory_type = 'upgrader'
@@ -527,10 +462,8 @@ app.post("/api/inventory/move", (req, res) => {
         }
 
         db.prepare(`
-            UPDATE inventory
-            SET inventory_type = 'normal'
-            WHERE id = ?
-              AND telegram_id = ?
+            UPDATE inventory SET inventory_type = 'normal'
+            WHERE id = ? AND telegram_id = ?
         `).run(
             Number(inventory_id),
             String(telegram_id)
@@ -542,9 +475,7 @@ app.post("/api/inventory/move", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -557,14 +488,8 @@ app.post("/api/inventory/move", (req, res) => {
 // =========================================================
 
 app.post("/api/inventory/sell", (req, res) => {
-
     try {
-
-        const {
-            telegram_id,
-            inventory_id,
-            price
-        } = req.body;
+        const { telegram_id, inventory_id, price } = req.body;
 
         if (!telegram_id || !inventory_id) {
             return res.status(400).json({
@@ -574,8 +499,7 @@ app.post("/api/inventory/sell", (req, res) => {
         }
 
         const item = db.prepare(`
-            SELECT *
-            FROM inventory
+            SELECT * FROM inventory
             WHERE id = ?
               AND telegram_id = ?
               AND inventory_type = 'upgrader'
@@ -594,20 +518,15 @@ app.post("/api/inventory/sell", (req, res) => {
         const sellPrice = Number(price) || 0;
 
         const transaction = db.transaction(() => {
-
             db.prepare(`
-                DELETE FROM inventory
-                WHERE id = ?
-                  AND telegram_id = ?
+                DELETE FROM inventory WHERE id = ? AND telegram_id = ?
             `).run(
                 Number(inventory_id),
                 String(telegram_id)
             );
 
             db.prepare(`
-                UPDATE users
-                SET balance = balance + ?
-                WHERE telegram_id = ?
+                UPDATE users SET balance = balance + ? WHERE telegram_id = ?
             `).run(
                 sellPrice,
                 String(telegram_id)
@@ -623,9 +542,7 @@ app.post("/api/inventory/sell", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -638,9 +555,7 @@ app.post("/api/inventory/sell", (req, res) => {
 // =========================================================
 
 app.post("/api/withdrawals", (req, res) => {
-
     try {
-
         const {
             telegram_id,
             inventory_id,
@@ -679,16 +594,11 @@ app.post("/api/withdrawals", (req, res) => {
         }
 
         const telegramId = String(telegram_id);
-
         let finalItemId = item_id;
 
-        // Если передан конкретный предмет из БД,
-        // проверяем, что он принадлежит игроку.
         if (inventory_id) {
-
             const inventoryItem = db.prepare(`
-                SELECT *
-                FROM inventory
+                SELECT * FROM inventory
                 WHERE id = ?
                   AND telegram_id = ?
                   AND inventory_type = 'upgrader'
@@ -706,13 +616,9 @@ app.post("/api/withdrawals", (req, res) => {
 
             finalItemId = inventoryItem.item_id;
 
-            // Перемещаем предмет в обычный инвентарь
-            // после создания заявки.
             db.prepare(`
-                UPDATE inventory
-                SET inventory_type = 'normal'
-                WHERE id = ?
-                  AND telegram_id = ?
+                UPDATE inventory SET inventory_type = 'normal'
+                WHERE id = ? AND telegram_id = ?
             `).run(
                 Number(inventory_id),
                 telegramId
@@ -720,22 +626,14 @@ app.post("/api/withdrawals", (req, res) => {
         }
 
         const result = db.prepare(`
-            INSERT INTO withdrawals (
-                telegram_id,
-                item_id,
-                roblox_name,
-                ready_time,
-                comment
-            )
+            INSERT INTO withdrawals (telegram_id, item_id, roblox_name, ready_time, comment)
             VALUES (?, ?, ?, ?, ?)
         `).run(
             telegramId,
             Number(finalItemId),
             roblox_name.trim(),
             ready_time.trim(),
-            comment
-                ? comment.trim()
-                : null
+            comment ? comment.trim() : null
         );
 
         res.json({
@@ -745,9 +643,7 @@ app.post("/api/withdrawals", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -760,14 +656,11 @@ app.post("/api/withdrawals", (req, res) => {
 // =========================================================
 
 app.get("/api/withdrawals/:telegram_id", (req, res) => {
-
     try {
-
         const telegramId = String(req.params.telegram_id);
 
         const withdrawals = db.prepare(`
-            SELECT *
-            FROM withdrawals
+            SELECT * FROM withdrawals
             WHERE telegram_id = ?
             ORDER BY id DESC
         `).all(telegramId);
@@ -778,9 +671,7 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -793,13 +684,9 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
 // =========================================================
 
 app.get("/api/admin/users", (req, res) => {
-
     try {
-
         const users = db.prepare(`
-            SELECT *
-            FROM users
-            ORDER BY id DESC
+            SELECT * FROM users ORDER BY id DESC
         `).all();
 
         res.json({
@@ -808,9 +695,7 @@ app.get("/api/admin/users", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -823,9 +708,7 @@ app.get("/api/admin/users", (req, res) => {
 // =========================================================
 
 app.get("/api/admin/withdrawals", (req, res) => {
-
     try {
-
         const withdrawals = db.prepare(`
             SELECT
                 withdrawals.*,
@@ -843,9 +726,7 @@ app.get("/api/admin/withdrawals", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -858,20 +739,10 @@ app.get("/api/admin/withdrawals", (req, res) => {
 // =========================================================
 
 app.post("/api/admin/withdrawals/status", (req, res) => {
-
     try {
+        const { withdrawal_id, status } = req.body;
 
-        const {
-            withdrawal_id,
-            status
-        } = req.body;
-
-        const allowedStatuses = [
-            "pending",
-            "processing",
-            "completed",
-            "rejected"
-        ];
+        const allowedStatuses = ["pending", "processing", "completed", "rejected"];
 
         if (!withdrawal_id) {
             return res.status(400).json({
@@ -888,9 +759,7 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
         }
 
         const result = db.prepare(`
-            UPDATE withdrawals
-            SET status = ?
-            WHERE id = ?
+            UPDATE withdrawals SET status = ? WHERE id = ?
         `).run(
             status,
             Number(withdrawal_id)
@@ -909,9 +778,7 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
         });
 
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             success: false,
             error: "Ошибка сервера"
@@ -923,13 +790,10 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
 // SHOP (WITHDRAWAL OFFERS) API
 // =========================================================
 
-// Получить все товары для вывода
 app.get("/api/shop/items", (req, res) => {
     try {
         const items = db.prepare(`
-            SELECT *
-            FROM shop_items
-            ORDER BY id ASC
+            SELECT * FROM shop_items ORDER BY id ASC
         `).all();
 
         res.json({
@@ -945,7 +809,6 @@ app.get("/api/shop/items", (req, res) => {
     }
 });
 
-// Добавить новый товар (Admin)
 app.post("/api/shop/items", (req, res) => {
     try {
         const { name, price, stock } = req.body;
@@ -968,8 +831,7 @@ app.post("/api/shop/items", (req, res) => {
         }
 
         const result = db.prepare(`
-            INSERT INTO shop_items (name, price, stock)
-            VALUES (?, ?, ?)
+            INSERT INTO shop_items (name, price, stock) VALUES (?, ?, ?)
         `).run(name.trim(), itemPrice, isNaN(itemStock) || itemStock < 0 ? 0 : itemStock);
 
         const newItem = db.prepare(`
@@ -990,7 +852,6 @@ app.post("/api/shop/items", (req, res) => {
     }
 });
 
-// Обновить товар (Admin - цена / количество / название)
 app.put("/api/shop/items/:id", (req, res) => {
     try {
         const itemId = Number(req.params.id);
@@ -1009,9 +870,7 @@ app.put("/api/shop/items/:id", (req, res) => {
         const newStock = stock !== undefined ? Number(stock) : existing.stock;
 
         db.prepare(`
-            UPDATE shop_items
-            SET name = ?, price = ?, stock = ?
-            WHERE id = ?
+            UPDATE shop_items SET name = ?, price = ?, stock = ? WHERE id = ?
         `).run(newName, newPrice, Math.max(0, newStock), itemId);
 
         const updatedItem = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
@@ -1030,7 +889,6 @@ app.put("/api/shop/items/:id", (req, res) => {
     }
 });
 
-// Удалить товар (Admin)
 app.delete("/api/shop/items/:id", (req, res) => {
     try {
         const itemId = Number(req.params.id);
@@ -1057,7 +915,6 @@ app.delete("/api/shop/items/:id", (req, res) => {
     }
 });
 
-// Оформить вывод браинрота из магазина
 app.post("/api/shop/withdraw", (req, res) => {
     try {
         const {
@@ -1115,31 +972,19 @@ app.post("/api/shop/withdraw", (req, res) => {
         }
 
         const tx = db.transaction(() => {
-            // Списываем кости
             db.prepare(`
                 UPDATE users
-                SET balance = balance - ?,
-                    roblox_name = COALESCE(?, roblox_name)
+                SET balance = balance - ?, roblox_name = COALESCE(?, roblox_name)
                 WHERE telegram_id = ?
             `).run(item.price, roblox_name.trim(), telegramId);
 
-            // Уменьшаем остаток на складе
             db.prepare(`
-                UPDATE shop_items
-                SET stock = stock - 1
-                WHERE id = ?
+                UPDATE shop_items SET stock = stock - 1 WHERE id = ?
             `).run(item.id);
 
-            // Создаём запись в заявках на вывод
             const commentText = `Магазин: ${item.name}${comment && comment.trim() ? ' | ' + comment.trim() : ''}`;
             const wRes = db.prepare(`
-                INSERT INTO withdrawals (
-                    telegram_id,
-                    item_id,
-                    roblox_name,
-                    ready_time,
-                    comment
-                )
+                INSERT INTO withdrawals (telegram_id, item_id, roblox_name, ready_time, comment)
                 VALUES (?, ?, ?, ?, ?)
             `).run(
                 telegramId,
@@ -1226,10 +1071,10 @@ app.post("/api/admin/grant-bones", (req, res) => {
 });
 
 // =========================================================
-// PROMO CODES API
+// PROMO CODES API — ИСПРАВЛЕНО
 // =========================================================
 
-// Активировать промокод (для всех пользователей)
+// Активировать промокод
 app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
     try {
         const { code } = req.body;
@@ -1243,7 +1088,7 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
 
         const codeUpper = String(code).trim().toUpperCase();
 
-        // 1. Определение пользователя из Telegram initData или тела/заголовков
+        // 1. Определение пользователя
         let telegramId = null;
         let username = null;
         let firstName = null;
@@ -1325,18 +1170,21 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
             });
         }
 
-        // 6. Проверяем или создаём пользователя в БД
+        // 6. Проверяем или создаём пользователя
         let user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
         if (!user) {
-            const initialBal = Math.max(0, Number(req.body.current_balance || 10));
+            // ✅ Новый пользователь всегда с балансом 0
             db.prepare(`
                 INSERT INTO users (telegram_id, username, first_name, balance)
-                VALUES (?, ?, ?, ?)
-            `).run(telegramId, username || null, firstName || null, initialBal);
+                VALUES (?, ?, ?, 0)
+            `).run(telegramId, username || null, firstName || null);
             user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
         }
 
+        const balanceBefore = Number(user.balance) || 0;
+
         // 7. Проводим активацию в транзакции
+        // ✅ УБРАН блок current_balance — только чистое начисление reward
         const tx = db.transaction(() => {
             db.prepare(`
                 UPDATE promo_codes 
@@ -1350,14 +1198,6 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
                 VALUES (?, ?)
             `).run(codeUpper, telegramId);
 
-            // Если локальный баланс игрока на клиенте выше серверного, обновляем
-            if (req.body.current_balance !== undefined) {
-                const clientBal = Number(req.body.current_balance);
-                if (!isNaN(clientBal) && clientBal > user.balance) {
-                    db.prepare(`UPDATE users SET balance = ? WHERE telegram_id = ?`).run(clientBal, telegramId);
-                }
-            }
-
             db.prepare(`
                 UPDATE users SET balance = balance + ? WHERE telegram_id = ?
             `).run(promo.reward, telegramId);
@@ -1366,11 +1206,14 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
         tx();
 
         const updatedUser = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
+        const finalBalance = updatedUser ? Number(updatedUser.balance) : (balanceBefore + promo.reward);
+
+        console.log(`[PROMO] ${codeUpper} активирован для ${telegramId}. Баланс до: ${balanceBefore}, награда: ${promo.reward}, после: ${finalBalance}`);
 
         res.json({
             success: true,
             reward: promo.reward,
-            balance: updatedUser ? updatedUser.balance : promo.reward,
+            balance: finalBalance,
             message: `Промокод активирован! +${promo.reward} 🦴`
         });
 
@@ -1539,9 +1382,7 @@ app.use((req, res) => {
 // =========================================================
 
 app.use((error, req, res, next) => {
-
     console.error(error);
-
     res.status(500).json({
         success: false,
         error: "Внутренняя ошибка сервера"
