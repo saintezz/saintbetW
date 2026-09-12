@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>UPGRADER • NEON CYBER</title>
+<title>UPGRADER • NEON</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
@@ -92,8 +93,8 @@ body::after {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 12px rgba(0, 255, 255, 0.1);
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
 }
-.balance-label { color: #00ffff; font-size: 10px; letter-spacing: 2px; text-shadow: 0 0 8px #00ffff; }
-.balance-val { color: #fff; font-size: 18px; font-weight: 900; text-shadow: 0 0 12px #a64dff, 0 0 24px #a64dff; }
+.balance span { color: #00ffff; font-size: 10px; letter-spacing: 2px; text-shadow: 0 0 8px #00ffff; }
+.balance b { color: #fff; font-size: 18px; font-weight: 900; text-shadow: 0 0 12px #a64dff, 0 0 24px #a64dff; }
 
 /* PANELS */
 .panel, .game {
@@ -593,19 +594,27 @@ body::after {
 <div class="app">
 
   <nav class="top-nav" aria-label="Навигация">
-    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')"><span class="nav-icon">⌂</span><span>ИГРА</span></button>
-    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')"><span class="nav-icon">%</span><span>ПРОМО</span></button>
-    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')"><span class="nav-icon">◉</span><span>ПРОФИЛЬ</span></button>
+    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
+      <span class="nav-icon">⌂</span><span>ИГРА</span>
+    </button>
+    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">
+      <span class="nav-icon">%</span><span>ПРОМО</span>
+    </button>
+    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">
+      <span class="nav-icon">◉</span><span>ПРОФИЛЬ</span>
+    </button>
   </nav>
 
   <div class="balance">
-    💎 <span class="balance-label">БАЛАНС:</span>
-    <b class="balance-val" id="balance">0</b>
+    💎 <span>БАЛАНС:</span>
+    <b id="balance">0</b>
   </div>
 
   <section class="tab-panel active" data-tab="game">
   <section class="game">
+
     <div class="top-area">
+
       <div class="side">
         <div class="side-title">ТВОЙ ПРЕДМЕТ</div>
         <div class="slot" id="sourceSlot" onclick="focusInventory()">
@@ -613,10 +622,13 @@ body::after {
           <div class="slot-text">ВЫБРАТЬ ИЗ<br>ИНВЕНТАРЯ</div>
         </div>
       </div>
+
       <div class="center">
-        <div class="wheel" id="wheel" style="--wheel-green: 0deg;">
+        <div class="wheel" id="wheel">
           <div class="tick-ring"></div>
-          <div class="pointer-wrap" id="pointerWrap"><div class="pointer"></div></div>
+          <div class="pointer-wrap" id="pointerWrap">
+            <div class="pointer"></div>
+          </div>
           <div class="wheel-center">
             <div class="wheel-label">ШАНС</div>
             <div class="wheel-chance" id="wheelChance">0%</div>
@@ -628,6 +640,7 @@ body::after {
           <button class="energy" onclick="randomTarget()">⚡</button>
         </div>
       </div>
+
       <div class="side">
         <div class="side-title">ЖЕЛАЕМЫЙ ПРЕДМЕТ</div>
         <div class="slot" id="targetSlot" onclick="focusTargets()">
@@ -635,17 +648,23 @@ body::after {
           <div class="slot-text">ВЫБРАТЬ ЦЕЛЬ</div>
         </div>
       </div>
+
     </div>
+
     <div class="instruction" id="instruction">
-      Выбери предмет из инвентаря апгрейдера и<br>желаемую цель.
+      Выбери предмет из инвентаря апгрейдера и<br>
+      желаемую цель.
     </div>
+
   </section>
   </section>
 
   <section class="lower tab-panel" data-tab="game">
+
     <div class="panel" id="upgraderInventoryPanel">
       <h3 class="panel-title">ИНВЕНТАРЬ АПГРЕЙДЕРА</h3>
-      <div class="inventory-status" id="inventoryStatus" style="color:#a64dff;font-size:10px;margin-bottom:6px;">Инвентарь пуст</div>
+      <div class="inventory-status" id="inventoryStatus">Инвентарь пуст</div>
+
       <div class="withdraw-form" id="withdrawForm" hidden>
         <div class="withdraw-form-title">ВЫВОД ПРЕДМЕТА</div>
         <input class="withdraw-input" id="withdrawRobloxUsername" maxlength="40" placeholder="Ник в Roblox">
@@ -657,14 +676,15 @@ body::after {
         </div>
         <div class="withdraw-message" id="withdrawMessage"></div>
       </div>
-      <div class="selected-card" id="selectedCard" style="display:none;margin-top:14px;padding:14px;border:1px solid rgba(0,255,255,0.3);background:rgba(5,3,15,0.9);border-radius:4px;flex-direction:column;align-items:center;justify-content:center;min-height:80px;">
-        <div class="selected-number" id="selectedNumber" style="font-size:14px;font-weight:900;color:#fff;text-align:center;text-shadow:0 0 10px #00ffff;">—</div>
-        <div class="selected-caption" style="font-size:9px;color:#a64dff;letter-spacing:1.5px;margin-top:6px;">ВЫБРАННЫЙ ПРЕДМЕТ</div>
+
+      <div class="selected-card" id="selectedCard">
+        <div class="selected-number" id="selectedNumber">—</div>
+        <div class="selected-caption">ВЫБРАННЫЙ ПРЕДМЕТ АПГРЕЙДЕРА</div>
       </div>
     </div>
 
     <div class="panel shop-panel" id="shopPanel">
-      <h3 class="panel-title">МАГАЗИН</h3>
+      <h3 class="panel-title shop-title">МАГАЗИН</h3>
       <div class="shop-items" id="shopItems"></div>
     </div>
 
@@ -676,8 +696,9 @@ body::after {
 
     <div class="panel normal-inventory-panel" id="normalInventoryPanel">
       <h3 class="panel-title normal-inventory-title">ИНВЕНТАРЬ</h3>
-      <div class="inventory-status" id="normalInventoryStatus" style="color:#a64dff;font-size:10px;margin-bottom:6px;">Инвентарь пуст</div>
+      <div class="inventory-status" id="normalInventoryStatus">Инвентарь пуст</div>
     </div>
+
   </section>
 
   <section class="tab-panel dedicated-tab" data-tab="profile" hidden>
@@ -697,14 +718,14 @@ body::after {
       <div class="admin-panel" id="adminPanel" hidden>
         <div class="admin-title">⚓ ADMIN • <span id="adminName">@saintezz7</span></div>
 
-        <div class="admin-withdrawals" style="margin-top:12px;border-top:none;padding-top:0;">
+        <div class="admin-withdrawals" style="margin-top:0;border-top:none;padding-top:0;margin-bottom:12px;">
           <div class="admin-subtitle">АДРЕС СЕРВЕРА RENDER (API URL)</div>
           <input class="admin-input" id="adminServerUrl" placeholder="https://ваш-проект.onrender.com">
           <button class="admin-button" type="button" onclick="saveAdminServerUrl()">СОХРАНИТЬ АДРЕС СЕРВЕРА</button>
           <div class="admin-message" id="adminServerUrlMessage"></div>
         </div>
 
-        <div class="admin-subtitle" style="margin-top:16px;">СОЗДАНИЕ ПРОМОКОДОВ</div>
+        <div class="admin-subtitle">Создание промокодов</div>
 
         <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
         <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="Количество активаций">
@@ -732,7 +753,7 @@ body::after {
       <h3 class="panel-title promo-title"><span class="mini-title-icon">%</span> ПРОМОКОД</h3>
       <div class="promo-card">
         <div class="promo-description">Введи промокод и получи награду. Работает для всех!</div>
-        <input class="promo-input" id="promoInput" maxlength="40" placeholder="ВВЕДИ ПРОМОКОД">
+        <input class="promo-input" id="promoInput" maxlength="40" placeholder="Введи промокод">
         <button class="promo-button" type="button" onclick="redeemPromoCode()">АКТИВИРОВАТЬ</button>
         <div class="promo-message" id="promoMessage"></div>
       </div>
@@ -742,24 +763,23 @@ body::after {
 </div>
 
 <script>
-/* ============ ITEMS ============ */
+/* =========================================================
+   ITEMS (La Grande = Grande.png)
+========================================================= */
 const items = [
-  { name: 'La Grande Combination', price: 1,     img: 'Grande.png' },
-  { name: 'Bananito',              price: 7,     img: 'Bananchik.png' },
-  { name: 'Money Money Puggy',     price: 17,    img: 'Mops.png' },
-  { name: 'Tang Tang Keletang',    price: 30,    img: 'TangTangKeletang.png' },
-  { name: 'Garama and Madundung',  price: 50,    img: 'Garama.png' },
-  { name: 'Cerberus',              price: 175,   img: 'Cerberus.png' },
-  { name: 'Dragon Cannelloni',     price: 1250,  img: 'Dragon.png' },
-  { name: 'Skibidi toilet',        price: 15000, img: 'Skibidi.png' }
+  { name:'La Grande Combination', price:1,     img:'Grande.png' },
+  { name:'Bananito',              price:7,     img:'Bananchik.png' },
+  { name:'Money Money Puggy',     price:17,    img:'Mops.png' },
+  { name:'Tang Tang Keletang',    price:30,    img:'TangTangKeletang.png' },
+  { name:'Garama and Madundung',  price:50,    img:'Garama.png' },
+  { name:'Cerberus',              price:175,   img:'Cerberus.png' },
+  { name:'Dragon Cannelloni',     price:1250,  img:'Dragon.png' },
+  { name:'Skibidi toilet',        price:15000, img:'Skibidi.png' }
 ];
 
-function escapeHtml(value) {
-  return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
-
-function getCrystalHtml(extraClass = 'crystal-icon') {
-  return `<span class="${extraClass}" style="font-size:14px;filter:drop-shadow(0 0 6px #00ffff);vertical-align:middle;display:inline-block;margin:0 3px;">💎</span>`;
+/* 💎 emoji вместо Balans.png */
+function getCrystalHtml() {
+  return `<span style="font-size:14px;filter:drop-shadow(0 0 6px #00ffff);vertical-align:middle;display:inline-block;margin:0 3px;">💎</span>`;
 }
 
 function getItemImgHtml(item, extraClass = 'item-img') {
@@ -774,7 +794,9 @@ function getItemImgHtml(item, extraClass = 'item-img') {
   return `<div class="item-img-placeholder ${extraClass}">${name.charAt(0)}</div>`;
 }
 
-/* ============ STATE ============ */
+/* =========================================================
+   STATE — старт 0
+========================================================= */
 let balance = 0;
 let inventory = [];
 let normalInventory = [];
@@ -794,7 +816,9 @@ let promoCodes = [];
 let profile = null;
 let users = {};
 
-/* ============ PROFILE ============ */
+/* =========================================================
+   PROFILE
+========================================================= */
 function makeUsername() { return 'user' + Math.floor(100000 + Math.random() * 900000); }
 function normalizeUsername(v) { return String(v || '').trim().replace(/^@+/, '').toLowerCase(); }
 function validUsername(v) { return /^[a-z0-9_]{3,20}$/.test(v); }
@@ -963,7 +987,9 @@ function renderProfile() {
   renderServerUrlConfig();
 }
 
-/* ============ CHANCES ============ */
+/* =========================================================
+   ШАНСЫ
+========================================================= */
 const upgradeChances = {
   0:{0:100,1:19.7,2:9.7,3:4.7,4:2.7,5:1,6:0,7:0},
   1:{1:100,2:49.7,3:38.7,4:14.7,5:4,6:4.7,7:0},
@@ -975,7 +1001,9 @@ const upgradeChances = {
   7:{7:100,5:0,6:0}
 };
 
-/* ============ DOM ============ */
+/* =========================================================
+   DOM
+========================================================= */
 const itemGrid = document.getElementById('items');
 const shopGrid = document.getElementById('shopItems');
 const search = document.getElementById('search');
@@ -991,7 +1019,9 @@ const upgradeBtn = document.getElementById('upgradeBtn');
 const instruction = document.getElementById('instruction');
 const balanceEl = document.getElementById('balance');
 
-/* ============ RENDER SHOP ============ */
+/* =========================================================
+   SHOP
+========================================================= */
 function renderShop() {
   shopGrid.innerHTML = '';
   items.forEach((item,index)=>{
@@ -1001,7 +1031,7 @@ function renderShop() {
     row.innerHTML = `
       ${getItemImgHtml(item, 'shop-item-img')}
       <div class="shop-item-info">
-        <div class="shop-item-name">${escapeHtml(item.name)}</div>
+        <div class="shop-item-name">${item.name}</div>
         <div class="shop-item-price">${item.price} ${getCrystalHtml()}</div>
       </div>
       <button class="buy-item" ${affordable ? '' : 'disabled'}>КУПИТЬ</button>
@@ -1011,17 +1041,19 @@ function renderShop() {
   });
 }
 
-/* ============ RENDER INVENTORY ============ */
+/* =========================================================
+   INVENTORY
+========================================================= */
 function renderInventory() {
   const oldList = document.getElementById('inventoryList');
   if (oldList) oldList.remove();
   if (inventory.length === 0) {
     inventoryStatus.textContent = 'Инвентарь апгрейдера пуст';
-    selectedCard.style.display = 'none';
+    selectedCard.classList.remove('show');
     selectedNumber.textContent = '—';
     return;
   }
-  inventoryStatus.textContent = 'Предметов: ' + inventory.length;
+  inventoryStatus.textContent = 'Предметов в инвентаре апгрейдера: ' + inventory.length;
   const list = document.createElement('div');
   list.id = 'inventoryList';
   list.className = 'inventory-list';
@@ -1033,7 +1065,7 @@ function renderInventory() {
     row.innerHTML = `
       ${getItemImgHtml(item, 'inventory-item-img')}
       <div class="inventory-item-info">
-        <div class="inventory-item-name">${escapeHtml(item.name)}</div>
+        <div class="inventory-item-name">${item.name}</div>
         <div class="inventory-item-price">${item.price} ${getCrystalHtml()}</div>
       </div>
       <div class="inventory-item-actions">
@@ -1049,14 +1081,16 @@ function renderInventory() {
   document.getElementById('upgraderInventoryPanel').appendChild(list);
 }
 
-/* ============ NORMAL INVENTORY ============ */
+/* =========================================================
+   NORMAL INVENTORY
+========================================================= */
 function renderNormalInventory() {
   const panel = document.getElementById('normalInventoryPanel');
   const oldList = document.getElementById('normalInventoryList');
   if (oldList) oldList.remove();
   const status = document.getElementById('normalInventoryStatus');
   if (normalInventory.length === 0) { status.textContent = 'Инвентарь пуст'; return; }
-  status.textContent = 'Предметов: ' + normalInventory.length;
+  status.textContent = 'Предметов в инвентаре: ' + normalInventory.length;
   const list = document.createElement('div');
   list.id = 'normalInventoryList';
   list.className = 'inventory-list';
@@ -1068,7 +1102,7 @@ function renderNormalInventory() {
     row.innerHTML = `
       ${getItemImgHtml(item, 'inventory-item-img')}
       <div class="inventory-item-info">
-        <div class="inventory-item-name">${escapeHtml(item.name)}</div>
+        <div class="inventory-item-name">${item.name}</div>
         <div class="inventory-item-price">${item.price} ${getCrystalHtml()}</div>
       </div>
     `;
@@ -1077,7 +1111,9 @@ function renderNormalInventory() {
   panel.appendChild(list);
 }
 
-/* ============ WITHDRAW ============ */
+/* =========================================================
+   WITHDRAW
+========================================================= */
 function openWithdrawForm(slotIndex) {
   if (spinning || inventory[slotIndex] === undefined) return;
   withdrawalSlot = slotIndex;
@@ -1130,13 +1166,16 @@ function submitWithdrawal() {
   closeWithdrawForm(); renderAll(); updateTop();
 }
 
-/* ============ ADMIN WITHDRAWALS ============ */
+function escapeHtml(value) {
+  return String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 function renderAdminWithdrawals() {
   const list = document.getElementById('adminWithdrawalsList');
   if (!list) return;
   if (!isAdmin()) { list.innerHTML = ''; return; }
   if (!Array.isArray(withdrawals) || withdrawals.length === 0) {
-    list.innerHTML = '<div style="color:#a64dff;font-size:9px;margin-top:6px;">Пока выводов нет.</div>'; return;
+    list.innerHTML = '<div class="admin-subtitle">Пока выводов нет.</div>'; return;
   }
   list.innerHTML = '';
   withdrawals.forEach(request=>{
@@ -1159,7 +1198,9 @@ function renderAdminWithdrawals() {
   });
 }
 
-/* ============ SELL ============ */
+/* =========================================================
+   SELL
+========================================================= */
 function sellItem(slotIndex) {
   if (spinning) return;
   if (inventory[slotIndex] === undefined) return;
@@ -1177,7 +1218,9 @@ function sellItem(slotIndex) {
   updateTop();
 }
 
-/* ============ TARGETS ============ */
+/* =========================================================
+   TARGETS
+========================================================= */
 function renderTargets() {
   const query = search.value.trim().toLowerCase();
   itemGrid.innerHTML = '';
@@ -1188,7 +1231,7 @@ function renderTargets() {
     b.type = 'button';
     b.innerHTML = `
       ${getItemImgHtml(item, 'item-img')}
-      <div class="item-name">${escapeHtml(item.name)}</div>
+      <div class="item-name">${item.name}</div>
       <div class="item-price">${item.price} ${getCrystalHtml()}</div>
     `;
     b.onclick = () => selectTarget(index);
@@ -1196,7 +1239,9 @@ function renderTargets() {
   });
 }
 
-/* ============ RENDER ALL ============ */
+/* =========================================================
+   RENDER ALL
+========================================================= */
 function renderAll() {
   balanceEl.textContent = balance;
   renderShop();
@@ -1208,7 +1253,9 @@ function renderAll() {
   renderAdminPromos();
 }
 
-/* ============ BUY ============ */
+/* =========================================================
+   BUY
+========================================================= */
 function buyItem(index) {
   if (spinning) return;
   const item = items[index];
@@ -1224,7 +1271,9 @@ function buyItem(index) {
   renderAll();
 }
 
-/* ============ SELECT SOURCE ============ */
+/* =========================================================
+   SELECT SOURCE
+========================================================= */
 function selectSource(slotIndex) {
   if (spinning) return;
   if (inventory[slotIndex] === undefined) return;
@@ -1233,7 +1282,7 @@ function selectSource(slotIndex) {
   const item = items[itemIndex];
   if (!item) return;
   selectedNumber.textContent = item.name;
-  selectedCard.style.display = 'flex';
+  selectedCard.classList.add('show');
   sourceSlot.classList.add('selected');
   sourceSlot.innerHTML = `
     ${getItemImgHtml(item, 'slot-item-img')}
@@ -1246,7 +1295,9 @@ function selectSource(slotIndex) {
   updateTop();
 }
 
-/* ============ SELECT TARGET ============ */
+/* =========================================================
+   SELECT TARGET
+========================================================= */
 function selectTarget(index) {
   if (spinning) return;
   targetItem = index;
@@ -1264,9 +1315,11 @@ function selectTarget(index) {
   updateTop();
 }
 
-/* ============ CLEAR SOURCE ============ */
+/* =========================================================
+   CLEAR SOURCE
+========================================================= */
 function clearSourceDisplay() {
-  selectedCard.style.display = 'none';
+  selectedCard.classList.remove('show');
   selectedNumber.textContent = '—';
   sourceSlot.classList.remove('selected');
   sourceSlot.innerHTML = `
@@ -1275,11 +1328,15 @@ function clearSourceDisplay() {
   `;
 }
 
-/* ============ FOCUS ============ */
+/* =========================================================
+   FOCUS
+========================================================= */
 function focusInventory() { document.getElementById('upgraderInventoryPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); }
 function focusTargets() { document.getElementById('targetPanel').scrollIntoView({behavior:'smooth',block:'nearest'}); search.focus(); }
 
-/* ============ CHANCE ============ */
+/* =========================================================
+   CHANCE
+========================================================= */
 function getUpgradeChance() {
   if (sourceItem === null || targetItem === null) return 0;
   const sourceIndex = inventory[sourceItem];
@@ -1307,7 +1364,9 @@ function updateTop() {
   }
 }
 
-/* ============ UPGRADE ============ */
+/* =========================================================
+   UPGRADE
+========================================================= */
 function upgrade() {
   if (spinning) return;
   if (sourceItem === null) { instruction.textContent = 'Сначала выбери предмет из инвентаря апгрейдера.'; focusInventory(); return; }
@@ -1340,7 +1399,7 @@ function upgrade() {
       saveProfileData();
       const wonItem = items[targetIndex];
       selectedNumber.textContent = wonItem.name;
-      selectedCard.style.display = 'flex';
+      selectedCard.classList.add('show');
       sourceSlot.classList.add('selected');
       sourceSlot.innerHTML = `
         ${getItemImgHtml(wonItem, 'slot-item-img')}
@@ -1368,7 +1427,9 @@ function upgrade() {
 function randomTarget() { if (spinning) return; selectTarget(Math.floor(Math.random() * items.length)); }
 function filterItems() { renderTargets(); }
 
-/* ============ TABS ============ */
+/* =========================================================
+   TABS
+========================================================= */
 function showTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(panel=>{
     panel.hidden = panel.dataset.tab !== tab;
@@ -1385,7 +1446,9 @@ function showTab(tab) {
   }
 }
 
-/* ============ SERVER ============ */
+/* =========================================================
+   SERVER
+========================================================= */
 function getApiBaseUrl() {
   if (window.API_BASE_URL && String(window.API_BASE_URL).trim()) return String(window.API_BASE_URL).trim().replace(/\/$/, '');
   const saved = localStorage.getItem('api_base_url');
@@ -1461,7 +1524,9 @@ async function apiRequest(path, options={}) {
   return data;
 }
 
-/* ============ PROMO LOAD ============ */
+/* =========================================================
+   PROMO LOAD / CREATE / DELETE / RENDER
+========================================================= */
 async function loadPromoCodesFromServer() {
   if (!isAdmin()) return;
   try {
@@ -1471,7 +1536,6 @@ async function loadPromoCodesFromServer() {
   } catch(e) {}
 }
 
-/* ============ PROMO REDEEM ============ */
 async function redeemPromoCode() {
   const input = document.getElementById('promoInput');
   const message = document.getElementById('promoMessage');
@@ -1513,7 +1577,6 @@ async function redeemPromoCode() {
   }
 }
 
-/* ============ PROMO CREATE ============ */
 async function createPromoCode() {
   if (!isAdmin()) return;
   const codeInput = document.getElementById('adminPromoCode');
@@ -1551,7 +1614,6 @@ async function createPromoCode() {
   }
 }
 
-/* ============ PROMO DELETE ============ */
 async function deletePromoCode(promoId) {
   if (!confirm('Удалить этот промокод?')) return;
   try {
@@ -1562,13 +1624,12 @@ async function deletePromoCode(promoId) {
   }
 }
 
-/* ============ RENDER PROMOS ============ */
 function renderAdminPromos() {
   const list = document.getElementById('adminPromoList');
   if (!list) return;
   if (!isAdmin()) { list.innerHTML = ''; return; }
   if (!promoCodes.length) {
-    list.innerHTML = '<div style="color:#a64dff;font-size:9px;margin-top:6px;">Промокодов пока нет.</div>';
+    list.innerHTML = '<div class="admin-subtitle">Промокодов пока нет.</div>';
     return;
   }
   list.innerHTML = promoCodes.map(p => {
@@ -1597,7 +1658,9 @@ function renderAdminPromos() {
   }).join('');
 }
 
-/* ============ START ============ */
+/* =========================================================
+   START
+========================================================= */
 if (window.Telegram && window.Telegram.WebApp) {
   try { window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); } catch(e) {}
 }
@@ -1607,12 +1670,12 @@ syncTelegramUserWithServer();
 renderAll();
 updateTop();
 
-/* Промокоды грузим ПОСЛЕ того как профиль и Telegram-юзер уже определены */
+/* Промокоды грузим после инициализации профиля и Telegram */
 setTimeout(() => {
   getTelegramUsername();
   saveProfileData();
   renderProfile();
-  loadPromoCodesFromServer();
+  if (isAdmin()) loadPromoCodesFromServer();
 }, 500);
 
 setTimeout(() => {
