@@ -77,229 +77,130 @@ button{ border-radius:10px; }
 .slot-text{ color:#c8f6fb; font-size:9px; letter-spacing:1px; font-weight:800; line-height:1.4; text-align:center; }
 
 /* =========================================================
-   WHEEL — НОВЫЙ ДИЗАЙН (как на фото)
+   WHEEL — СТАРЫЙ ДИЗАЙН + ПРОСТАЯ СТРЕЛКА + ШАНС СНИЗУ
 ========================================================= */
 .center{ display:flex; flex-direction:column; align-items:center; }
 .wheel{
-  width:240px;
-  height:240px;
+  width:218px;
+  height:218px;
   border-radius:50%;
   position:relative;
   margin-top:0;
   --wheel-chance:30;
-  background: #0a0612;
-  /* Внешнее фиолетовое свечение */
-  box-shadow:
-    0 0 50px rgba(140,60,220,.5),
-    0 0 100px rgba(140,60,220,.25),
-    inset 0 0 40px rgba(0,0,0,.9);
-  isolation:isolate;
-}
-
-/* Внешнее кольцо с тиками */
-.wheel::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  background:
-    repeating-conic-gradient(
-      from 0deg,
-      rgba(180,120,255,.55) 0deg 2deg,
-      transparent 2deg 9deg
-    );
-  -webkit-mask: radial-gradient(circle, transparent 0 93%, #000 94% 100%);
-  mask: radial-gradient(circle, transparent 0 93%, #000 94% 100%);
-  z-index:3;
-  filter: drop-shadow(0 0 6px rgba(180,120,255,.8));
-}
-
-/* Фиолетовое светящееся внутреннее кольцо */
-.wheel::after{
-  content:"";
-  position:absolute;
-  inset:6px;
-  border-radius:50%;
-  border:1.5px solid rgba(180,120,255,.85);
-  box-shadow:
-    0 0 20px rgba(160,80,255,.8),
-    0 0 40px rgba(160,80,255,.4),
-    inset 0 0 20px rgba(160,80,255,.4);
-  z-index:2;
-  pointer-events:none;
-}
-
-.tick-ring{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
   background:
     conic-gradient(
-      from -90deg,
-      #d4a017 0deg calc(var(--wheel-chance) * 3.6deg),
-      #1a0f2e calc(var(--wheel-chance) * 3.6deg) 360deg
+      #10df4b 0 calc(var(--wheel-chance) * 1%),
+      #d91f2f calc(var(--wheel-chance) * 1%) 100%
     );
-  -webkit-mask: radial-gradient(circle, transparent 0 84%, #000 85% 92%, transparent 93% 100%);
-  mask: radial-gradient(circle, transparent 0 84%, #000 85% 92%, transparent 93% 100%);
-  z-index:1;
+  border:5px solid #ccc;
+  box-shadow:
+    0 0 35px rgba(150,150,150,.15),
+    0 0 12px rgba(100,100,100,.16),
+    inset 0 0 35px rgba(100,100,100,.08);
 }
 
 /* Внутренний тёмный круг */
-.wheel-center{
+.wheel:before{
+  content:"";
   position:absolute;
-  z-index:5;
-  top:18%;
-  left:18%;
-  right:18%;
-  bottom:18%;
+  inset:10px;
+  border-radius:50%;
+  border:1px solid rgba(255,218,65,.38);
+  background:radial-gradient(circle, #080b0e 0 56%, #15130c 57% 100%);
+  box-shadow:inset 0 0 25px #000;
+}
+
+/* Кольцо с тиками по краю */
+.tick-ring{
+  position:absolute;
+  inset:-1px;
   border-radius:50%;
   background:
-    radial-gradient(circle at 50% 40%, #1a0f2e 0%, #0a0612 70%, #000 100%);
-  border:1px solid rgba(140,60,220,.5);
-  box-shadow:
-    inset 0 0 30px rgba(0,0,0,.9),
-    inset 0 0 60px rgba(80,20,140,.3);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
+    repeating-conic-gradient(
+      transparent 0deg 9deg,
+      rgba(255,226,88,.5) 9deg 10deg
+    );
+  -webkit-mask: radial-gradient(transparent 0 91%, #000 92% 100%);
+  mask: radial-gradient(transparent 0 91%, #000 92% 100%);
 }
 
-/* Внутренние точечные круги (как на фото) */
-.wheel-center::before{
-  content:"";
-  position:absolute;
-  inset:12%;
-  border-radius:50%;
-  border:1px dashed rgba(180,120,255,.25);
-}
-.wheel-center::after{
-  content:"";
-  position:absolute;
-  inset:25%;
-  border-radius:50%;
-  border:1px solid rgba(180,120,255,.15);
-}
-
-.wheel-label{
-  font-size:9px;
-  letter-spacing:4px;
-  color:#8a6fb8;
-  font-weight:900;
-  margin-bottom:6px;
-  text-transform:uppercase;
-  text-shadow:0 0 8px rgba(180,120,255,.5);
-  position:relative;
-  z-index:2;
-}
-.wheel-chance{
-  font-size:32px;
-  font-weight:900;
-  color:#fff;
-  text-shadow:
-    0 0 12px rgba(255,215,80,.9),
-    0 0 24px rgba(255,215,80,.5),
-    0 0 40px rgba(180,120,255,.6);
-  position:relative;
-  z-index:2;
-  font-variant-numeric:tabular-nums;
-}
-
-/* Золотой ромб-указатель (вверху колеса) */
+/* Контейнер стрелки — вращается */
 .pointer-wrap{
   position:absolute;
-  z-index:8;
+  z-index:4;
   inset:0;
   transform:rotate(0deg);
   transition:transform 1.8s cubic-bezier(.12,.78,.16,1);
 }
 
-/* Линия от центра к ромбу */
+/* Простая стрелка сверху */
 .pointer{
   position:absolute;
   left:50%;
-  top:50%;
-  width:2px;
-  height:38%;
-  background:linear-gradient(180deg, #ffe066 0%, #d4a017 60%, transparent 100%);
-  transform:translateX(-50%) translateY(-100%);
-  transform-origin:bottom center;
-  box-shadow:
-    0 0 8px #ffd54a,
-    0 0 16px rgba(255,213,74,.7);
+  top:-7px;
+  width:3px;
+  height:39px;
+  background:#f3f3e7;
+  transform:translateX(-50%);
+  box-shadow:0 0 4px #fff;
 }
 
-/* Золотой ромб */
-.pointer::before{
+/* Наконечник стрелки — треугольник */
+.pointer:after{
   content:"";
   position:absolute;
   left:50%;
-  top:-14px;
-  width:22px;
-  height:22px;
-  transform:translateX(-50%) rotate(45deg);
-  background:linear-gradient(135deg, #ffe066, #d4a017 50%, #a07800 100%);
-  border:1.5px solid #ffe066;
-  box-shadow:
-    0 0 12px #ffd54a,
-    0 0 24px rgba(255,213,74,.8),
-    0 0 40px rgba(255,213,74,.4),
-    inset 0 0 8px rgba(255,255,200,.5);
+  top:0;
+  transform:translate(-50%,-2px);
+  border-left:6px solid transparent;
+  border-right:6px solid transparent;
+  border-top:9px solid #fff;
 }
 
-/* Внутренний ромбик */
-.pointer::after{
-  content:"";
+/* Центр колеса — только надпись ШАНС */
+.wheel-center{
   position:absolute;
-  left:50%;
-  top:-8px;
-  width:12px;
-  height:12px;
-  transform:translateX(-50%) rotate(45deg);
-  background:radial-gradient(circle, #fffbe0 0%, #ffd54a 60%, transparent 100%);
-  box-shadow:0 0 8px #fffbe0;
-}
-
-/* Центральная иконка (кружок с человечком) */
-.center-symbol{
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:52px;
-  height:52px;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:radial-gradient(circle, #1a0f2e 0%, #0a0612 100%);
-  border:2px solid #d4a017;
-  box-shadow:
-    0 0 15px rgba(255,213,74,.7),
-    0 0 30px rgba(255,213,74,.4),
-    inset 0 0 15px rgba(255,213,74,.2);
-  z-index:6;
+  z-index:5;
+  inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
-  color:#d4a017;
-  font-size:22px;
+  flex-direction:column;
+}
+.wheel-label{
+  font-size:9px;
+  letter-spacing:3px;
+  color:#78808a;
   font-weight:900;
-  text-shadow:0 0 8px #ffd54a;
+  margin-bottom:8px;
+}
+.wheel-center-symbol{
+  margin-top:12px;
+  width:22px;
+  height:12px;
+  border-top:2px solid #d8e0e4;
+  position:relative;
+}
+.wheel-center-symbol:after{
+  content:"";
+  position:absolute;
+  left:5px;
+  top:-2px;
+  width:10px;
+  height:8px;
+  border-bottom:1px solid #d8e0e4;
+  border-radius:0 0 9px 9px;
 }
 
-/* Нижняя фиолетовая точка */
-.wheel-center .bottom-dot{
-  position:absolute;
-  bottom:-46px;
-  left:50%;
-  transform:translateX(-50%);
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:radial-gradient(circle, #e0a0ff 0%, #a64dff 60%, transparent 100%);
-  box-shadow:
-    0 0 12px #a64dff,
-    0 0 24px #a64dff,
-    0 0 40px rgba(166,77,255,.6);
-  z-index:6;
+/* ШАНС СНИЗУ ПОД КОЛЕСОМ */
+.wheel-chance{
+  margin-top:14px;
+  font-size:26px;
+  font-weight:900;
+  color:#e8eef4;
+  text-shadow:0 0 12px rgba(255,255,255,.35);
+  letter-spacing:1px;
+  font-variant-numeric:tabular-nums;
 }
 
 /* CONTROLS */
@@ -791,7 +692,7 @@ button{ border-radius:10px; }
 }
 @media(max-width:520px){
   .items{grid-template-columns:repeat(2,1fr);}
-  .wheel{width:200px;height:200px;}
+  .wheel{width:190px;height:190px;}
   .upgrade{min-width:155px;font-size:15px;}
   .inventory-item{grid-template-columns:minmax(0,1fr) auto;gap:6px;}
   .sell-item, .withdraw-item{padding:0 6px;font-size:7px;}
@@ -856,11 +757,10 @@ button{ border-radius:10px; }
           </div>
           <div class="wheel-center">
             <div class="wheel-label">ШАНС</div>
-            <div class="wheel-chance" id="wheelChance">0%</div>
+            <div class="wheel-center-symbol"></div>
           </div>
-          <div class="center-symbol">◉</div>
-          <div class="bottom-dot"></div>
         </div>
+        <div class="wheel-chance" id="wheelChance">0%</div>
         <div class="controls">
           <button class="upgrade" id="upgradeBtn" onclick="upgrade()">ПРОКАЧАТЬ ›</button>
           <button class="energy" id="fastUpgradeBtn" onclick="fastUpgrade()" title="Быстрый апгрейд (0.5 сек)">⚡</button>
@@ -1032,7 +932,6 @@ button{ border-radius:10px; }
 
 /* =========================================================
    ITEMS — обновлено: Mops=3, добавлены 5 новых
-   Порядок по возрастанию цены:
 ========================================================= */
 const items = [
   { name:'La Grande Combination', price:1,     img:'Grande.png' },
@@ -1092,8 +991,7 @@ let profile = null;
 let users = {};
 
 /* =========================================================
-   КЕЙСЫ (индексы обновлены под новый порядок items)
-   Mops = 1, Tang = 3, Garama = 5
+   КЕЙСЫ
 ========================================================= */
 const CASES = [
   {
@@ -1102,9 +1000,9 @@ const CASES = [
     emoji: '🎁',
     price: 39,
     rewards: [
-      { itemIndex: 1, chance: 30 },  // Money Money Puggy
-      { itemIndex: 3, chance: 65 },  // Tang Tang Keletang
-      { itemIndex: 5, chance: 5  }   // Garama and Madundung
+      { itemIndex: 1, chance: 30 },
+      { itemIndex: 3, chance: 65 },
+      { itemIndex: 5, chance: 5  }
     ]
   }
 ];
@@ -1281,35 +1179,21 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ШАНСЫ АПГРЕЙДА — обновлены под новые предметы
-   13 предметов, индексы 0..12
+   ШАНСЫ АПГРЕЙДА
 ========================================================= */
 const upgradeChances = {
-  // 0 La Grande (1)
   0:  {0:100, 1:4, 2:2, 3:0.8, 4:0.6, 5:0.4, 6:0.2, 7:0.1, 8:0, 9:0, 10:0, 11:0, 12:0},
-  // 1 Money Money Puggy (3)
   1:  {1:100, 2:12, 3:6, 4:3, 5:2, 6:0.8, 7:0.5, 8:0.1, 9:0, 10:0, 11:0, 12:0},
-  // 2 Bananito (7)
   2:  {2:100, 3:15, 4:8, 5:5, 6:2, 7:1.2, 8:0.3, 9:0.1, 10:0, 11:0, 12:0},
-  // 3 Tang Tang Keletang (15)
   3:  {3:100, 4:22, 5:12, 6:5, 7:2.8, 8:0.6, 9:0.2, 10:0.1, 11:0, 12:0},
-  // 4 Ketchuru and Musturu (27)
   4:  {4:100, 5:18, 6:9, 7:4.5, 8:1.2, 9:0.4, 10:0.1, 11:0, 12:0},
-  // 5 Garama and Madundung (39)
   5:  {5:100, 6:14, 7:6, 8:2, 9:0.7, 10:0.2, 11:0.05, 12:0},
-  // 6 capitano moby (100)
   6:  {6:100, 7:18, 8:5, 9:1.5, 10:0.5, 11:0.1, 12:0.02},
-  // 7 Cerberus (140)
   7:  {7:100, 8:22, 9:5, 10:1.5, 11:0.3, 12:0.05},
-  // 8 Dragon Cannelloni (900)
   8:  {8:100, 9:10, 10:3, 11:0.6, 12:0.1},
-  // 9 Kraken (3000)
   9:  {9:100, 10:12, 11:2, 12:0.3},
-  // 10 Dragon Gingerini (7000)
   10: {10:100, 11:8, 12:1},
-  // 11 Skibidi toilet (13000)
   11: {11:100, 12:8},
-  // 12 Strawberry Elephant (25000)
   12: {12:100}
 };
 
