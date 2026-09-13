@@ -47,7 +47,7 @@ body{
 }
 
 button, input{ font:inherit; }
-button{ border-radius:10px; }
+button{ border-radius:10px; cursor:pointer; }
 
 .app{ width:100%; min-height:100vh; padding:14px 12px 28px; position:relative; z-index:1; }
 
@@ -61,16 +61,12 @@ button{ border-radius:10px; }
   -webkit-backdrop-filter:blur(20px) saturate(145%);
   color:#fff;
   font-size:14px; font-weight:900;
-  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11), inset 0 -1px 0 rgba(255,255,255,.035);
-  transition:transform .3s ease;
+  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11);
 }
-.balance.pulse{
-  animation:balancePulse .6s ease;
-}
+.balance.pulse{ animation:balancePulse .6s ease; }
 @keyframes balancePulse{
-  0%{ transform:scale(1); }
-  50%{ transform:scale(1.15); box-shadow:0 18px 50px rgba(0,0,0,.4), 0 0 40px rgba(255,215,60,.6), inset 0 1px 0 rgba(255,255,255,.2); }
-  100%{ transform:scale(1); }
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.15); box-shadow:0 18px 50px rgba(0,0,0,.4), 0 0 40px rgba(255,215,60,.6); }
 }
 .balance span{ color:#6ea9b8; font-size:10px; letter-spacing:1.5px; margin:0 4px; }
 
@@ -83,7 +79,7 @@ button{ border-radius:10px; }
   backdrop-filter:blur(20px) saturate(145%);
   -webkit-backdrop-filter:blur(20px) saturate(145%);
   position:relative; padding-top:8px;
-  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11), inset 0 -1px 0 rgba(255,255,255,.035);
+  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11);
 }
 .top-area{
   display:grid;
@@ -102,11 +98,11 @@ button{ border-radius:10px; }
   -webkit-backdrop-filter:blur(20px) saturate(145%);
   display:flex; align-items:center; justify-content:center; flex-direction:column;
   cursor:pointer; color:#888; transition:.15s;
-  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11), inset 0 -1px 0 rgba(255,255,255,.035);
+  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11);
   padding:8px; overflow:hidden;
 }
-.slot:hover{ border-color:rgba(180,180,180,.65); box-shadow:0 18px 50px rgba(0,0,0,.4), 0 0 24px rgba(150,150,150,.2), inset 0 1px 0 rgba(255,255,255,.2); }
-.slot.selected{ border-color:#fff; box-shadow:0 18px 50px rgba(0,0,0,.5), 0 0 28px rgba(200,200,200,.28), inset 0 1px 0 rgba(255,255,255,.25); color:#fff; }
+.slot:hover{ border-color:rgba(180,180,180,.65); box-shadow:0 18px 50px rgba(0,0,0,.4), 0 0 24px rgba(150,150,150,.2); }
+.slot.selected{ border-color:#fff; box-shadow:0 18px 50px rgba(0,0,0,.5), 0 0 28px rgba(200,200,200,.28); color:#fff; }
 .slot-icon{ font-size:28px; margin-bottom:9px; color:#888; text-shadow:0 0 18px rgba(150,150,150,.35); }
 .slot-item-img{ width:60px; height:60px; object-fit:contain; margin-bottom:4px; filter:drop-shadow(0 0 6px rgba(150,150,150,.5)); }
 .slot-text{ color:#c8f6fb; font-size:9px; letter-spacing:1px; font-weight:800; line-height:1.4; text-align:center; }
@@ -118,11 +114,11 @@ button{ border-radius:10px; }
   --wheel-chance:30;
   background:conic-gradient(#10df4b 0 calc(var(--wheel-chance) * 1%), #d91f2f calc(var(--wheel-chance) * 1%) 100%);
   border:5px solid #ccc;
-  box-shadow:0 0 35px rgba(150,150,150,.15), 0 0 12px rgba(100,100,100,.16), inset 0 0 35px rgba(100,100,100,.08);
+  box-shadow:0 0 35px rgba(150,150,150,.15), inset 0 0 35px rgba(100,100,100,.08);
   transition:box-shadow .4s ease;
 }
 .wheel.spinning{
-  box-shadow:0 0 55px rgba(255,255,255,.4), 0 0 20px rgba(255,215,60,.5), inset 0 0 35px rgba(100,100,100,.1);
+  box-shadow:0 0 55px rgba(255,255,255,.4), 0 0 20px rgba(255,215,60,.5);
   animation:wheelGlow .8s ease-in-out infinite alternate;
 }
 @keyframes wheelGlow{
@@ -146,32 +142,29 @@ button{ border-radius:10px; }
 .pointer:after{ content:""; position:absolute; left:50%; top:0; transform:translate(-50%,-2px); border-left:6px solid transparent; border-right:6px solid transparent; border-top:9px solid #fff; }
 .wheel-center{ position:absolute; z-index:5; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; }
 .wheel-label{ font-size:9px; letter-spacing:3px; color:#78808a; font-weight:900; margin-bottom:8px; }
-.wheel-chance{ font-size:34px; font-weight:900; color:#e8eef4; text-shadow:0 0 12px rgba(255,255,255,.5), 0 0 24px rgba(200,200,200,.3); letter-spacing:1px; font-variant-numeric:tabular-nums; }
+.wheel-chance{ font-size:34px; font-weight:900; color:#e8eef4; text-shadow:0 0 12px rgba(255,255,255,.5); font-variant-numeric:tabular-nums; }
 
 .controls{ display:flex; align-items:center; margin-top:20px; gap:7px; }
 .upgrade{
   height:44px; min-width:180px;
   border:1px solid rgba(255,255,255,.2); border-radius:12px;
-  background:linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.05) 55%, rgba(150,150,150,.08)), rgba(40,40,40,.55);
-  backdrop-filter:blur(15px) saturate(140%);
-  -webkit-backdrop-filter:blur(15px) saturate(140%);
-  color:#fff; letter-spacing:3px; font-size:18px; cursor:pointer; transition:.2s;
+  background:linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.05)), rgba(40,40,40,.55);
+  backdrop-filter:blur(15px);
+  color:#fff; letter-spacing:3px; font-size:18px; transition:.2s;
   box-shadow:0 10px 30px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
 }
-.upgrade.ready{ color:#fff; border-color:rgba(255,255,255,.5); box-shadow:0 10px 30px rgba(0,0,0,.3), 0 0 20px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.3); }
-.upgrade:hover{ transform:translateY(-2px); background:linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.1)), rgba(60,60,60,.55); box-shadow:0 15px 35px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.25); }
+.upgrade.ready{ border-color:rgba(255,255,255,.5); box-shadow:0 10px 30px rgba(0,0,0,.3), 0 0 20px rgba(255,255,255,.2); }
+.upgrade:hover{ transform:translateY(-2px); filter:brightness(1.15); }
 .upgrade:disabled{ opacity:.6; cursor:not-allowed; }
 .energy{
   width:44px; height:44px;
   border:1px solid rgba(255,220,80,.4); border-radius:12px;
   background:linear-gradient(135deg, rgba(255,220,80,.15), rgba(255,220,80,.05)), rgba(40,40,40,.55);
-  backdrop-filter:blur(15px) saturate(140%);
-  color:#ffd52a; font-size:21px; cursor:pointer;
-  transition:.2s;
+  color:#ffd52a; font-size:21px; transition:.2s;
   text-shadow:0 0 8px #ffd52a;
   box-shadow:0 10px 30px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
 }
-.energy:hover{ transform:translateY(-2px); background:linear-gradient(135deg, rgba(255,220,80,.3), rgba(200,150,20,.2)), rgba(60,50,20,.55); box-shadow:0 0 25px rgba(255,215,60,.5), inset 0 1px 0 rgba(255,255,255,.25); }
+.energy:hover{ transform:translateY(-2px); filter:brightness(1.15); }
 .instruction{ text-align:center; color:#6ca5b5; font-size:11px; line-height:1.45; margin-top:76px; }
 
 .lower{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px; align-items:start; }
@@ -181,16 +174,14 @@ button{ border-radius:10px; }
   background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035) 55%, rgba(150,150,150,.045)), rgba(30,30,30,.55);
   backdrop-filter:blur(20px) saturate(145%);
   -webkit-backdrop-filter:blur(20px) saturate(145%);
-  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11), inset 0 -1px 0 rgba(255,255,255,.035);
+  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.11);
 }
 .panel-title{
   color:#ccc; font-size:10px; letter-spacing:2px; font-weight:900;
   border-left:3px solid #ffd900; padding-left:8px; margin:0 0 10px;
   text-shadow:0 0 12px rgba(100,100,100,.25);
 }
-.target-panel{
-  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02) 55%, rgba(150,150,150,.03)), rgba(20,20,20,.6) !important;
-}
+.target-panel{ background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)), rgba(20,20,20,.6) !important; }
 .target-panel .panel-title{ border-left-color:#aaa; }
 .shop-title{ border-left-color:#aaa; }
 .inventory-status{ color:#5787a9; font-size:10px; margin:15px 2px; }
@@ -198,7 +189,6 @@ button{ border-radius:10px; }
   display:none; margin-top:14px;
   border:1px solid #555; border-radius:14px;
   background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)), rgba(20,20,20,.6);
-  backdrop-filter:blur(15px);
   min-height:110px; align-items:center; justify-content:center;
   flex-direction:column; padding:10px;
 }
@@ -209,75 +199,64 @@ button{ border-radius:10px; }
 .search{
   width:100%; height:32px;
   border:1px solid rgba(150,150,150,.2); border-radius:16px;
-  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)), rgba(25,25,25,.5);
-  backdrop-filter:blur(15px) saturate(140%);
+  background:rgba(25,25,25,.5);
   color:#fff;
   padding:0 14px; outline:none; font-size:10px;
   margin-bottom:10px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
 }
-.search:focus{ border-color:rgba(150,150,150,.65); box-shadow:0 0 0 3px rgba(150,150,150,.12), 0 0 25px rgba(120,120,120,.15), inset 0 1px 0 rgba(255,255,255,.15); }
+.search:focus{ border-color:rgba(150,150,150,.65); box-shadow:0 0 0 3px rgba(150,150,150,.12); }
 
 .items{ display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
 .item{
   min-height:82px;
   border:1px solid rgba(150,150,150,.16); border-radius:12px !important;
-  background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035) 55%, rgba(150,150,150,.045)), rgba(30,30,30,.55);
-  backdrop-filter:blur(18px) saturate(145%);
+  background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035)), rgba(30,30,30,.55);
   padding:9px 6px 7px;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   text-align:center; cursor:pointer; transition:.15s ease;
-  position:relative; color:#fff;
-  box-shadow:0 10px 25px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.1);
+  color:#fff;
 }
-.item:hover{ border-color:rgba(180,180,180,.6); transform:translateY(-1px); box-shadow:0 15px 30px rgba(0,0,0,.35), 0 0 20px rgba(150,150,150,.15), inset 0 1px 0 rgba(255,255,255,.2); }
-.item.selected{ border-color:#fff; background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.08)), rgba(30,30,30,.65); box-shadow:0 15px 30px rgba(0,0,0,.4), 0 0 25px rgba(200,200,200,.25), inset 0 1px 0 rgba(255,255,255,.3); }
-.item-img{ width:44px; height:44px; object-fit:contain; margin-bottom:4px; filter:drop-shadow(0 0 6px rgba(150,150,150,.4)); }
+.item:hover{ border-color:rgba(180,180,180,.6); transform:translateY(-1px); }
+.item.selected{ border-color:#fff; background:linear-gradient(145deg, #202020, #111); box-shadow:0 0 20px rgba(200,200,200,.12); }
+.item-img{ width:44px; height:44px; object-fit:contain; margin-bottom:4px; }
 .item-name{ color:#d9e0e5; font-size:10px; line-height:1.25; font-weight:800; }
 .item-price{ margin-top:7px; color:#ffd52a; font-size:11px; font-weight:900; }
 
-.shop-items{ display:flex; flex-direction:column; gap:6px; padding-right:2px; }
+.shop-items{ display:flex; flex-direction:column; gap:6px; }
 .shop-item{
   min-height:64px;
   border:1px solid rgba(150,150,150,.16); border-radius:12px;
-  background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035) 55%, rgba(150,150,150,.045)), rgba(30,30,30,.5);
-  backdrop-filter:blur(18px) saturate(145%);
+  background:linear-gradient(145deg, rgba(35,35,35,.75), rgba(15,15,15,.9));
   padding:7px 8px;
   display:grid; grid-template-columns:44px minmax(0,1fr) auto;
-  column-gap:10px; align-items:center; cursor:pointer;
-  transition:.15s; position:relative;
-  box-shadow:0 10px 25px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.1);
+  column-gap:10px; align-items:center;
+  transition:.15s;
 }
-.shop-item-img{ width:42px; height:42px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(150,150,150,.4)); }
+.shop-item-img{ width:42px; height:42px; object-fit:contain; }
 .shop-item-info{ min-width:0; display:flex; flex-direction:column; }
-.shop-item-name{ color:#d9e0e5; font-size:10px; font-weight:800; line-height:1.2; text-align:left; min-width:0; }
+.shop-item-name{ color:#d9e0e5; font-size:10px; font-weight:800; }
 .shop-item-price{ color:#ffd52a; font-size:11px; font-weight:900; margin-top:4px; }
-.shop-item:hover{ border-color:rgba(180,180,180,.6); background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.08)), rgba(40,40,40,.6); box-shadow:0 15px 30px rgba(0,0,0,.35), 0 0 20px rgba(150,150,150,.15); }
 .buy-item{
   height:30px; padding:0 10px;
   border:1px solid #006a4d !important; border-radius:8px;
-  background:linear-gradient(135deg, rgba(0,233,150,.15), rgba(0,233,150,.05)), #0c1715 !important;
+  background:#0c1715 !important;
   color:#00e996 !important;
-  font-size:9px; font-weight:900; cursor:pointer; white-space:nowrap;
-  box-shadow:inset 0 1px 0 rgba(0,233,150,.2);
+  font-size:9px; font-weight:900; white-space:nowrap;
 }
-.buy-item:hover{ background:linear-gradient(135deg, rgba(0,233,150,.3), rgba(0,233,150,.1)), #0e211b !important; box-shadow:0 0 15px rgba(0,233,150,.3), inset 0 1px 0 rgba(0,233,150,.3); }
 .buy-item:disabled{ opacity:.3; cursor:not-allowed; }
 
 /* ============================
-   КЕЙСЫ — новый дизайн
-   Большая картинка кейса сверху,
-   маленькие браинроты снизу
+   КЕЙСЫ — обновлённый дизайн
 ============================ */
 .cases-panel{
-  background:linear-gradient(135deg, rgba(166,77,255,.1), rgba(166,77,255,.03) 55%, rgba(150,150,150,.03)), rgba(20,15,35,.55) !important;
+  background:linear-gradient(135deg, rgba(166,77,255,.1), rgba(166,77,255,.03)), rgba(20,15,35,.55) !important;
 }
 .cases-panel .panel-title{ border-left-color:#a64dff; }
 
 #casesList{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));
   gap:14px;
 }
 
@@ -319,7 +298,6 @@ button{ border-radius:10px; }
     inset 0 1px 0 rgba(255,255,255,.15);
 }
 
-/* Большая картинка кейса */
 .case-main-img{
   width:100%;
   height:200px;
@@ -337,7 +315,7 @@ button{ border-radius:10px; }
   transition:.3s ease;
 }
 .case-card:hover .case-main-img img{
-  transform:scale(1.08);
+  transform:scale(1.06);
   filter:drop-shadow(0 0 40px rgba(166,77,255,1));
 }
 .case-main-emoji{
@@ -345,7 +323,6 @@ button{ border-radius:10px; }
   filter:drop-shadow(0 0 25px rgba(166,77,255,.7));
 }
 
-/* Заголовок и цена */
 .case-header-new{
   display:flex;
   justify-content:space-between;
@@ -353,7 +330,7 @@ button{ border-radius:10px; }
   gap:10px;
   position:relative;
   z-index:1;
-  padding-top:4px;
+  padding-top:10px;
   border-top:1px solid rgba(166,77,255,.2);
 }
 .case-name-new{
@@ -384,7 +361,6 @@ button{ border-radius:10px; }
   text-shadow:0 0 8px rgba(255,213,42,.5);
 }
 
-/* Маленькие браинроты снизу */
 .case-rewards-small{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
@@ -413,16 +389,14 @@ button{ border-radius:10px; }
   box-shadow:0 8px 20px rgba(0,0,0,.3), 0 0 15px rgba(166,77,255,.3);
 }
 .case-reward-small img{
-  width:100%;
+  width:60%;
   height:60%;
   object-fit:contain;
   margin-bottom:3px;
   filter:drop-shadow(0 0 6px rgba(166,77,255,.4));
   transition:.2s;
 }
-.case-reward-small:hover img{
-  transform:scale(1.1);
-}
+.case-reward-small:hover img{ transform:scale(1.1); }
 .case-reward-small-name{
   color:#d8dce4;
   font-size:8px;
@@ -431,9 +405,7 @@ button{ border-radius:10px; }
   letter-spacing:.2px;
   overflow:hidden;
   text-overflow:ellipsis;
-  display:-webkit-box;
-  -webkit-line-clamp:1;
-  -webkit-box-orient:vertical;
+  white-space:nowrap;
   max-width:100%;
 }
 .case-reward-small-price{
@@ -444,7 +416,6 @@ button{ border-radius:10px; }
   text-shadow:0 0 6px rgba(255,213,42,.5);
 }
 
-/* Кнопка открытия */
 .open-case-btn{
   width:100%;
   height:46px;
@@ -459,7 +430,6 @@ button{ border-radius:10px; }
   transition:.2s ease;
   box-shadow:0 10px 30px rgba(166,77,255,.4), 0 0 25px rgba(255,0,204,.2);
   text-shadow:0 0 10px rgba(255,255,255,.5);
-  cursor:pointer;
   border:none;
 }
 .open-case-btn:hover{
@@ -467,11 +437,7 @@ button{ border-radius:10px; }
   box-shadow:0 15px 40px rgba(166,77,255,.5), 0 0 40px rgba(255,0,204,.35);
   filter:brightness(1.1);
 }
-.open-case-btn:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-  transform:none;
-}
+.open-case-btn:disabled{ opacity:.4; cursor:not-allowed; transform:none; }
 
 /* CASE MODAL */
 .case-modal{
@@ -538,7 +504,6 @@ button{ border-radius:10px; }
   border:1px solid rgba(166,77,255,.25); border-radius:12px;
   background:radial-gradient(circle at 50% 30%, rgba(166,77,255,.15), transparent 70%), rgba(20,10,40,.7);
   display:flex; align-items:center; justify-content:center; padding:8px;
-  position:relative;
 }
 .case-strip-item img{ width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 0 10px rgba(166,77,255,.5)); }
 .case-result{
@@ -548,13 +513,13 @@ button{ border-radius:10px; }
 }
 .case-result.show{ opacity:1; transform:translateY(0); }
 .case-result-label{ font-size:11px; color:#a64dff; letter-spacing:3px; font-weight:900; text-shadow:0 0 10px #a64dff; margin-bottom:6px; }
-.case-result-name{ font-size:20px; color:#fff; font-weight:900; letter-spacing:1px; text-shadow:0 0 12px #ffd52a, 0 0 30px #ffd52a; }
+.case-result-name{ font-size:20px; color:#fff; font-weight:900; text-shadow:0 0 12px #ffd52a, 0 0 30px #ffd52a; }
 .case-close-btn{
   margin-top:24px; height:42px; min-width:180px; padding:0 28px;
   border:1px solid #a64dff; border-radius:12px;
   background:linear-gradient(135deg, #a64dff, #ff00cc);
   color:#fff; font-size:11px; font-weight:900; letter-spacing:3px;
-  cursor:pointer; transition:.2s;
+  transition:.2s;
   opacity:0; pointer-events:none;
   box-shadow:0 10px 25px rgba(166,77,255,.4);
 }
@@ -563,52 +528,33 @@ button{ border-radius:10px; }
 
 /* GIVEAWAYS */
 .giveaways-panel{
-  background:linear-gradient(135deg, rgba(255,215,60,.08), rgba(255,215,60,.02) 55%, rgba(150,120,20,.03)), rgba(30,25,10,.55) !important;
+  background:linear-gradient(135deg, rgba(255,215,60,.08), rgba(255,215,60,.02)), rgba(30,25,10,.55) !important;
 }
 .giveaways-panel .panel-title{ border-left-color:#ffd52a; }
-
 .giveaway-info-bar{
   padding:10px 14px;
   border:1px solid rgba(255,215,60,.3); border-radius:12px;
   background:linear-gradient(135deg, rgba(255,215,60,.12), rgba(255,215,60,.04)), rgba(30,25,10,.6);
-  backdrop-filter:blur(15px);
   margin-bottom:12px;
   display:flex; justify-content:space-between; align-items:center; gap:10px;
   font-size:10px; font-weight:900;
-  box-shadow:0 10px 25px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.1);
 }
 .giveaway-info-bar .gi-label{ color:#ffd52a; letter-spacing:1.5px; }
 .giveaway-info-bar .gi-value{ color:#fff; font-size:14px; text-shadow:0 0 10px rgba(255,215,60,.5); }
 .giveaway-info-bar .gi-hint{ color:#a8a88a; font-size:9px; letter-spacing:.5px; margin-top:2px; }
-
 .giveaway-card{
   border:1px solid rgba(255,215,60,.35); border-radius:16px;
-  background:linear-gradient(135deg, rgba(255,215,60,.1), rgba(255,215,60,.03) 55%, rgba(150,120,20,.04)), rgba(25,20,10,.55);
-  backdrop-filter:blur(20px) saturate(145%);
+  background:linear-gradient(135deg, rgba(255,215,60,.1), rgba(255,215,60,.03)), rgba(25,20,10,.55);
+  backdrop-filter:blur(20px);
   padding:12px; margin-bottom:10px;
-  box-shadow:0 18px 50px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.1);
   transition:.2s;
 }
-.giveaway-card:hover{ box-shadow:0 0 30px rgba(255,215,60,.25), 0 18px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.15); }
-.giveaway-card.finished{ opacity:.65; border-color:rgba(150,150,150,.3); }
-.giveaway-card.finished .giveaway-card-title::after{ content:" (ЗАВЕРШЁН)"; color:#888; font-size:9px; letter-spacing:1px; }
-
+.giveaway-card.finished{ opacity:.65; }
 .giveaway-card-header{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-.giveaway-card-img{
-  width:64px; height:64px; object-fit:contain;
-  filter:drop-shadow(0 0 10px rgba(255,215,60,.5));
-  flex-shrink:0;
-}
+.giveaway-card-img{ width:64px; height:64px; object-fit:contain; flex-shrink:0; }
 .giveaway-card-info{ flex:1; min-width:0; }
-.giveaway-card-title{
-  color:#fff; font-size:13px; font-weight:900; letter-spacing:1px;
-  text-shadow:0 0 10px rgba(255,215,60,.4);
-}
-.giveaway-card-prize{
-  color:#ffd52a; font-size:12px; font-weight:900; margin-top:3px;
-  text-shadow:0 0 8px rgba(255,215,60,.4);
-}
-
+.giveaway-card-title{ color:#fff; font-size:13px; font-weight:900; }
+.giveaway-card-prize{ color:#ffd52a; font-size:12px; font-weight:900; margin-top:3px; }
 .giveaway-card-stats{
   display:grid; grid-template-columns:repeat(2,1fr); gap:6px;
   padding-top:10px; border-top:1px solid rgba(255,215,60,.15);
@@ -618,16 +564,14 @@ button{ border-radius:10px; }
 .giveaway-stat-label{ color:#a8a88a; }
 .giveaway-stat-value{ color:#fff; font-weight:900; }
 .giveaway-stat-value.gold{ color:#ffd52a; }
-
 .join-giveaway-btn{
   width:100%; height:38px;
   border:1px solid #ffd52a; border-radius:10px;
   background:linear-gradient(180deg, rgba(255,215,60,.35), rgba(180,140,10,.55));
   color:#1a1400; font-size:11px; font-weight:900; letter-spacing:2px;
-  cursor:pointer; transition:.2s;
-  box-shadow:0 10px 25px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.4);
+  transition:.2s;
 }
-.join-giveaway-btn:hover{ background:linear-gradient(180deg, rgba(255,230,120,.5), rgba(200,160,20,.7)); box-shadow:0 0 25px rgba(255,215,60,.6), inset 0 1px 0 rgba(255,255,255,.5); transform:translateY(-1px); }
+.join-giveaway-btn:hover{ filter:brightness(1.1); transform:translateY(-1px); }
 .join-giveaway-btn:disabled{ opacity:.4; cursor:not-allowed; }
 .join-giveaway-btn.already{
   border-color:rgba(0,233,150,.5);
@@ -635,86 +579,411 @@ button{ border-radius:10px; }
   color:#00e996;
 }
 
-.inventory-list{ display:flex; flex-direction:column; gap:6px; margin-top:10px; padding-right:2px; }
+.inventory-list{ display:flex; flex-direction:column; gap:6px; margin-top:10px; }
 .inventory-item{
   border:1px solid rgba(150,150,150,.16); border-radius:12px;
-  background:linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.035) 55%, rgba(150,150,150,.045)), rgba(30,30,30,.5);
-  backdrop-filter:blur(18px) saturate(145%);
+  background:linear-gradient(145deg, rgba(35,35,35,.75), rgba(15,15,15,.9));
   padding:8px;
   display:grid; grid-template-columns:40px minmax(0,1fr) auto;
-  align-items:center; gap:9px; cursor:pointer;
-  transition:.15s;
-  box-shadow:0 10px 25px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.1);
+  align-items:center; gap:9px; cursor:pointer; transition:.15s;
 }
-.inventory-item-img{ width:38px; height:38px; object-fit:contain; filter:drop-shadow(0 0 5px rgba(150,150,150,.4)); }
-.inventory-item:hover{ border-color:rgba(180,180,180,.6); background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.08)), rgba(40,40,40,.6); box-shadow:0 15px 30px rgba(0,0,0,.35), 0 0 20px rgba(150,150,150,.15); }
-.inventory-item.selected{ border-color:#fff; background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.08)), rgba(40,35,15,.65); box-shadow:0 15px 30px rgba(0,0,0,.4), 0 0 25px rgba(255,255,200,.2); }
+.inventory-item:hover{ border-color:rgba(180,180,180,.6); }
+.inventory-item.selected{ border-color:#fff; background:#201e0d; }
+.inventory-item-img{ width:38px; height:38px; object-fit:contain; }
 .inventory-item-info{ min-width:0; }
-.inventory-item-actions{ display:flex; gap:5px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
-.inventory-item-name{ font-size:10px; color:#dce2e6; font-weight:800; line-height:1.2; }
+.inventory-item-actions{ display:flex; gap:5px; align-items:center; }
+.inventory-item-name{ font-size:10px; color:#dce2e6; font-weight:800; }
 .inventory-item-price{ font-size:10px; color:#ffd52a; font-weight:900; margin-top:3px; }
 .sell-item{
   height:30px; padding:0 12px; border-radius:8px;
   border:1px solid rgba(220,70,80,.45) !important;
-  background:linear-gradient(135deg, rgba(220,70,80,.15), rgba(220,70,80,.05)), rgba(80,20,25,.55) !important;
+  background:rgba(80,20,25,.55) !important;
   color:#ff7882 !important;
-  font-size:9px; font-weight:900; cursor:pointer; white-space:nowrap;
+  font-size:9px; font-weight:900;
+}
+.sell-item:hover{ background:rgba(120,25,35,.75) !important; color:#fff !important; }
+.normal-inventory-title{ border-left-color:#2ce6d2 !important; }
+
+/* ============================
+   ADMIN PANEL — улучшенный
+============================ */
+.admin-panel{
+  margin-top:12px;
+  padding:0;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:16px;
+  background:linear-gradient(145deg, rgba(30,30,40,.85), rgba(10,12,18,.95));
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.5),
+    0 0 40px rgba(255,45,126,.1),
+    inset 0 1px 0 rgba(255,255,255,.1);
+  overflow:hidden;
+}
+
+/* Header */
+.admin-header{
+  padding:14px 16px;
+  background:linear-gradient(90deg, rgba(255,45,126,.15), rgba(166,77,255,.1));
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.admin-header-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-shadow:0 0 10px rgba(255,45,126,.6);
+}
+.admin-header-icon{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff2d7e,#a64dff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  box-shadow:0 0 15px rgba(255,45,126,.6);
+}
+.admin-header-badge{
+  padding:4px 10px;
+  border-radius:10px;
+  background:rgba(0,233,150,.15);
+  border:1px solid rgba(0,233,150,.4);
+  color:#00e996;
+  font-size:9px;
+  font-weight:900;
   letter-spacing:1px;
 }
-.sell-item:hover{ background:linear-gradient(135deg, rgba(220,70,80,.35), rgba(220,70,80,.15)), rgba(120,25,35,.75) !important; border-color:#ff5b68 !important; color:#fff !important; box-shadow:0 0 15px rgba(220,70,80,.4); }
-.normal-inventory-title{ border-left-color:#2ce6d2 !important; }
-.normal-inventory-panel{ min-height:342px; }
 
+/* Admin tabs */
+.admin-tabs{
+  display:flex;
+  gap:2px;
+  padding:8px 10px 0;
+  background:rgba(0,0,0,.3);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.admin-tabs::-webkit-scrollbar{ display:none; }
+.admin-tab{
+  padding:9px 14px;
+  border-radius:10px 10px 0 0;
+  background:transparent;
+  border:1px solid transparent;
+  border-bottom:none;
+  color:#7b8294;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  transition:.2s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.admin-tab:hover{ color:#fff; background:rgba(255,255,255,.05); }
+.admin-tab.active{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,45,126,.4);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1), 0 -3px 0 0 #ff2d7e inset;
+}
+.admin-tab-icon{ font-size:13px; }
+
+/* Admin content */
+.admin-content{
+  padding:14px;
+  max-height:600px;
+  overflow-y:auto;
+}
+.admin-tab-panel{ display:none; }
+.admin-tab-panel.active{ display:block; }
+
+/* Section */
+.admin-section{
+  padding:14px;
+  border-radius:12px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  margin-bottom:12px;
+}
+.admin-section-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.admin-section-title-icon{
+  width:22px;
+  height:22px;
+  border-radius:6px;
+  background:linear-gradient(135deg,rgba(255,45,126,.3),rgba(166,77,255,.3));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+}
+
+/* Field */
+.admin-field{ margin-bottom:10px; }
+.admin-field-label{
+  display:block;
+  color:#8a8ea0;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.admin-input{
+  width:100%;
+  height:38px;
+  padding:0 12px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  background:rgba(0,0,0,.5);
+  color:#fff;
+  font-size:11px;
+  transition:.2s;
+}
+.admin-input:focus{
+  border-color:#ff2d7e;
+  box-shadow:0 0 0 3px rgba(255,45,126,.1), 0 0 20px rgba(255,45,126,.15);
+}
+.admin-input::placeholder{ color:#4a5060; }
+
+.admin-button{
+  width:100%;
+  height:42px;
+  margin-top:10px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#ff2d7e,#a64dff);
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  transition:.2s;
+  box-shadow:0 10px 25px rgba(255,45,126,.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.admin-button:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.15);
+  box-shadow:0 15px 35px rgba(255,45,126,.5);
+}
+.admin-button:disabled{ opacity:.5; cursor:not-allowed; transform:none; }
+.admin-button.success{ background:linear-gradient(135deg,#00e996,#00a86b); }
+
+.admin-message{
+  min-height:18px;
+  margin-top:10px;
+  color:#8dd9dc;
+  font-size:10px;
+  line-height:1.4;
+  padding:8px 10px;
+  border-radius:8px;
+  background:rgba(0,0,0,.3);
+  display:none;
+}
+.admin-message:not(:empty){ display:block; }
+.admin-message.error{ color:#ff7070; background:rgba(255,45,126,.1); border:1px solid rgba(255,45,126,.2); }
+.admin-message.success{ color:#00e996; background:rgba(0,233,150,.08); border:1px solid rgba(0,233,150,.2); }
+
+/* List item */
+.admin-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.admin-list-item{
+  padding:12px;
+  border-radius:12px;
+  background:linear-gradient(145deg, rgba(30,35,50,.7), rgba(15,18,28,.9));
+  border:1px solid rgba(255,255,255,.08);
+  border-left:3px solid #ff2d7e;
+  transition:.2s;
+  cursor:pointer;
+}
+.admin-list-item:hover{
+  border-color:rgba(255,45,126,.4);
+  background:linear-gradient(145deg, rgba(40,45,60,.8), rgba(20,22,32,.95));
+}
+.admin-list-item-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
+}
+.admin-list-item-title{
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.5px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.admin-list-item-status{
+  padding:2px 8px;
+  border-radius:10px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+.admin-list-item-status.active{
+  background:rgba(0,233,150,.15);
+  color:#00e996;
+  border:1px solid rgba(0,233,150,.3);
+}
+.admin-list-item-status.expired{
+  background:rgba(150,150,150,.15);
+  color:#8a8ea0;
+  border:1px solid rgba(150,150,150,.3);
+}
+.admin-list-item-status.exhausted{
+  background:rgba(255,45,126,.15);
+  color:#ff2d7e;
+  border:1px solid rgba(255,45,126,.3);
+}
+.admin-list-item-status.pending{
+  background:rgba(255,213,42,.15);
+  color:#ffd52a;
+  border:1px solid rgba(255,213,42,.3);
+}
+
+.admin-list-item-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  font-size:9px;
+  color:#8a8ea0;
+  margin-top:6px;
+}
+.admin-list-item-meta span{
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+
+.admin-list-item-actions{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+}
+.admin-action-btn{
+  flex:1;
+  height:30px;
+  border-radius:8px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  transition:.2s;
+}
+.admin-action-btn.delete{
+  border:1px solid rgba(220,70,80,.4);
+  background:rgba(80,20,25,.5);
+  color:#ff7882;
+}
+.admin-action-btn.delete:hover{
+  background:rgba(120,25,35,.75);
+  border-color:#ff5b68;
+  color:#fff;
+}
+.admin-action-btn.finish{
+  border:1px solid rgba(0,233,150,.4);
+  background:rgba(0,80,50,.4);
+  color:#00e996;
+}
+.admin-action-btn.finish:hover{
+  background:rgba(0,120,70,.6);
+  border-color:#00e996;
+  color:#fff;
+}
+
+.admin-list-item-details{
+  display:none;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.08);
+  font-size:9px;
+  line-height:1.7;
+  color:#b8c0d4;
+}
+.admin-list-item.open .admin-list-item-details{ display:block; }
+
+.admin-empty{
+  text-align:center;
+  padding:30px 20px;
+  color:#6a7189;
+  font-size:10px;
+  letter-spacing:1px;
+}
+.admin-empty-icon{
+  font-size:36px;
+  margin-bottom:10px;
+  opacity:.4;
+  display:block;
+}
+
+/* PROFILE */
 .profile-panel{ position:relative; }
 .profile-title{ border-left-color:#2ce6d2 !important; }
 .profile-card{
   min-height:205px; display:flex; align-items:center;
   flex-direction:column; justify-content:center; padding:12px;
   border:1px solid rgba(100,100,100,.2); border-radius:14px;
-  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03) 55%, rgba(150,150,150,.04)), rgba(30,30,30,.5);
-  backdrop-filter:blur(18px) saturate(145%);
-  box-shadow:0 15px 40px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.1);
+  background:linear-gradient(145deg, rgba(25,25,25,.7), rgba(15,15,15,.9));
 }
 .profile-avatar{
   width:58px; height:58px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
   font-size:24px; font-weight:900; color:#000;
   background:linear-gradient(145deg, #ddd, #888);
-  box-shadow:0 0 24px rgba(150,150,150,.4), inset 0 1px 0 rgba(255,255,255,.5);
+  box-shadow:0 0 24px rgba(150,150,150,.4);
   margin-bottom:10px; cursor:pointer; transition:.15s;
 }
-.profile-avatar:hover{ filter:brightness(1.15); transform:scale(1.05); box-shadow:0 0 35px rgba(200,200,200,.6), inset 0 1px 0 rgba(255,255,255,.6); }
-.profile-username{ font-size:18px; font-weight:900; color:#e4feff; letter-spacing:.5px; }
+.profile-avatar:hover{ filter:brightness(1.15); transform:scale(1.05); }
+.profile-username{ font-size:18px; font-weight:900; color:#e4feff; }
 .profile-meta{ margin-top:5px; color:#6ca5b5; font-size:9px; letter-spacing:1.4px; text-transform:uppercase; }
-.telegram-account-button{ display:flex; align-items:center; justify-content:center; text-decoration:none; box-sizing:border-box; }
-.profile-button, .admin-button{
+.telegram-account-button{ display:flex; align-items:center; justify-content:center; }
+.profile-button{
   width:100%; height:36px; margin-top:14px;
   border:1px solid rgba(255,255,255,.2); border-radius:10px;
   background:linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.05)), rgba(80,80,80,.5);
   color:#fff; font-size:10px; font-weight:900; letter-spacing:1.2px;
-  cursor:pointer;
-  box-shadow:0 10px 25px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.15);
+  display:flex; align-items:center; justify-content:center;
 }
-.profile-button:hover, .admin-button:hover{ filter:brightness(1.15); box-shadow:0 15px 35px rgba(0,0,0,.35), 0 0 25px rgba(255,255,255,.15), inset 0 1px 0 rgba(255,255,255,.25); }
-.profile-cooldown{ min-height:25px; margin-top:8px; color:#6ca5b5; font-size:9px; line-height:1.4; text-align:center; }
-.admin-panel{
-  margin-top:12px; padding:12px;
-  border:1px solid rgba(255,255,255,.2); border-radius:14px;
-  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02) 55%, rgba(150,150,150,.03)), rgba(30,30,30,.5);
-  backdrop-filter:blur(20px) saturate(145%);
-  box-shadow:0 15px 40px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.1);
-}
-.admin-title{ color:#fff; font-weight:900; font-size:11px; letter-spacing:1.5px; }
-.admin-subtitle{ margin:4px 0 10px; color:#9eb3b6; font-size:9px; }
-.admin-input{
-  width:100%; height:32px; margin-top:7px; padding:0 9px;
-  outline:none; border:1px solid rgba(255,255,255,.15); border-radius:8px;
-  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)), rgba(20,20,20,.75);
-  color:#fff; font-size:10px;
-}
-.admin-input:focus{ border-color:#fff; box-shadow:0 0 15px rgba(255,255,255,.15), inset 0 1px 0 rgba(255,255,255,.1); }
-.admin-button{ color:#fff; background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.08)), rgba(80,80,80,.55); }
-.admin-message{ min-height:18px; margin-top:8px; color:#8dd9dc; font-size:9px; line-height:1.4; }
+.profile-button:hover{ filter:brightness(1.15); }
+.profile-cooldown{ min-height:25px; margin-top:8px; color:#6ca5b5; font-size:9px; text-align:center; }
 
 .top-nav{
   position:relative; z-index:50;
@@ -722,10 +991,9 @@ button{ border-radius:10px; }
   gap:5px; margin:0 auto 10px; padding:6px;
   width:max-content; max-width:100%;
   border:1px solid rgba(255,255,255,.18); border-radius:16px;
-  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03) 55%, rgba(150,150,150,.04)), rgba(30,30,30,.55);
-  backdrop-filter:blur(25px) saturate(150%);
-  -webkit-backdrop-filter:blur(25px) saturate(150%);
-  box-shadow:0 18px 50px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15), inset 0 -1px 0 rgba(255,255,255,.05);
+  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03)), rgba(30,30,30,.55);
+  backdrop-filter:blur(25px);
+  box-shadow:0 18px 50px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
   flex-wrap:wrap;
 }
 .nav-btn{
@@ -736,15 +1004,14 @@ button{ border-radius:10px; }
   font-size:9px; font-weight:900; letter-spacing:.8px;
   cursor:pointer; transition:.15s;
 }
-.nav-btn:hover{color:#fff;background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));border-color:rgba(255,255,255,.1);}
-.nav-btn.active{ color:#fff; border-color:rgba(255,255,255,.25); background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06)); box-shadow:0 8px 20px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.2); }
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.06);}
+.nav-btn.active{ color:#fff; border-color:rgba(255,255,255,.25); background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06)); }
 .nav-btn.giveaway-nav.active{
   color:#1a1400;
   border-color:#ffd52a;
   background:linear-gradient(135deg, rgba(255,215,60,.5), rgba(200,160,20,.3));
-  box-shadow:0 8px 20px rgba(255,215,60,.4), inset 0 1px 0 rgba(255,255,255,.5);
 }
-.nav-icon{font-size:13px;line-height:1;}
+.nav-icon{font-size:13px;}
 .tab-panel[hidden]{display:none!important;}
 .dedicated-tab{margin-top:4px;}
 .mini-title-icon{font-size:11px;margin-right:4px;color:#2ce6d2;}
@@ -752,38 +1019,29 @@ button{ border-radius:10px; }
 .promo-card{
   max-width:480px; margin:0 auto; padding:18px;
   border:1px solid rgba(150,150,150,.2); border-radius:16px;
-  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03) 55%, rgba(150,150,150,.04)), rgba(30,30,30,.5);
-  backdrop-filter:blur(20px) saturate(145%);
-  box-shadow:0 18px 50px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.1);
+  background:linear-gradient(145deg, rgba(25,25,25,.7), rgba(15,15,15,.9));
 }
 .promo-description{font-size:10px;color:#8fa2a7;text-align:center;margin-bottom:12px;}
 .promo-input{
   width:100%;height:40px;padding:0 14px;
   border:1px solid rgba(150,150,150,.2);border-radius:12px;
-  outline:none;
-  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)), #0d0f10;
-  color:#fff;font-size:11px;
+  outline:none;background:#0d0f10;color:#fff;font-size:11px;
 }
-.promo-input:focus{border-color:#fff;box-shadow:0 0 0 3px rgba(150,150,150,.08), 0 0 15px rgba(255,255,255,.15);}
+.promo-input:focus{border-color:#fff;box-shadow:0 0 15px rgba(255,255,255,.15);}
 .promo-button{
   width:100%;height:38px;margin-top:8px;
   border:1px solid #006a4d;border-radius:11px;
-  background:linear-gradient(135deg, rgba(0,233,150,.15), rgba(0,233,150,.05)), #0c1715;
-  color:#00e996;
-  font-size:9px;font-weight:900;cursor:pointer;
-  box-shadow:0 10px 25px rgba(0,0,0,.25), inset 0 1px 0 rgba(0,233,150,.15);
+  background:#0c1715;color:#00e996;
+  font-size:9px;font-weight:900;
 }
-.promo-button:hover{background:linear-gradient(135deg, rgba(0,233,150,.3), rgba(0,233,150,.1)), #0e211b;box-shadow:0 0 20px rgba(0,233,150,.3), inset 0 1px 0 rgba(0,233,150,.3);}
+.promo-button:hover{background:#0e211b;}
 .promo-button:disabled{opacity:.5;cursor:not-allowed;}
 .promo-message{min-height:18px;margin-top:9px;text-align:center;font-size:10px;color:#8dd9dc;}
 .promo-message.error{color:#ff7580;}
 .promo-message.success{color:#00e996;}
 
-/* EFFECTS */
 .flash-effect{
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
+  position:absolute; border-radius:50%; pointer-events:none;
   transform:translate(-50%,-50%) scale(0);
   animation:flashBoom .7s ease-out forwards;
 }
@@ -792,9 +1050,7 @@ button{ border-radius:10px; }
   100%{ transform:translate(-50%,-50%) scale(3); opacity:0; }
 }
 .particle{
-  position:absolute;
-  pointer-events:none;
-  border-radius:50%;
+  position:absolute; pointer-events:none; border-radius:50%;
   transform:translate(-50%,-50%);
   animation:particleFly 1.2s cubic-bezier(.15,.7,.4,1) forwards;
 }
@@ -816,22 +1072,21 @@ button{ border-radius:10px; }
   .items{grid-template-columns:repeat(2,1fr);}
   .wheel{width:190px;height:190px;}
   .upgrade{min-width:155px;font-size:15px;}
-  .inventory-item{grid-template-columns:minmax(0,1fr) auto;gap:6px;}
-  .sell-item{padding:0 8px;font-size:8px;}
-  .shop-item{grid-template-columns:minmax(0,1fr) auto;column-gap:6px;}
-  .buy-item{padding:0 7px;font-size:8px;}
   .case-main-img{ height:160px; }
   .case-main-emoji{ font-size:72px; }
   .case-roulette{height:150px;}
   .case-strip-item{width:110px;height:110px;}
   .case-modal-title{font-size:18px;letter-spacing:3px;}
   .giveaway-card-stats{grid-template-columns:1fr;}
+  .admin-tab{ padding:8px 10px; font-size:9px; }
+  .admin-header-title{ font-size:11px; }
+  .admin-content{ padding:10px; }
 }
 
 *{ scrollbar-color:#147e91 #03131e; scrollbar-width:thin; }
 ::-webkit-scrollbar{ width:8px; }
 ::-webkit-scrollbar-track{ background:#03131e; }
-::-webkit-scrollbar-thumb{ background:linear-gradient(#0b7890, #19c6c7); border-radius:10px; }
+::-webkit-scrollbar-thumb{ background:linear-gradient(#0b7890,#19c6c7); border-radius:10px; }
 </style>
 </head>
 
@@ -969,50 +1224,163 @@ button{ border-radius:10px; }
         <div style="margin-top:7px;font-size:8px;color:#6ca5b5;cursor:pointer;text-align:center;letter-spacing:0.5px;" onclick="changeServerUrlPrompt()">⚙ Сервер API: <span id="currentApiDisplay">—</span> (нажмите для смены)</div>
       </div>
 
+      <!-- ✅ НОВАЯ АДМИН ПАНЕЛЬ -->
       <div class="admin-panel" id="adminPanel" hidden>
-        <div class="admin-title">⚓ ADMIN • <span id="adminName">@saintezz7</span></div>
-
-        <div class="admin-withdrawals" style="margin-top:0;border-top:none;padding-top:0;margin-bottom:12px;">
-          <div class="admin-subtitle">АДРЕС СЕРВЕРА RENDER (API URL)</div>
-          <input class="admin-input" id="adminServerUrl" placeholder="https://ваш-проект.onrender.com">
-          <button class="admin-button" type="button" onclick="saveAdminServerUrl()">СОХРАНИТЬ АДРЕС СЕРВЕРА</button>
-          <div class="admin-message" id="adminServerUrlMessage"></div>
+        <div class="admin-header">
+          <div class="admin-header-title">
+            <div class="admin-header-icon">⚓</div>
+            <span>АДМИН-ПАНЕЛЬ</span>
+          </div>
+          <div class="admin-header-badge" id="adminName">@saintezz7</div>
         </div>
 
-        <div class="admin-subtitle">Создание промокодов</div>
-        <input class="admin-input" id="adminPromoCode" placeholder="Название промокода" maxlength="40">
-        <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="Количество активаций">
-        <input class="admin-input" id="adminPromoMinutes" type="number" min="1" step="1" placeholder="Через сколько минут истекает">
-        <input class="admin-input" id="adminPromoReward" type="number" min="1" step="1" value="10" placeholder="Награда 💎">
-        <button class="admin-button" type="button" onclick="createPromoCode()">СОЗДАТЬ ПРОМОКОД</button>
-        <div class="admin-message" id="adminMessage"></div>
-
-        <div class="admin-withdrawals">
-          <div class="admin-subtitle">ПРОМОКОДЫ (СЕРВЕР)</div>
-          <div id="adminPromoList"></div>
+        <div class="admin-tabs">
+          <button class="admin-tab active" type="button" onclick="switchAdminTab('promos', this)">
+            <span class="admin-tab-icon">🎫</span> ПРОМОКОДЫ
+          </button>
+          <button class="admin-tab" type="button" onclick="switchAdminTab('giveaways', this)">
+            <span class="admin-tab-icon">🎲</span> РОЗЫГРЫШИ
+          </button>
+          <button class="admin-tab" type="button" onclick="switchAdminTab('withdrawals', this)">
+            <span class="admin-tab-icon">📤</span> ВЫВОДЫ
+          </button>
+          <button class="admin-tab" type="button" onclick="switchAdminTab('settings', this)">
+            <span class="admin-tab-icon">⚙</span> НАСТРОЙКИ
+          </button>
         </div>
 
-        <div class="admin-withdrawals">
-          <div class="admin-subtitle">🎲 СОЗДАНИЕ РОЗЫГРЫША</div>
+        <div class="admin-content">
 
-          <input class="admin-input" id="adminGiveawayName" placeholder="Имя браинрота" maxlength="60">
-          <input class="admin-input" id="adminGiveawayImage" placeholder="Ссылка на картинку (GitHub raw)" maxlength="300">
-          <input class="admin-input" id="adminGiveawayPrize" type="number" min="0" step="1" value="0" placeholder="Сколько приносит (💎)">
-          <input class="admin-input" id="adminGiveawayMaxParticipants" type="number" min="0" step="1" value="0" placeholder="Сколько участников (0 = без лимита)">
-          <input class="admin-input" id="adminGiveawayMinContribution" type="number" min="0" step="1" value="50" placeholder="Сколько надо внести промокодами (💎)">
-          <input class="admin-input" id="adminGiveawayWinners" type="number" min="1" step="1" value="1" placeholder="Сколько победителей">
-          <button class="admin-button" type="button" onclick="createGiveaway()">СОЗДАТЬ РОЗЫГРЫШ</button>
-          <div class="admin-message" id="adminGiveawayMessage"></div>
+          <!-- ========== ПРОМОКОДЫ ========== -->
+          <div class="admin-tab-panel active" data-admin-tab="promos">
+            <div class="admin-section">
+              <div class="admin-section-title">
+                <div class="admin-section-title-icon">➕</div>
+                СОЗДАТЬ ПРОМОКОД
+              </div>
 
-          <div class="admin-subtitle" style="margin-top:14px;">УПРАВЛЕНИЕ РОЗЫГРЫШАМИ</div>
-          <div id="adminGiveawaysList"></div>
-        </div>
+              <div class="admin-field">
+                <label class="admin-field-label">Название промокода</label>
+                <input class="admin-input" id="adminPromoCode" placeholder="Например: PROMO10" maxlength="40">
+              </div>
 
-        <div class="admin-withdrawals">
-          <div class="admin-subtitle">ВЫВОДЫ ПРЕДМЕТОВ</div>
-          <div id="adminWithdrawalsList"></div>
+              <div class="admin-field">
+                <label class="admin-field-label">Количество активаций</label>
+                <input class="admin-input" id="adminPromoActivations" type="number" min="1" step="1" placeholder="10">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Через сколько минут истекает</label>
+                <input class="admin-input" id="adminPromoMinutes" type="number" min="1" step="1" placeholder="60">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Награда (💎)</label>
+                <input class="admin-input" id="adminPromoReward" type="number" min="1" step="1" value="10" placeholder="10">
+              </div>
+
+              <button class="admin-button" type="button" onclick="createPromoCode()">
+                <span>🎫</span> СОЗДАТЬ ПРОМОКОД
+              </button>
+              <div class="admin-message" id="adminMessage"></div>
+            </div>
+
+            <div class="admin-section">
+              <div class="admin-section-title">
+                <div class="admin-section-title-icon">📋</div>
+                АКТИВНЫЕ ПРОМОКОДЫ (<span id="adminPromoCount">0</span>)
+              </div>
+              <div class="admin-list" id="adminPromoList"></div>
+            </div>
+          </div>
+
+          <!-- ========== РОЗЫГРЫШИ ========== -->
+          <div class="admin-tab-panel" data-admin-tab="giveaways">
+            <div class="admin-section">
+              <div class="admin-section-title">
+                <div class="admin-section-title-icon">➕</div>
+                СОЗДАТЬ РОЗЫГРЫШ
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Имя браинрота</label>
+                <input class="admin-input" id="adminGiveawayName" placeholder="Например: Skibidi toilet" maxlength="60">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Ссылка на картинку (GitHub)</label>
+                <input class="admin-input" id="adminGiveawayImage" placeholder="image.png или https://..." maxlength="300">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Сколько приносит (💎)</label>
+                <input class="admin-input" id="adminGiveawayPrize" type="number" min="0" step="1" value="0" placeholder="0">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Сколько участников (0 = без лимита)</label>
+                <input class="admin-input" id="adminGiveawayMaxParticipants" type="number" min="0" step="1" value="0" placeholder="0">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Мин. вклад промокодами (💎)</label>
+                <input class="admin-input" id="adminGiveawayMinContribution" type="number" min="0" step="1" value="50" placeholder="50">
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">Сколько победителей</label>
+                <input class="admin-input" id="adminGiveawayWinners" type="number" min="1" step="1" value="1" placeholder="1">
+              </div>
+
+              <button class="admin-button" type="button" onclick="createGiveaway()">
+                <span>🎲</span> СОЗДАТЬ РОЗЫГРЫШ
+              </button>
+              <div class="admin-message" id="adminGiveawayMessage"></div>
+            </div>
+
+            <div class="admin-section">
+              <div class="admin-section-title">
+                <div class="admin-section-title-icon">🎯</div>
+                УПРАВЛЕНИЕ РОЗЫГРЫШАМИ
+              </div>
+              <div class="admin-list" id="adminGiveawaysList"></div>
+            </div>
+          </div>
+
+          <!-- ========== ВЫВОДЫ ========== -->
+          <div class="admin-tab-panel" data-admin-tab="withdrawals">
+            <div class="admin-section">
+              <div class="admin-section-title">
+                <div class="admin-section-title-icon">📤</div>
+                ЗАЯВКИ НА ВЫВОД
+              </div>
+              <div class="admin-list" id="adminWithdrawalsList"></div>
+            </div>
+          </div>
+
+          <!-- ========== НАСТРОЙКИ ========== -->
+          <div class="admin-tab-panel" data-admin-tab="settings">
+            <div class="admin-section">
+              <div class="admin-section-title">
+                <div class="admin-section-title-icon">⚙</div>
+                АДРЕС СЕРВЕРА
+              </div>
+
+              <div class="admin-field">
+                <label class="admin-field-label">API URL (Render)</label>
+                <input class="admin-input" id="adminServerUrl" placeholder="https://ваш-проект.onrender.com">
+              </div>
+
+              <button class="admin-button success" type="button" onclick="saveAdminServerUrl()">
+                <span>✓</span> СОХРАНИТЬ АДРЕС
+              </button>
+              <div class="admin-message" id="adminServerUrlMessage"></div>
+            </div>
+          </div>
+
         </div>
       </div>
+
     </div>
   </section>
 
@@ -1099,18 +1467,13 @@ button{ border-radius:10px; }
       const s = snowflakes[i];
 
       if(s.burst){
-        s.x += s.speedX;
-        s.y += s.speedY;
-        s.speedX *= 0.95;
-        s.speedY *= 0.95;
-        s.speedY += 0.15;
+        s.x += s.speedX; s.y += s.speedY;
+        s.speedX *= 0.95; s.speedY *= 0.95; s.speedY += 0.15;
         s.life -= 0.02;
         if(s.life <= 0){ snowflakes.splice(i, 1); continue; }
         ctx.globalAlpha = Math.max(0, s.life);
         ctx.fillStyle = 'rgba(' + (s.color || '255,255,255') + ', ' + Math.max(0, s.life) + ')';
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
         continue;
       }
 
@@ -1124,9 +1487,7 @@ button{ border-radius:10px; }
 
       ctx.globalAlpha = s.alpha;
       ctx.fillStyle = 'rgba(255,255,255,' + s.alpha + ')';
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
     }
 
     ctx.globalAlpha = 1;
@@ -1211,6 +1572,7 @@ function escapeHtml(value){
 const IMG_BASE = 'https://raw.githubusercontent.com/saintezz/saintbetW/main/image/';
 const IMG_BASE_LOCAL = 'image/';
 
+/* Универсальная картинка предмета: сначала local, потом GitHub */
 function getItemImgHtml(item, extraClass = 'item-img') {
   if (typeof item === 'number') item = items[item];
   if (!item || !item.img) return '';
@@ -1220,6 +1582,7 @@ function getItemImgHtml(item, extraClass = 'item-img') {
   return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';" class="${extraClass}" alt="${name}">`;
 }
 
+/* Картинка розыгрыша — только GitHub или полная ссылка */
 function getGiveawayImgHtml(url, extraClass = 'giveaway-card-img') {
   if (!url) return '';
   let src = String(url).trim();
@@ -1229,11 +1592,12 @@ function getGiveawayImgHtml(url, extraClass = 'giveaway-card-img') {
   return `<img src="${src}" onerror="this.style.opacity='0.3';" class="${extraClass}" alt="">`;
 }
 
-function getCaseMainImgHtml(img){
-  if(!img) return '';
+/* Картинка кейса — сначала local, потом GitHub */
+function getCaseImgHtml(img) {
+  if (!img) return '';
   const localSrc = IMG_BASE_LOCAL + img;
   const remoteSrc = IMG_BASE + img;
-  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';" alt="">`;
+  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';this.onerror=function(){this.style.display='none';if(this.parentElement){this.parentElement.innerHTML='<div class=\\'case-main-emoji\\'>🎁</div>';}};" alt="">`;
 }
 
 /* =========================================================
@@ -1261,7 +1625,7 @@ let profile = null;
 let users = {};
 
 /* =========================================================
-   КЕЙС — большая картинка + маленькие браинроты
+   КЕЙСЫ
 ========================================================= */
 const CASES = [
   {
@@ -1487,7 +1851,24 @@ function renderProfile(){
 
   renderAdminWithdrawals();
   renderAdminPromos();
+  renderAdminGiveaways();
   if(typeof renderServerUrlConfig === 'function') renderServerUrlConfig();
+}
+
+/* Переключение таба в админке */
+function switchAdminTab(tab, btn){
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+
+  document.querySelectorAll('.admin-tab-panel').forEach(p => {
+    p.classList.toggle('active', p.dataset.adminTab === tab);
+  });
+
+  // Подгрузить данные при открытии
+  if(tab === 'promos'){ loadPromoCodesFromServer(); renderAdminPromos(); }
+  if(tab === 'giveaways'){ loadGiveaways(); renderAdminGiveaways(); }
+  if(tab === 'withdrawals'){ renderAdminWithdrawals(); }
+  if(tab === 'settings'){ renderServerUrlConfig(); }
 }
 
 /* =========================================================
@@ -1509,9 +1890,6 @@ const upgradeChances = {
   12: {12:100}
 };
 
-/* =========================================================
-   DOM
-========================================================= */
 const itemGrid = document.getElementById('items');
 const shopGrid = document.getElementById('shopItems');
 const search = document.getElementById('search');
@@ -1651,107 +2029,22 @@ async function joinGiveaway(giveawayId){
   }
 }
 
-function renderAdminGiveaways(){
-  const list = document.getElementById('adminGiveawaysList');
-  if(!list) return;
-  if(!isAdmin()){ list.innerHTML = ''; return; }
-  if(!giveaways.length){ list.innerHTML = '<div class="admin-subtitle">Розыгрышей пока нет</div>'; return; }
-  list.innerHTML = giveaways.map(g => {
-    const finished = g.status !== 'active';
-    return `
-      <div class="admin-withdrawal" onclick="this.classList.toggle('open')">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
-          <div class="admin-withdrawal-title">${escapeHtml(g.name)} • ${g.prize_amount} 💎</div>
-          <div style="display:flex;gap:5px;">
-            ${!finished ? `<button type="button" class="sell-item" style="height:22px;padding:0 6px;background:rgba(0,233,150,.2)!important;border-color:rgba(0,233,150,.4)!important;color:#00e996!important;" onclick="event.stopPropagation(); finishGiveaway(${g.id})">🎲 ФИНИШ</button>` : ''}
-            <button type="button" class="sell-item" style="height:22px;padding:0 8px;" onclick="event.stopPropagation(); deleteGiveaway(${g.id})">УДАЛИТЬ</button>
-          </div>
-        </div>
-        <div class="admin-withdrawal-meta">
-          ${finished ? '✓ ЗАВЕРШЁН' : '● АКТИВЕН'} • Участников: ${g.participants_count}${g.max_participants > 0 ? ' / ' + g.max_participants : ''} • Мин. вклад: ${g.min_contribution} 💎 • Победителей: ${g.winners_count}
-        </div>
-        <div class="admin-withdrawal-details">
-          <b>Приз:</b> ${g.prize_amount} 💎<br>
-          <b>Участников:</b> ${g.participants_count}${g.max_participants > 0 ? ' / ' + g.max_participants : ''}<br>
-          <b>Мин. вклад промокодами:</b> ${g.min_contribution} 💎<br>
-          <b>Победителей:</b> ${g.winners_count}<br>
-          <b>Картинка:</b> ${escapeHtml(g.image_url || '—')}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-async function createGiveaway(){
-  if(!isAdmin()) return;
-  const nameInput = document.getElementById('adminGiveawayName');
-  const imageInput = document.getElementById('adminGiveawayImage');
-  const prizeInput = document.getElementById('adminGiveawayPrize');
-  const maxPartInput = document.getElementById('adminGiveawayMaxParticipants');
-  const minContrInput = document.getElementById('adminGiveawayMinContribution');
-  const winnersInput = document.getElementById('adminGiveawayWinners');
-  const msg = document.getElementById('adminGiveawayMessage');
-
-  const name = String(nameInput?.value || '').trim();
-  let image = String(imageInput?.value || '').trim();
-  const prize = Math.max(0, Math.floor(Number(prizeInput?.value) || 0));
-  const maxPart = Math.max(0, Math.floor(Number(maxPartInput?.value) || 0));
-  const minContr = Math.max(0, Math.floor(Number(minContrInput?.value) || 50));
-  const winners = Math.max(1, Math.floor(Number(winnersInput?.value) || 1));
-
-  if(!name){ msg.textContent = 'Укажи имя браинрота.'; return; }
-  if(image && !image.startsWith('http')){ image = IMG_BASE + image; }
-
-  try{
-    const data = await apiRequest('/api/giveaways', {
-      method: 'POST',
-      body: JSON.stringify({
-        name, image_url: image, prize_amount: prize,
-        max_participants: maxPart, min_contribution: minContr, winners_count: winners
-      })
-    });
-    msg.textContent = data?.message || 'Розыгрыш создан!';
-    nameInput.value = ''; imageInput.value = ''; prizeInput.value = '0';
-    maxPartInput.value = '0'; minContrInput.value = '50'; winnersInput.value = '1';
-    await loadGiveaways();
-  }catch(e){
-    msg.textContent = e.data?.error || e.message || 'Ошибка создания';
-  }
-}
-
-async function deleteGiveaway(id){
-  if(!confirm('Удалить розыгрыш?')) return;
-  try{
-    await apiRequest('/api/giveaways/' + id, { method: 'DELETE' });
-    await loadGiveaways();
-  }catch(e){ alert(e.data?.error || e.message || 'Ошибка удаления'); }
-}
-
-async function finishGiveaway(id){
-  if(!confirm('Завершить розыгрыш и выбрать победителей?')) return;
-  try{
-    const data = await apiRequest('/api/giveaways/' + id + '/finish', { method: 'POST' });
-    const winners = data?.winners || [];
-    const names = winners.map(w => '@' + (w.username || w.first_name || w.telegram_id)).join(', ');
-    alert('🎲 Победители: ' + (names || 'нет'));
-    await loadGiveaways();
-  }catch(e){ alert(e.data?.error || e.message || 'Ошибка завершения'); }
-}
-
 /* =========================================================
-   CASES — большая картинка кейса + маленькие браинроты
+   CASES — ИСПРАВЛЕНО
 ========================================================= */
 function renderCases(){
   const list = document.getElementById('casesList');
   if(!list) return;
   list.innerHTML = '';
+
   CASES.forEach(c => {
     const card = document.createElement('div');
     card.className = 'case-card';
 
-    // Маленькие браинроты снизу
+    // Маленькие браинроты
     const rewardCards = c.rewards.map(r => {
       const it = items[r.itemIndex];
+      if(!it) return '';
       return `
         <div class="case-reward-small">
           ${getItemImgHtml(it, '')}
@@ -1761,13 +2054,13 @@ function renderCases(){
       `;
     }).join('');
 
-    // Большая картинка кейса
-    const mainImg = c.img
-      ? `<div class="case-main-img">${getCaseMainImgHtml(c.img)}</div>`
+    // Основная картинка кейса (с fallback на эмодзи)
+    const mainImgHtml = c.img
+      ? `<div class="case-main-img">${getCaseImgHtml(c.img)}</div>`
       : `<div class="case-main-img"><div class="case-main-emoji">🎁</div></div>`;
 
     card.innerHTML = `
-      ${mainImg}
+      ${mainImgHtml}
       <div class="case-header-new">
         <div class="case-name-new">${escapeHtml(c.name)}</div>
         <div class="case-price-new">💎 ${c.price}</div>
@@ -1775,9 +2068,12 @@ function renderCases(){
       <div class="case-rewards-small">
         ${rewardCards}
       </div>
-      <button class="open-case-btn" data-case-id="${c.id}">ОТКРЫТЬ ЗА ${c.price} 💎</button>
+      <button class="open-case-btn" type="button">ОТКРЫТЬ ЗА ${c.price} 💎</button>
     `;
-    card.querySelector('.open-case-btn').onclick = e => { e.stopPropagation(); openCase(c.id); };
+
+    const btn = card.querySelector('.open-case-btn');
+    if(btn) btn.onclick = (e) => { e.stopPropagation(); openCase(c.id); };
+
     list.appendChild(card);
   });
 }
@@ -1785,17 +2081,23 @@ function renderCases(){
 let caseRolling = false;
 
 async function openCase(caseId){
-  if(caseRolling || spinning) return;
+  if(caseRolling || spinning){ return; }
   const c = CASES.find(x => x.id === caseId);
-  if(!c) return;
+  if(!c){ alert('Кейс не найден'); return; }
+
   if(balance < c.price){
     instruction.innerHTML = '<span style="color:#ff4d5a">Недостаточно кристаллов для кейса.</span>';
+    alert('Недостаточно кристаллов');
     return;
   }
 
   const spend = await serverUpdateBalance(-c.price);
-  if(!spend || spend.balance === undefined) return;
+  if(!spend || spend.balance === undefined){
+    alert('Ошибка списания');
+    return;
+  }
 
+  // Рандомная награда
   const reward = c.rewards[Math.floor(Math.random() * c.rewards.length)];
 
   const modal = document.getElementById('caseModal');
@@ -1810,6 +2112,7 @@ async function openCase(caseId){
   closeBtn.classList.remove('show');
   resultName.textContent = '—';
 
+  // Генерируем ленту
   const TOTAL_ITEMS = 40;
   const WINNER_POSITION = 32;
   const sequence = [];
@@ -1885,7 +2188,7 @@ function renderInventory(){
     selectedNumber.textContent = '—';
     return;
   }
-  inventoryStatus.textContent = 'Предметов в инвентаре апгрейдера: ' + inventory.length;
+  inventoryStatus.textContent = 'Предметов: ' + inventory.length;
   const list = document.createElement('div');
   list.id = 'inventoryList';
   list.className = 'inventory-list';
@@ -1898,7 +2201,7 @@ function renderInventory(){
       ${getItemImgHtml(item, 'inventory-item-img')}
       <div class="inventory-item-info">
         <div class="inventory-item-name">${escapeHtml(item.name)}</div>
-        <div class="inventory-item-price">${item.price} ${getCrystalHtml()}</div>
+        <div class="inventory-item-price">${item.price} 💎</div>
       </div>
       <div class="inventory-item-actions">
         <button type="button" class="sell-item">ПРОДАТЬ</button>
@@ -1917,7 +2220,7 @@ function renderNormalInventory(){
   if(oldList) oldList.remove();
   const status = document.getElementById('normalInventoryStatus');
   if(normalInventory.length === 0){ status.textContent = 'Инвентарь пуст'; return; }
-  status.textContent = 'Предметов в инвентаре: ' + normalInventory.length;
+  status.textContent = 'Предметов: ' + normalInventory.length;
   const list = document.createElement('div');
   list.id = 'normalInventoryList';
   list.className = 'inventory-list';
@@ -1930,7 +2233,7 @@ function renderNormalInventory(){
       ${getItemImgHtml(item, 'inventory-item-img')}
       <div class="inventory-item-info">
         <div class="inventory-item-name">${escapeHtml(item.name)}</div>
-        <div class="inventory-item-price">${item.price} ${getCrystalHtml()}</div>
+        <div class="inventory-item-price">${item.price} 💎</div>
       </div>
     `;
     list.appendChild(row);
@@ -1952,33 +2255,101 @@ async function sellItem(slotIndex){
   else if(sourceItem !== null && sourceItem > slotIndex){ sourceItem--; }
   saveProfileData();
   await serverUpdateBalance(item.price);
-  instruction.innerHTML = '<span style="color:#00e996">ПРОДАНО!</span> ' + escapeHtml(item.name) + ' продан за ' + item.price + ' 💎.';
+  instruction.innerHTML = '<span style="color:#00e996">ПРОДАНО!</span> ' + escapeHtml(item.name);
   renderAll(); updateTop();
 }
 
+/* =========================================================
+   ADMIN LISTS
+========================================================= */
 function renderAdminWithdrawals(){
-  const list=document.getElementById('adminWithdrawalsList');
+  const list = document.getElementById('adminWithdrawalsList');
   if(!list) return;
   if(!isAdmin()){ list.innerHTML=''; return; }
-  if(!Array.isArray(withdrawals) || withdrawals.length===0){ list.innerHTML='<div class="admin-subtitle">Пока выводов нет.</div>'; return; }
-  list.innerHTML='';
-  withdrawals.forEach(request=>{
-    const row=document.createElement('div'); row.className='admin-withdrawal';
-    const created=new Date(request.createdAt||Date.now()).toLocaleString('ru-RU');
-    row.innerHTML=`
-      <div class="admin-withdrawal-title">${escapeHtml(request.itemName||'Предмет')} • ${escapeHtml(request.robloxUsername||'Без ника')}</div>
-      <div class="admin-withdrawal-meta">${request.status==='pending'?'⏳ НОВЫЙ':escapeHtml(request.status||'')} • ${created}</div>
-      <div class="admin-withdrawal-details">
-        <b>Ник Roblox:</b> ${escapeHtml(request.robloxUsername||'—')}<br>
-        <b>Готов к выводу:</b> ${escapeHtml(request.readyTime||'—')}<br>
-        <b>Предмет:</b> ${escapeHtml(request.itemName||'—')}<br>
+  if(!Array.isArray(withdrawals) || withdrawals.length === 0){
+    list.innerHTML = `
+      <div class="admin-empty">
+        <span class="admin-empty-icon">📭</span>
+        Пока выводов нет
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML = '';
+  withdrawals.forEach(request => {
+    const row = document.createElement('div');
+    row.className = 'admin-list-item';
+    const created = new Date(request.createdAt || Date.now()).toLocaleString('ru-RU');
+    const statusClass = request.status === 'pending' ? 'pending' : (request.status === 'completed' ? 'active' : 'expired');
+    const statusText = request.status === 'pending' ? '⏳ НОВЫЙ' : (request.status || 'неизвестно').toUpperCase();
+    row.innerHTML = `
+      <div class="admin-list-item-header">
+        <div class="admin-list-item-title">
+          📦 ${escapeHtml(request.itemName || 'Предмет')}
+        </div>
+        <div class="admin-list-item-status ${statusClass}">${statusText}</div>
+      </div>
+      <div class="admin-list-item-meta">
+        <span>👤 ${escapeHtml(request.robloxUsername || 'Без ника')}</span>
+        <span>💎 ${request.itemPrice ?? 0}</span>
+        <span>🕐 ${created}</span>
+      </div>
+      <div class="admin-list-item-details">
+        <b>Ник Roblox:</b> ${escapeHtml(request.robloxUsername || '—')}<br>
+        <b>Готов к выводу:</b> ${escapeHtml(request.readyTime || '—')}<br>
+        <b>Предмет:</b> ${escapeHtml(request.itemName || '—')}<br>
         <b>Стоимость:</b> ${request.itemPrice ?? '—'} 💎<br>
-        <b>Telegram:</b> ${escapeHtml(request.telegramUsername?'@'+request.telegramUsername:'—')}<br>
-        <b>Комментарий:</b> ${escapeHtml(request.comment||'Без комментария')}
-      </div>`;
-    row.onclick=()=>row.classList.toggle('open');
+        <b>Telegram:</b> ${escapeHtml(request.telegramUsername ? '@' + request.telegramUsername : '—')}<br>
+        <b>Комментарий:</b> ${escapeHtml(request.comment || 'Без комментария')}
+      </div>
+    `;
+    row.onclick = () => row.classList.toggle('open');
     list.appendChild(row);
   });
+}
+
+function renderAdminGiveaways(){
+  const list = document.getElementById('adminGiveawaysList');
+  if(!list) return;
+  if(!isAdmin()){ list.innerHTML = ''; return; }
+  if(!giveaways.length){
+    list.innerHTML = `
+      <div class="admin-empty">
+        <span class="admin-empty-icon">🎲</span>
+        Розыгрышей пока нет
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML = giveaways.map(g => {
+    const finished = g.status !== 'active';
+    const statusClass = finished ? 'expired' : 'active';
+    const statusText = finished ? '✓ ЗАВЕРШЁН' : '● АКТИВЕН';
+    return `
+      <div class="admin-list-item" onclick="this.classList.toggle('open')">
+        <div class="admin-list-item-header">
+          <div class="admin-list-item-title">🎲 ${escapeHtml(g.name)}</div>
+          <div class="admin-list-item-status ${statusClass}">${statusText}</div>
+        </div>
+        <div class="admin-list-item-meta">
+          <span>💎 ${g.prize_amount}</span>
+          <span>👥 ${g.participants_count}${g.max_participants > 0 ? ' / ' + g.max_participants : ''}</span>
+          <span>🏆 ${g.winners_count} побед.</span>
+        </div>
+        <div class="admin-list-item-details">
+          <b>Приз:</b> ${g.prize_amount} 💎<br>
+          <b>Участников:</b> ${g.participants_count}${g.max_participants > 0 ? ' / ' + g.max_participants : ''}<br>
+          <b>Мин. вклад промокодами:</b> ${g.min_contribution} 💎<br>
+          <b>Победителей:</b> ${g.winners_count}<br>
+          <b>Картинка:</b> ${escapeHtml(g.image_url || '—')}
+        </div>
+        <div class="admin-list-item-actions">
+          ${!finished ? `<button type="button" class="admin-action-btn finish" onclick="event.stopPropagation(); finishGiveaway(${g.id})">🏆 ЗАВЕРШИТЬ</button>` : ''}
+          <button type="button" class="admin-action-btn delete" onclick="event.stopPropagation(); deleteGiveaway(${g.id})">🗑 УДАЛИТЬ</button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 /* =========================================================
@@ -1995,7 +2366,7 @@ function renderTargets(){
     b.innerHTML = `
       ${getItemImgHtml(item, 'item-img')}
       <div class="item-name">${escapeHtml(item.name)}</div>
-      <div class="item-price">${item.price} ${getCrystalHtml()}</div>
+      <div class="item-price">${item.price} 💎</div>
     `;
     b.onclick = () => selectTarget(index);
     itemGrid.appendChild(b);
@@ -2011,6 +2382,7 @@ function renderAll(){
   renderTargets();
   renderProfile();
   renderAdminWithdrawals();
+  renderAdminGiveaways();
 }
 
 /* =========================================================
@@ -2028,7 +2400,7 @@ async function buyItem(index){
   if(!res || res.balance === undefined) return;
   inventory.push(index);
   saveProfileData();
-  instruction.innerHTML = '<span style="color:#00e996">КУПЛЕНО!</span> ' + escapeHtml(item.name) + ' добавлен в инвентарь апгрейдера.';
+  instruction.innerHTML = '<span style="color:#00e996">КУПЛЕНО!</span> ' + escapeHtml(item.name);
   renderAll();
 }
 
@@ -2049,7 +2421,7 @@ function selectSource(slotIndex){
     ${getItemImgHtml(item, 'slot-item-img')}
     <div class="slot-text">
       ${escapeHtml(item.name)}<br>
-      <b style="color:#00df91;font-size:12px">${item.price} 💎</b>
+      <b style="color:#ffd52a;font-size:12px">${item.price} 💎</b>
     </div>
   `;
   renderInventory(); updateTop();
@@ -2065,7 +2437,7 @@ function selectTarget(index){
     ${getItemImgHtml(item, 'slot-item-img')}
     <div class="slot-text">
       ${escapeHtml(item.name)}<br>
-      <b style="color:#00df91;font-size:12px">${item.price} 💎</b>
+      <b style="color:#ffd52a;font-size:12px">${item.price} 💎</b>
     </div>
   `;
   renderTargets(); updateTop();
@@ -2077,7 +2449,7 @@ function clearSourceDisplay(){
   sourceSlot.classList.remove('selected');
   sourceSlot.innerHTML = `
     <div class="slot-icon">↓</div>
-    <div class="slot-text">ВЫБРАТЬ ИЗ<br>ИНВЕНТАРЯ АПГРЕЙДЕРА</div>
+    <div class="slot-text">ВЫБРАТЬ ИЗ<br>ИНВЕНТАРЯ</div>
   `;
 }
 
@@ -2105,18 +2477,18 @@ function updateTop(){
     const target = items[targetItem];
     if(!source || !target) return;
     const chance = getUpgradeChance();
-    instruction.innerHTML = `${escapeHtml(source.name)} → <b>${escapeHtml(target.name)}</b>. Шанс: <b>${chance}%</b>. Готово к прокачке.`;
+    instruction.innerHTML = `${escapeHtml(source.name)} → <b>${escapeHtml(target.name)}</b>. Шанс: <b>${chance}%</b>`;
     upgradeBtn.classList.add('ready');
   } else {
-    instruction.innerHTML = 'Выбери предмет из инвентаря апгрейдера и<br>желаемую цель.';
+    instruction.innerHTML = 'Выбери предмет из инвентаря и желаемую цель';
     upgradeBtn.classList.remove('ready');
   }
 }
 
 function performUpgrade(durationMs){
   if(spinning) return;
-  if(sourceItem === null){ instruction.textContent = 'Сначала выбери предмет из инвентаря апгрейдера.'; focusInventory(); return; }
-  if(targetItem === null){ instruction.textContent = 'Теперь выбери желаемый предмет.'; focusTargets(); return; }
+  if(sourceItem === null){ instruction.textContent = 'Сначала выбери предмет.'; focusInventory(); return; }
+  if(targetItem === null){ instruction.textContent = 'Теперь выбери цель.'; focusTargets(); return; }
   const sourceSlotIndex = sourceItem;
   const sourceIndex = inventory[sourceSlotIndex];
   const targetIndex = targetItem;
@@ -2134,7 +2506,6 @@ function performUpgrade(durationMs){
 
   upgradeBtn.disabled = true;
   upgradeBtn.textContent = 'ПРОКАЧКА...';
-
   wheel.classList.add('spinning');
 
   const win = Math.random() * 100 < chance;
@@ -2169,11 +2540,10 @@ function performUpgrade(durationMs){
         ${getItemImgHtml(wonItem, 'slot-item-img')}
         <div class="slot-text">
           ${escapeHtml(wonItem.name)}<br>
-          <b style="color:#00df91;font-size:12px">${wonItem.price} 💎</b>
+          <b style="color:#ffd52a;font-size:12px">${wonItem.price} 💎</b>
         </div>
       `;
-      instruction.innerHTML = '<span style="color:#00e996">УСПЕХ!</span> ' + escapeHtml(wonItem.name) + ' получен!';
-
+      instruction.innerHTML = '<span style="color:#00e996">УСПЕХ!</span> ' + escapeHtml(wonItem.name);
       showFlash(cx, cy, 'rgba(0,233,150,.7)', 350);
       showParticles(cx, cy, '#00e996', 30);
       if(window.snowBurst) window.snowBurst(cx, cy, 35, '0,233,150');
@@ -2182,12 +2552,10 @@ function performUpgrade(durationMs){
       sourceItem = null;
       saveProfileData();
       clearSourceDisplay();
-      instruction.innerHTML = '<span style="color:#ff4d5a">НЕУДАЧА!</span> ' + escapeHtml(source.name) + ' потерян.';
-
+      instruction.innerHTML = '<span style="color:#ff4d5a">НЕУДАЧА!</span> ' + escapeHtml(source.name) + ' потерян';
       showFlash(cx, cy, 'rgba(255,45,45,.7)', 350);
       showParticles(cx, cy, '#ff2d2d', 30);
       if(window.snowBurst) window.snowBurst(cx, cy, 35, '255,45,45');
-
       renderAll();
     }
     updateTop();
@@ -2218,14 +2586,15 @@ function showTab(tab){
   );
   if(nav) nav.classList.add('active');
   if(tab === 'profile'){
-    renderProfile(); renderAdminWithdrawals(); renderAdminPromos(); loadPromoCodesFromServer(); loadGiveaways();
+    renderProfile(); renderAdminWithdrawals(); renderAdminPromos(); renderAdminGiveaways();
+    loadPromoCodesFromServer(); loadGiveaways();
   }
   if(tab === 'cases') renderCases();
   if(tab === 'giveaways') loadGiveaways();
 }
 
 /* =========================================================
-   PROMO
+   PROMO / API
 ========================================================= */
 function getApiBaseUrl(){
   if(window.API_BASE_URL && String(window.API_BASE_URL).trim()) return String(window.API_BASE_URL).trim().replace(/\/$/, '');
@@ -2255,12 +2624,15 @@ function saveAdminServerUrl(){
   const message = document.getElementById('adminServerUrlMessage');
   const val = String(input?.value || '').trim();
   setApiBaseUrl(val);
-  if(message) message.textContent = val ? '✓ Адрес сервера сохранён: ' + val : 'Используется адрес по умолчанию';
+  if(message){
+    message.textContent = val ? '✓ Адрес сохранён: ' + val : 'Используется адрес по умолчанию';
+    message.className = 'admin-message ' + (val ? 'success' : '');
+  }
 }
 function changeServerUrlPrompt(){
   const current = getApiBaseUrl();
-  const entered = prompt('Укажите адрес сервера на Render (например, https://saintbet.onrender.com):', current);
-  if(entered !== null){ setApiBaseUrl(entered); alert('Адрес сервера установлен: ' + (getApiBaseUrl() || 'по умолчанию')); }
+  const entered = prompt('Укажите адрес сервера на Render:', current);
+  if(entered !== null){ setApiBaseUrl(entered); alert('Адрес сервера: ' + (getApiBaseUrl() || 'по умолчанию')); }
 }
 function getTelegramInitData(){
   const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
@@ -2269,9 +2641,9 @@ function getTelegramInitData(){
 async function apiRequest(path, options={}){
   const baseUrl = getApiBaseUrl();
   if(!baseUrl && (path.startsWith('/api/') || path.startsWith('/'))){
-    const entered = prompt('Для связи с сервером укажи адрес Render бэкенда (например, https://saintbet.onrender.com):');
+    const entered = prompt('Укажи адрес Render бэкенда:');
     if(entered && entered.trim()){ setApiBaseUrl(entered); return apiRequest(path, options); }
-    else throw new Error('Не указан адрес сервера Render. Укажи его в Профиле.');
+    else throw new Error('Не указан адрес сервера.');
   }
   const headers = { 'Content-Type':'application/json', ...(options.headers || {}) };
   const initData = getTelegramInitData();
@@ -2282,20 +2654,30 @@ async function apiRequest(path, options={}){
   const fullUrl = baseUrl + path;
   let response;
   try { response = await fetch(fullUrl, { ...options, headers }); }
-  catch(netErr){ throw new Error('Не удалось подключиться к серверу ' + fullUrl + '.'); }
+  catch(netErr){ throw new Error('Не подключиться к серверу ' + fullUrl); }
   const text = await response.text();
   let data = null;
   try { data = text ? JSON.parse(text) : null; } catch(e){}
   if(!response.ok){
-    if(data && data.error){ const err = new Error(data.error); err.status = response.status; err.data = data; throw err; }
-    if(response.status === 502 || response.status === 503 || response.status === 504){
-      const err = new Error('Сервер на Render просыпается. Подожди 30-40 сек и нажми ещё раз!');
-      err.status = response.status; throw err;
+    if(data && data.error){
+      const err = new Error(data.error);
+      err.status = response.status;
+      err.data = data;
+      throw err;
     }
-    if(response.status === 404){ const err = new Error('Ошибка 404: адрес ' + fullUrl + ' не найден.'); err.status = 404; throw err; }
-    const preview = text ? text.slice(0, 100).replace(/<[^>]*>?/gm, '') : '';
-    const err = new Error('Ошибка сервера (HTTP ' + response.status + '): ' + (preview || 'пустой ответ'));
-    err.status = response.status; throw err;
+    if(response.status === 502 || response.status === 503 || response.status === 504){
+      const err = new Error('Сервер на Render просыпается. Подожди 30 сек.');
+      err.status = response.status;
+      throw err;
+    }
+    if(response.status === 404){
+      const err = new Error('404: адрес не найден.');
+      err.status = 404;
+      throw err;
+    }
+    const err = new Error('Ошибка сервера HTTP ' + response.status);
+    err.status = response.status;
+    throw err;
   }
   if(data === null) throw new Error('Сервер вернул не JSON.');
   return data;
@@ -2321,7 +2703,7 @@ async function redeemPromoCode(){
   const username = tgUser?.username || profile?.username || '';
   if(button) button.disabled=true;
   message.className='promo-message';
-  message.textContent='Проверяем промокод...';
+  message.textContent='Проверяем...';
   try{
     const data = await apiRequest('/api/promo/redeem',{
       method:'POST',
@@ -2349,10 +2731,10 @@ async function redeemPromoCode(){
   }catch(error){
     message.className='promo-message error';
     if(error.status===404) message.textContent='Промокод не найден.';
-    else if(error.status===409) message.textContent=error.data?.error || 'Промокод уже использован или лимит исчерпан.';
-    else if(error.status===410) message.textContent='Срок действия промокода истёк.';
-    else if(error.status===401) message.textContent='Не удалось подтвердить аккаунт.';
-    else message.textContent=error.message || 'Не удалось активировать промокод.';
+    else if(error.status===409) message.textContent=error.data?.error || 'Промокод уже использован.';
+    else if(error.status===410) message.textContent='Промокод истёк.';
+    else if(error.status===401) message.textContent='Не подтверждён аккаунт.';
+    else message.textContent=error.message || 'Ошибка активации.';
   }finally{ if(button) button.disabled=false; }
 }
 
@@ -2363,62 +2745,96 @@ async function createPromoCode(){
   const minutesInput=document.getElementById('adminPromoMinutes');
   const rewardInput=document.getElementById('adminPromoReward');
   const message=document.getElementById('adminMessage');
-  const button=document.querySelector('.admin-button');
+  const button=document.querySelector('.admin-tab-panel.active .admin-button');
+
   const codeValue=String(codeInput?.value||'').trim().toUpperCase();
   const maxActivations=Math.floor(Number(activationsInput?.value));
   const minutesValue=Math.floor(Number(minutesInput?.value));
   const rewardValue=Math.floor(Number(rewardInput?.value));
-  if(!codeValue){ message.textContent='Укажи название промокода.'; return; }
-  if(maxActivations<1 || minutesValue<1 || rewardValue<1){ message.textContent='Активации, минуты и награда должны быть больше 0.'; return; }
+
+  if(!codeValue){ message.className='admin-message error'; message.textContent='Укажи название.'; return; }
+  if(maxActivations<1 || minutesValue<1 || rewardValue<1){
+    message.className='admin-message error';
+    message.textContent='Значения должны быть > 0.';
+    return;
+  }
   if(button) button.disabled=true;
-  message.textContent='Создание промокода...';
+  message.className='admin-message';
+  message.textContent='Создание...';
+
   try{
     const data=await apiRequest('/api/admin/promos',{
       method:'POST',
-      body:JSON.stringify({ code:codeValue, max_activations:maxActivations, expires_in_minutes:minutesValue, reward:rewardValue, admin_username: getTelegramUsername() || 'saintezz7' })
+      body:JSON.stringify({
+        code:codeValue,
+        max_activations:maxActivations,
+        expires_in_minutes:minutesValue,
+        reward:rewardValue,
+        admin_username: getTelegramUsername() || 'saintezz7'
+      })
     });
-    message.textContent=`Промокод ${data?.promo?.code||codeValue} создан!`;
+    message.className='admin-message success';
+    message.textContent=`✓ Промокод ${data?.promo?.code||codeValue} создан!`;
     codeInput.value=''; activationsInput.value=''; minutesInput.value=''; rewardInput.value='10';
     await loadPromoCodesFromServer();
   }catch(error){
-    message.textContent=error.data?.error || error.message || 'Не удалось создать промокод.';
+    message.className='admin-message error';
+    message.textContent=error.data?.error || error.message || 'Ошибка.';
   }finally{ if(button) button.disabled=false; }
 }
 
 async function deletePromoCode(promoId){
-  if(!confirm('Удалить этот промокод?')) return;
+  if(!confirm('Удалить промокод?')) return;
   try{
     await apiRequest('/api/admin/promos/' + promoId, { method: 'DELETE' });
     await loadPromoCodesFromServer();
-  }catch(error){ alert(error.data?.error || error.message || 'Не удалось удалить промокод'); }
+  }catch(error){ alert(error.data?.error || error.message || 'Ошибка'); }
 }
 
 function renderAdminPromos(){
   const list=document.getElementById('adminPromoList');
+  const countEl = document.getElementById('adminPromoCount');
   if(!list) return;
   if(!isAdmin()){ list.innerHTML=''; return; }
-  if(!promoCodes.length){ list.innerHTML='<div class="admin-subtitle">Промокодов пока нет.</div>'; return; }
+  if(countEl) countEl.textContent = promoCodes.length;
+  if(!promoCodes.length){
+    list.innerHTML = `
+      <div class="admin-empty">
+        <span class="admin-empty-icon">🎫</span>
+        Промокодов пока нет
+      </div>
+    `;
+    return;
+  }
   list.innerHTML=promoCodes.map(p=>{
     const expiresAt = Number(p.expires_at || 0);
     const expired = expiresAt > 0 && Date.now() >= expiresAt;
     const maxActs = p.max_activations ?? p.activations ?? 1;
     const usedActs = p.used_count ?? p.used ?? 0;
     const isExhausted = usedActs >= maxActs;
+    let statusClass = 'active';
     let statusText = '✓ АКТИВЕН';
-    if(expired) statusText = '⌛ ИСТЁК';
-    else if(isExhausted) statusText = '🚫 ИСЧЕРПАН';
+    if(expired){ statusClass = 'expired'; statusText = '⌛ ИСТЁК'; }
+    else if(isExhausted){ statusClass = 'exhausted'; statusText = '🚫 ИСЧЕРПАН'; }
     const expireStr = expiresAt > 0 ? new Date(expiresAt).toLocaleString('ru-RU') : 'Бессрочный';
-    return `<div class="admin-withdrawal" onclick="this.classList.toggle('open')">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="admin-withdrawal-title">${escapeHtml(p.code)}</div>
-        <button type="button" class="sell-item" style="height:22px;padding:0 8px;" onclick="event.stopPropagation(); deletePromoCode(${p.id})">УДАЛИТЬ</button>
+    return `<div class="admin-list-item" onclick="this.classList.toggle('open')">
+      <div class="admin-list-item-header">
+        <div class="admin-list-item-title">🎫 ${escapeHtml(p.code)}</div>
+        <div class="admin-list-item-status ${statusClass}">${statusText}</div>
       </div>
-      <div class="admin-withdrawal-meta">${statusText} • ${usedActs}/${maxActs} активаций • ${p.reward} 💎</div>
-      <div class="admin-withdrawal-details">
+      <div class="admin-list-item-meta">
+        <span>💎 ${p.reward}</span>
+        <span>👥 ${usedActs}/${maxActs}</span>
+        <span>🕐 ${expireStr}</span>
+      </div>
+      <div class="admin-list-item-details">
         <b>Код:</b> ${escapeHtml(p.code)}<br>
         <b>Награда:</b> ${p.reward} 💎<br>
         <b>Активировано:</b> ${usedActs} из ${maxActs}<br>
         <b>Истекает:</b> ${expireStr}
+      </div>
+      <div class="admin-list-item-actions">
+        <button type="button" class="admin-action-btn delete" onclick="event.stopPropagation(); deletePromoCode(${p.id})">🗑 УДАЛИТЬ</button>
       </div>
     </div>`;
   }).join('');
