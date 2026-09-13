@@ -383,115 +383,7 @@ button{ border-radius:10px; }
 .case-close-btn.show{ opacity:1; pointer-events:auto; }
 .case-close-btn:hover{ background:linear-gradient(180deg, rgba(200,120,255,.5), rgba(120,40,180,.7)); box-shadow:0 0 25px rgba(166,77,255,.7), inset 0 1px 0 rgba(255,255,255,.2); }
 
-.rocket-panel{
-  background:linear-gradient(135deg, rgba(255,80,80,.08), rgba(255,80,80,.02) 55%, rgba(150,50,50,.03)), rgba(25,15,15,.55) !important;
-}
-.rocket-panel .panel-title{ border-left-color:#ff4444; }
-.rocket-stage{
-  position:relative; width:100%; height:340px;
-  border:1px solid rgba(255,70,70,.3); border-radius:16px;
-  background:
-    radial-gradient(circle at 50% 100%, rgba(255,80,80,.15), transparent 60%),
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01)), rgba(20,8,15,.85);
-  overflow:hidden; margin-bottom:12px;
-  box-shadow:0 18px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
-}
-.rocket-grid{
-  position:absolute; inset:0;
-  background-image:
-    linear-gradient(rgba(255,100,100,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,100,100,.06) 1px, transparent 1px);
-  background-size:40px 40px;
-  pointer-events:none;
-}
-.rocket-multiplier{
-  position:absolute;
-  top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  font-size:52px; font-weight:900; color:#fff;
-  text-shadow:0 0 15px #ff4444, 0 0 30px #ff4444, 0 0 45px #ff8800;
-  letter-spacing:2px;
-  z-index:5;
-  transition:color .3s ease, text-shadow .3s ease;
-  font-variant-numeric:tabular-nums;
-}
-.rocket-multiplier.cashed{ color:#00e996; text-shadow:0 0 20px #00e996, 0 0 40px #00e996; animation:cashPulse .6s ease; }
-.rocket-multiplier.crashed{ color:#ff2d2d; text-shadow:0 0 20px #ff2d2d, 0 0 40px #ff2d2d; animation:crashShake .5s ease; }
-@keyframes cashPulse{ 0%{transform:translate(-50%,-50%) scale(1);} 50%{transform:translate(-50%,-50%) scale(1.25);} 100%{transform:translate(-50%,-50%) scale(1);} }
-@keyframes crashShake{
-  0%,100%{ transform:translate(-50%,-50%); }
-  20%{ transform:translate(calc(-50% - 8px), calc(-50% + 4px)); }
-  40%{ transform:translate(calc(-50% + 8px), calc(-50% - 4px)); }
-  60%{ transform:translate(calc(-50% - 6px), calc(-50% + 3px)); }
-  80%{ transform:translate(calc(-50% + 6px), calc(-50% - 3px)); }
-}
-.rocket-controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-.rocket-input{
-  flex:1; min-width:90px; height:42px;
-  border:1px solid rgba(255,100,100,.3); border-radius:12px;
-  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)), rgba(20,8,15,.75);
-  color:#fff;
-  padding:0 12px;
-  font-size:14px; font-weight:900; outline:none;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
-}
-.rocket-input:focus{ border-color:#ff4444; box-shadow:0 0 15px rgba(255,70,70,.3), inset 0 1px 0 rgba(255,255,255,.15); }
-.rocket-btn{
-  height:42px; padding:0 22px; border-radius:12px;
-  font-size:12px; font-weight:900; letter-spacing:2px;
-  cursor:pointer; transition:.2s;
-}
-.rocket-btn-bet{
-  border:1px solid #ff4444;
-  background:linear-gradient(180deg, rgba(255,60,60,.3), rgba(120,10,10,.6));
-  color:#fff; text-shadow:0 0 6px #ff4444;
-  box-shadow:0 10px 25px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
-}
-.rocket-btn-bet:hover:not(:disabled){
-  background:linear-gradient(180deg, rgba(255,100,100,.5), rgba(160,20,20,.8));
-  box-shadow:0 0 25px rgba(255,70,70,.6), inset 0 1px 0 rgba(255,255,255,.2);
-}
-.rocket-btn-bet:disabled{ opacity:.4; cursor:not-allowed; }
-.rocket-btn-cash{
-  border:1px solid #00e996;
-  background:linear-gradient(180deg, rgba(0,200,120,.3), rgba(0,80,50,.6));
-  color:#00e996; text-shadow:0 0 6px #00e996;
-  box-shadow:0 10px 25px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
-  animation:readyCash 1s ease-in-out infinite;
-}
-@keyframes readyCash{
-  0%,100%{ box-shadow:0 10px 25px rgba(0,0,0,.3), 0 0 12px rgba(0,233,150,.4), inset 0 1px 0 rgba(255,255,255,.15); }
-  50%{ box-shadow:0 10px 25px rgba(0,0,0,.3), 0 0 25px rgba(0,233,150,.8), inset 0 1px 0 rgba(255,255,255,.15); }
-}
-.rocket-btn-cash:hover{ background:linear-gradient(180deg, rgba(0,233,150,.5), rgba(0,120,70,.8)); color:#fff; }
-.rocket-btn-cash:disabled{ opacity:.35; cursor:not-allowed; animation:none; }
-.rocket-quick{ display:flex; gap:6px; width:100%; flex-wrap:wrap; }
-.rocket-quick button{
-  flex:1; min-width:50px; height:32px;
-  border:1px solid rgba(255,100,100,.25); border-radius:10px;
-  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)), rgba(20,8,15,.6);
-  color:#ff8888;
-  font-size:11px; font-weight:900;
-  cursor:pointer; transition:.15s;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
-}
-.rocket-quick button:hover{ background:linear-gradient(135deg, rgba(255,60,60,.2), rgba(255,60,60,.1)), rgba(30,10,15,.7); border-color:#ff4444; color:#fff; box-shadow:0 0 15px rgba(255,70,70,.3), inset 0 1px 0 rgba(255,255,255,.15); }
-.rocket-history{ margin-top:10px; display:flex; gap:5px; flex-wrap:wrap; }
-.rocket-history-pill{
-  padding:3px 9px; border-radius:12px;
-  font-size:10px; font-weight:900;
-  border:1px solid rgba(255,100,100,.3);
-  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)), rgba(30,10,15,.6);
-  color:#ff9999;
-}
-.rocket-history-pill.win{ border-color:rgba(0,233,150,.5); color:#00e996; background:linear-gradient(135deg, rgba(0,233,150,.1), rgba(0,233,150,.03)), rgba(0,50,30,.5); }
-.rocket-history-pill.loss{ border-color:rgba(255,50,50,.5); color:#ff5555; background:linear-gradient(135deg, rgba(255,50,50,.1), rgba(255,50,50,.03)), rgba(50,10,10,.5); }
-.rocket-status{
-  text-align:center; font-size:11px; color:#ff8888;
-  margin-top:8px; min-height:18px;
-  font-weight:700; letter-spacing:1px;
-}
-
+/* GIVEAWAYS */
 .giveaways-panel{
   background:linear-gradient(135deg, rgba(255,215,60,.08), rgba(255,215,60,.02) 55%, rgba(150,120,20,.03)), rgba(30,25,10,.55) !important;
 }
@@ -659,11 +551,11 @@ button{ border-radius:10px; }
   flex-wrap:wrap;
 }
 .nav-btn{
-  height:32px; min-width:70px; padding:0 9px;
+  height:32px; min-width:78px; padding:0 12px;
   border:1px solid transparent; border-radius:11px;
   background:transparent; color:#858d92;
   display:flex; align-items:center; justify-content:center; gap:5px;
-  font-size:8px; font-weight:900; letter-spacing:.8px;
+  font-size:9px; font-weight:900; letter-spacing:.8px;
   cursor:pointer; transition:.15s;
 }
 .nav-btn:hover{color:#fff;background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));border-color:rgba(255,255,255,.1);}
@@ -674,7 +566,7 @@ button{ border-radius:10px; }
   background:linear-gradient(135deg, rgba(255,215,60,.5), rgba(200,160,20,.3));
   box-shadow:0 8px 20px rgba(255,215,60,.4), inset 0 1px 0 rgba(255,255,255,.5);
 }
-.nav-icon{font-size:12px;line-height:1;}
+.nav-icon{font-size:13px;line-height:1;}
 .tab-panel[hidden]{display:none!important;}
 .dedicated-tab{margin-top:4px;}
 .mini-title-icon{font-size:11px;margin-right:4px;color:#2ce6d2;}
@@ -709,7 +601,7 @@ button{ border-radius:10px; }
 .promo-message.error{color:#ff7580;}
 .promo-message.success{color:#00e996;}
 
-/* EFFECT ANIMATIONS */
+/* EFFECTS */
 .flash-effect{
   position:absolute;
   border-radius:50%;
@@ -735,7 +627,7 @@ button{ border-radius:10px; }
 
 @media(max-width:520px){
   .top-nav{width:100%;justify-content:stretch;}
-  .nav-btn{flex:1;min-width:0;padding:0 4px;font-size:7px;}
+  .nav-btn{flex:1;min-width:0;padding:0 5px;font-size:8px;}
 }
 @media(max-width:850px){
   .balance{position:relative;left:auto;top:auto;width:max-content;margin-bottom:10px;}
@@ -758,8 +650,6 @@ button{ border-radius:10px; }
   .case-roulette{height:150px;}
   .case-strip-item{width:110px;height:110px;}
   .case-modal-title{font-size:18px;letter-spacing:3px;}
-  .rocket-multiplier{font-size:40px;}
-  .rocket-stage{height:260px;}
   .giveaway-card-stats{grid-template-columns:1fr;}
 }
 
@@ -783,9 +673,6 @@ button{ border-radius:10px; }
     </button>
     <button class="nav-btn" id="navCases" type="button" onclick="showTab('cases')">
       <span class="nav-icon">🎁</span><span>КЕЙСЫ</span>
-    </button>
-    <button class="nav-btn" id="navRocket" type="button" onclick="showTab('rocket')">
-      <span class="nav-icon">🚀</span><span>РАКЕТКА</span>
     </button>
     <button class="nav-btn giveaway-nav" id="navGiveaways" type="button" onclick="showTab('giveaways')">
       <span class="nav-icon">🎲</span><span>РОЗЫГРЫШИ</span>
@@ -874,37 +761,6 @@ button{ border-radius:10px; }
     <div class="panel cases-panel">
       <h3 class="panel-title"><span class="mini-title-icon">🎁</span> КЕЙСЫ</h3>
       <div id="casesList"></div>
-    </div>
-  </section>
-
-  <section class="tab-panel dedicated-tab" data-tab="rocket" hidden>
-    <div class="panel rocket-panel">
-      <h3 class="panel-title"><span class="mini-title-icon" style="color:#ff4444;">🚀</span> РАКЕТКА</h3>
-
-      <div class="rocket-stage" id="rocketStage">
-        <div class="rocket-grid"></div>
-        <div class="rocket-multiplier" id="rocketMultiplier">1.00x</div>
-      </div>
-
-      <div class="rocket-controls">
-        <input class="rocket-input" id="rocketBetInput" type="number" min="1" step="1" value="10" placeholder="Ставка">
-        <button class="rocket-btn rocket-btn-bet" id="rocketBetBtn" type="button" onclick="rocketStart()">СТАВКА</button>
-        <button class="rocket-btn rocket-btn-cash" id="rocketCashBtn" type="button" onclick="rocketCashout()" disabled>ЗАБРАТЬ</button>
-      </div>
-
-      <div class="rocket-quick">
-        <button type="button" onclick="rocketSetBet(10)">10</button>
-        <button type="button" onclick="rocketSetBet(25)">25</button>
-        <button type="button" onclick="rocketSetBet(50)">50</button>
-        <button type="button" onclick="rocketSetBet(100)">100</button>
-        <button type="button" onclick="rocketSetBet('half')">½</button>
-        <button type="button" onclick="rocketSetBet('double')">2×</button>
-        <button type="button" onclick="rocketSetBet('max')">MAX</button>
-      </div>
-
-      <div class="rocket-status" id="rocketStatus">Введи ставку и нажми СТАВКА. Забери до того, как ракетка взорвётся!</div>
-
-      <div class="rocket-history" id="rocketHistory"></div>
     </div>
   </section>
 
@@ -1042,7 +898,6 @@ button{ border-radius:10px; }
     });
   }
 
-  // Взрыв снега — вызывается из эффектов
   window.snowBurst = function(x, y, count, color){
     count = count || 20;
     color = color || '255,255,255';
@@ -1106,7 +961,6 @@ button{ border-radius:10px; }
   tick();
 })();
 
-/* Визуальная вспышка */
 function showFlash(x, y, color, size){
   const layer = document.getElementById('effectLayer');
   if(!layer) return;
@@ -1122,7 +976,6 @@ function showFlash(x, y, color, size){
   setTimeout(() => div.remove(), 800);
 }
 
-/* Разлёт частиц */
 function showParticles(x, y, color, count){
   const layer = document.getElementById('effectLayer');
   if(!layer) return;
@@ -1146,7 +999,6 @@ function showParticles(x, y, color, count){
   }
 }
 
-/* Пульс баланса */
 function pulseBalance(){
   const el = document.getElementById('balanceBox');
   if(!el) return;
@@ -1456,21 +1308,22 @@ function renderProfile(){
 }
 
 /* =========================================================
-   ✅ ШАНСЫ — УВЕЛИЧЕНЫ НА 35% (×1.35)
+   ✅ ШАНСЫ — УВЕЛИЧЕНЫ ЕЩЁ НА ~10% (×1.1 к предыдущим +35%)
+   Итого: базовые × 1.35 × 1.1 = × 1.485
 ========================================================= */
 const upgradeChances = {
-  0: {0:100,1:21.3,2:10.5,3:5.1,4:3.6,5:3,6:2.2,7:1.35,8:0.7,9:0.3,10:0.15,11:0,12:0},
-  1: {1:100,2:53.7,3:26.6,4:19.8,5:15.9,6:11.9,7:8.1,8:4.1,9:2,10:0.8,11:0.3,12:0.07},
-  2: {2:100,3:40.2,4:31.3,5:26.6,6:20,7:15.9,8:8.1,9:3.4,10:1.35,11:0.4,12:0.14},
-  3: {3:100,4:52.2,5:44.3,6:33.3,7:26.6,8:13.5,9:5.4,10:2,11:0.7,12:0.2},
-  4: {4:100,5:53.6,6:40.2,7:31.3,8:19.8,9:8.1,10:3.4,11:1.1,12:0.3},
-  5: {5:100,6:44.3,7:35.1,8:23.5,9:9.5,10:4,11:1.35,12:0.4},
-  6: {6:100,7:45.9,8:29.7,9:12.2,10:4.7,11:1.6,12:0.5},
-  7: {7:100,8:39.2,9:16.2,10:6.8,11:2.2,12:0.7},
-  8: {8:100,9:33.8,10:13.5,11:4.7,12:1.35},
-  9: {9:100,10:29.7,11:9.5,12:2.7},
-  10: {10:100,11:20.3,12:5.4},
-  11: {11:100,12:16.2},
+  0: {0:100,1:23.5,2:11.5,3:5.6,4:4,5:3.3,6:2.4,7:1.5,8:0.75,9:0.3,10:0.15,11:0,12:0},
+  1: {1:100,2:59.1,3:29.3,4:21.8,5:17.5,6:13.1,7:8.9,8:4.5,9:2.2,10:0.9,11:0.3,12:0.07},
+  2: {2:100,3:44.2,4:34.4,5:29.3,6:22,7:17.5,8:8.9,9:3.7,10:1.5,11:0.45,12:0.15},
+  3: {3:100,4:57.4,5:48.7,6:36.6,7:29.3,8:14.9,9:5.9,10:2.2,11:0.75,12:0.22},
+  4: {4:100,5:59,6:44.2,7:34.4,8:21.8,9:8.9,10:3.7,11:1.2,12:0.3},
+  5: {5:100,6:48.7,7:38.6,8:25.9,9:10.4,10:4.5,11:1.5,12:0.45},
+  6: {6:100,7:50.5,8:32.7,9:13.4,10:5.2,11:1.8,12:0.6},
+  7: {7:100,8:43.1,9:17.8,10:7.5,11:2.4,12:0.75},
+  8: {8:100,9:37.2,10:14.9,11:5.2,12:1.5},
+  9: {9:100,10:32.7,11:10.4,12:3},
+  10: {10:100,11:22.3,12:5.9},
+  11: {11:100,12:17.8},
   12: {12:100}
 };
 
@@ -1826,7 +1679,6 @@ async function openCase(caseId){
     caseRolling = false;
     instruction.innerHTML = `<span style="color:#a64dff">🎁 КЕЙС ОТКРЫТ!</span> Выпал <b>${escapeHtml(it.name)}</b>!`;
 
-    // ✅ Эффект при открытии кейса
     const cx = window.innerWidth / 2;
     const cy = window.innerHeight / 2;
     showFlash(cx, cy, 'rgba(166,77,255,.6)', 400);
@@ -1840,186 +1692,6 @@ function closeCaseModal(){
   const modal = document.getElementById('caseModal');
   if(!modal) return;
   modal.classList.remove('show');
-}
-
-/* =========================================================
-   ROCKET
-========================================================= */
-let rocketRunning = false;
-let rocketCashedOut = false;
-let rocketCrashed = false;
-let rocketMultiplier = 1.00;
-let rocketCrashPoint = 1.00;
-let rocketBet = 0;
-let rocketRafId = null;
-let rocketStartTime = 0;
-let rocketHistory = [];
-
-function rocketSetBet(value){
-  const input = document.getElementById('rocketBetInput');
-  if(!input) return;
-  if(value === 'half'){
-    const cur = Math.max(1, Math.floor(Number(input.value) || 0));
-    input.value = Math.max(1, Math.floor(cur / 2));
-  } else if(value === 'double'){
-    const cur = Math.max(1, Math.floor(Number(input.value) || 0));
-    input.value = Math.max(1, cur * 2);
-  } else if(value === 'max'){
-    input.value = Math.max(1, Math.floor(balance));
-  } else {
-    input.value = value;
-  }
-}
-
-function rocketResetVisuals(){
-  const mult = document.getElementById('rocketMultiplier');
-  mult.classList.remove('cashed','crashed');
-  mult.textContent = '1.00x';
-  mult.style.color = '';
-  mult.style.textShadow = '';
-}
-
-function rocketUpdateMultiplierDisplay(){
-  const mult = document.getElementById('rocketMultiplier');
-  mult.textContent = rocketMultiplier.toFixed(2) + 'x';
-}
-
-async function rocketStart(){
-  if(rocketRunning) return;
-  const input = document.getElementById('rocketBetInput');
-  const bet = Math.floor(Number(input?.value));
-  if(!bet || bet < 1){ rocketSetStatus('Введи ставку больше 0.', '#ff5555'); return; }
-  if(bet > balance){ rocketSetStatus('Недостаточно кристаллов.', '#ff5555'); return; }
-
-  const spendRes = await serverUpdateBalance(-bet);
-  if(spendRes?.balance === undefined){ rocketSetStatus('Ошибка списания.', '#ff5555'); return; }
-
-  rocketBet = bet;
-  rocketRunning = true;
-  rocketCashedOut = false;
-  rocketCrashed = false;
-  rocketMultiplier = 1.00;
-  rocketStartTime = performance.now();
-
-  const r = Math.random();
-  if(r < 0.01){ rocketCrashPoint = 1.00; }
-  else {
-    const r2 = Math.random();
-    let cp = 1 / Math.max(0.01, 1 - r2 * 0.99);
-    if(cp > 100) cp = 100;
-    if(cp < 1.01) cp = 1.01;
-    rocketCrashPoint = cp;
-  }
-
-  rocketResetVisuals();
-  rocketSetStatus('Ракета взлетела! Забирай до краха!', '#ffd52a');
-  document.getElementById('rocketBetBtn').disabled = true;
-  document.getElementById('rocketCashBtn').disabled = false;
-
-  rocketRafId = requestAnimationFrame(rocketLoop);
-}
-
-function rocketLoop(now){
-  if(!rocketRunning) return;
-  const elapsed = (now - rocketStartTime) / 1000;
-  rocketMultiplier = Math.pow(1.018, elapsed * 5);
-  if(rocketMultiplier < 1.00) rocketMultiplier = 1.00;
-
-  if(rocketMultiplier >= 100){
-    rocketMultiplier = 100;
-    rocketUpdateMultiplierDisplay();
-    rocketBust(true);
-    return;
-  }
-
-  if(rocketMultiplier >= rocketCrashPoint){
-    rocketMultiplier = rocketCrashPoint;
-    rocketUpdateMultiplierDisplay();
-    rocketBust(false);
-    return;
-  }
-
-  rocketUpdateMultiplierDisplay();
-  rocketRafId = requestAnimationFrame(rocketLoop);
-}
-
-async function rocketCashout(){
-  if(!rocketRunning || rocketCashedOut || rocketCrashed) return;
-  rocketCashedOut = true;
-  rocketRunning = false;
-  if(rocketRafId) cancelAnimationFrame(rocketRafId);
-
-  const winAmount = Math.floor(rocketBet * rocketMultiplier);
-  await serverUpdateBalance(winAmount);
-
-  const mult = document.getElementById('rocketMultiplier');
-  mult.classList.add('cashed');
-  rocketSetStatus(`✅ Забрал ${winAmount} 💎 (${rocketMultiplier.toFixed(2)}x)`, '#00e996');
-
-  // ✅ Эффект выигрыша
-  const stage = document.getElementById('rocketStage');
-  if(stage){
-    const rect = stage.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    showFlash(cx, cy, 'rgba(0,233,150,.6)', 300);
-    showParticles(cx, cy, '#00e996', 25);
-    if(window.snowBurst) window.snowBurst(cx, cy, 30, '0,233,150');
-  }
-  pulseBalance();
-
-  rocketAddHistory(rocketMultiplier, true);
-  rocketFinish();
-}
-
-function rocketBust(reached100){
-  if(!rocketRunning && !reached100) return;
-  rocketRunning = false;
-  rocketCrashed = true;
-  if(rocketRafId) cancelAnimationFrame(rocketRafId);
-
-  const mult = document.getElementById('rocketMultiplier');
-  mult.classList.add('crashed');
-  rocketUpdateMultiplierDisplay();
-
-  if(reached100){ rocketSetStatus(`💥 Долетел до 100x, но не забрал — ставка сгорела!`, '#ff2d2d'); }
-  else { rocketSetStatus(`💥 Ракета взорвалась на ${rocketCrashPoint.toFixed(2)}x — ставка сгорела!`, '#ff2d2d'); }
-
-  // ✅ Эффект краха
-  const stage = document.getElementById('rocketStage');
-  if(stage){
-    const rect = stage.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    showFlash(cx, cy, 'rgba(255,45,45,.6)', 300);
-    showParticles(cx, cy, '#ff2d2d', 25);
-    if(window.snowBurst) window.snowBurst(cx, cy, 30, '255,45,45');
-  }
-
-  rocketAddHistory(rocketCrashPoint, false);
-  rocketFinish();
-}
-
-function rocketFinish(){
-  document.getElementById('rocketBetBtn').disabled = false;
-  document.getElementById('rocketCashBtn').disabled = true;
-}
-
-function rocketSetStatus(text, color){
-  const el = document.getElementById('rocketStatus');
-  if(!el) return;
-  el.textContent = text;
-  el.style.color = color || '#ff8888';
-}
-
-function rocketAddHistory(multiplier, win){
-  rocketHistory.unshift({ m: multiplier, w: win });
-  if(rocketHistory.length > 12) rocketHistory.pop();
-  const historyEl = document.getElementById('rocketHistory');
-  if(!historyEl) return;
-  historyEl.innerHTML = rocketHistory.map(h =>
-    `<span class="rocket-history-pill ${h.w ? 'win' : 'loss'}">${h.m.toFixed(2)}x</span>`
-  ).join('');
 }
 
 /* =========================================================
@@ -2286,7 +1958,6 @@ function performUpgrade(durationMs){
   upgradeBtn.disabled = true;
   upgradeBtn.textContent = 'ПРОКАЧКА...';
 
-  // ✅ Подсветка колеса во время прокрутки
   wheel.classList.add('spinning');
 
   const win = Math.random() * 100 < chance;
@@ -2326,7 +1997,6 @@ function performUpgrade(durationMs){
       `;
       instruction.innerHTML = '<span style="color:#00e996">УСПЕХ!</span> ' + escapeHtml(wonItem.name) + ' получен!';
 
-      // ✅ Эффект успеха
       showFlash(cx, cy, 'rgba(0,233,150,.7)', 350);
       showParticles(cx, cy, '#00e996', 30);
       if(window.snowBurst) window.snowBurst(cx, cy, 35, '0,233,150');
@@ -2338,7 +2008,6 @@ function performUpgrade(durationMs){
       clearSourceDisplay();
       instruction.innerHTML = '<span style="color:#ff4d5a">НЕУДАЧА!</span> ' + escapeHtml(source.name) + ' потерян.';
 
-      // ✅ Эффект проигрыша
       showFlash(cx, cy, 'rgba(255,45,45,.7)', 350);
       showParticles(cx, cy, '#ff2d2d', 30);
       if(window.snowBurst) window.snowBurst(cx, cy, 35, '255,45,45');
@@ -2369,8 +2038,7 @@ function showTab(tab){
     tab === 'profile' ? 'navProfile' :
     tab === 'promo' ? 'navPromo' :
     tab === 'cases' ? 'navCases' :
-    tab === 'giveaways' ? 'navGiveaways' :
-    tab === 'rocket' ? 'navRocket' : 'navGame'
+    tab === 'giveaways' ? 'navGiveaways' : 'navGame'
   );
   if(nav) nav.classList.add('active');
   if(tab === 'profile'){
@@ -2496,7 +2164,6 @@ async function redeemPromoCode(){
     message.textContent = `Промокод активирован! +${reward} 💎`;
     input.value='';
 
-    // ✅ Эффект за промокод
     const cx = window.innerWidth / 2;
     const cy = window.innerHeight / 2;
     showFlash(cx, cy, 'rgba(0,233,150,.6)', 400);
