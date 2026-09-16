@@ -891,8 +891,8 @@ button{ border-radius:10px; cursor:pointer; }
 }
 .coin-bet-info b{ color:#5ef0d0; }
 
-/* ===== ROULETTE MODE ===== */
-.roulette-scene{
+/* ===== DICE MODE ===== */
+.dice-scene{
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -900,81 +900,88 @@ button{ border-radius:10px; cursor:pointer; }
   padding:20px 0;
   width:100%;
 }
-.roulette-wheel-wrap{
-  position:relative;
-  width:360px;
-  height:360px;
-  margin:10px auto 20px;
+.dice-pair{
+  display:flex;
+  gap:24px;
+  margin:24px 0;
+  perspective:800px;
 }
-.roulette-wheel-svg{
+.die{
+  width:110px;
+  height:110px;
+  border-radius:16px;
+  background:linear-gradient(145deg, #1a2a3a, #0a121d);
+  border:2px solid rgba(94,240,208,.5);
+  box-shadow:
+    0 0 30px rgba(94,240,208,.3),
+    inset 0 2px 0 rgba(94,240,208,.2),
+    inset 0 -4px 8px rgba(0,0,0,.6);
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  grid-template-rows:repeat(3, 1fr);
+  padding:12px;
+  gap:4px;
+  transition:transform .3s;
+}
+.die.rolling{
+  animation:diceShake .4s ease-in-out infinite;
+}
+@keyframes diceShake{
+  0%,100%{ transform:rotate(0deg) scale(1); }
+  25%{ transform:rotate(-12deg) scale(1.05); }
+  75%{ transform:rotate(12deg) scale(1.05); }
+}
+.pip{
   width:100%;
   height:100%;
-  filter:drop-shadow(0 0 40px rgba(94,240,208,.3));
-}
-.roulette-pointer{
-  position:absolute;
-  top:-8px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:28px;
-  color:#5ef0d0;
-  text-shadow:0 0 20px #5ef0d0;
-  z-index:5;
-  transition:transform .1s;
-}
-.roulette-ball{
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:16px;
-  height:16px;
   border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #fff, #c0c0c0 70%);
+  background:radial-gradient(circle at 30% 30%, #7ff5dc, #5ef0d0);
   box-shadow:
-    0 0 15px #fff,
-    0 0 30px rgba(255,255,255,.6);
-  z-index:4;
-  margin:-8px 0 0 -8px;
-  transform:translate(0, 0);
-  transition:transform 0s;
+    0 0 12px rgba(94,240,208,.8),
+    inset 0 -2px 3px rgba(0,0,0,.3);
+  opacity:0;
+  transition:opacity .2s;
 }
-.roulette-result-display{
+.pip.active{ opacity:1; }
+
+.dice-sum-display{
   text-align:center;
-  font-size:16px;
+  font-size:22px;
   font-weight:900;
   color:#5ef0d0;
+  letter-spacing:3px;
+  text-shadow:0 0 20px rgba(94,240,208,.7);
   min-height:32px;
-  letter-spacing:2px;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
-.roulette-result-display.win{ color:#5ef0d0; text-shadow:0 0 20px rgba(94,240,208,.8); }
-.roulette-result-display.lose{ color:#ff8b8b; text-shadow:0 0 20px rgba(255,90,90,.8); }
-.roulette-bet-info{
+.dice-sum-display.win{ color:#5ef0d0; text-shadow:0 0 25px rgba(94,240,208,1); }
+.dice-sum-display.lose{ color:#ff8b8b; text-shadow:0 0 25px rgba(255,90,90,.9); }
+
+.dice-bet-info{
   text-align:center;
   font-size:12px;
   color:#7a8b9f;
   min-height:40px;
-  margin-bottom:10px;
+  margin-bottom:14px;
 }
-.roulette-bet-info b{ color:#5ef0d0; }
+.dice-bet-info b{ color:#5ef0d0; }
 
-/* Кнопки ставок рулетки */
-.roulette-bets{
+.dice-bets{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:8px;
+  grid-template-columns:repeat(3, 1fr);
+  gap:10px;
   width:100%;
   margin-top:10px;
 }
-.roulette-bet-btn{
-  height:60px;
+.dice-bet-btn{
+  height:70px;
   border-radius:12px;
   border:2px solid #1e2f44;
   background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.3));
   color:#e8edf2;
   font-size:13px;
   font-weight:900;
-  letter-spacing:2px;
+  letter-spacing:1.5px;
   cursor:pointer;
   transition:.2s;
   text-transform:uppercase;
@@ -984,34 +991,27 @@ button{ border-radius:10px; cursor:pointer; }
   justify-content:center;
   gap:3px;
 }
-.roulette-bet-btn .mult{ font-size:10px; opacity:.7; font-weight:700; }
-.roulette-bet-btn:hover{
+.dice-bet-btn .mult{ font-size:10px; opacity:.7; font-weight:700; }
+.dice-bet-btn:hover{
   transform:translateY(-2px);
 }
-.roulette-bet-btn.red:hover, .roulette-bet-btn.red.active{
-  border-color:#ff4d6d;
-  background:linear-gradient(180deg, rgba(255,77,109,.25), rgba(255,77,109,.05));
-  box-shadow:0 0 30px rgba(255,77,109,.5);
-  color:#ff4d6d;
-}
-.roulette-bet-btn.black:hover, .roulette-bet-btn.black.active{
-  border-color:#a0a0b0;
-  background:linear-gradient(180deg, rgba(160,160,176,.25), rgba(160,160,176,.05));
-  box-shadow:0 0 30px rgba(160,160,176,.5);
-  color:#fff;
-}
-.roulette-bet-btn.green:hover, .roulette-bet-btn.green.active{
+.dice-bet-btn.low:hover, .dice-bet-btn.low.active{
   border-color:#5ef0d0;
-  background:linear-gradient(180deg, rgba(94,240,208,.25), rgba(94,240,208,.05));
+  background:linear-gradient(180deg, rgba(94,240,208,.2), rgba(94,240,208,.03));
   box-shadow:0 0 30px rgba(94,240,208,.5);
   color:#5ef0d0;
 }
-.roulette-bet-btn.even:hover, .roulette-bet-btn.even.active,
-.roulette-bet-btn.odd:hover, .roulette-bet-btn.odd.active{
+.dice-bet-btn.seven:hover, .dice-bet-btn.seven.active{
   border-color:#ffe066;
-  background:linear-gradient(180deg, rgba(255,224,102,.25), rgba(255,224,102,.05));
+  background:linear-gradient(180deg, rgba(255,224,102,.2), rgba(255,224,102,.03));
   box-shadow:0 0 30px rgba(255,224,102,.5);
   color:#ffe066;
+}
+.dice-bet-btn.high:hover, .dice-bet-btn.high.active{
+  border-color:#ff4d6d;
+  background:linear-gradient(180deg, rgba(255,77,109,.2), rgba(255,77,109,.03));
+  box-shadow:0 0 30px rgba(255,77,109,.5);
+  color:#ff4d6d;
 }
 
 /* ===== SIDE MENU ===== */
@@ -2109,7 +2109,9 @@ button{ border-radius:10px; cursor:pointer; }
   .pointer-needle{ height:90px; top:14px; }
   .coin-3d{ width:150px; height:150px; }
   .coin-face{ font-size:60px; }
-  .roulette-wheel-wrap{ width:280px; height:280px; }
+  .die{ width:80px; height:80px; padding:8px; }
+  .dice-pair{ gap:16px; }
+  .dice-bets{ grid-template-columns:1fr; }
 }
 
 /* SCROLLBAR */
@@ -2165,13 +2167,13 @@ button{ border-radius:10px; cursor:pointer; }
   </div>
   <div class="side-menu-list">
     <button class="side-menu-item active" type="button" id="smiGame" onclick="openSideTab('game')">
-      <span class="icon">🎡</span> ИГРА
+      <span class="icon">🎡</span> АПГРЕЙД
     </button>
     <button class="side-menu-item" type="button" id="smiCoin" onclick="openSideTab('coin')">
       <span class="icon">🪙</span> МОНЕТКА
     </button>
-    <button class="side-menu-item" type="button" id="smiRoulette" onclick="openSideTab('roulette')">
-      <span class="icon">🎰</span> РУЛЕТКА
+    <button class="side-menu-item" type="button" id="smiDice" onclick="openSideTab('dice')">
+      <span class="icon">🎲</span> КОСТИ
     </button>
     <button class="side-menu-item" type="button" id="smiCases" onclick="openSideTab('cases')">
       <span class="icon">🎁</span> КЕЙСЫ
@@ -2329,7 +2331,7 @@ button{ border-radius:10px; cursor:pointer; }
           </div>
           <div id="coinInventoryList">
             <div class="material-empty" id="coinEmptyInv">
-              Инвентарь пуст. Купи браинротов в магазине на вкладке «Игра»
+              Инвентарь пуст. Купи браинротов в магазине на вкладке «Апгрейд»
             </div>
           </div>
         </div>
@@ -2337,47 +2339,55 @@ button{ border-radius:10px; cursor:pointer; }
     </div>
   </section>
 
-  <!-- ===== TAB: ROULETTE ===== -->
-  <section class="tab-panel dedicated-tab" data-tab="roulette" hidden>
+  <!-- ===== TAB: DICE ===== -->
+  <section class="tab-panel dedicated-tab" data-tab="dice" hidden>
     <div class="main-grid">
-      <!-- LEFT: Рулетка -->
+      <!-- LEFT: Кости -->
       <div class="left-panel">
-        <div class="roulette-scene">
-          <div class="wheel-center-label" style="margin-bottom:0;">ЕВРОПЕЙСКАЯ РУЛЕТКА</div>
+        <div class="dice-scene">
+          <div class="wheel-center-label" style="margin-bottom:0;">БРОСОК КОСТЕЙ</div>
 
-          <div class="roulette-wheel-wrap">
-            <div class="roulette-pointer">▼</div>
-            <svg class="roulette-wheel-svg" viewBox="0 0 360 360" id="rouletteSvg">
-              <!-- Заполняется JS -->
-            </svg>
-            <div class="roulette-ball" id="rouletteBall"></div>
+          <div class="dice-pair">
+            <div class="die" id="die1">
+              <div class="pip" data-face="1"></div>
+              <div class="pip" data-face="2"></div>
+              <div class="pip" data-face="3"></div>
+              <div class="pip" data-face="4"></div>
+              <div class="pip" data-face="5"></div>
+              <div class="pip" data-face="6"></div>
+              <div class="pip" data-face="7"></div>
+              <div class="pip" data-face="8"></div>
+              <div class="pip" data-face="9"></div>
+            </div>
+            <div class="die" id="die2">
+              <div class="pip" data-face="1"></div>
+              <div class="pip" data-face="2"></div>
+              <div class="pip" data-face="3"></div>
+              <div class="pip" data-face="4"></div>
+              <div class="pip" data-face="5"></div>
+              <div class="pip" data-face="6"></div>
+              <div class="pip" data-face="7"></div>
+              <div class="pip" data-face="8"></div>
+              <div class="pip" data-face="9"></div>
+            </div>
           </div>
 
-          <div class="roulette-result-display" id="rouletteResultDisplay">Сделай ставку</div>
-          <div class="roulette-bet-info" id="rouletteBetInfo">Выбери браинрота и ставку</div>
+          <div class="dice-sum-display" id="diceSumDisplay">—</div>
+          <div class="dice-bet-info" id="diceBetInfo">Выбери браинрота и ставку</div>
 
-          <div class="roulette-bets">
-            <button class="roulette-bet-btn red" id="betRed" type="button" onclick="selectRouletteBet('red')">
-              КРАСНОЕ <span class="mult">×2</span>
+          <div class="dice-bets">
+            <button class="dice-bet-btn low" id="betLow" type="button" onclick="selectDiceBet('low')">
+              МЕНЬШЕ 7 <span class="mult">×2</span>
             </button>
-            <button class="roulette-bet-btn black" id="betBlack" type="button" onclick="selectRouletteBet('black')">
-              ЧЁРНОЕ <span class="mult">×2</span>
+            <button class="dice-bet-btn seven" id="betSeven" type="button" onclick="selectDiceBet('seven')">
+              РОВНО 7 <span class="mult">×5</span>
             </button>
-            <button class="roulette-bet-btn green" id="betGreen" type="button" onclick="selectRouletteBet('green')">
-              ЗЕРО <span class="mult">×14</span>
-            </button>
-            <button class="roulette-bet-btn even" id="betEven" type="button" onclick="selectRouletteBet('even')">
-              ЧЁТНОЕ <span class="mult">×2</span>
-            </button>
-            <button class="roulette-bet-btn odd" id="betOdd" type="button" onclick="selectRouletteBet('odd')">
-              НЕЧЁТНОЕ <span class="mult">×2</span>
-            </button>
-            <button class="roulette-bet-btn" id="betClear" type="button" onclick="selectRouletteBet(null)">
-              СБРОСИТЬ
+            <button class="dice-bet-btn high" id="betHigh" type="button" onclick="selectDiceBet('high')">
+              БОЛЬШЕ 7 <span class="mult">×2</span>
             </button>
           </div>
 
-          <button class="start-btn" id="rouletteStartBtn" type="button" onclick="spinRoulette()" disabled style="margin-top:14px;">КРУТИТЬ</button>
+          <button class="start-btn" id="diceStartBtn" type="button" onclick="rollDice()" disabled style="margin-top:14px;">БРОСИТЬ КОСТИ</button>
         </div>
       </div>
 
@@ -2385,12 +2395,12 @@ button{ border-radius:10px; cursor:pointer; }
       <div class="right-panel">
         <div class="panel-card">
           <div class="material-header">
-            <span>Твои браинроты: <b id="rouletteInvCount">0</b> шт.</span>
+            <span>Твои браинроты: <b id="diceInvCount">0</b> шт.</span>
             <span>Выбери ставку</span>
           </div>
-          <div id="rouletteInventoryList">
-            <div class="material-empty" id="rouletteEmptyInv">
-              Инвентарь пуст. Купи браинротов в магазине на вкладке «Игра»
+          <div id="diceInventoryList">
+            <div class="material-empty" id="diceEmptyInv">
+              Инвентарь пуст. Купи браинротов в магазине на вкладке «Апгрейд»
             </div>
           </div>
         </div>
@@ -2697,13 +2707,10 @@ let coinSelectedSlot = null;
 let coinSelectedSide = null;
 let coinFlipping = false;
 
-// Рулетка
-const ROULETTE_RED = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
-const ROULETTE_BLACK = [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35];
-const ROULETTE_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
-let rouletteSelectedSlot = null;
-let rouletteSelectedBet = null;
-let rouletteSpinning = false;
+// Кости
+let diceSelectedSlot = null;
+let diceSelectedBet = null;
+let diceRolling = false;
 
 let giveaways = [];
 let myGiveawayContribution = 0;
@@ -3000,15 +3007,15 @@ const coinInvCount = document.getElementById('coinInvCount');
 const choiceHeads = document.getElementById('choiceHeads');
 const choiceTails = document.getElementById('choiceTails');
 
-// Roulette DOM
-const rouletteSvg = document.getElementById('rouletteSvg');
-const rouletteBall = document.getElementById('rouletteBall');
-const rouletteResultDisplay = document.getElementById('rouletteResultDisplay');
-const rouletteBetInfo = document.getElementById('rouletteBetInfo');
-const rouletteStartBtn = document.getElementById('rouletteStartBtn');
-const rouletteInventoryList = document.getElementById('rouletteInventoryList');
-const rouletteEmptyInv = document.getElementById('rouletteEmptyInv');
-const rouletteInvCount = document.getElementById('rouletteInvCount');
+// Dice DOM
+const die1 = document.getElementById('die1');
+const die2 = document.getElementById('die2');
+const diceSumDisplay = document.getElementById('diceSumDisplay');
+const diceBetInfo = document.getElementById('diceBetInfo');
+const diceStartBtn = document.getElementById('diceStartBtn');
+const diceInventoryList = document.getElementById('diceInventoryList');
+const diceEmptyInv = document.getElementById('diceEmptyInv');
+const diceInvCount = document.getElementById('diceInvCount');
 
 /* =========================================================
    SIDE MENU
@@ -3038,7 +3045,7 @@ function showTab(tab){
     panel.classList.toggle('active', panel.dataset.tab === tab);
   });
   document.querySelectorAll('.side-menu-item').forEach(btn=>btn.classList.remove('active'));
-  const map = { game:'smiGame', coin:'smiCoin', roulette:'smiRoulette', cases:'smiCases', giveaways:'smiGiveaways', promo:'smiPromo', profile:'smiProfile' };
+  const map = { game:'smiGame', coin:'smiCoin', dice:'smiDice', cases:'smiCases', giveaways:'smiGiveaways', promo:'smiPromo', profile:'smiProfile' };
   const btn = document.getElementById(map[tab]);
   if(btn) btn.classList.add('active');
   if(tab === 'profile'){
@@ -3048,7 +3055,7 @@ function showTab(tab){
   if(tab === 'cases') renderCases();
   if(tab === 'giveaways') loadGiveaways();
   if(tab === 'coin') renderCoinInventory();
-  if(tab === 'roulette'){ drawRouletteWheel(); renderRouletteInventory(); }
+  if(tab === 'dice') renderDiceInventory();
 }
 window.showTab = showTab;
 
@@ -3328,76 +3335,46 @@ async function startCoinFlip(){
 window.startCoinFlip = startCoinFlip;
 
 /* =========================================================
-   ROULETTE
+   DICE
 ========================================================= */
-function drawRouletteWheel(){
-  const NUMBERS = ROULETTE_ORDER.length; // 37
-  const CX = 180, CY = 180;
-  const R_OUT = 170, R_IN = 130;
-  let svgContent = '';
+function renderDiceFace(dieEl, num){
+  const pips = dieEl.querySelectorAll('.pip');
+  pips.forEach(p => p.classList.remove('active'));
 
-  // Внешний круг
-  svgContent += `<circle cx="${CX}" cy="${CY}" r="${R_OUT}" fill="none" stroke="#5ef0d0" stroke-width="2" opacity="0.4"/>`;
-  svgContent += `<circle cx="${CX}" cy="${CY}" r="${R_OUT - 40}" fill="none" stroke="#1e2f44" stroke-width="1"/>`;
-
-  // Сектора
-  const anglePerSector = 360 / NUMBERS;
-  ROULETTE_ORDER.forEach((num, i) => {
-    const startAngle = i * anglePerSector - 90 - anglePerSector / 2;
-    const endAngle = startAngle + anglePerSector;
-
-    const startRad = startAngle * Math.PI / 180;
-    const endRad = endAngle * Math.PI / 180;
-
-    const x1 = CX + R_OUT * Math.cos(startRad);
-    const y1 = CY + R_OUT * Math.sin(startRad);
-    const x2 = CX + R_OUT * Math.cos(endRad);
-    const y2 = CY + R_OUT * Math.sin(endRad);
-    const x3 = CX + R_IN * Math.cos(endRad);
-    const y3 = CY + R_IN * Math.sin(endRad);
-    const x4 = CX + R_IN * Math.cos(startRad);
-    const y4 = CY + R_IN * Math.sin(startRad);
-
-    let color = '#1a1a1a';
-    if(num === 0) color = '#5ef0d0';
-    else if(ROULETTE_RED.includes(num)) color = '#c81e3a';
-    else color = '#1a1a2e';
-
-    const path = `M ${x1} ${y1} A ${R_OUT} ${R_OUT} 0 0 1 ${x2} ${y2} L ${x3} ${y3} A ${R_IN} ${R_IN} 0 0 0 ${x4} ${y4} Z`;
-    svgContent += `<path d="${path}" fill="${color}" stroke="#0a121d" stroke-width="1"/>`;
-
-    // Число
-    const midAngle = startAngle + anglePerSector / 2;
-    const midRad = midAngle * Math.PI / 180;
-    const textR = (R_OUT + R_IN) / 2;
-    const tx = CX + textR * Math.cos(midRad);
-    const ty = CY + textR * Math.sin(midRad);
-    svgContent += `<text x="${tx}" y="${ty}" fill="#fff" font-size="13" font-weight="900" text-anchor="middle" dominant-baseline="middle" transform="rotate(${midAngle + 90} ${tx} ${ty})">${num}</text>`;
+  // Индексы 1-9 (сетка 3x3):
+  // 1 2 3
+  // 4 5 6
+  // 7 8 9
+  const faceMap = {
+    1: [5],
+    2: [1,9],
+    3: [1,5,9],
+    4: [1,3,7,9],
+    5: [1,3,5,7,9],
+    6: [1,3,4,6,7,9]
+  };
+  const active = faceMap[num] || [];
+  active.forEach(i => {
+    const pip = dieEl.querySelector(`.pip[data-face="${i}"]`);
+    if(pip) pip.classList.add('active');
   });
-
-  // Центр
-  svgContent += `<circle cx="${CX}" cy="${CY}" r="${R_IN - 4}" fill="#0a121d" stroke="#5ef0d0" stroke-width="2" opacity="0.6"/>`;
-  svgContent += `<circle cx="${CX}" cy="${CY}" r="40" fill="#0f1a28" stroke="#5ef0d0" stroke-width="1"/>`;
-  svgContent += `<text x="${CX}" y="${CY}" fill="#5ef0d0" font-size="20" font-weight="900" text-anchor="middle" dominant-baseline="middle">🎰</text>`;
-
-  rouletteSvg.innerHTML = svgContent;
 }
 
-function renderRouletteInventory(){
-  const oldCards = rouletteInventoryList.querySelectorAll('.inventory-item');
+function renderDiceInventory(){
+  const oldCards = diceInventoryList.querySelectorAll('.inventory-item');
   oldCards.forEach(c => c.remove());
   if(inventory.length === 0){
-    rouletteEmptyInv.style.display = 'block';
-    rouletteInvCount.textContent = '0';
+    diceEmptyInv.style.display = 'block';
+    diceInvCount.textContent = '0';
     return;
   }
-  rouletteEmptyInv.style.display = 'none';
-  rouletteInvCount.textContent = inventory.length;
+  diceEmptyInv.style.display = 'none';
+  diceInvCount.textContent = inventory.length;
   inventory.forEach((itemIndex, slotIndex)=>{
     const item = items[itemIndex];
     if(!item) return;
     const row = document.createElement('div');
-    row.className = 'inventory-item' + (rouletteSelectedSlot === slotIndex ? ' selected' : '');
+    row.className = 'inventory-item' + (diceSelectedSlot === slotIndex ? ' selected' : '');
     row.innerHTML = `
       ${getItemImgHtml(item, 'inventory-item-img')}
       <div class="inventory-item-info">
@@ -3406,171 +3383,124 @@ function renderRouletteInventory(){
       </div>
     `;
     row.onclick = () => {
-      if(rouletteSpinning) return;
-      rouletteSelectedSlot = slotIndex;
-      renderRouletteInventory();
-      updateRouletteBetInfo();
+      if(diceRolling) return;
+      diceSelectedSlot = slotIndex;
+      renderDiceInventory();
+      updateDiceBetInfo();
     };
-    rouletteInventoryList.appendChild(row);
+    diceInventoryList.appendChild(row);
   });
 }
 
-function selectRouletteBet(bet){
-  if(rouletteSpinning) return;
-  rouletteSelectedBet = bet;
-  ['betRed','betBlack','betGreen','betEven','betOdd'].forEach(id=>{
+function selectDiceBet(bet){
+  if(diceRolling) return;
+  diceSelectedBet = bet;
+  ['betLow','betSeven','betHigh'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.classList.remove('active');
   });
-  if(bet === 'red') document.getElementById('betRed').classList.add('active');
-  if(bet === 'black') document.getElementById('betBlack').classList.add('active');
-  if(bet === 'green') document.getElementById('betGreen').classList.add('active');
-  if(bet === 'even') document.getElementById('betEven').classList.add('active');
-  if(bet === 'odd') document.getElementById('betOdd').classList.add('active');
-  updateRouletteBetInfo();
+  if(bet === 'low') document.getElementById('betLow').classList.add('active');
+  if(bet === 'seven') document.getElementById('betSeven').classList.add('active');
+  if(bet === 'high') document.getElementById('betHigh').classList.add('active');
+  updateDiceBetInfo();
 }
-window.selectRouletteBet = selectRouletteBet;
+window.selectDiceBet = selectDiceBet;
 
-function updateRouletteBetInfo(){
-  const item = rouletteSelectedSlot !== null ? items[inventory[rouletteSelectedSlot]] : null;
-  const betNames = { red:'🔴 КРАСНОЕ (×2)', black:'⚫ ЧЁРНОЕ (×2)', green:'🟢 ЗЕРО (×14)', even:'2️⃣ ЧЁТНОЕ (×2)', odd:'1️⃣ НЕЧЁТНОЕ (×2)' };
+function updateDiceBetInfo(){
+  const item = diceSelectedSlot !== null ? items[inventory[diceSelectedSlot]] : null;
+  const betNames = { low:'⬇ МЕНЬШЕ 7 (×2)', seven:'🎯 РОВНО 7 (×5)', high:'⬆ БОЛЬШЕ 7 (×2)' };
   let html = '';
   if(item){
     html += `Ставка: <b>${escapeHtml(item.name)}</b> (${item.price} 💎)<br>`;
   } else {
     html += `Выбери браинрота<br>`;
   }
-  if(rouletteSelectedBet){
-    html += `Тип: <b>${betNames[rouletteSelectedBet]}</b>`;
+  if(diceSelectedBet){
+    html += `Тип: <b>${betNames[diceSelectedBet]}</b>`;
   } else {
     html += `Выбери тип ставки`;
   }
-  rouletteBetInfo.innerHTML = html;
-  rouletteStartBtn.disabled = !(rouletteSelectedSlot !== null && rouletteSelectedBet !== null && !rouletteSpinning);
+  diceBetInfo.innerHTML = html;
+  diceStartBtn.disabled = !(diceSelectedSlot !== null && diceSelectedBet !== null && !diceRolling);
 }
 
-async function spinRoulette(){
-  if(rouletteSpinning) return;
-  if(rouletteSelectedSlot === null || rouletteSelectedBet === null) return;
-  const itemIndex = inventory[rouletteSelectedSlot];
+async function rollDice(){
+  if(diceRolling) return;
+  if(diceSelectedSlot === null || diceSelectedBet === null) return;
+  const itemIndex = inventory[diceSelectedSlot];
   const item = items[itemIndex];
   if(!item) return;
 
-  rouletteSpinning = true;
-  rouletteStartBtn.disabled = true;
-  rouletteResultDisplay.className = 'roulette-result-display';
-  rouletteResultDisplay.textContent = 'Шарик крутится...';
+  diceRolling = true;
+  diceStartBtn.disabled = true;
+  diceSumDisplay.className = 'dice-sum-display';
+  diceSumDisplay.textContent = '—';
+  die1.classList.add('rolling');
+  die2.classList.add('rolling');
 
-  // Выбираем победное число
-  const winningNumber = ROULETTE_ORDER[Math.floor(Math.random() * ROULETTE_ORDER.length)];
-  const winningIndex = ROULETTE_ORDER.indexOf(winningNumber);
+  // Быстрая смена граней во время "вращения"
+  const rollInterval = setInterval(() => {
+    renderDiceFace(die1, 1 + Math.floor(Math.random() * 6));
+    renderDiceFace(die2, 1 + Math.floor(Math.random() * 6));
+  }, 80);
 
-  // Определяем цвет и чётность
-  const isRed = ROULETTE_RED.includes(winningNumber);
-  const isBlack = ROULETTE_BLACK.includes(winningNumber);
-  const isGreen = winningNumber === 0;
-  const isEven = winningNumber !== 0 && winningNumber % 2 === 0;
-  const isOdd = winningNumber % 2 !== 0;
+  // Финальный бросок
+  const final1 = 1 + Math.floor(Math.random() * 6);
+  const final2 = 1 + Math.floor(Math.random() * 6);
+  const sum = final1 + final2;
 
-  // Проверка выигрыша
-  let win = false;
-  let multiplier = 0;
-  if(rouletteSelectedBet === 'red' && isRed){ win = true; multiplier = 2; }
-  else if(rouletteSelectedBet === 'black' && isBlack){ win = true; multiplier = 2; }
-  else if(rouletteSelectedBet === 'green' && isGreen){ win = true; multiplier = 14; }
-  else if(rouletteSelectedBet === 'even' && isEven){ win = true; multiplier = 2; }
-  else if(rouletteSelectedBet === 'odd' && isOdd){ win = true; multiplier = 2; }
-
-  // Анимация шарика: сколько полных оборотов + остановка на winningIndex
-  const NUMBERS = ROULETTE_ORDER.length;
-  const anglePerSector = 360 / NUMBERS;
-  const targetAngle = -winningIndex * anglePerSector - anglePerSector / 2 - 90;
-  const fullSpins = 8 + Math.floor(Math.random() * 4);
-  const totalRotation = fullSpins * 360 + targetAngle;
-
-  // Радиус шарика по орбите
-  const R_BALL = 150;
-  const centerX = 180, centerY = 180;
-
-  let startTime = null;
-  const duration = 4000;
-
-  function animateBall(timestamp){
-    if(!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    // Ease-out cubic
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const currentRotation = eased * totalRotation;
-    const rad = (currentRotation - 90) * Math.PI / 180;
-    const bx = centerX + R_BALL * Math.cos(rad);
-    const by = centerY + R_BALL * Math.sin(rad);
-
-    // Преобразуем в координаты контейнера (svg 360x360)
-    const wrap = rouletteSvg.getBoundingClientRect();
-    const scale = wrap.width / 360;
-    rouletteBall.style.transform = `translate(${bx * scale - 180 * scale}px, ${by * scale - 180 * scale}px)`;
-
-    if(progress < 1){
-      requestAnimationFrame(animateBall);
-    } else {
-      finishRouletteSpin(winningNumber, win, multiplier, item, itemIndex);
-    }
-  }
-  requestAnimationFrame(animateBall);
-}
-
-function finishRouletteSpin(winningNumber, win, multiplier, item, itemIndex){
-  const colorText = winningNumber === 0 ? '🟢 ЗЕРО' : (ROULETTE_RED.includes(winningNumber) ? '🔴 КРАСНОЕ' : '⚫ ЧЁРНОЕ');
-
-  if(win){
-    // Начисляем выигрыш в виде браинротов такой же цены
-    // Простая логика: добавляем (multiplier - 1) копий того же предмета
-    for(let i = 1; i < multiplier; i++){
-      inventory.push(itemIndex);
-    }
-    saveProfileData();
-    rouletteResultDisplay.className = 'roulette-result-display win';
-    rouletteResultDisplay.textContent = `ВЫПАЛО ${winningNumber} ${colorText} — ПОБЕДА ×${multiplier}!`;
-    const wrap = rouletteSvg.getBoundingClientRect();
-    const cx = wrap.left + wrap.width / 2;
-    const cy = wrap.top + wrap.height / 2;
-    showFlash(cx, cy, 'rgba(94,240,208,.7)', 450);
-    showParticles(cx, cy, '#5ef0d0', 50);
-    if(window.snowBurst) window.snowBurst(cx, cy, 60, '94,240,208');
-  } else {
-    // Проигрыш — удаляем предмет
-    inventory.splice(rouletteSelectedSlot, 1);
-    saveProfileData();
-    rouletteResultDisplay.className = 'roulette-result-display lose';
-    rouletteResultDisplay.textContent = `ВЫПАЛО ${winningNumber} ${colorText} — ПРОИГРЫШ!`;
-    const wrap = rouletteSvg.getBoundingClientRect();
-    const cx = wrap.left + wrap.width / 2;
-    const cy = wrap.top + wrap.height / 2;
-    showFlash(cx, cy, 'rgba(255,90,90,.4)', 450);
-    showParticles(cx, cy, '#ff8b8b', 50);
-    if(window.snowBurst) window.snowBurst(cx, cy, 60, '255,90,90');
-  }
-
-  rouletteSelectedSlot = null;
-  rouletteSelectedBet = null;
-  ['betRed','betBlack','betGreen','betEven','betOdd'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el) el.classList.remove('active');
-  });
-  rouletteSpinning = false;
-
-  renderAll();
-  renderRouletteInventory();
-  updateRouletteBetInfo();
-
-  // Возвращаем шарик
   setTimeout(()=>{
-    rouletteBall.style.transition = 'none';
-    rouletteBall.style.transform = 'translate(0, 0)';
-  }, 1000);
+    clearInterval(rollInterval);
+    die1.classList.remove('rolling');
+    die2.classList.remove('rolling');
+    renderDiceFace(die1, final1);
+    renderDiceFace(die2, final2);
+
+    // Проверка выигрыша
+    let win = false;
+    let multiplier = 0;
+    if(diceSelectedBet === 'low' && sum < 7){ win = true; multiplier = 2; }
+    else if(diceSelectedBet === 'seven' && sum === 7){ win = true; multiplier = 5; }
+    else if(diceSelectedBet === 'high' && sum > 7){ win = true; multiplier = 2; }
+
+    const rect = die1.parentElement.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    if(win){
+      for(let i = 1; i < multiplier; i++){
+        inventory.push(itemIndex);
+      }
+      saveProfileData();
+      diceSumDisplay.className = 'dice-sum-display win';
+      diceSumDisplay.textContent = `СУММА: ${sum} — ПОБЕДА ×${multiplier}!`;
+      showFlash(cx, cy, 'rgba(94,240,208,.7)', 450);
+      showParticles(cx, cy, '#5ef0d0', 50);
+      if(window.snowBurst) window.snowBurst(cx, cy, 60, '94,240,208');
+    } else {
+      inventory.splice(diceSelectedSlot, 1);
+      saveProfileData();
+      diceSumDisplay.className = 'dice-sum-display lose';
+      diceSumDisplay.textContent = `СУММА: ${sum} — ПРОИГРЫШ!`;
+      showFlash(cx, cy, 'rgba(255,90,90,.4)', 450);
+      showParticles(cx, cy, '#ff8b8b', 50);
+      if(window.snowBurst) window.snowBurst(cx, cy, 60, '255,90,90');
+    }
+
+    diceSelectedSlot = null;
+    diceSelectedBet = null;
+    ['betLow','betSeven','betHigh'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.classList.remove('active');
+    });
+    diceRolling = false;
+
+    renderAll();
+    renderDiceInventory();
+    updateDiceBetInfo();
+  }, 1500);
 }
-window.spinRoulette = spinRoulette;
+window.rollDice = rollDice;
 
 /* =========================================================
    RENDER ALL
@@ -3583,7 +3513,7 @@ function renderAll(){
   renderTargets();
   renderInventory();
   renderCoinInventory();
-  renderRouletteInventory();
+  renderDiceInventory();
   renderProfile();
   renderAdminWithdrawals();
   renderAdminGiveaways();
@@ -3640,11 +3570,11 @@ async function sellItem(slotIndex){
   else if(sourceItem !== null && sourceItem > slotIndex){ sourceItem--; }
   if(coinSelectedSlot === slotIndex){ coinSelectedSlot = null; }
   else if(coinSelectedSlot !== null && coinSelectedSlot > slotIndex){ coinSelectedSlot--; }
-  if(rouletteSelectedSlot === slotIndex){ rouletteSelectedSlot = null; }
-  else if(rouletteSelectedSlot !== null && rouletteSelectedSlot > slotIndex){ rouletteSelectedSlot--; }
+  if(diceSelectedSlot === slotIndex){ diceSelectedSlot = null; }
+  else if(diceSelectedSlot !== null && diceSelectedSlot > slotIndex){ diceSelectedSlot--; }
   saveProfileData();
   await serverUpdateBalance(item.price);
-  renderAll(); updateTop(); updateCoinBetInfo(); updateRouletteBetInfo();
+  renderAll(); updateTop(); updateCoinBetInfo(); updateDiceBetInfo();
 }
 
 /* =========================================================
@@ -4208,8 +4138,9 @@ renderAll();
 updateTop();
 updateDisplayedChance();
 updateCoinBetInfo();
-updateRouletteBetInfo();
-drawRouletteWheel();
+updateDiceBetInfo();
+renderDiceFace(die1, 1);
+renderDiceFace(die2, 1);
 setTimeout(()=>loadPromoCodesFromServer(),100);
 setTimeout(()=>loadGiveaways(),500);
 setTimeout(()=>loadGiveaways(),2000);
