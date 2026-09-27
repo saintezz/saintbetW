@@ -148,16 +148,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   height:40px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
 }
-.balance .ico{
-  font-size:14px;
-  opacity:.8;
-}
-.balance .val{
-  font-size:15px;
-  font-weight:600;
-  color:#fff;
-  line-height:1;
-}
+.balance .ico{ font-size:14px; opacity:.8; }
+.balance .val{ font-size:15px; font-weight:600; color:#fff; line-height:1; }
 .balance .lbl{
   font-size:9px;
   color:var(--txt-4);
@@ -275,7 +267,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .panel-body{ padding:14px; }
 .panel-body.tight{ padding:10px; }
 
-/* ========== STAGE (Апгрейдер) ========== */
+/* ========== STAGE ========== */
 .stage{
   background:
     linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
@@ -404,23 +396,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     inset 0 1px 0 rgba(255,255,255,.15),
     0 0 40px rgba(255,255,255,.04);
 }
-.slot-plus{
-  font-size:26px;
-  line-height:1;
-  font-weight:300;
-  opacity:.7;
-}
+.slot-plus{ font-size:26px; line-height:1; font-weight:300; opacity:.7; }
 .slot-empty-label{
-  font-size:10px;
-  font-weight:500;
-  letter-spacing:.4px;
-  color:inherit;
+  font-size:10px; font-weight:500; letter-spacing:.4px; color:inherit;
 }
-.slot-empty-sub{
-  font-size:9px;
-  color:var(--txt-5);
-  letter-spacing:.2px;
-}
+.slot-empty-sub{ font-size:9px; color:var(--txt-5); letter-spacing:.2px; }
 .slot-item-img{ width:52px; height:52px; object-fit:contain; }
 .slot-item-name{
   font-size:11px;
@@ -472,28 +452,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
   backdrop-filter:blur(10px);
 }
-.wheel-labels{ position:absolute; inset:0; pointer-events:none; z-index:2; }
-.wheel-labels .lbl-green,
-.wheel-labels .lbl-red{
-  position:absolute;
-  font-size:8px;
-  font-weight:600;
-  letter-spacing:.6px;
-  padding:3px 8px;
-  border-radius:8px;
-  background:rgba(0,0,0,.8);
-  border:1px solid rgba(255,255,255,.05);
-  font-family:"JetBrains Mono",monospace;
-}
-.wheel-labels .lbl-green{
-  top:10px; left:50%; transform:translateX(-50%);
-  color:var(--green);
-}
-.wheel-labels .lbl-red{
-  bottom:10px; left:50%; transform:translateX(-50%);
-  color:var(--red);
-}
-
 .pointer-wrap{
   position:absolute; z-index:4; inset:0;
   transform:rotate(0deg);
@@ -889,9 +847,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   color:var(--txt-2); font-size:11px; font-weight:500;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.shop-item-price{
-  color:#fff; font-size:11px; font-weight:500;
-}
+.shop-item-price{ color:#fff; font-size:11px; font-weight:500; }
 .buy-btn{
   height:32px; padding:0 14px;
   background:
@@ -908,9 +864,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border:1px solid rgba(255,255,255,.04);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
 }
-.buy-btn:hover{
-  background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06));
-}
+.buy-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 .buy-btn:disabled{ opacity:.3; cursor:not-allowed; }
 
 /* ========== CASES ========== */
@@ -956,8 +910,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  position:relative;
-  z-index:1;
+  position:relative; z-index:1;
 }
 .case-rarity{
   font-size:9px;
@@ -986,8 +939,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
   border-radius:12px;
   border:1px solid rgba(255,255,255,.03);
-  position:relative;
-  z-index:1;
+  position:relative; z-index:1;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .case-main-img img{ max-width:70%; max-height:80%; object-fit:contain; }
@@ -997,8 +949,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  position:relative;
-  z-index:1;
+  position:relative; z-index:1;
 }
 .case-name{
   color:#fff;
@@ -1025,8 +976,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   display:grid;
   grid-template-columns:repeat(3, 1fr);
   gap:6px;
-  position:relative;
-  z-index:1;
+  position:relative; z-index:1;
 }
 .case-reward{
   aspect-ratio:1/1;
@@ -1066,8 +1016,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   font-size:11px; font-weight:600; letter-spacing:1.2px;
   transition:.15s;
   border-radius:10px;
-  position:relative;
-  z-index:1;
+  position:relative; z-index:1;
   text-transform:uppercase;
   border:1px solid rgba(255,255,255,.04);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
@@ -1558,11 +1507,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     0 20px 50px rgba(0,0,0,.7);
   overflow:hidden;
 }
-.smile-inner{
-  position:relative;
-  width:64px;
-  height:64px;
-}
+.smile-inner{ position:relative; width:64px; height:64px; }
 .smile-eye{
   position:absolute;
   top:12px;
@@ -1584,11 +1529,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-radius:3px;
   box-shadow:0 0 8px rgba(255,255,255,.5);
 }
-.profile-name{
-  font-size:17px;
-  font-weight:600;
-  color:#fff;
-}
+.profile-name{ font-size:17px; font-weight:600; color:#fff; }
 .profile-handle{
   font-size:11px;
   color:var(--txt-4);
@@ -1701,9 +1642,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-color:rgba(255,255,255,.08);
   color:#fff;
 }
-.action-btn .left{
-  display:flex; align-items:center; gap:12px;
-}
+.action-btn .left{ display:flex; align-items:center; gap:12px; }
 .action-btn .ico{ font-size:15px; color:var(--txt-3); }
 
 /* ========== ADMIN ========== */
@@ -1887,10 +1826,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   background:var(--red-dim); color:var(--red); border:1px solid rgba(239,68,68,.15);
 }
 .admin-action.delete:hover{ background:var(--red); color:#fff; border-color:var(--red); }
-.admin-action.finish{
-  background:var(--green-dim); color:var(--green); border:1px solid rgba(34,197,94,.2);
-}
-.admin-action.finish:hover{ background:var(--green); color:#fff; border-color:var(--green); }
 .admin-empty{
   text-align:center;
   padding:28px 14px;
@@ -2011,7 +1946,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
 <div class="app">
 
-  <!-- ===== TOPBAR ===== -->
   <header class="topbar">
     <div class="brand-wrap">
       <div class="brand-mark">S</div>
@@ -2030,7 +1964,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     </div>
   </header>
 
-  <!-- ===== NAV ===== -->
   <nav class="top-nav" aria-label="Навигация">
     <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
       <span class="nav-icon">⌂</span><span>Апгрейдер</span>
@@ -2095,10 +2028,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
           <div class="wheel-wrap">
             <div class="wheel" id="wheel">
-              <div class="wheel-labels">
-                <div class="lbl-green" id="lblGreen">WIN</div>
-                <div class="lbl-red" id="lblRed">LOSE</div>
-              </div>
               <div class="pointer-wrap" id="pointerWrap">
                 <div class="pointer"></div>
               </div>
@@ -2342,14 +2271,10 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
                 <div style="color:#fff;font-weight:600;margin-bottom:6px">Saint UP</div>
                 <div>Пополняй и делай up up. Апгрейди браинротов, играй в монетку, открывай кейсы — собирай лучшие предметы и увеличивай свой баланс.</div>
               </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
                   <div class="pstat-label">Версия</div>
-                  <div class="pstat-value" style="font-size:14px">v2.0</div>
-                </div>
-                <div class="pstat">
-                  <div class="pstat-label">Сезон</div>
-                  <div class="pstat-value" style="font-size:14px">Season 1</div>
+                  <div class="pstat-value" style="font-size:14px">v 1.0</div>
                 </div>
               </div>
             </div>
@@ -2588,11 +2513,11 @@ let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
 
-const PROFILE_KEY = 'upgrader_profile_v4';
-const USERS_KEY = 'upgrader_users_v4';
+const PROFILE_KEY = 'upgrader_profile_v5';
+const USERS_KEY = 'upgrader_users_v5';
 const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
-const STATS_KEY = 'upgrader_stats_v2';
-const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v2';
+const STATS_KEY = 'upgrader_stats_v3';
+const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v3';
 let withdrawals = [];
 let promoCodes = [];
 let profile = null;
@@ -2789,7 +2714,7 @@ function renderProfile(){
     if(usernameEl) usernameEl.textContent = fullName;
     if(handleEl) handleEl.textContent = username ? '@'+username : 'ID: '+tgUser.id;
   } else {
-    if(usernameEl) usernameEl.textContent = 'Browser';
+    if(usernameEl) usernameEl.textContent = 'Saint UP';
     if(handleEl) handleEl.textContent = '@' + (profile?.username || 'user');
   }
 
@@ -2836,27 +2761,16 @@ function switchAdminTab(tab, btn){
 }
 
 /* =========================================================
-   CHANCES  —  ПЕРЕРАБОТАНО
-   Правила:
-     - если target <= source  →  0% (нельзя апгрейдить на дешевле)
-     - 1 → 2   = 50%
-     - 2 → 10  = 20%
-     - 10 → 30 = 33%
-     - общий принцип: chance = (from/to) * 50, в диапазоне [2; 95]
+   CHANCES  —  100 / ratio
 ========================================================= */
 function calculateChance(fromP, toP){
   if(!fromP || !toP) return 0;
-  if(toP <= fromP) return 0; /* апгрейд на дешевле/равное — запрещён */
-
-  /* Спец-правила */
-  if(fromP === 1 && toP === 2)   return 50;
-  if(fromP === 2 && toP === 10)  return 20;
-  if(fromP === 10 && toP === 30) return 33;
-
-  let c = (fromP/toP)*50;
-  if(c < 2) c = 2;
+  if(toP <= fromP) return 0;
+  const ratio = toP / fromP;
+  let c = 100 / ratio;
+  if(c < 1) c = 1;
   if(c > 95) c = 95;
-  return Math.round(c*10)/10;
+  return Math.round(c * 10) / 10;
 }
 function getUpgradeChance(){
   if(sourceItem === null || targetItem === null) return 0;
@@ -3210,10 +3124,6 @@ function updateDisplayedChance(){
   const c = getUpgradeChance();
   wheelChance.textContent = c+'%';
   wheel.style.setProperty('--wheel-chance', c);
-  const lg = document.getElementById('lblGreen');
-  const lr = document.getElementById('lblRed');
-  if(lg) lg.textContent = 'WIN ' + c.toFixed(1) + '%';
-  if(lr) lr.textContent = 'LOSE ' + (100-c).toFixed(1) + '%';
   if(wheelSub){
     if(sourceItem !== null && targetItem !== null){
       const src = getInventoryItem(sourceItem);
