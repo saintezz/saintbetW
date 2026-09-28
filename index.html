@@ -829,41 +829,68 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .item-chance.zero{ color:var(--red); }
 
 /* ========== SHOP ========== */
-.shop-items{ display:flex; flex-direction:column; gap:6px; }
-.shop-item{
-  padding:10px 11px;
+.shop-items{
   display:grid;
-  grid-template-columns:44px 1fr auto;
-  gap:10px;
-  align-items:center;
+  grid-template-columns: repeat(4, 1fr);
+  gap:8px;
+}
+.shop-item{
+  padding:11px 6px 9px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:5px;
+  cursor:pointer;
   background:
     linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
   backdrop-filter:blur(16px);
   -webkit-backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,.03);
   border-radius:12px;
-  transition:.15s;
+  transition:.18s;
+  position:relative;
+  min-height:126px;
+  text-align:center;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .shop-item:hover{
   border-color:rgba(255,255,255,.1);
   background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+  transform:translateY(-1px);
 }
-.shop-item-img{ width:38px; height:38px; object-fit:contain; }
-.shop-item-info{ min-width:0; display:flex; flex-direction:column; gap:2px; }
+.shop-item-img{ width:44px; height:44px; object-fit:contain; }
 .shop-item-name{
-  color:var(--txt-2); font-size:11px; font-weight:500;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-size:10px;
+  color:var(--txt-2);
+  font-weight:500;
+  line-height:1.2;
+  min-height:24px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  word-break:break-word;
 }
-.shop-item-price{ color:#fff; font-size:11px; font-weight:500; }
-.buy-btn{
-  height:32px; padding:0 14px;
+.shop-item-price{
+  font-size:11px;
+  color:#fff;
+  font-weight:500;
+}
+.shop-item-chance{
+  font-size:9px;
+  color:var(--green);
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+}
+.shop-buy{
+  width:100%;
+  height:26px;
+  margin-top:4px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
   backdrop-filter:blur(20px) saturate(150%);
   -webkit-backdrop-filter:blur(20px) saturate(150%);
   color:#fff;
-  font-size:10px;
+  font-size:9px;
   font-weight:600;
   letter-spacing:.4px;
   border-radius:8px;
@@ -872,8 +899,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border:1px solid rgba(255,255,255,.04);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
 }
-.buy-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
-.buy-btn:disabled{ opacity:.3; cursor:not-allowed; }
+.shop-buy:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
+.shop-buy:disabled{ opacity:.3; cursor:not-allowed; }
 
 /* ========== CASES ========== */
 .cases-grid{
@@ -1161,229 +1188,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .case-close-btn.show{ opacity:1; pointer-events:auto; }
 .case-close-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
-
-/* ========== COIN ========== */
-.coin-grid{
-  display:grid;
-  grid-template-columns: 380px 1fr;
-  gap:16px;
-  align-items:start;
-}
-.coin-stage-wrap{
-  padding:26px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:22px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-  backdrop-filter:blur(28px) saturate(150%);
-  -webkit-backdrop-filter:blur(28px) saturate(150%);
-  border:1px solid rgba(255,255,255,.035);
-  border-radius:var(--radius-lg);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.07),
-    0 16px 44px rgba(0,0,0,.65);
-}
-.coin-stage{
-  position:relative;
-  width:210px; height:210px;
-  display:flex; align-items:center; justify-content:center;
-  perspective:1200px;
-}
-.coin-stage::before{
-  content:"";
-  position:absolute;
-  bottom:8px;
-  width:140px; height:18px;
-  border-radius:50%;
-  background:radial-gradient(ellipse, rgba(255,255,255,.12), transparent 70%);
-  filter:blur(8px);
-}
-.coin{
-  width:170px; height:170px;
-  position:relative;
-  transform-style:preserve-3d;
-  transition:transform 2.4s cubic-bezier(.15,.75,.2,1);
-}
-.coin-face{
-  position:absolute; inset:0;
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:54px; font-weight:600; color:#fff;
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.02));
-  backdrop-filter:blur(30px) saturate(150%);
-  -webkit-backdrop-filter:blur(30px) saturate(150%);
-  border:1px solid rgba(255,255,255,.04);
-  box-shadow:
-    inset 0 2px 0 rgba(255,255,255,.18),
-    inset 0 -6px 14px rgba(0,0,0,.5),
-    0 20px 50px rgba(0,0,0,.75);
-}
-.coin-face.tails{
-  transform:rotateY(180deg);
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.008));
-}
-.coin.spin{ animation:coinSpin 2.4s cubic-bezier(.15,.75,.2,1) forwards; }
-@keyframes coinSpin{
-  0%{ transform:rotateY(0); }
-  100%{ transform:rotateY(1800deg); }
-}
-
-.coin-choice{
-  display:grid; grid-template-columns:1fr 1fr; gap:8px;
-  width:100%;
-}
-.coin-choice-btn{
-  height:54px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,.03);
-  color:var(--txt-3);
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:.4px;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  transition:.2s;
-  border-radius:12px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
-}
-.coin-choice-btn:hover{
-  color:var(--txt-2);
-  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
-  border-color:rgba(255,255,255,.08);
-}
-.coin-choice-btn.active{
-  border-color:rgba(255,255,255,.16);
-  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
-  color:#fff;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.16),
-    0 0 30px rgba(255,255,255,.04);
-}
-.coin-choice-btn .ico{ font-size:18px; font-weight:500; }
-
-.bet-row{ display:flex; gap:6px; width:100%; }
-.bet-input{
-  flex:1;
-  height:46px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:12px;
-  padding:0 14px;
-  font-size:15px;
-  font-weight:500;
-  color:#fff;
-  outline:none;
-  transition:.15s;
-  font-family:"JetBrains Mono",monospace;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-}
-.bet-input:focus{ border-color:rgba(255,255,255,.15); }
-.bet-shortcuts{ display:flex; gap:4px; }
-.bet-shortcut{
-  height:46px;
-  padding:0 12px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.03);
-  color:var(--txt-4);
-  font-size:10px;
-  font-weight:500;
-  transition:.15s;
-  border-radius:12px;
-  font-family:"JetBrains Mono",monospace;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-}
-.bet-shortcut:hover{
-  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
-  color:var(--txt-2);
-}
-
-.coin-play{
-  width:100%;
-  height:48px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  backdrop-filter:blur(24px) saturate(150%);
-  -webkit-backdrop-filter:blur(24px) saturate(150%);
-  color:#fff;
-  font-size:12px;
-  font-weight:600;
-  letter-spacing:1.2px;
-  transition:.15s;
-  border-radius:12px;
-  text-transform:uppercase;
-  border:1px solid rgba(255,255,255,.04);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
-}
-.coin-play:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
-.coin-play:disabled{ opacity:.4; cursor:not-allowed; }
-
-.coin-result{
-  min-height:22px;
-  text-align:center;
-  font-size:12px;
-  font-weight:500;
-  color:var(--txt-4);
-  font-family:"JetBrains Mono",monospace;
-}
-.coin-result.win{ color:var(--green); }
-.coin-result.lose{ color:var(--red); }
-
-.coin-stats-grid{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:10px;
-}
-.coin-stat-card{
-  padding:14px 16px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,.01));
-  backdrop-filter:blur(22px) saturate(150%);
-  -webkit-backdrop-filter:blur(22px) saturate(150%);
-  border:1px solid rgba(255,255,255,.035);
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-}
-.coin-stat-ico{
-  width:40px; height:40px;
-  border-radius:12px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
-  border:1px solid rgba(255,255,255,.03);
-  display:flex; align-items:center; justify-content:center;
-  font-size:16px;
-  color:var(--txt-3);
-  flex-shrink:0;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
-}
-.coin-stat-info{ flex:1; display:flex; flex-direction:column; gap:3px; }
-.coin-stat-label{
-  font-size:10px;
-  color:var(--txt-4);
-  letter-spacing:.4px;
-  font-weight:500;
-}
-.coin-stat-value{
-  font-size:17px;
-  font-weight:500;
-  color:#fff;
-  font-family:"JetBrains Mono",monospace;
-}
 
 /* ========== ROCKET ========== */
 .rocket-grid{
@@ -2320,14 +2124,15 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .layout{ grid-template-columns: 280px 1fr; }
   .layout > *:nth-child(3){ grid-column: 1 / -1; }
   .items-grid{ grid-template-columns: repeat(6, 1fr); }
+  .shop-items{ grid-template-columns: repeat(6, 1fr); }
   .rocket-grid{ grid-template-columns:1fr; }
 }
 @media(max-width:820px){
   .layout{ grid-template-columns:1fr; }
   .layout > *{ grid-column:auto!important; }
   .items-grid{ grid-template-columns: repeat(4, 1fr); }
+  .shop-items{ grid-template-columns: repeat(4, 1fr); }
   .profile-grid{ grid-template-columns:1fr; }
-  .coin-grid{ grid-template-columns:1fr; }
   .rocket-grid{ grid-template-columns:1fr; }
   .slot-row{ grid-template-columns:1fr 1fr 1fr; gap:12px; }
 }
@@ -2337,6 +2142,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .wheel{ width:160px; height:160px; }
   .wheel-chance{ font-size:26px; }
   .items-grid{ grid-template-columns: repeat(3, 1fr); }
+  .shop-items{ grid-template-columns: repeat(3, 1fr); }
   .cases-grid{ grid-template-columns:1fr; }
   .stats-row{ grid-template-columns:1fr; }
   .nav-btn{ padding:0 12px; font-size:10px; }
@@ -2383,9 +2189,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   <nav class="top-nav" aria-label="Навигация">
     <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
       <span class="nav-icon">⌂</span><span>Апгрейдер</span>
-    </button>
-    <button class="nav-btn" id="navCoin" type="button" onclick="showTab('coin')">
-      <span class="nav-icon">◉</span><span>Монетка</span>
     </button>
     <button class="nav-btn" id="navRocket" type="button" onclick="showTab('rocket')">
       <span class="nav-icon">▲</span><span>Ракетка</span>
@@ -2532,72 +2335,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
       </div>
       <div class="panel-body tight">
         <div class="shop-items" id="shopItems"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== МОНЕТКА ===== -->
-  <section class="tab-panel" data-tab="coin" hidden>
-    <div class="coin-grid">
-      <div class="coin-stage-wrap">
-        <div class="coin-stage">
-          <div class="coin" id="coin">
-            <div class="coin-face heads">О</div>
-            <div class="coin-face tails">Р</div>
-          </div>
-        </div>
-
-        <div class="coin-choice">
-          <div class="coin-choice-btn active" id="coinChoiceHeads" onclick="pickCoinSide('heads')">
-            <span class="ico">О</span><span>Орёл</span>
-          </div>
-          <div class="coin-choice-btn" id="coinChoiceTails" onclick="pickCoinSide('tails')">
-            <span class="ico">Р</span><span>Решка</span>
-          </div>
-        </div>
-
-        <div class="bet-row">
-          <input class="bet-input" id="coinBetInput" type="number" min="1" placeholder="Ставка" value="10">
-          <div class="bet-shortcuts">
-            <button class="bet-shortcut" onclick="setCoinBet('min')">MIN</button>
-            <button class="bet-shortcut" onclick="setCoinBet('half')">½</button>
-            <button class="bet-shortcut" onclick="setCoinBet('max')">MAX</button>
-          </div>
-        </div>
-
-        <button class="coin-play" id="coinPlayBtn" onclick="flipCoin()">Подбросить монетку</button>
-        <div class="coin-result" id="coinResult">выбери сторону и ставку</div>
-      </div>
-
-      <div class="coin-stats-grid">
-        <div class="coin-stat-card">
-          <div class="coin-stat-ico">◈</div>
-          <div class="coin-stat-info">
-            <div class="coin-stat-label">Побед подряд</div>
-            <div class="coin-stat-value" id="coinStreak">0</div>
-          </div>
-        </div>
-        <div class="coin-stat-card">
-          <div class="coin-stat-ico">✦</div>
-          <div class="coin-stat-info">
-            <div class="coin-stat-label">Всего игр</div>
-            <div class="coin-stat-value" id="coinGames">0</div>
-          </div>
-        </div>
-        <div class="coin-stat-card">
-          <div class="coin-stat-ico">◐</div>
-          <div class="coin-stat-info">
-            <div class="coin-stat-label">Прошлый результат</div>
-            <div class="coin-stat-value" id="coinLast">—</div>
-          </div>
-        </div>
-        <div class="coin-stat-card">
-          <div class="coin-stat-ico">%</div>
-          <div class="coin-stat-info">
-            <div class="coin-stat-label">Шанс победы</div>
-            <div class="coin-stat-value" style="color:var(--green)">50%</div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -2752,7 +2489,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
             <div class="pstat-value green" id="pfWinrate">0%</div>
           </div>
           <div class="pstat">
-            <div class="pstat-label">Монеток</div>
+            <div class="pstat-label">Кристаллов</div>
             <div class="pstat-value" id="pfCoins">0</div>
           </div>
           <div class="pstat">
@@ -2764,9 +2501,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
         <div class="profile-actions">
           <button class="action-btn" onclick="showTab('game')">
             <span class="left"><span class="ico">⌂</span><span>Перейти в апгрейдер</span></span>
-          </button>
-          <button class="action-btn" onclick="showTab('coin')">
-            <span class="left"><span class="ico">◉</span><span>Играть в монетку</span></span>
           </button>
           <button class="action-btn" onclick="showTab('rocket')">
             <span class="left"><span class="ico">▲</span><span>Играть в ракетку</span></span>
@@ -2786,7 +2520,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
             <div style="display:flex;flex-direction:column;gap:14px;font-size:12px;color:var(--txt-3);line-height:1.6">
               <div>
                 <div style="color:#fff;font-weight:600;margin-bottom:6px">Saint UP</div>
-                <div>Пополняй и делай up up. Апгрейди браинротов, играй в монетку и ракетку, открывай кейсы — собирай лучшие предметы и увеличивай свой баланс.</div>
+                <div>Пополняй и делай up up. Апгрейди браинротов, играй в ракетку, открывай кейсы — собирай лучшие предметы и увеличивай свой баланс.</div>
               </div>
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
@@ -2980,22 +2714,33 @@ function showParticles(x,y,color,count){
 }
 
 /* =========================================================
-   ITEMS
+   ITEMS  — ДОБАВЛЕНЫ НОВЫЕ БРАИНРОТЫ
 ========================================================= */
 const items = [
-  { name:'La Grande Combination', price:1,     img:'Grande.png' },
-  { name:'Money Money Puggy',     price:3,     img:'Mops.png' },
-  { name:'Bananito',              price:7,     img:'Bananchik.png' },
-  { name:'Tang Tang Keletang',    price:15,    img:'TangTangKeletang.png' },
-  { name:'Ketchuru and Musturu',  price:27,    img:'Ketchuru.png' },
-  { name:'Garama and Madundung',  price:41,    img:'Garama.png' },
-  { name:'capitano moby',         price:100,   img:'capitan.png' },
-  { name:'Cerberus',              price:140,   img:'Cerberus.png' },
-  { name:'Dragon Cannelloni',     price:900,   img:'Dragon.png' },
-  { name:'Kraken',                price:3000,  img:'kraken.png' },
-  { name:'Dragon Gingerini',      price:7000,  img:'dragongingerini.png' },
-  { name:'Skibidi toilet',        price:13000, img:'Skibidi.png' },
-  { name:'Strawberry Elephant',   price:25000, img:'strawberry.png' }
+  { name:'La Grande Combination',    price:1,     img:'Grande.png' },
+  { name:'Money Money Puggy',        price:3,     img:'Mops.png' },
+  { name:'Bananito',                 price:7,     img:'Bananchik.png' },
+  { name:'Tang Tang Keletang',       price:15,    img:'TangTangKeletang.png' },
+  { name:'Ketupat Kepat',            price:19,    img:'ketupat.png' },
+  { name:'Tictac Sahur',             price:20,    img:'tictac.png' },
+  { name:'Ketchuru and Musturu',     price:27,    img:'Ketchuru.png' },
+  { name:'Garama and Madundung',     price:41,    img:'Garama.png' },
+  { name:'Yeti Matic',               price:60,    img:'yetimatic.png' },
+  { name:'capitano moby',            price:100,   img:'capitan.png' },
+  { name:'Spooky and Pumpkin',       price:120,   img:'spooky.png' },
+  { name:'Cerberus',                 price:140,   img:'Cerberus.png' },
+  { name:'La Craft Machine',         price:145,   img:'lacraft.png' },
+  { name:'La Fuse Machine',          price:160,   img:'lafuse.png' },
+  { name:'Gold and Diamond',         price:200,   img:'gold.png' },
+  { name:'Ketupat Bros',             price:500,   img:'ketupatbros.png' },
+  { name:'Hydra Cerpent',            price:700,   img:'serpent.png' },
+  { name:'Dragon Cannelloni',        price:900,   img:'Dragon.png' },
+  { name:'Hydra Dragon Cannelloni',  price:1150,  img:'hydradrag.png' },
+  { name:'Dragon Aquanini',          price:2599,  img:'dragaqua.png' },
+  { name:'Kraken',                   price:3000,  img:'kraken.png' },
+  { name:'Dragon Gingerini',         price:7000,  img:'dragongingerini.png' },
+  { name:'Skibidi toilet',           price:13000, img:'Skibidi.png' },
+  { name:'Strawberry Elephant',      price:25000, img:'strawberry.png' }
 ];
 
 function getCrystalHtml(){ return `<span style="font-size:11px;opacity:.7;">💎</span>`; }
@@ -3028,22 +2773,16 @@ let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
 
-const PROFILE_KEY = 'upgrader_profile_v7';
-const USERS_KEY = 'upgrader_users_v7';
+const PROFILE_KEY = 'upgrader_profile_v8';
+const USERS_KEY = 'upgrader_users_v8';
 const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
-const STATS_KEY = 'upgrader_stats_v5';
-const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v5';
+const STATS_KEY = 'upgrader_stats_v6';
+const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v6';
 let withdrawals = [];
 let promoCodes = [];
 let profile = null;
 let users = {};
 let stats = { upgrades:0, wins:0, losses:0, coins:0, coinWins:0, rocket:0, rocketWins:0, rocketLosses:0, rocketBest:1 };
-
-let coinSide = 'heads';
-let coinStreak = 0;
-let coinGames = 0;
-let coinLast = null;
-let coinFlipping = false;
 
 /* Rocket state */
 let rocketState = 'idle';
@@ -3062,7 +2801,7 @@ let rocketBetItemName = '';
 
 const CASES = [
   { id:'noobini', name:'КЕЙС НУБИНИ', img:'NOOBINI1CASE.png', price:17,
-    rewards:[{itemIndex:1},{itemIndex:3},{itemIndex:5}] }
+    rewards:[{itemIndex:1},{itemIndex:3},{itemIndex:7}] }
 ];
 
 /* =========================================================
@@ -3266,7 +3005,7 @@ function renderProfile(){
   document.getElementById('pfUpgrades').textContent = stats.upgrades;
   const wr = stats.upgrades>0 ? Math.round((stats.wins/stats.upgrades)*100) : 0;
   document.getElementById('pfWinrate').textContent = wr + '%';
-  document.getElementById('pfCoins').textContent = stats.coins;
+  document.getElementById('pfCoins').textContent = balance;
   document.getElementById('pfInv').textContent = inventory.length;
 
   if(isAdmin()){
@@ -3328,26 +3067,35 @@ const balanceEl = document.getElementById('balance');
 const stageBadge = document.getElementById('stageBadge');
 
 /* =========================================================
-   SHOP
+   SHOP  — мини-карточки
 ========================================================= */
 function renderShop(){
   shopGrid.innerHTML = '';
   const cnt = document.getElementById('shopCount');
   if(cnt) cnt.textContent = items.length;
+
+  // Для расчёта шанса в магазине используем текущий источник (если выбран)
+  const srcItem = sourceItem !== null ? getInventoryItem(sourceItem) : null;
+
   items.forEach((item,index)=>{
-    const row = document.createElement('div');
-    row.className = 'shop-item';
     const affordable = balance >= item.price;
-    row.innerHTML = `
-      ${getItemImgHtml(item, 'shop-item-img')}
-      <div class="shop-item-info">
-        <div class="shop-item-name">${escapeHtml(item.name)}</div>
-        <div class="shop-item-price">${item.price} ${getCrystalHtml()}</div>
-      </div>
-      <button class="buy-btn" ${affordable ? '' : 'disabled'}>Купить</button>
+    const chance = srcItem ? calculateChance(srcItem.price, item.price) : null;
+
+    let chanceCls = '';
+    if(chance !== null && chance === 0) chanceCls = 'zero';
+
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'shop-item';
+    card.innerHTML = `
+      ${getItemImgHtml(item,'shop-item-img')}
+      <div class="shop-item-name">${escapeHtml(item.name)}</div>
+      <div class="shop-item-price">${item.price} 💎</div>
+      <div class="shop-item-chance ${chance === null ? '' : chanceCls}">${chance === null ? '— %' : chance + '%'}</div>
+      <button class="shop-buy" ${affordable ? '' : 'disabled'}>Купить</button>
     `;
-    row.querySelector('.buy-btn').onclick = e => { e.stopPropagation(); buyItem(index); };
-    shopGrid.appendChild(row);
+    card.querySelector('.shop-buy').onclick = e => { e.stopPropagation(); buyItem(index); };
+    shopGrid.appendChild(card);
   });
 }
 
@@ -3640,13 +3388,21 @@ function selectSource(idx){
   if(!item) return;
   sourceItem = idx;
   updateSourceSlotDisplay();
-  renderInventory(); renderTargets(); updateTop();
+  renderInventory(); renderTargets(); renderShop(); updateTop();
 }
 function selectTarget(idx){
   if(spinning) return;
   targetItem = idx;
   updateTargetSlotDisplay();
   renderTargets(); updateTop();
+
+  // Подскроллить к разделу "Выбрать цель" когда выбрал вторую сторону
+  const targetPanel = document.getElementById('targetPanel');
+  if(targetPanel){
+    setTimeout(()=>{
+      targetPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 80);
+  }
 }
 function clearSourceDisplay(){
   sourceSlot.classList.remove('selected');
@@ -3784,86 +3540,6 @@ function performUpgrade(durationMs){
 function upgrade(){ performUpgrade(1800); }
 function fastUpgrade(){ performUpgrade(500); }
 function filterItems(){ renderTargets(); }
-
-/* =========================================================
-   COIN
-========================================================= */
-function pickCoinSide(side){
-  if(coinFlipping) return;
-  coinSide = side;
-  document.getElementById('coinChoiceHeads').classList.toggle('active', side === 'heads');
-  document.getElementById('coinChoiceTails').classList.toggle('active', side === 'tails');
-}
-function setCoinBet(mode){
-  const input = document.getElementById('coinBetInput');
-  if(mode === 'min') input.value = 1;
-  else if(mode === 'half') input.value = Math.max(1, Math.floor(balance/2));
-  else if(mode === 'max') input.value = Math.max(1, Math.floor(balance));
-}
-async function flipCoin(){
-  if(coinFlipping) return;
-  const betInput = document.getElementById('coinBetInput');
-  const resultEl = document.getElementById('coinResult');
-  const coinEl = document.getElementById('coin');
-  const playBtn = document.getElementById('coinPlayBtn');
-
-  const bet = Math.floor(Number(betInput.value) || 0);
-  if(bet < 1){ resultEl.className = 'coin-result lose'; resultEl.textContent = 'Минимальная ставка 1 💎'; return; }
-  if(bet > balance){ resultEl.className = 'coin-result lose'; resultEl.textContent = 'Недостаточно кристаллов'; return; }
-
-  coinFlipping = true;
-  playBtn.disabled = true;
-  resultEl.className = 'coin-result';
-  resultEl.textContent = 'Монетка крутится...';
-
-  const win = Math.random() < 0.5;
-  const landed = win ? coinSide : (coinSide === 'heads' ? 'tails' : 'heads');
-  const delta = win ? bet : -bet;
-  const coinRes = await serverUpdateBalance(delta);
-  if(coinRes?.balance !== undefined) balance = Number(coinRes.balance);
-
-  coinEl.classList.remove('spin');
-  void coinEl.offsetWidth;
-  coinEl.classList.add('spin');
-
-  setTimeout(()=>{
-    coinFlipping = false;
-    playBtn.disabled = false;
-    coinGames++;
-    stats.coins++;
-    if(win){ coinStreak++; stats.coinWins++; } else { coinStreak = 0; }
-    coinLast = landed;
-    saveStats();
-    document.getElementById('coinStreak').textContent = coinStreak;
-    document.getElementById('coinGames').textContent = coinGames;
-    document.getElementById('coinLast').textContent = landed === 'heads' ? 'Орёл' : 'Решка';
-
-    if(win){
-      resultEl.className = 'coin-result win';
-      resultEl.textContent = `Победа +${bet} 💎 (${landed === 'heads' ? 'Орёл' : 'Решка'})`;
-      showToast(`Монетка: победа +${bet} 💎`, 'success');
-      const cx = window.innerWidth/2, cy = window.innerHeight/2;
-      showFlash(cx, cy, 'rgba(255,255,255,.5)', 320);
-      showParticles(cx, cy, '#fff', 24);
-      if(window.snowBurst) window.snowBurst(cx, cy, 30, '255,255,255');
-    } else {
-      resultEl.className = 'coin-result lose';
-      resultEl.textContent = `Проигрыш -${bet} 💎 (${landed === 'heads' ? 'Орёл' : 'Решка'})`;
-      showToast(`Монетка: проигрыш -${bet} 💎`, 'error');
-    }
-    balanceEl.textContent = balance;
-    renderProfile();
-  }, 2400);
-}
-function renderCoinState(){
-  document.getElementById('coinStreak').textContent = coinStreak;
-  document.getElementById('coinGames').textContent = coinGames;
-  document.getElementById('coinLast').textContent = coinLast ? (coinLast === 'heads' ? 'Орёл' : 'Решка') : '—';
-  document.getElementById('coinChoiceHeads').classList.toggle('active', coinSide === 'heads');
-  document.getElementById('coinChoiceTails').classList.toggle('active', coinSide === 'tails');
-  const inp = document.getElementById('coinBetInput');
-  if(!inp.value) inp.value = Math.min(10, Math.max(1, Math.floor(balance)));
-}
 
 /* =========================================================
    ROCKET
@@ -4101,7 +3777,7 @@ function cashOutRocket(){
   resetRocketUI();
   updateRocketStats();
   renderProfile();
-  renderInventory(); renderTargets(); renderRocketItems();
+  renderInventory(); renderTargets(); renderRocketItems(); renderShop();
 }
 
 function crashRocket(){
@@ -4135,7 +3811,7 @@ function crashRocket(){
   resetRocketUI();
   updateRocketStats();
   renderProfile();
-  renderInventory(); renderTargets(); renderRocketItems();
+  renderInventory(); renderTargets(); renderRocketItems(); renderShop();
 }
 
 function resetRocketUI(){
@@ -4176,7 +3852,6 @@ function showTab(tab){
     tab === 'profile' ? 'navProfile' :
     tab === 'promo' ? 'navPromo' :
     tab === 'cases' ? 'navCases' :
-    tab === 'coin' ? 'navCoin' :
     tab === 'rocket' ? 'navRocket' : 'navGame'
   );
   if(nav) nav.classList.add('active');
@@ -4185,7 +3860,6 @@ function showTab(tab){
     loadPromoCodesFromServer();
   }
   if(tab === 'cases') renderCases();
-  if(tab === 'coin') renderCoinState();
   if(tab === 'rocket'){
     updateRocketStats();
     renderRocketHistory();
@@ -4407,7 +4081,6 @@ loadProfileData();
 syncTelegramUserWithServer();
 renderAll();
 updateTop();
-renderCoinState();
 renderRocketHistory();
 updateRocketStats();
 renderRocketItems();
