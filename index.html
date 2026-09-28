@@ -102,6 +102,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   margin-bottom:22px;
 }
 .brand-wrap{ display:flex; align-items:center; gap:14px; }
+
 .brand-mark{
   width:44px; height:44px;
   border-radius:12px;
@@ -110,10 +111,24 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   backdrop-filter:blur(20px) saturate(140%);
   -webkit-backdrop-filter:blur(20px) saturate(140%);
   display:flex; align-items:center; justify-content:center;
-  font-size:16px; font-weight:700; color:#fff;
   border:1px solid rgba(255,255,255,.04);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  overflow:hidden;
+  flex-shrink:0;
+  font-size:16px; font-weight:700; color:#fff;
 }
+.brand-mark img{
+  width:100%; height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  padding:5px;
+  box-sizing:border-box;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.2));
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
 .brand{ display:flex; flex-direction:column; gap:3px; }
 .brand-name{
   font-size:20px;
@@ -401,14 +416,20 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   font-size:10px; font-weight:500; letter-spacing:.4px; color:inherit;
 }
 .slot-empty-sub{ font-size:9px; color:var(--txt-5); letter-spacing:.2px; }
+
+/* Slot item image — always fully contained */
 .slot-item-img{
-  width:auto;
-  height:auto;
-  max-width:100%;
+  width:100%;
+  height:100%;
+  max-width:64px;
   max-height:64px;
   object-fit:contain;
+  object-position:center;
   display:block;
+  margin:0 auto;
   flex-shrink:0;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 .slot-item-name{
   font-size:11px;
@@ -620,7 +641,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .inv-item{
   padding:10px 11px;
   display:grid;
-  grid-template-columns:44px 1fr auto;
+  grid-template-columns:48px 1fr auto;
   gap:10px;
   align-items:center;
   cursor:pointer;
@@ -652,7 +673,18 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-radius:2px;
   box-shadow:0 0 8px rgba(255,255,255,.5);
 }
-.inv-item-img{ width:36px; height:36px; object-fit:contain; }
+.inv-item-img{
+  width:100%;
+  height:100%;
+  max-width:44px;
+  max-height:44px;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 .inv-item-info{ min-width:0; display:flex; flex-direction:column; gap:2px; }
 .inv-item-name{
   font-size:11px;
@@ -774,7 +806,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-radius:12px;
   transition:.18s;
   position:relative;
-  min-height:126px;
+  min-height:140px;
   text-align:center;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
@@ -801,7 +833,19 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   display:flex; align-items:center; justify-content:center;
   font-weight:700;
 }
-.item-img{ width:44px; height:44px; object-fit:contain; }
+.item-img{
+  width:64px !important;
+  height:64px !important;
+  max-width:100% !important;
+  max-height:64px !important;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));
+}
 .item-name{
   font-size:10px;
   color:var(--txt-2);
@@ -848,7 +892,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-radius:12px;
   transition:.18s;
   position:relative;
-  min-height:126px;
+  min-height:150px;
   text-align:center;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
@@ -857,7 +901,19 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
   transform:translateY(-1px);
 }
-.shop-item-img{ width:44px; height:44px; object-fit:contain; }
+.shop-item-img{
+  width:64px !important;
+  height:64px !important;
+  max-width:100% !important;
+  max-height:64px !important;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));
+}
 .shop-item-name{
   font-size:10px;
   color:var(--txt-2);
@@ -881,6 +937,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   font-weight:500;
   font-family:"JetBrains Mono",monospace;
 }
+.shop-item-chance.zero{ color:var(--red); }
 .shop-buy{
   width:100%;
   height:26px;
@@ -1025,7 +1082,15 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   gap:4px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
-.case-reward img{ width:60%; height:60%; object-fit:contain; }
+.case-reward img{
+  width:70%;
+  height:70%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 .case-reward-name{
   font-size:9px;
   color:var(--txt-3);
@@ -1131,7 +1196,15 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   padding:10px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
-.case-strip-item img{ width:100%; height:100%; object-fit:contain; }
+.case-strip-item img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 .case-result{
   margin-top:22px;
   text-align:center;
@@ -1447,7 +1520,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .rocket-item{
   padding:8px 10px;
   display:grid;
-  grid-template-columns:32px 1fr auto;
+  grid-template-columns:36px 1fr auto;
   gap:8px;
   align-items:center;
   cursor:pointer;
@@ -1466,7 +1539,18 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
 }
-.rocket-item img{ width:28px; height:28px; object-fit:contain; }
+.rocket-item img{
+  width:100%;
+  height:100%;
+  max-width:32px;
+  max-height:32px;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 .rocket-item-info{ min-width:0; }
 .rocket-item-name{
   font-size:11px;
@@ -2150,6 +2234,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .brand-name{ font-size:16px; }
   .rocket-multiplier{ font-size:48px; }
   .rocket-chart{ height:340px; }
+  .item-img, .shop-item-img{ width:56px !important; height:56px !important; }
 }
 
 *{ scrollbar-color:rgba(255,255,255,.1) #000; scrollbar-width:thin; }
@@ -2170,7 +2255,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
   <header class="topbar">
     <div class="brand-wrap">
-      <div class="brand-mark">S</div>
+      <div class="brand-mark">
+        <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/logoforsp.png"
+             onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='S';this.parentElement.style.fontSize='16px';this.parentElement.style.fontWeight='700';this.parentElement.style.color='#fff';"
+             alt="Saint Up">
+      </div>
       <div class="brand">
         <div class="brand-name">Saint <span class="accent">Up</span></div>
         <div class="brand-tag">Пополняй и делай up up</div>
@@ -2714,7 +2803,7 @@ function showParticles(x,y,color,count){
 }
 
 /* =========================================================
-   ITEMS  — ДОБАВЛЕНЫ НОВЫЕ БРАИНРОТЫ
+   ITEMS
 ========================================================= */
 const items = [
   { name:'La Grande Combination',    price:1,     img:'Grande.png' },
@@ -2773,18 +2862,17 @@ let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
 
-const PROFILE_KEY = 'upgrader_profile_v8';
-const USERS_KEY = 'upgrader_users_v8';
+const PROFILE_KEY = 'upgrader_profile_v9';
+const USERS_KEY = 'upgrader_users_v9';
 const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
-const STATS_KEY = 'upgrader_stats_v6';
-const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v6';
+const STATS_KEY = 'upgrader_stats_v7';
+const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v7';
 let withdrawals = [];
 let promoCodes = [];
 let profile = null;
 let users = {};
 let stats = { upgrades:0, wins:0, losses:0, coins:0, coinWins:0, rocket:0, rocketWins:0, rocketLosses:0, rocketBest:1 };
 
-/* Rocket state */
 let rocketState = 'idle';
 let rocketCurrentMultiplier = 1;
 let rocketCrashAt = 0;
@@ -3067,31 +3155,28 @@ const balanceEl = document.getElementById('balance');
 const stageBadge = document.getElementById('stageBadge');
 
 /* =========================================================
-   SHOP  — мини-карточки
+   SHOP
 ========================================================= */
 function renderShop(){
   shopGrid.innerHTML = '';
   const cnt = document.getElementById('shopCount');
   if(cnt) cnt.textContent = items.length;
 
-  // Для расчёта шанса в магазине используем текущий источник (если выбран)
   const srcItem = sourceItem !== null ? getInventoryItem(sourceItem) : null;
 
   items.forEach((item,index)=>{
     const affordable = balance >= item.price;
     const chance = srcItem ? calculateChance(srcItem.price, item.price) : null;
-
     let chanceCls = '';
     if(chance !== null && chance === 0) chanceCls = 'zero';
 
-    const card = document.createElement('button');
-    card.type = 'button';
+    const card = document.createElement('div');
     card.className = 'shop-item';
     card.innerHTML = `
       ${getItemImgHtml(item,'shop-item-img')}
       <div class="shop-item-name">${escapeHtml(item.name)}</div>
       <div class="shop-item-price">${item.price} 💎</div>
-      <div class="shop-item-chance ${chance === null ? '' : chanceCls}">${chance === null ? '— %' : chance + '%'}</div>
+      <div class="shop-item-chance ${chanceCls}">${chance === null ? '— %' : chance + '%'}</div>
       <button class="shop-buy" ${affordable ? '' : 'disabled'}>Купить</button>
     `;
     card.querySelector('.shop-buy').onclick = e => { e.stopPropagation(); buyItem(index); };
@@ -3396,7 +3481,6 @@ function selectTarget(idx){
   updateTargetSlotDisplay();
   renderTargets(); updateTop();
 
-  // Подскроллить к разделу "Выбрать цель" когда выбрал вторую сторону
   const targetPanel = document.getElementById('targetPanel');
   if(targetPanel){
     setTimeout(()=>{
