@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const Database = require("better-sqlite3");
-const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
 
@@ -63,30 +62,6 @@ db.exec(`
     )
 `);
 
-try {
-    const shopCount = db.prepare("SELECT COUNT(*) as count FROM shop_items").get();
-    if (shopCount && shopCount.count === 0) {
-        const insertShopItem = db.prepare("INSERT INTO shop_items (name, price, stock) VALUES (?, ?, ?)");
-        const defaultShop = [
-            { name: "Ventoliero Pavonero", price: 40, stock: 2 },
-            { name: "Ketchuru and Musturu", price: 40, stock: 1 },
-            { name: "La Summer Grande", price: 30, stock: 2 },
-            { name: "Sand Sand Sand", price: 15, stock: 2 },
-            { name: "Ketupat Kepat", price: 25, stock: 2 },
-            { name: "Los Tangsitos", price: 40, stock: 2 },
-            { name: "Los Fruits", price: 19, stock: 1 },
-            { name: "La Ginger Sekolah", price: 45, stock: 1 },
-            { name: "Esok Sekolah", price: 10, stock: 1 },
-            { name: "La Jolly Grande", price: 50, stock: 1 }
-        ];
-        for (const item of defaultShop) {
-            insertShopItem.run(item.name, item.price, item.stock);
-        }
-    }
-} catch (e) {
-    console.error("Ошибка инициализации shop_items:", e);
-}
-
 db.exec(`
     CREATE TABLE IF NOT EXISTS promo_codes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -100,12 +75,6 @@ db.exec(`
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
 `);
-
-try { db.exec("ALTER TABLE promo_codes ADD COLUMN max_activations INTEGER DEFAULT 1"); } catch(e) {}
-try { db.exec("ALTER TABLE promo_codes ADD COLUMN activations INTEGER DEFAULT 1"); } catch(e) {}
-try { db.exec("ALTER TABLE promo_codes ADD COLUMN used_count INTEGER DEFAULT 0"); } catch(e) {}
-try { db.exec("ALTER TABLE promo_codes ADD COLUMN used INTEGER DEFAULT 0"); } catch(e) {}
-try { db.exec("ALTER TABLE promo_codes ADD COLUMN expires_at INTEGER DEFAULT 0"); } catch(e) {}
 
 db.exec(`
     CREATE TABLE IF NOT EXISTS promo_activations (
@@ -154,6 +123,36 @@ db.exec(`
     )
 `);
 
+// === НОВЫЕ ТАБЛИЦЫ ===
+
+// Статистика апгрейдера по игроку
+db.exec(`
+    CREATE TABLE IF NOT EXISTS stats (
+        telegram_id TEXT PRIMARY KEY,
+        upgrades INTEGER NOT NULL DEFAULT 0,
+        wins INTEGER NOT NULL DEFAULT 0,
+        losses INTEGER NOT NULL DEFAULT 0,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
+// Глобальная лента — только успешные апгрейды
+db.exec(`
+    CREATE TABLE IF NOT EXISTS live_feed (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        telegram_id TEXT NOT NULL,
+        username TEXT,
+        item_name TEXT NOT NULL,
+        item_price INTEGER NOT NULL DEFAULT 0,
+        chance REAL NOT NULL DEFAULT 0,
+        source_name TEXT,
+        source_price INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
+try { db.exec("CREATE INDEX IF NOT EXISTS idx_live_feed_created ON live_feed (created_at DESC)"); } catch(e) {}
+
 // =========================================================
 // TELEGRAM
 // =========================================================
@@ -191,12 +190,8 @@ function resolveUserFromRequest(req) {
         if (req.body.first_name && !firstName) firstName = String(req.body.first_name).trim();
     }
 
-    if (!telegramId) {
-        telegramId = req.headers["x-user-id"] || null;
-    }
-    if (!telegramId) {
-        telegramId = "user_" + (req.ip || "local").replace(/[^a-zA-Z0-9]/g, "");
-    }
+    if (!telegramId) telegramId = req.headers["x-user-id"] || null;
+    if (!telegramId) telegramId = "user_" + (req.ip || "local").replace(/[^a-zA-Z0-9]/g, "");
 
     return { telegramId, username, firstName };
 }
@@ -215,14 +210,23 @@ function ensureUser(telegramId, username, firstName) {
     return user;
 }
 
+function ensureStats(telegramId) {
+    let row = db.prepare(`SELECT * FROM stats WHERE telegram_id = ?`).get(telegramId);
+    if (!row) {
+        db.prepare(`INSERT INTO stats (telegram_id) VALUES (?)`).run(telegramId);
+        row = db.prepare(`SELECT * FROM stats WHERE telegram_id = ?`).get(telegramId);
+    }
+    return row;
+}
+
 // =========================================================
-// MAIN & STATIC
+// MAIN
 // =========================================================
 
 app.get(["/", "/index.html"], (req, res) => {
     const indexPath = path.join(__dirname, "index.html");
     if (fs.existsSync(indexPath)) return res.sendFile(indexPath);
-    res.json({ status: "ok", message: "Telegram Mini App API работает!", database: "ok" });
+    res.json({ status: "ok", message: "Saint UP API работает!", database: "ok" });
 });
 
 // =========================================================
@@ -243,6 +247,7 @@ app.post("/api/user", (req, res) => {
             db.prepare(`INSERT INTO users (telegram_id, username, first_name, roblox_name, balance) VALUES (?, ?, ?, ?, 0)`)
               .run(telegramId, username || null, first_name || null, roblox_name || null);
         }
+        ensureStats(telegramId);
         const user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
         res.json({ success: true, user });
     } catch (error) {
@@ -254,6 +259,7 @@ app.post("/api/user", (req, res) => {
 app.get("/api/user/:telegram_id", (req, res) => {
     try {
         const telegramId = String(req.params.telegram_id);
+        ensureStats(telegramId);
         const user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
         if (!user) return res.status(404).json({ success: false, error: "Игрок не найден" });
         res.json({ success: true, user });
@@ -264,7 +270,7 @@ app.get("/api/user/:telegram_id", (req, res) => {
 });
 
 // =========================================================
-// ✅ BALANCE UPDATE — единая точка изменения баланса
+// BALANCE
 // =========================================================
 
 app.post("/api/balance/update", (req, res) => {
@@ -274,21 +280,129 @@ app.post("/api/balance/update", (req, res) => {
         if (!Number.isFinite(delta) || delta === 0) {
             return res.status(400).json({ success: false, error: "delta обязателен" });
         }
-
         ensureUser(telegramId, username, firstName);
         const user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
         const before = Number(user.balance) || 0;
-
         const after = before + delta;
-        if (after < 0) {
-            return res.status(400).json({ success: false, error: "Недостаточно средств", balance: before });
-        }
-
+        if (after < 0) return res.status(400).json({ success: false, error: "Недостаточно средств", balance: before });
         db.prepare(`UPDATE users SET balance = ? WHERE telegram_id = ?`).run(after, telegramId);
-
         res.json({ success: true, balance: after, delta, before });
     } catch (error) {
-        console.error("[BALANCE UPDATE] error:", error);
+        console.error("[BALANCE UPDATE]", error);
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
+// Синхронизация баланса (для миграции localStorage → сервер)
+app.post("/api/balance/sync", (req, res) => {
+    try {
+        const { telegramId, username, firstName } = resolveUserFromRequest(req);
+        const value = Number(req.body.value);
+        if (!Number.isFinite(value) || value < 0) return res.status(400).json({ success: false, error: "value >= 0" });
+        ensureUser(telegramId, username, firstName);
+        db.prepare(`UPDATE users SET balance = ? WHERE telegram_id = ?`).run(Math.floor(value), telegramId);
+        const user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
+        res.json({ success: true, balance: Number(user.balance) });
+    } catch (error) {
+        console.error("[BALANCE SYNC]", error);
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
+// =========================================================
+// STATS (для апгрейдера)
+// =========================================================
+
+app.get("/api/stats/:telegram_id", (req, res) => {
+    try {
+        const telegramId = String(req.params.telegram_id);
+        const stats = ensureStats(telegramId);
+        const winrate = stats.upgrades > 0 ? Math.round((stats.wins / stats.upgrades) * 100) : 0;
+        res.json({ success: true, stats: { ...stats, winrate } });
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
+// Запись результата апгрейда
+// body: { telegram_id, result: 'win'|'lose', source_name, source_price, target_name, target_price, chance }
+app.post("/api/stats/upgrade", (req, res) => {
+    try {
+        const { telegramId, username, firstName } = resolveUserFromRequest(req);
+        const result = String(req.body.result || '').toLowerCase();
+        if (result !== 'win' && result !== 'lose') return res.status(400).json({ success: false, error: "result: win|lose" });
+
+        const sourceName = req.body.source_name ? String(req.body.source_name) : null;
+        const sourcePrice = Math.max(0, Math.floor(Number(req.body.source_price) || 0));
+        const targetName = req.body.target_name ? String(req.body.target_name) : null;
+        const targetPrice = Math.max(0, Math.floor(Number(req.body.target_price) || 0));
+        const chance = Number(req.body.chance) || 0;
+
+        ensureUser(telegramId, username, firstName);
+        ensureStats(telegramId);
+
+        const tx = db.transaction(() => {
+            if (result === 'win') {
+                db.prepare(`UPDATE stats SET upgrades = upgrades + 1, wins = wins + 1, updated_at = CURRENT_TIMESTAMP WHERE telegram_id = ?`).run(telegramId);
+                // Записываем только победы в live_feed
+                db.prepare(`
+                    INSERT INTO live_feed (telegram_id, username, item_name, item_price, chance, source_name, source_price)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                `).run(telegramId, username || null, targetName || '—', targetPrice, chance, sourceName, sourcePrice);
+            } else {
+                db.prepare(`UPDATE stats SET upgrades = upgrades + 1, losses = losses + 1, updated_at = CURRENT_TIMESTAMP WHERE telegram_id = ?`).run(telegramId);
+            }
+        });
+        tx();
+
+        const stats = ensureStats(telegramId);
+        const winrate = stats.upgrades > 0 ? Math.round((stats.wins / stats.upgrades) * 100) : 0;
+        res.json({ success: true, stats: { ...stats, winrate } });
+    } catch (error) {
+        console.error("[STATS UPGRADE]", error);
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
+// =========================================================
+// LIVE FEED (глобальная лента)
+// =========================================================
+
+app.get("/api/live-feed", (req, res) => {
+    try {
+        const limit = Math.min(50, Math.max(1, Number(req.query.limit) || 10));
+        const rows = db.prepare(`
+            SELECT id, telegram_id, username, item_name, item_price, chance, source_name, source_price, created_at
+            FROM live_feed
+            ORDER BY id DESC
+            LIMIT ?
+        `).all(limit);
+        res.json({ success: true, feed: rows });
+    } catch (error) {
+        console.error("[LIVE FEED GET]", error);
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
+// Ручное добавление события (используется фронтом после удачного апгрейда как дубль)
+app.post("/api/live-feed", (req, res) => {
+    try {
+        const { telegramId, username } = resolveUserFromRequest(req);
+        const itemName = req.body.item_name ? String(req.body.item_name) : null;
+        const itemPrice = Math.max(0, Math.floor(Number(req.body.item_price) || 0));
+        const chance = Number(req.body.chance) || 0;
+        const sourceName = req.body.source_name ? String(req.body.source_name) : null;
+        const sourcePrice = Math.max(0, Math.floor(Number(req.body.source_price) || 0));
+        if (!itemName) return res.status(400).json({ success: false, error: "item_name обязателен" });
+        ensureUser(telegramId, username, null);
+        const r = db.prepare(`
+            INSERT INTO live_feed (telegram_id, username, item_name, item_price, chance, source_name, source_price)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `).run(telegramId, username || null, itemName, itemPrice, chance, sourceName, sourcePrice);
+        const row = db.prepare(`SELECT * FROM live_feed WHERE id = ?`).get(r.lastInsertRowid);
+        res.json({ success: true, entry: row });
+    } catch (error) {
+        console.error("[LIVE FEED POST]", error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -307,7 +421,6 @@ app.post("/api/inventory/add", (req, res) => {
           .run(String(telegram_id), Number(item_id), type);
         res.json({ success: true, message: "Предмет добавлен" });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -318,7 +431,6 @@ app.get("/api/inventory/:telegram_id", (req, res) => {
         const inventory = db.prepare(`SELECT * FROM inventory WHERE telegram_id = ? ORDER BY id ASC`).all(telegramId);
         res.json({ success: true, inventory });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -334,7 +446,6 @@ app.post("/api/inventory/move", (req, res) => {
           .run(Number(inventory_id), String(telegram_id));
         res.json({ success: true, message: "Предмет выведен в обычный инвентарь" });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -354,7 +465,6 @@ app.post("/api/inventory/sell", (req, res) => {
         transaction();
         res.json({ success: true, message: "Предмет продан", received: sellPrice });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -375,7 +485,7 @@ app.post("/api/withdrawals", (req, res) => {
         if (inventory_id) {
             const inventoryItem = db.prepare(`SELECT * FROM inventory WHERE id = ? AND telegram_id = ? AND inventory_type = 'upgrader'`)
               .get(Number(inventory_id), telegramId);
-            if (!inventoryItem) return res.status(404).json({ success: false, error: "Предмет не найден в инвентаре апгрейдера" });
+            if (!inventoryItem) return res.status(404).json({ success: false, error: "Предмет не найден" });
             finalItemId = inventoryItem.item_id;
             db.prepare(`UPDATE inventory SET inventory_type = 'normal' WHERE id = ? AND telegram_id = ?`).run(Number(inventory_id), telegramId);
         }
@@ -383,7 +493,6 @@ app.post("/api/withdrawals", (req, res) => {
           .run(telegramId, Number(finalItemId), roblox_name.trim(), ready_time.trim(), comment ? comment.trim() : null);
         res.json({ success: true, withdrawal_id: result.lastInsertRowid, message: "Заявка на вывод создана" });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -394,7 +503,6 @@ app.get("/api/withdrawals/:telegram_id", (req, res) => {
         const withdrawals = db.prepare(`SELECT * FROM withdrawals WHERE telegram_id = ? ORDER BY id DESC`).all(telegramId);
         res.json({ success: true, withdrawals });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
 });
@@ -439,111 +547,6 @@ app.post("/api/admin/withdrawals/status", (req, res) => {
     }
 });
 
-app.post("/api/admin/grant-bones", (req, res) => {
-    try {
-        const { target_username, amount } = req.body;
-        if (!target_username || !amount) return res.status(400).json({ success: false, error: "target_username и amount обязательны" });
-        const amt = Number(amount);
-        if (isNaN(amt) || amt <= 0) return res.status(400).json({ success: false, error: "amount должен быть больше 0" });
-        const user = db.prepare(`SELECT * FROM users WHERE username = ?`).get(String(target_username).replace(/^@/, ""));
-        if (!user) return res.status(404).json({ success: false, error: `Пользователь @${target_username} не найден` });
-        db.prepare(`UPDATE users SET balance = balance + ? WHERE telegram_id = ?`).run(amt, user.telegram_id);
-        const updated = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(user.telegram_id);
-        res.json({ success: true, message: `Выдано ${amt} костей пользователю @${target_username}`, user: updated });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-// =========================================================
-// SHOP
-// =========================================================
-
-app.get("/api/shop/items", (req, res) => {
-    try {
-        const items = db.prepare(`SELECT * FROM shop_items ORDER BY id ASC`).all();
-        res.json({ success: true, items });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.post("/api/shop/items", (req, res) => {
-    try {
-        const { name, price, stock } = req.body;
-        if (!name || !name.trim()) return res.status(400).json({ success: false, error: "Укажите название" });
-        const itemPrice = Number(price);
-        const itemStock = Number(stock !== undefined ? stock : 1);
-        if (isNaN(itemPrice) || itemPrice < 0) return res.status(400).json({ success: false, error: "Укажите корректную цену" });
-        const result = db.prepare(`INSERT INTO shop_items (name, price, stock) VALUES (?, ?, ?)`)
-          .run(name.trim(), itemPrice, isNaN(itemStock) || itemStock < 0 ? 0 : itemStock);
-        const newItem = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(result.lastInsertRowid);
-        res.json({ success: true, item: newItem, message: "Браинрот добавлен" });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.put("/api/shop/items/:id", (req, res) => {
-    try {
-        const itemId = Number(req.params.id);
-        const { name, price, stock } = req.body;
-        const existing = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
-        if (!existing) return res.status(404).json({ success: false, error: "Товар не найден" });
-        const newName = name !== undefined ? name.trim() : existing.name;
-        const newPrice = price !== undefined ? Number(price) : existing.price;
-        const newStock = stock !== undefined ? Number(stock) : existing.stock;
-        db.prepare(`UPDATE shop_items SET name = ?, price = ?, stock = ? WHERE id = ?`)
-          .run(newName, newPrice, Math.max(0, newStock), itemId);
-        const updatedItem = db.prepare(`SELECT * FROM shop_items WHERE id = ?`).get(itemId);
-        res.json({ success: true, item: updatedItem, message: "Товар обновлён" });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.delete("/api/shop/items/:id", (req, res) => {
-    try {
-        const itemId = Number(req.params.id);
-        const result = db.prepare(`DELETE FROM shop_items WHERE id = ?`).run(itemId);
-        if (result.changes === 0) return res.status(404).json({ success: false, error: "Товар не найден" });
-        res.json({ success: true, message: "Предложение удалено" });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.post("/api/shop/withdraw", (req, res) => {
-    try {
-        const { telegram_id, shop_item_id, roblox_name, ready_time, comment } = req.body;
-        if (!telegram_id || !shop_item_id) return res.status(400).json({ success: false, error: "telegram_id и shop_item_id обязательны" });
-        if (!roblox_name || !roblox_name.trim()) return res.status(400).json({ success: false, error: "Укажите Roblox ник" });
-        if (!ready_time || !ready_time.trim()) return res.status(400).json({ success: false, error: "Укажите время" });
-        const telegramId = String(telegram_id);
-        const item = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(Number(shop_item_id));
-        if (!item) return res.status(404).json({ success: false, error: "Товар не найден" });
-        if (item.stock < 1) return res.status(400).json({ success: false, error: "Нет в наличии" });
-        const user = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
-        if (!user || user.balance < item.price) return res.status(400).json({ success: false, error: "Недостаточно костей" });
-
-        const tx = db.transaction(() => {
-            db.prepare(`UPDATE users SET balance = balance - ?, roblox_name = COALESCE(?, roblox_name) WHERE telegram_id = ?`)
-              .run(item.price, roblox_name.trim(), telegramId);
-            db.prepare(`UPDATE shop_items SET stock = stock - 1 WHERE id = ?`).run(item.id);
-            const commentText = `Магазин: ${item.name}${comment && comment.trim() ? ' | ' + comment.trim() : ''}`;
-            const wRes = db.prepare(`INSERT INTO withdrawals (telegram_id, item_id, roblox_name, ready_time, comment) VALUES (?, ?, ?, ?, ?)`)
-              .run(telegramId, item.id, roblox_name.trim(), ready_time.trim(), commentText);
-            return wRes.lastInsertRowid;
-        });
-        const withdrawalId = tx();
-        const updatedUser = db.prepare("SELECT * FROM users WHERE telegram_id = ?").get(telegramId);
-        const updatedItem = db.prepare("SELECT * FROM shop_items WHERE id = ?").get(item.id);
-        res.json({ success: true, withdrawal_id: withdrawalId, user: updatedUser, item: updatedItem, message: `Заявка на вывод ${item.name} создана!` });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
 // =========================================================
 // PROMO CODES
 // =========================================================
@@ -553,7 +556,6 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
         const { code } = req.body;
         if (!code || !String(code).trim()) return res.status(400).json({ success: false, error: "Укажите промокод" });
         const codeUpper = String(code).trim().toUpperCase();
-
         const { telegramId, username, firstName } = resolveUserFromRequest(req);
 
         const promo = db.prepare(`
@@ -566,14 +568,12 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
 
         if (!promo) return res.status(404).json({ success: false, error: "Промокод не найден" });
         if (promo.expires_at > 0 && Date.now() > promo.expires_at) return res.status(410).json({ success: false, error: "Срок действия промокода истёк" });
-        if (promo.used_count >= promo.max_activations) return res.status(409).json({ success: false, error: "Лимит активаций промокода исчерпан" });
+        if (promo.used_count >= promo.max_activations) return res.status(409).json({ success: false, error: "Лимит активаций исчерпан" });
 
         const alreadyUsed = db.prepare(`SELECT id FROM promo_activations WHERE code = ? AND telegram_id = ?`).get(codeUpper, telegramId);
         if (alreadyUsed) return res.status(409).json({ success: false, error: "Ты уже активировал этот промокод" });
 
         ensureUser(telegramId, username, firstName);
-        const user = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
-        const balanceBefore = Number(user.balance) || 0;
 
         const tx = db.transaction(() => {
             db.prepare(`UPDATE promo_codes SET used_count = COALESCE(used_count, 0) + 1, used = COALESCE(used, 0) + 1 WHERE id = ?`).run(promo.id);
@@ -587,7 +587,7 @@ app.post(["/api/promo/redeem", "/api/promo-code/activate"], (req, res) => {
         tx();
 
         const updatedUser = db.prepare(`SELECT * FROM users WHERE telegram_id = ?`).get(telegramId);
-        const finalBalance = updatedUser ? Number(updatedUser.balance) : (balanceBefore + promo.reward);
+        const finalBalance = updatedUser ? Number(updatedUser.balance) : promo.reward;
 
         res.json({ success: true, reward: promo.reward, balance: finalBalance, message: `Промокод активирован! +${promo.reward} 💎` });
     } catch (error) {
@@ -601,9 +601,7 @@ app.get(["/api/admin/promos", "/api/admin/promo-codes"], (req, res) => {
         const promoCodes = db.prepare(`
             SELECT id, code,
                 COALESCE(max_activations, activations, 1) AS max_activations,
-                COALESCE(max_activations, activations, 1) AS activations,
                 COALESCE(used_count, used, 0) AS used_count,
-                COALESCE(used_count, used, 0) AS used,
                 reward, COALESCE(expires_at, 0) AS expires_at, created_at
             FROM promo_codes ORDER BY id DESC
         `).all();
@@ -616,7 +614,7 @@ app.get(["/api/admin/promos", "/api/admin/promo-codes"], (req, res) => {
 app.post(["/api/admin/promos", "/api/admin/promo-codes"], (req, res) => {
     try {
         const { code, max_activations, activations, expires_in_minutes, reward } = req.body;
-        if (!code || !String(code).trim()) return res.status(400).json({ success: false, error: "Укажите название промокода" });
+        if (!code || !String(code).trim()) return res.status(400).json({ success: false, error: "Укажите название" });
         const codeUpper = String(code).trim().toUpperCase();
         const acts = Math.floor(Number(max_activations !== undefined ? max_activations : activations));
         const rew = Math.floor(Number(reward !== undefined ? reward : 10));
@@ -684,10 +682,60 @@ app.get("/api/giveaways", (req, res) => {
     }
 });
 
+app.post("/api/giveaways/:id/join", (req, res) => {
+    try {
+        const giveawayId = Number(req.params.id);
+        const { telegram_id, username, first_name } = req.body;
+        if (!telegram_id) return res.status(400).json({ success: false, error: "telegram_id обязателен" });
+        const giveaway = db.prepare(`SELECT * FROM giveaways WHERE id = ?`).get(giveawayId);
+        if (!giveaway) return res.status(404).json({ success: false, error: "Розыгрыш не найден" });
+        if (giveaway.status !== 'active') return res.status(400).json({ success: false, error: "Розыгрыш завершён" });
+        const telegramId = String(telegram_id);
+        const contrib = db.prepare(`SELECT COALESCE(SUM(amount), 0) AS total FROM promo_contributions WHERE telegram_id = ?`).get(telegramId);
+        const totalContribution = Number(contrib?.total || 0);
+        if (totalContribution < giveaway.min_contribution) {
+            return res.status(400).json({ success: false, error: `Нужно внести ${giveaway.min_contribution} 💎. У тебя: ${totalContribution}` });
+        }
+        if (giveaway.max_participants > 0) {
+            const pCount = db.prepare(`SELECT COUNT(*) AS cnt FROM giveaway_participants WHERE giveaway_id = ?`).get(giveawayId);
+            if (Number(pCount?.cnt || 0) >= giveaway.max_participants) return res.status(400).json({ success: false, error: "Достигнут лимит" });
+        }
+        const already = db.prepare(`SELECT id FROM giveaway_participants WHERE giveaway_id = ? AND telegram_id = ?`).get(giveawayId, telegramId);
+        if (already) return res.status(400).json({ success: false, error: "Ты уже участвуешь" });
+        db.prepare(`INSERT INTO giveaway_participants (giveaway_id, telegram_id, username, first_name) VALUES (?, ?, ?, ?)`)
+          .run(giveawayId, telegramId, username || null, first_name || null);
+        res.json({ success: true, message: "Ты участвуешь в розыгрыше!" });
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
+app.post("/api/giveaways/:id/finish", (req, res) => {
+    try {
+        const giveawayId = Number(req.params.id);
+        const giveaway = db.prepare(`SELECT * FROM giveaways WHERE id = ?`).get(giveawayId);
+        if (!giveaway) return res.status(404).json({ success: false, error: "Розыгрыш не найден" });
+        const participants = db.prepare(`SELECT * FROM giveaway_participants WHERE giveaway_id = ?`).all(giveawayId);
+        if (participants.length === 0) return res.status(400).json({ success: false, error: "Нет участников" });
+        const shuffled = [...participants].sort(() => Math.random() - 0.5);
+        const winners = shuffled.slice(0, Math.min(giveaway.winners_count, participants.length));
+        const winnerIds = winners.map(w => w.id);
+        const tx = db.transaction(() => {
+            db.prepare(`UPDATE giveaway_participants SET is_winner = 0 WHERE giveaway_id = ?`).run(giveawayId);
+            for (const wid of winnerIds) db.prepare(`UPDATE giveaway_participants SET is_winner = 1 WHERE id = ?`).run(wid);
+            db.prepare(`UPDATE giveaways SET status = 'finished' WHERE id = ?`).run(giveawayId);
+        });
+        tx();
+        res.json({ success: true, winners, message: `Выбрано ${winners.length}` });
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Ошибка сервера" });
+    }
+});
+
 app.post("/api/giveaways", (req, res) => {
     try {
         const { name, image_url, prize_amount, max_participants, min_contribution, winners_count } = req.body;
-        if (!name || !name.trim()) return res.status(400).json({ success: false, error: "Укажите имя браинрота" });
+        if (!name || !name.trim()) return res.status(400).json({ success: false, error: "Укажите имя" });
         const pAmt = Math.max(0, Math.floor(Number(prize_amount) || 0));
         const mPart = Math.max(0, Math.floor(Number(max_participants) || 0));
         const mContr = Math.max(0, Math.floor(Number(min_contribution) || 50));
@@ -697,7 +745,7 @@ app.post("/api/giveaways", (req, res) => {
             VALUES (?, ?, ?, ?, ?, ?, 'active')
         `).run(name.trim(), image_url ? String(image_url).trim() : null, pAmt, mPart, mContr, wCount);
         const newGiveaway = db.prepare(`SELECT * FROM giveaways WHERE id = ?`).get(result.lastInsertRowid);
-        res.json({ success: true, giveaway: newGiveaway, message: `Розыгрыш "${name}" создан!` });
+        res.json({ success: true, giveaway: newGiveaway });
     } catch (error) {
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
@@ -712,85 +760,6 @@ app.delete("/api/giveaways/:id", (req, res) => {
         });
         tx();
         res.json({ success: true, message: "Розыгрыш удалён" });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.post("/api/giveaways/:id/join", (req, res) => {
-    try {
-        const giveawayId = Number(req.params.id);
-        const { telegram_id, username, first_name } = req.body;
-        if (!telegram_id) return res.status(400).json({ success: false, error: "telegram_id обязателен" });
-
-        const giveaway = db.prepare(`SELECT * FROM giveaways WHERE id = ?`).get(giveawayId);
-        if (!giveaway) return res.status(404).json({ success: false, error: "Розыгрыш не найден" });
-        if (giveaway.status !== 'active') return res.status(400).json({ success: false, error: "Розыгрыш уже завершён" });
-
-        const telegramId = String(telegram_id);
-        const contrib = db.prepare(`SELECT COALESCE(SUM(amount), 0) AS total FROM promo_contributions WHERE telegram_id = ?`).get(telegramId);
-        const totalContribution = Number(contrib?.total || 0);
-        if (totalContribution < giveaway.min_contribution) {
-            return res.status(400).json({
-                success: false,
-                error: `Нужно внести промокодов на ${giveaway.min_contribution} 💎. У тебя: ${totalContribution} 💎`,
-                required: giveaway.min_contribution,
-                current: totalContribution
-            });
-        }
-
-        if (giveaway.max_participants > 0) {
-            const pCount = db.prepare(`SELECT COUNT(*) AS cnt FROM giveaway_participants WHERE giveaway_id = ?`).get(giveawayId);
-            if (Number(pCount?.cnt || 0) >= giveaway.max_participants) {
-                return res.status(400).json({ success: false, error: "Достигнут лимит участников" });
-            }
-        }
-
-        const already = db.prepare(`SELECT id FROM giveaway_participants WHERE giveaway_id = ? AND telegram_id = ?`).get(giveawayId, telegramId);
-        if (already) return res.status(400).json({ success: false, error: "Ты уже участвуешь" });
-
-        db.prepare(`INSERT INTO giveaway_participants (giveaway_id, telegram_id, username, first_name) VALUES (?, ?, ?, ?)`)
-          .run(giveawayId, telegramId, username || null, first_name || null);
-
-        res.json({ success: true, message: "Ты участвуешь в розыгрыше!" });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.post("/api/giveaways/:id/finish", (req, res) => {
-    try {
-        const giveawayId = Number(req.params.id);
-        const giveaway = db.prepare(`SELECT * FROM giveaways WHERE id = ?`).get(giveawayId);
-        if (!giveaway) return res.status(404).json({ success: false, error: "Розыгрыш не найден" });
-
-        const participants = db.prepare(`SELECT * FROM giveaway_participants WHERE giveaway_id = ?`).all(giveawayId);
-        if (participants.length === 0) return res.status(400).json({ success: false, error: "Нет участников" });
-
-        const shuffled = [...participants].sort(() => Math.random() - 0.5);
-        const winners = shuffled.slice(0, Math.min(giveaway.winners_count, participants.length));
-        const winnerIds = winners.map(w => w.id);
-
-        const tx = db.transaction(() => {
-            db.prepare(`UPDATE giveaway_participants SET is_winner = 0 WHERE giveaway_id = ?`).run(giveawayId);
-            for (const wid of winnerIds) {
-                db.prepare(`UPDATE giveaway_participants SET is_winner = 1 WHERE id = ?`).run(wid);
-            }
-            db.prepare(`UPDATE giveaways SET status = 'finished' WHERE id = ?`).run(giveawayId);
-        });
-        tx();
-
-        res.json({ success: true, winners, message: `Выбрано ${winners.length} победителей` });
-    } catch (error) {
-        res.status(500).json({ success: false, error: "Ошибка сервера" });
-    }
-});
-
-app.get("/api/giveaways/:id/participants", (req, res) => {
-    try {
-        const giveawayId = Number(req.params.id);
-        const participants = db.prepare(`SELECT * FROM giveaway_participants WHERE giveaway_id = ? ORDER BY id ASC`).all(giveawayId);
-        res.json({ success: true, participants });
     } catch (error) {
         res.status(500).json({ success: false, error: "Ошибка сервера" });
     }
@@ -811,5 +780,5 @@ app.use((error, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+    console.log(`Saint UP server started on port ${PORT}`);
 });
