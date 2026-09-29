@@ -30,6 +30,7 @@
   --red-dim:rgba(239,68,68,.12);
   --gold:#f59e0b;
   --gold-dim:rgba(245,158,11,.12);
+  --blue:#3b82f6;
   --radius:14px;
   --radius-sm:10px;
   --radius-lg:18px;
@@ -57,7 +58,7 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
-.mono, .num, .balance b, .stat-value, .wheel-chance, .case-price-new, .item-price, .shop-item-price, .slot-item-price{
+.mono, .num, .balance b, .stat-value, .wheel-chance, .item-price, .shop-item-price, .slot-item-price{
   font-family:"JetBrains Mono","SF Mono",ui-monospace,monospace;
   font-feature-settings:"tnum","zero";
   font-variant-numeric:tabular-nums;
@@ -191,7 +192,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   transition:.15s;
 }
 .vip-badge:hover{ background:linear-gradient(135deg, rgba(245,158,11,.28), rgba(245,158,11,.1)); }
-.vip-badge.active{ background:linear-gradient(135deg, rgba(245,158,11,.3), rgba(245,158,11,.12)); }
 
 /* ========== NAV ========== */
 .top-nav{
@@ -616,7 +616,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   position:relative;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
-.stage-hint .hint-arrow{ color:var(--txt-4); }
 .stage-hint .hint-green{ color:var(--green); font-weight:500; }
 .stage-hint .hint-blue{ color:#fff; font-weight:500; }
 .stage-hint .hint-red{ color:var(--red); font-weight:500; }
@@ -736,7 +735,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   letter-spacing:.3px;
   border-radius:8px;
   transition:.15s;
-  backdrop-filter:blur(10px);
 }
 .sell-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
 
@@ -1070,173 +1068,394 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .shop-buy:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 .shop-buy:disabled{ opacity:.3; cursor:not-allowed; }
 
-/* ========== CASES ========== */
-.cases-grid{
+/* ========== CASES (НОВЫЙ ДИЗАЙН) ========== */
+.cases-container{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.case-list-grid{
   display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
   gap:14px;
 }
-.case-card{
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+
+.case-tile{
+  background:linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
   backdrop-filter:blur(28px) saturate(150%);
   -webkit-backdrop-filter:blur(28px) saturate(150%);
   border:1px solid rgba(255,255,255,.035);
   border-radius:var(--radius);
   padding:16px;
-  display:flex; flex-direction:column; gap:14px;
-  transition:.25s;
+  display:flex; flex-direction:column;
+  align-items:center; gap:12px;
   cursor:pointer;
+  transition:.25s;
   position:relative;
   overflow:hidden;
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.07),
     0 16px 44px rgba(0,0,0,.65);
 }
-.case-card::before{
+.case-tile::before{
   content:"";
   position:absolute;
   top:-40%; right:-30%;
-  width:220px; height:220px;
+  width:200px; height:200px;
   background:radial-gradient(circle, rgba(255,255,255,.06), transparent 70%);
   pointer-events:none;
   transition:.4s;
 }
-.case-card:hover::before{ transform:scale(1.3); }
-.case-card:hover{
-  border-color:rgba(255,255,255,.1);
-  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+.case-tile:hover::before{ transform:scale(1.3); }
+.case-tile:hover{
+  border-color:rgba(255,255,255,.12);
+  background:linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
   transform:translateY(-2px);
 }
-.case-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  position:relative; z-index:1;
-}
-.case-rarity{
-  font-size:9px;
-  padding:4px 9px;
-  border-radius:8px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.04);
-  color:var(--txt-3);
-  font-weight:600;
-  letter-spacing:.6px;
-  text-transform:uppercase;
-  font-family:"JetBrains Mono",monospace;
-  backdrop-filter:blur(10px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-}
-.case-idx{
-  font-size:9px;
-  color:var(--txt-4);
-  font-family:"JetBrains Mono",monospace;
-  letter-spacing:.4px;
-}
-.case-main-img{
-  width:100%; height:150px;
+.case-tile-img{
+  width:100%;
+  height:140px;
   display:flex; align-items:center; justify-content:center;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
   border-radius:12px;
   border:1px solid rgba(255,255,255,.03);
   position:relative; z-index:1;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  overflow:hidden;
 }
-.case-main-img img{ max-width:70%; max-height:80%; object-fit:contain; }
-.case-main-emoji{ font-size:64px; }
-.case-meta{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  position:relative; z-index:1;
-}
-.case-name{
-  color:#fff;
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:-.01em;
-  flex:1; min-width:0;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.case-price{
-  padding:5px 11px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:8px;
-  color:#fff;
-  font-size:11px;
-  font-weight:600;
-  white-space:nowrap;
-  font-family:"JetBrains Mono",monospace;
-  backdrop-filter:blur(10px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-}
-.case-rewards{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:6px;
-  position:relative; z-index:1;
-}
-.case-reward{
-  aspect-ratio:1/1;
-  padding:8px 4px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.03);
-  border-radius:10px;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  gap:4px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-}
-.case-reward img{
-  width:70%;
-  height:70%;
+.case-tile-img img{
+  max-width:80%;
+  max-height:85%;
   object-fit:contain;
-  object-position:center;
-  display:block;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,.6));
   user-select:none;
   -webkit-user-drag:none;
 }
-.case-reward-name{
+.case-tile-name{
+  font-size:13px;
+  font-weight:600;
+  color:#fff;
+  text-align:center;
+  position:relative; z-index:1;
+  letter-spacing:-.01em;
+}
+.case-tile-price{
+  padding:5px 14px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:8px;
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  font-family:"JetBrains Mono",monospace;
+  position:relative; z-index:1;
+  display:flex; align-items:center; gap:5px;
+}
+
+/* ====== ПРОСМОТР КЕЙСА (как на фото) ====== */
+.case-view{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.case-view-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 14px;
+  background:linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+}
+.case-back-btn{
+  height:34px;
+  padding:0 14px;
+  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:9px;
+  color:var(--txt-2);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.3px;
+  display:flex; align-items:center; gap:6px;
+  transition:.15s;
+}
+.case-back-btn:hover{
+  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+  color:#fff;
+}
+
+.case-hero{
+  background:
+    radial-gradient(600px 250px at 50% 0%, rgba(59,130,246,.1), transparent 70%),
+    linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:18px;
+  padding:32px 20px 26px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 20px 50px rgba(0,0,0,.6);
+}
+.case-hero-img{
+  width:200px; height:200px;
+  display:flex; align-items:center; justify-content:center;
+  position:relative;
+  filter:drop-shadow(0 12px 40px rgba(59,130,246,.35));
+}
+.case-hero-img img{
+  width:100%; height:100%;
+  object-fit:contain;
+  user-select:none;
+  -webkit-user-drag:none;
+  animation:caseFloat 3.5s ease-in-out infinite;
+}
+@keyframes caseFloat{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-8px); }
+}
+.case-hero-name{
+  font-size:22px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:-.02em;
+  text-align:center;
+}
+
+/* Рулетка-превью со стрелкой */
+.case-preview{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  padding:14px 0;
+  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:14px;
+}
+.case-preview::before, .case-preview::after{
+  content:""; position:absolute; top:0; bottom:0; width:100px;
+  z-index:3; pointer-events:none;
+}
+.case-preview::before{ left:0; background:linear-gradient(90deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
+.case-preview::after{ right:0; background:linear-gradient(270deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
+.case-preview-marker{
+  position:absolute;
+  top:0; bottom:0; left:50%;
+  transform:translateX(-50%);
+  width:2px;
+  background:#fff;
+  z-index:5; pointer-events:none;
+  box-shadow:0 0 14px rgba(255,255,255,.8);
+}
+.case-preview-marker::before{
+  content:"";
+  position:absolute; top:-5px; left:50%;
+  transform:translateX(-50%);
+  border-left:9px solid transparent;
+  border-right:9px solid transparent;
+  border-top:13px solid #fff;
+}
+.case-preview-marker::after{
+  content:"";
+  position:absolute; bottom:-5px; left:50%;
+  transform:translateX(-50%);
+  border-left:9px solid transparent;
+  border-right:9px solid transparent;
+  border-bottom:13px solid #fff;
+}
+.case-preview-strip{
+  display:flex; gap:10px; padding-left:20px;
+  will-change:transform;
+}
+.case-preview-item{
+  flex:0 0 auto;
+  width:96px; height:110px;
+  background:linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:4px;
+  padding:8px 4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.case-preview-item img{
+  width:60px; height:60px;
+  object-fit:contain;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.case-preview-item .pv-name{
   font-size:9px;
   color:var(--txt-3);
   text-align:center;
   font-weight:500;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   max-width:100%;
+  width:100%;
 }
-.case-reward-price{
+.case-preview-item .pv-price{
   font-size:9px;
+  color:#fff;
+  font-family:"JetBrains Mono",monospace;
+  font-weight:500;
+  display:flex; align-items:center; gap:3px;
+}
+
+/* Инфо-плашки под превью */
+.case-info-row{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:8px;
+}
+.case-info-cell{
+  padding:14px 12px;
+  background:linear-gradient(135deg, rgba(59,130,246,.12), rgba(59,130,246,.03));
+  border:1px solid rgba(59,130,246,.2);
+  border-radius:12px;
+  text-align:center;
+}
+.case-info-label{
+  font-size:9px;
+  color:var(--txt-4);
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  font-weight:500;
+  margin-bottom:5px;
+}
+.case-info-value{
+  font-size:16px;
+  color:#fff;
+  font-weight:600;
+  font-family:"JetBrains Mono",monospace;
+}
+
+.case-open-btn{
+  width:100%;
+  height:56px;
+  background:linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border:1px solid rgba(59,130,246,.4);
+  border-radius:14px;
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  transition:.2s;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 12px 32px rgba(59,130,246,.35);
+  position:relative;
+  overflow:hidden;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.case-open-btn::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+  transform:translateX(-100%);
+  transition:transform .6s;
+}
+.case-open-btn:hover::after{ transform:translateX(100%); }
+.case-open-btn:hover{
+  background:linear-gradient(135deg, #4f8ff7, #2563eb);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.3),
+    0 16px 40px rgba(59,130,246,.5);
+}
+.case-open-btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+/* Что может выпасть */
+.case-drops-section{
+  margin-top:6px;
+}
+.case-drops-head{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:12px;
+  padding:0 4px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--txt-2);
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.case-drops-head .dot{
+  width:4px; height:4px; border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 8px rgba(255,255,255,.6);
+}
+.case-drops-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));
+  gap:8px;
+}
+.drop-item{
+  padding:10px 6px 8px;
+  background:linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  text-align:center;
+  transition:.18s;
+  position:relative;
+}
+.drop-item:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+  transform:translateY(-1px);
+}
+.drop-chance{
+  position:absolute;
+  top:5px; right:5px;
+  padding:2px 6px;
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:6px;
+  font-size:9px;
+  font-weight:600;
+  font-family:"JetBrains Mono",monospace;
+  color:var(--green);
+  backdrop-filter:blur(8px);
+}
+.drop-chance.low{ color:var(--gold); }
+.drop-chance.rare{ color:#ef4444; }
+.drop-img{
+  width:64px; height:64px;
+  object-fit:contain;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));
+}
+.drop-name{
+  font-size:10px;
+  color:var(--txt-2);
+  font-weight:500;
+  line-height:1.2;
+  min-height:24px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  word-break:break-word;
+}
+.drop-price{
+  font-size:10px;
   color:#fff;
   font-weight:500;
   font-family:"JetBrains Mono",monospace;
-  opacity:.7;
+  display:flex; align-items:center; gap:3px;
 }
-.open-case{
-  width:100%; height:44px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  backdrop-filter:blur(24px) saturate(150%);
-  -webkit-backdrop-filter:blur(24px) saturate(150%);
-  color:#fff;
-  font-size:11px; font-weight:600; letter-spacing:1.2px;
-  transition:.15s;
-  border-radius:10px;
-  position:relative; z-index:1;
-  text-transform:uppercase;
-  border:1px solid rgba(255,255,255,.04);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
-}
-.open-case:hover{
-  background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06));
-}
-.open-case:disabled{ opacity:.4; cursor:not-allowed; }
 
+/* ====== МОДАЛКА ВЫПАДЕНИЯ ====== */
 .case-modal{
   position:fixed; inset:0; z-index:9999;
   background:rgba(0,0,0,.94);
@@ -2247,7 +2466,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   display:flex; align-items:center; justify-content:center; gap:4px;
   transition:.15s;
   letter-spacing:.3px;
-  backdrop-filter:blur(10px);
 }
 .admin-action.delete{
   background:var(--red-dim); color:var(--red); border:1px solid rgba(239,68,68,.15);
@@ -2349,6 +2567,9 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .slot-row{ grid-template-columns:1fr 1fr 1fr; gap:12px; }
   .brand-mark{ width:48px; height:48px; }
   .brand-name{ font-size:20px; }
+  .case-hero-img{ width:160px; height:160px; }
+  .case-preview-item{ width:80px; height:96px; }
+  .case-preview-item img{ width:50px; height:50px; }
 }
 @media(max-width:520px){
   .app{ padding:12px 12px 34px; }
@@ -2357,7 +2578,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .wheel-chance{ font-size:26px; }
   .items-grid{ grid-template-columns: repeat(3, 1fr); }
   .shop-items{ grid-template-columns: repeat(3, 1fr); }
-  .cases-grid{ grid-template-columns:1fr; }
   .stats-row{ grid-template-columns:1fr; }
   .nav-btn{ padding:0 12px; font-size:10px; }
   .profile-stats{ grid-template-columns:1fr 1fr; }
@@ -2366,6 +2586,14 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .rocket-multiplier{ font-size:48px; }
   .rocket-chart{ height:340px; }
   .item-img, .shop-item-img{ width:56px !important; height:56px !important; }
+  .case-list-grid{ grid-template-columns:repeat(2, 1fr); }
+  .case-tile-img{ height:100px; }
+  .case-hero-img{ width:140px; height:140px; }
+  .case-hero-name{ font-size:18px; }
+  .case-info-row{ grid-template-columns:1fr 1fr; }
+  .case-preview-item{ width:72px; height:88px; }
+  .case-preview-item img{ width:44px; height:44px; }
+  .case-drops-grid{ grid-template-columns:repeat(3, 1fr); }
 }
 
 *{ scrollbar-color:rgba(255,255,255,.1) #000; scrollbar-width:thin; }
@@ -2658,7 +2886,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
   <!-- ===== КЕЙСЫ ===== -->
   <section class="tab-panel" data-tab="cases" hidden>
-    <div class="cases-grid" id="casesList"></div>
+    <div class="cases-container" id="casesContainer"></div>
   </section>
 
   <!-- ===== ПРОМО ===== -->
@@ -2781,7 +3009,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
                   <div class="pstat-label">Версия</div>
-                  <div class="pstat-value" style="font-size:14px">v 1.2</div>
+                  <div class="pstat-value" style="font-size:14px">v 1.3</div>
                 </div>
               </div>
             </div>
@@ -3020,7 +3248,7 @@ const items = [
   { name:'La Fuse Machine',          price:160,   img:'lafuse.png' },
   { name:'Gold and Diamond',         price:200,   img:'gold.png' },
   { name:'Ketupat Bros',             price:500,   img:'ketupatbros.png' },
-  { name:'Hydra Cerpent',            price:700,   img:'serpent.png' },
+  { name:'Hydra Serpent',            price:700,   img:'serpent.png' },
   { name:'Dragon Cannelloni',        price:900,   img:'Dragon.png' },
   { name:'Hydra Dragon Cannelloni',  price:1150,  img:'hydradrag.png' },
   { name:'Dragon Aquanini',          price:2599,  img:'dragaqua.png' },
@@ -3029,6 +3257,34 @@ const items = [
   { name:'Skibidi toilet',           price:13000, img:'Skibidi.png' },
   { name:'Strawberry Elephant',      price:25000, img:'strawberry.png' }
 ];
+
+// Индексы предметов для кейсов
+const IDX = {
+  Grande: 0,
+  Mops: 1,
+  Bananchik: 2,
+  TangTang: 3,
+  Ketupat: 4,
+  Tictac: 5,
+  Ketchuru: 6,
+  Garama: 7,
+  Yeti: 8,
+  Capitano: 9,
+  Spooky: 10,
+  Cerberus: 11,
+  LaCraft: 12,
+  LaFuse: 13,
+  Gold: 14,
+  KetupatBros: 15,
+  Serpent: 16,
+  Dragon: 17,
+  HydraDragon: 18,
+  DragonAqua: 19,
+  Kraken: 20,
+  DragonGinger: 21,
+  Skibidi: 22,
+  Strawberry: 23
+};
 
 function escapeHtml(v){ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 
@@ -3046,7 +3302,7 @@ function getCaseImgHtml(img){
   if(!img) return '';
   const localSrc = IMG_BASE_LOCAL + img;
   const remoteSrc = IMG_BASE + img;
-  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';this.onerror=function(){this.style.display='none';if(this.parentElement){this.parentElement.innerHTML='<div class=\\'case-main-emoji\\'>◈</div>';}};" alt="">`;
+  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';" alt="">`;
 }
 
 /* =========================================================
@@ -3130,6 +3386,7 @@ let sourceItem = null;
 let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
+let purchaseLock = false; // защита от дюпа
 
 const PROFILE_KEY = 'upgrader_profile_v9';
 const USERS_KEY = 'upgrader_users_v9';
@@ -3156,14 +3413,69 @@ let rocketSelectedItemSlot = null;
 let rocketBetIsItem = false;
 let rocketBetItemName = '';
 
+let currentCaseId = null; // открытый кейс
+let caseRolling = false;
+
 const VIP_PRICE = 200;
 const MAX_CHANCE = 75;
 const VIP_BONUS = 2;
 
+/* =========================================================
+   CASES (новые)
+========================================================= */
 const CASES = [
-  { id:'noobini', name:'КЕЙС НУБИНИ', img:'NOOBINI1CASE.png', price:17,
-    rewards:[{itemIndex:1},{itemIndex:3},{itemIndex:7}] }
+  {
+    id:'noobini',
+    name:'Нубини',
+    img:'NOOBINI1CASE.png',
+    price:17,
+    drops:[
+      { itemIndex: IDX.Mops,       chance: 60 },
+      { itemIndex: IDX.Bananchik,  chance: 30 },
+      { itemIndex: IDX.TangTang,   chance: 10 }
+    ]
+  },
+  {
+    id:'cannelloni',
+    name:'Cannelloni Case',
+    img:'dragoncase.png',
+    price:799,
+    drops:[
+      { itemIndex: IDX.KetupatBros, chance: 45 },
+      { itemIndex: IDX.Serpent,     chance: 40 },
+      { itemIndex: IDX.Dragon,      chance: 10 },
+      { itemIndex: IDX.HydraDragon, chance: 5 },
+      { itemIndex: IDX.Kraken,      chance: 3 },
+      { itemIndex: IDX.DragonAqua,  chance: 2 }
+    ]
+  },
+  {
+    id:'king',
+    name:'King Case',
+    img:'KorolCASE.png',
+    price:5000,
+    drops:[
+      { itemIndex: IDX.DragonAqua,   chance: 75 },
+      { itemIndex: IDX.Kraken,       chance: 20 },
+      { itemIndex: IDX.DragonGinger, chance: 5 },
+      { itemIndex: IDX.Skibidi,      chance: 4 },
+      { itemIndex: IDX.Strawberry,   chance: 1 }
+    ]
+  }
 ];
+
+function getCase(id){ return CASES.find(c=>c.id===id); }
+
+// Взвешенный выбор дропа по шансам
+function pickCaseDrop(c){
+  const total = c.drops.reduce((s,d)=>s+d.chance,0);
+  let r = Math.random() * total;
+  for(const d of c.drops){
+    r -= d.chance;
+    if(r <= 0) return d;
+  }
+  return c.drops[c.drops.length-1];
+}
 
 /* =========================================================
    PROFILE / STORAGE
@@ -3424,10 +3736,13 @@ function switchAdminTab(tab, btn){
    VIP
 ========================================================= */
 async function buyVip(){
+  if(purchaseLock) return;
   if(profile?.vip){ showToast('VIP уже активен', 'info'); return; }
   if(balance < VIP_PRICE){ showToast(`Нужно ${VIP_PRICE} 💎`, 'error'); return; }
   if(!confirm(`Купить VIP за ${VIP_PRICE} 💎?`)) return;
+  purchaseLock = true;
   const res = await serverUpdateBalance(-VIP_PRICE);
+  purchaseLock = false;
   if(!res || res.balance === undefined) return;
   profile.vip = true;
   saveProfileData();
@@ -3442,8 +3757,6 @@ async function buyVip(){
 
 /* =========================================================
    CHANCES
-   Максимальный шанс = 75% (даже если апгрейд 70→71)
-   VIP добавляет +2% (но не выше 75%)
 ========================================================= */
 function calculateChance(fromP, toP){
   if(!fromP || !toP) return 0;
@@ -3524,55 +3837,142 @@ function renderShop(){
 }
 
 /* =========================================================
-   CASES
+   CASES UI
 ========================================================= */
 function renderCases(){
-  const list = document.getElementById('casesList');
-  if(!list) return;
-  list.innerHTML = '';
-  CASES.forEach((c, idx)=>{
-    const card = document.createElement('div');
-    card.className = 'case-card';
-    const rewards = c.rewards.map(r=>{
-      const it = items[r.itemIndex];
-      if(!it) return '';
-      return `
-        <div class="case-reward">
-          ${getItemImgHtml(it,'')}
-          <div class="case-reward-name">${escapeHtml(it.name).slice(0,14)}</div>
-          <div class="case-reward-price">${it.price} 💎</div>
-        </div>
-      `;
-    }).join('');
-    const mainImg = c.img ? `<div class="case-main-img">${getCaseImgHtml(c.img)}</div>` : `<div class="case-main-img"><div class="case-main-emoji">◈</div></div>`;
-    card.innerHTML = `
-      <div class="case-top">
-        <div class="case-rarity">Classic</div>
-        <div class="case-idx">#${String(idx+1).padStart(3,'0')}</div>
-      </div>
-      ${mainImg}
-      <div class="case-meta">
-        <div class="case-name">${escapeHtml(c.name)}</div>
-        <div class="case-price">${c.price} 💎</div>
-      </div>
-      <div class="case-rewards">${rewards}</div>
-      <button class="open-case" type="button">Открыть за ${c.price} 💎</button>
+  const container = document.getElementById('casesContainer');
+  if(!container) return;
+  if(currentCaseId){
+    renderCaseView();
+    return;
+  }
+  // Список кейсов
+  container.innerHTML = `
+    <div class="case-list-grid" id="caseListGrid"></div>
+  `;
+  const grid = document.getElementById('caseListGrid');
+  CASES.forEach(c=>{
+    const tile = document.createElement('div');
+    tile.className = 'case-tile';
+    tile.innerHTML = `
+      <div class="case-tile-img">${getCaseImgHtml(c.img)}</div>
+      <div class="case-tile-name">${escapeHtml(c.name)}</div>
+      <div class="case-tile-price">💎 ${c.price}</div>
     `;
-    card.querySelector('.open-case').onclick = e => { e.stopPropagation(); openCase(c.id); };
-    list.appendChild(card);
+    tile.onclick = () => { sfxClick(); currentCaseId = c.id; renderCases(); };
+    grid.appendChild(tile);
   });
 }
 
-let caseRolling = false;
+function renderCaseView(){
+  const container = document.getElementById('casesContainer');
+  const c = getCase(currentCaseId);
+  if(!c){ currentCaseId = null; renderCases(); return; }
+
+  const dropsHtml = c.drops.map(d=>{
+    const it = items[d.itemIndex];
+    if(!it) return '';
+    let chCls = '';
+    if(d.chance <= 5) chCls = 'rare';
+    else if(d.chance <= 15) chCls = 'low';
+    return `<div class="drop-item">
+      <div class="drop-chance ${chCls}">${d.chance}%</div>
+      ${getItemImgHtml(it,'drop-img')}
+      <div class="drop-name">${escapeHtml(it.name)}</div>
+      <div class="drop-price">💎 ${it.price}</div>
+    </div>`;
+  }).join('');
+
+  // Превью-рулетка: просто показываем несколько случайных дропов для красоты
+  const previewItems = [];
+  for(let i=0;i<14;i++){
+    const d = c.drops[i % c.drops.length];
+    previewItems.push(d.itemIndex);
+  }
+  const previewHtml = previewItems.map(idx=>{
+    const it = items[idx];
+    return `<div class="case-preview-item">
+      ${getItemImgHtml(it,'')}
+      <div class="pv-name">${escapeHtml(it.name).slice(0,12)}</div>
+      <div class="pv-price">💎 ${it.price}</div>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="case-view">
+      <div class="case-view-header">
+        <button class="case-back-btn" onclick="backToCases()">← Назад к кейсам</button>
+      </div>
+
+      <div class="case-hero">
+        <div class="case-hero-img">${getCaseImgHtml(c.img)}</div>
+        <div class="case-hero-name">${escapeHtml(c.name)}</div>
+      </div>
+
+      <div class="case-preview">
+        <div class="case-preview-marker"></div>
+        <div class="case-preview-strip">${previewHtml}</div>
+      </div>
+
+      <div class="case-info-row">
+        <div class="case-info-cell">
+          <div class="case-info-label">Цена</div>
+          <div class="case-info-value">💎 ${c.price}</div>
+        </div>
+        <div class="case-info-cell">
+          <div class="case-info-label">Предметов</div>
+          <div class="case-info-value">${c.drops.length}</div>
+        </div>
+        <div class="case-info-cell">
+          <div class="case-info-label">Макс. дроп</div>
+          <div class="case-info-value">💎 ${Math.max(...c.drops.map(d=>items[d.itemIndex].price))}</div>
+        </div>
+      </div>
+
+      <button class="case-open-btn" id="openCaseBtn">🎁 Открыть кейс — ${c.price} 💎</button>
+
+      <div class="case-drops-section">
+        <div class="case-drops-head">
+          <span class="dot"></span>
+          Что может выпасть
+        </div>
+        <div class="case-drops-grid">${dropsHtml}</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('openCaseBtn').onclick = () => openCase(c.id);
+}
+
+function backToCases(){
+  currentCaseId = null;
+  renderCases();
+}
+
+/* =========================================================
+   OPEN CASE (с защитой от дюпа)
+========================================================= */
 async function openCase(caseId){
-  if(caseRolling || spinning) return;
-  const c = CASES.find(x=>x.id===caseId);
+  if(caseRolling || spinning || purchaseLock) return;
+  const c = getCase(caseId);
   if(!c) return;
   if(balance < c.price){ showToast('Недостаточно кристаллов', 'error'); return; }
-  const spend = await serverUpdateBalance(-c.price);
-  if(!spend || spend.balance === undefined){ showToast('Ошибка списания', 'error'); return; }
 
-  const reward = c.rewards[Math.floor(Math.random()*c.rewards.length)];
+  purchaseLock = true;
+  const openBtn = document.getElementById('openCaseBtn');
+  if(openBtn){ openBtn.disabled = true; openBtn.textContent = 'Открываем...'; }
+
+  const spend = await serverUpdateBalance(-c.price);
+  if(!spend || spend.balance === undefined){
+    showToast('Ошибка списания', 'error');
+    purchaseLock = false;
+    if(openBtn){ openBtn.disabled = false; openBtn.textContent = `🎁 Открыть кейс — ${c.price} 💎`; }
+    return;
+  }
+
+  // Взвешенный выбор по шансам
+  const reward = pickCaseDrop(c);
+
   const modal = document.getElementById('caseModal');
   const title = document.getElementById('caseModalTitle');
   const strip = document.getElementById('caseStrip');
@@ -3587,11 +3987,15 @@ async function openCase(caseId){
   resultName.textContent = '—';
   resultPrice.textContent = '';
 
-  const TOTAL = 40, WIN_POS = 32;
+  // Строим ленту с выигрышем в позиции WIN_POS
+  const TOTAL = 50, WIN_POS = 42;
   const seq = [];
   for(let i=0;i<TOTAL;i++){
     if(i===WIN_POS) seq.push(reward.itemIndex);
-    else seq.push(c.rewards[Math.floor(Math.random()*c.rewards.length)].itemIndex);
+    else {
+      const d = pickCaseDrop(c);
+      seq.push(d.itemIndex);
+    }
   }
   strip.innerHTML = seq.map(idx=>`<div class="case-strip-item">${getItemImgHtml(items[idx],'')}</div>`).join('');
 
@@ -3606,7 +4010,7 @@ async function openCase(caseId){
     const center = 20 + WIN_POS*STEP + IW/2;
     const offset = center - rw/2;
     const jitter = (Math.random()-0.5)*(IW*0.6);
-    strip.style.transition = 'transform 3.6s cubic-bezier(.12,.75,.15,1)';
+    strip.style.transition = 'transform 3.8s cubic-bezier(.12,.75,.15,1)';
     strip.style.transform = `translateY(-50%) translateX(${-(offset+jitter)}px)`;
   }));
 
@@ -3619,12 +4023,14 @@ async function openCase(caseId){
     result.classList.add('show');
     closeBtn.classList.add('show');
     caseRolling = false;
+    purchaseLock = false;
     sfxWin();
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     showFlash(cx, cy, 'rgba(255,255,255,.5)', 320);
     showParticles(cx, cy, '#fff', 24);
     if(window.snowBurst) window.snowBurst(cx, cy, 28, '255,255,255');
-  }, 3700);
+    if(openBtn){ openBtn.disabled = false; openBtn.textContent = `🎁 Открыть кейс — ${c.price} 💎`; }
+  }, 3900);
 }
 function closeCaseModal(){
   document.getElementById('caseModal').classList.remove('show');
@@ -3675,28 +4081,32 @@ function renderInventory(){
   body.appendChild(list);
 }
 async function sellItem(idx){
-  if(spinning) return;
+  if(spinning || purchaseLock) return;
   const entry = inventory[idx];
   if(!entry) return;
   const item = getInventoryItem(idx);
   if(!item) return;
+  purchaseLock = true;
   inventory.splice(idx,1);
   if(sourceItem === idx){ sourceItem = null; clearSourceDisplay(); }
   else if(sourceItem !== null && sourceItem > idx) sourceItem--;
   saveProfileData();
   await serverUpdateBalance(item.price);
+  purchaseLock = false;
   sfxClick();
   showToast('Продано за ' + item.price + ' 💎', 'success');
   renderAll(); updateTop();
 }
 async function sellAll(){
-  if(spinning || inventory.length === 0) return;
+  if(spinning || purchaseLock || inventory.length === 0) return;
   if(!confirm('Продать все предметы?')) return;
+  purchaseLock = true;
   const total = inventory.reduce((s,e)=>s+(items[e.itemIndex]?.price||0), 0);
   inventory = [];
   sourceItem = null; clearSourceDisplay();
   saveProfileData();
   await serverUpdateBalance(total);
+  purchaseLock = false;
   sfxClick();
   showToast(`Продано всё за ${total} 💎`, 'success');
   renderAll(); updateTop();
@@ -3781,20 +4191,22 @@ function updateRocketStats(){
 }
 
 /* =========================================================
-   BUY
+   BUY (с защитой от дюпа)
 ========================================================= */
 async function buyItem(index){
-  if(spinning) return;
+  if(spinning || purchaseLock) return;
   const item = items[index];
   if(!item) return;
   if(balance < item.price){
     showToast('Недостаточно кристаллов', 'error');
     return;
   }
+  purchaseLock = true;
   const res = await serverUpdateBalance(-item.price);
-  if(!res || res.balance === undefined) return;
+  if(!res || res.balance === undefined){ purchaseLock = false; return; }
   inventory.push({ itemIndex: index });
   saveProfileData();
+  purchaseLock = false;
   sfxClick();
   showToast('Куплено: ' + item.name, 'success');
   renderAll();
@@ -3840,12 +4252,9 @@ function selectTarget(idx){
   sfxClick();
   updateTargetSlotDisplay();
   renderTargets(); updateTop();
-
   const targetPanel = document.getElementById('targetPanel');
   if(targetPanel){
-    setTimeout(()=>{
-      targetPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
-    }, 80);
+    setTimeout(()=>{ targetPanel.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 80);
   }
 }
 function clearSourceDisplay(){
@@ -3867,13 +4276,10 @@ function updateDisplayedChance(){
   const base = getBaseChance();
   wheelChance.textContent = c+'%';
   wheel.style.setProperty('--wheel-chance', c);
-  // VIP-подсветка: если есть VIP и шанс выше базового — золотой
   if(profile?.vip && c > base){
-    wheelChance.classList.add('hint-gold');
     wheelChance.style.color = 'var(--gold)';
     wheelChance.style.textShadow = '0 0 20px rgba(245,158,11,.5)';
   } else {
-    wheelChance.classList.remove('hint-gold');
     wheelChance.style.color = '';
     wheelChance.style.textShadow = '';
   }
@@ -4073,6 +4479,7 @@ function rocketAction(){
 }
 
 async function startRocket(){
+  if(purchaseLock) return;
   const resultEl = document.getElementById('rocketResult');
   const playBtn = document.getElementById('rocketPlayBtn');
 
@@ -4106,7 +4513,9 @@ async function startRocket(){
     saveProfileData();
     renderInventory(); renderRocketItems(); renderTargets();
   } else {
+    purchaseLock = true;
     const res = await serverUpdateBalance(-bet);
+    purchaseLock = false;
     if(!res || res.balance === undefined){ resultEl.textContent = 'Ошибка списания'; return; }
   }
 
@@ -4145,7 +4554,6 @@ function generateRocketCrash(){
 
 function rocketTick(){
   if(rocketState !== 'flying') return;
-
   const now = performance.now();
   const elapsed = (now - rocketStartTime) / 1000;
   rocketCurrentMultiplier = 1 + Math.pow(elapsed, 2) * 0.08 + elapsed * 0.05;
@@ -4157,7 +4565,6 @@ function rocketTick(){
     crashRocket();
     return;
   }
-
   updateRocketChart();
   updateRocketMultiplierUI();
 
@@ -4168,7 +4575,6 @@ function rocketTick(){
       return;
     }
   }
-
   rocketRaf = requestAnimationFrame(rocketTick);
 }
 
@@ -4177,22 +4583,16 @@ function updateRocketChart(){
   const area = document.getElementById('rocketArea');
   const emoji = document.getElementById('rocketEmoji');
   if(!line || !area) return;
-
   const w = 800, h = 440;
   const progress = Math.min(1, (rocketCurrentMultiplier - 1) / Math.max(0.5, rocketCrashAt - 1));
   const x = 40 + progress * (w - 80);
   const y = h - 40 - progress * (h - 100);
-
   rocketChartPoints.push({ x, y });
   if(rocketChartPoints.length > 600) rocketChartPoints.shift();
-
   let d = 'M 40 ' + (h - 40);
-  for(let i=1;i<rocketChartPoints.length;i++){
-    d += ' L ' + rocketChartPoints[i].x + ' ' + rocketChartPoints[i].y;
-  }
+  for(let i=1;i<rocketChartPoints.length;i++){ d += ' L ' + rocketChartPoints[i].x + ' ' + rocketChartPoints[i].y; }
   line.setAttribute('d', d);
   area.setAttribute('d', d + ' L ' + x + ' ' + (h - 40) + ' L 40 ' + (h - 40) + ' Z');
-
   if(emoji){
     emoji.setAttribute('x', x - 14);
     emoji.setAttribute('y', y + 8);
@@ -4200,7 +4600,6 @@ function updateRocketChart(){
     emoji.setAttribute('transform', `rotate(${rot} ${x} ${y})`);
   }
 }
-
 function updateRocketMultiplierUI(){
   const mult = document.getElementById('rocketMultiplier');
   if(mult) mult.textContent = rocketCurrentMultiplier.toFixed(2) + '×';
@@ -4214,7 +4613,6 @@ function cashOutRocket(){
   let total = Math.floor(rocketBet * rocketCurrentMultiplier);
   if(profile?.vip) total = Math.floor(total * 1.1);
   const profit = total - rocketBet;
-
   serverUpdateBalance(total);
 
   stats.rocket++;
@@ -4228,18 +4626,15 @@ function cashOutRocket(){
   const statusText = document.getElementById('rocketStatusText');
   status.className = 'rocket-status cashed';
   statusText.textContent = 'Забрал на ' + rocketCurrentMultiplier.toFixed(2) + '×';
-
   const resultEl = document.getElementById('rocketResult');
   resultEl.className = 'rocket-result win';
   resultEl.textContent = `Забрал ${total} 💎 (+${profit})${profile?.vip?' 👑':''}`;
-
   showToast(`Ракетка: +${total} 💎`, 'success');
   sfxCashout();
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(34,197,94,.5)', 320);
   showParticles(cx, cy, '#22c55e', 24);
   if(window.snowBurst) window.snowBurst(cx, cy, 30, '34,197,94');
-
   pushRocketHistory(rocketCurrentMultiplier, true);
   resetRocketUI();
   updateRocketStats();
@@ -4252,7 +4647,6 @@ function crashRocket(){
   if(rocketState !== 'flying' && rocketState !== 'crashed') return;
   rocketState = 'crashed';
   if(rocketRaf) cancelAnimationFrame(rocketRaf);
-
   stats.rocket++;
   stats.rocketLosses++;
   if(rocketCurrentMultiplier > stats.rocketBest) stats.rocketBest = rocketCurrentMultiplier;
@@ -4264,18 +4658,15 @@ function crashRocket(){
   const statusText = document.getElementById('rocketStatusText');
   status.className = 'rocket-status crashed';
   statusText.textContent = '💥 Краш на ' + rocketCurrentMultiplier.toFixed(2) + '×';
-
   const resultEl = document.getElementById('rocketResult');
   resultEl.className = 'rocket-result lose';
   resultEl.textContent = `Краш на ${rocketCurrentMultiplier.toFixed(2)}× · -${rocketBet} 💎`;
-
   showToast(`Ракетка: краш -${rocketBet} 💎`, 'error');
   sfxLose();
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(239,68,68,.5)', 320);
   showParticles(cx, cy, '#ef4444', 24);
   if(window.snowBurst) window.snowBurst(cx, cy, 30, '239,68,68');
-
   pushRocketHistory(rocketCurrentMultiplier, false);
   resetRocketUI();
   updateRocketStats();
@@ -4283,24 +4674,18 @@ function crashRocket(){
   renderInventory(); renderTargets(); renderRocketItems(); renderShop();
   renderAchievements();
 }
-
 function resetRocketUI(){
   const playBtn = document.getElementById('rocketPlayBtn');
-  if(playBtn){
-    playBtn.classList.remove('cashout');
-    playBtn.textContent = 'Поставить';
-  }
+  if(playBtn){ playBtn.classList.remove('cashout'); playBtn.textContent = 'Поставить'; }
   const badge = document.getElementById('rocketBadge');
   if(badge) badge.textContent = 'IDLE';
   rocketState = 'idle';
 }
-
 function pushRocketHistory(mult, win){
   rocketHistory.unshift({ mult, win });
   if(rocketHistory.length > 6) rocketHistory.pop();
   renderRocketHistory();
 }
-
 function renderRocketHistory(){
   const el = document.getElementById('rocketHistory');
   if(!el) return;
@@ -4495,7 +4880,7 @@ function renderAdminPromos(){
     if(expired){ sc='expired'; st='ИСТЁК'; }
     else if(exhausted){ sc='exhausted'; st='ИСЧЕРПАН'; }
     const expireStr = expiresAt>0 ? new Date(expiresAt).toLocaleString('ru-RU') : 'Бессрочный';
-    return `<div class="admin-list-item" onclick="this.classList.toggle('open')">
+    return `<div class="admin-list-item">
       <div class="admin-list-item-header">
         <div class="admin-list-item-title">🎫 ${escapeHtml(p.code)}</div>
         <div class="admin-list-item-status ${sc}">${st}</div>
