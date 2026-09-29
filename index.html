@@ -14,7 +14,11 @@
 <style>
 :root{
   --bg:#000;
+  --surface:rgba(255,255,255,.035);
+  --surface-2:rgba(255,255,255,.06);
+  --surface-3:rgba(255,255,255,.09);
   --border:rgba(255,255,255,.06);
+  --border-2:rgba(255,255,255,.1);
   --txt:#f4f5f7;
   --txt-2:#c7ccd3;
   --txt-3:#8b919b;
@@ -24,619 +28,2220 @@
   --green-dim:rgba(34,197,94,.12);
   --red:#ef4444;
   --red-dim:rgba(239,68,68,.12);
-  --amber:#f59e0b;
   --radius:14px;
   --radius-sm:10px;
   --radius-lg:18px;
 }
+
 *{ box-sizing:border-box; margin:0; padding:0; }
-html,body{ width:100%; min-height:100%; background:var(--bg); color:var(--txt); }
+
+html,body{
+  width:100%; min-height:100%;
+  background:var(--bg);
+  color:var(--txt);
+}
+
 body{
   font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background: radial-gradient(900px 500px at 50% -10%, rgba(255,255,255,.03), transparent 60%), #000;
-  position:relative; overflow-x:hidden; font-size:13px; letter-spacing:-.01em;
+  font-weight:400;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(255,255,255,.03), transparent 60%),
+    #000;
+  position:relative;
+  overflow-x:hidden;
+  font-size:13px;
+  letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
-.mono, .balance b, .stat-value, .wheel-chance{ font-family:"JetBrains Mono",monospace; font-variant-numeric:tabular-nums; }
-#snowCanvas{ position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:0; pointer-events:none; opacity:.16; }
-#effectLayer{ position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9998; pointer-events:none; overflow:hidden; }
-button, input, select{ font:inherit; letter-spacing:inherit; }
-button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:inherit; color:inherit; background:transparent; }
-.app{ width:100%; max-width:1240px; min-height:100vh; padding:18px 22px 44px; position:relative; z-index:1; margin:0 auto; }
 
-/* TOPBAR */
+.mono, .num, .balance b, .stat-value, .wheel-chance, .case-price-new, .item-price, .shop-item-price, .slot-item-price{
+  font-family:"JetBrains Mono","SF Mono",ui-monospace,monospace;
+  font-feature-settings:"tnum","zero";
+  font-variant-numeric:tabular-nums;
+}
+
+#snowCanvas{
+  position:fixed; top:0; left:0;
+  width:100vw; height:100vh;
+  z-index:0; pointer-events:none; opacity:.16;
+}
+#effectLayer{
+  position:fixed; top:0; left:0;
+  width:100vw; height:100vh;
+  z-index:9998; pointer-events:none; overflow:hidden;
+}
+
+button, input, select{ font:inherit; letter-spacing:inherit; }
+button{
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  border:0;
+  font-family:inherit;
+  color:inherit;
+  background:transparent;
+}
+button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2px; }
+
+.app{
+  width:100%; max-width:1240px;
+  min-height:100vh;
+  padding:18px 22px 44px;
+  position:relative; z-index:1;
+  margin:0 auto;
+}
+
+/* ========== TOPBAR ========== */
 .topbar{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding:12px 18px; margin-bottom:20px;
-  background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
-  backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:16px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 12px 40px rgba(0,0,0,.55);
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:16px;
+  padding:14px 0 22px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:22px;
 }
 .brand-wrap{ display:flex; align-items:center; gap:14px; }
-.brand-mark{
-  width:42px; height:42px; border-radius:12px;
-  background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
-  backdrop-filter:blur(20px);
-  display:flex; align-items:center; justify-content:center;
-  border:1px solid rgba(255,255,255,.06);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
-  overflow:hidden; flex-shrink:0; font-size:16px; font-weight:700; color:#fff;
-}
-.brand-mark img{ width:100%; height:100%; object-fit:contain; padding:5px; box-sizing:border-box; }
-.brand{ display:flex; flex-direction:column; gap:2px; }
-.brand-name{ font-size:18px; font-weight:700; color:#fff; line-height:1; }
-.brand-name .accent{ color:var(--txt-3); font-weight:400; }
-.brand-tag{ font-size:10px; color:var(--txt-4); letter-spacing:.2px; }
 
-.top-right{ display:flex; align-items:center; gap:10px; }
+.brand-mark{
+  width:44px; height:44px;
+  border-radius:12px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+  backdrop-filter:blur(20px) saturate(140%);
+  -webkit-backdrop-filter:blur(20px) saturate(140%);
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  overflow:hidden;
+  flex-shrink:0;
+  font-size:16px; font-weight:700; color:#fff;
+}
+.brand-mark img{
+  width:100%; height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  padding:5px;
+  box-sizing:border-box;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.2));
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+.brand{ display:flex; flex-direction:column; gap:3px; }
+.brand-name{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:-.02em;
+  color:#fff;
+  line-height:1;
+}
+.brand-name .accent{ color:var(--txt-3); font-weight:400; }
+.brand-tag{
+  font-size:11px;
+  color:var(--txt-4);
+  letter-spacing:.3px;
+  font-weight:400;
+}
+
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 .balance{
-  display:flex; align-items:center; gap:9px; padding:8px 14px;
-  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-  backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.05);
-  border-radius:12px; height:38px;
+  display:flex; align-items:center; gap:10px;
+  padding:9px 16px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+  white-space:nowrap;
+  height:40px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
 }
-.balance .ico{ font-size:13px; opacity:.85; }
-.balance .val{ font-size:14px; font-weight:600; color:#fff; }
-.balance .lbl{ font-size:9px; color:var(--txt-4); letter-spacing:.8px; text-transform:uppercase; font-weight:500; }
+.balance .ico{ font-size:14px; opacity:.8; }
+.balance .val{ font-size:15px; font-weight:600; color:#fff; line-height:1; }
+.balance .lbl{
+  font-size:9px;
+  color:var(--txt-4);
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  font-weight:500;
+}
 
-/* NAV */
+/* ========== NAV ========== */
 .top-nav{
-  display:flex; align-items:center; gap:4px; padding:5px; margin-bottom:20px;
-  background: linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
-  backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.035); border-radius:14px;
-  overflow-x:auto; scrollbar-width:none;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:5px;
+  margin-bottom:22px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:14px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
 }
 .top-nav::-webkit-scrollbar{ display:none; }
 .nav-btn{
-  height:38px; padding:0 18px; border-radius:10px;
-  color:var(--txt-4); font-size:11px; font-weight:500;
+  height:38px;
+  padding:0 18px;
+  border-radius:10px;
+  background:transparent;
+  color:var(--txt-4);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.3px;
   display:flex; align-items:center; gap:7px;
-  transition:.18s; white-space:nowrap; flex-shrink:0;
-  border:1px solid transparent;
+  transition:.18s;
+  white-space:nowrap;
+  flex-shrink:0;
   position:relative;
+  border:1px solid transparent;
 }
 .nav-btn:hover{ color:var(--txt-2); background:rgba(255,255,255,.03); }
 .nav-btn.active{
   color:#fff;
   background:linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
-  border-color:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.05);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
 }
-.nav-btn.active::after{
-  content:"";
-  position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
-  width:24px; height:2px; border-radius:2px;
-  background:var(--green);
-  box-shadow:0 0 10px rgba(34,197,94,.7);
-}
-.nav-icon{ font-size:13px; opacity:.9; }
+.nav-btn .nav-icon{ font-size:13px; opacity:.9; }
 
-/* LIVE FEED */
-.live-wrap{
-  position:fixed; top:16px; right:16px; bottom:16px; width:230px;
-  z-index:9000; display:none; flex-direction:column; gap:10px;
-  pointer-events:none; overflow-y:auto; padding-right:4px;
-  scrollbar-width:thin; scrollbar-color:rgba(34,197,94,.35) transparent;
+/* ========== LAYOUT ========== */
+.layout{
+  display:grid;
+  grid-template-columns: 300px 1fr 340px;
+  gap:16px;
+  align-items:start;
 }
-.live-wrap.visible{ display:flex; }
-.live-wrap::-webkit-scrollbar{ width:5px; }
-.live-wrap::-webkit-scrollbar-thumb{ background:rgba(34,197,94,.35); border-radius:5px; }
-.live-card{
-  background: linear-gradient(135deg, rgba(20,25,20,.92), rgba(5,10,5,.96));
-  backdrop-filter:blur(24px);
-  border:1px solid rgba(34,197,94,.25);
-  border-radius:14px;
-  padding:12px 10px 10px 14px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 16px 40px rgba(0,0,0,.6), 0 0 40px rgba(34,197,94,.08);
-  pointer-events:auto; overflow:hidden; flex-shrink:0;
-  position:relative;
-}
-.live-card::before{
-  content:"";
-  position:absolute; left:0; top:12px; bottom:12px; width:2px;
-  background:linear-gradient(180deg, transparent, #22c55e, transparent);
-  border-radius:2px;
-  box-shadow:0 0 10px rgba(34,197,94,.7);
-}
-.live-head{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:8px; margin-bottom:10px; padding-bottom:8px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.live-head-left{
-  display:flex; align-items:center; gap:6px;
-  font-size:10px; font-weight:700; letter-spacing:1px;
-  color:#fff; text-transform:uppercase;
-}
-.live-dot{
-  width:6px; height:6px; border-radius:50%;
-  background:#ef4444; box-shadow:0 0 8px #ef4444;
-  animation:liveDot 1.4s ease-in-out infinite;
-}
-@keyframes liveDot{ 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.4; transform:scale(.85); } }
-.live-sub{ font-size:9px; color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
-.live-list{ display:flex; flex-direction:column; gap:8px; }
-.live-item{
-  display:flex; flex-direction:column; align-items:center; gap:5px;
-  padding:10px 6px 9px; border-radius:12px;
-  background: linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,.008));
-  border:1px solid rgba(255,255,255,.04);
-  animation:livePop .4s ease;
-}
-@keyframes livePop{ from{ opacity:0; transform:translateY(-6px) scale(.96); } to{ opacity:1; transform:translateY(0) scale(1); } }
-.live-item-img{ width:64px; height:64px; object-fit:contain; filter:drop-shadow(0 0 12px rgba(34,197,94,.35)); }
-.live-item-name{ font-size:10.5px; font-weight:600; color:#fff; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; padding:0 2px; }
-.live-item-price{ font-size:11px; font-weight:600; color:#22c55e; font-family:"JetBrains Mono",monospace; text-shadow:0 0 8px rgba(34,197,94,.5); }
-.live-item-chance{ font-size:9.5px; color:var(--txt-3); font-family:"JetBrains Mono",monospace; }
-.live-item-user{ font-size:9px; color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
-.live-empty{ font-size:10px; color:var(--txt-4); text-align:center; padding:12px 6px; font-family:"JetBrains Mono",monospace; }
 
-/* LAYOUT */
-.layout{ display:grid; grid-template-columns: 300px 1fr 340px; gap:16px; align-items:start; }
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:12px;
+}
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--txt-2);
+  letter-spacing:.4px;
+  text-transform:uppercase;
+}
+.section-title .dot{
+  width:4px; height:4px; border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 8px rgba(255,255,255,.6);
+}
+.section-title .count{
+  color:var(--txt-4);
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+}
+.section-hint{
+  font-size:10px;
+  color:var(--txt-4);
+  font-weight:400;
+  letter-spacing:.2px;
+}
+
 .panel{
-  background: linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-  backdrop-filter:blur(28px);
-  border:1px solid rgba(255,255,255,.035); border-radius:var(--radius);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius);
   overflow:hidden;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 40px rgba(0,0,0,.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 12px 40px rgba(0,0,0,.6);
 }
 .panel-head{
   padding:13px 15px;
   border-bottom:1px solid rgba(255,255,255,.03);
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  position:relative;
-}
-.panel-head::after{
-  content:"";
-  position:absolute; left:15px; right:15px; bottom:0; height:1px;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 }
 .panel-body{ padding:14px; }
 .panel-body.tight{ padding:10px; }
-.section-title{ display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; color:var(--txt-2); letter-spacing:.4px; text-transform:uppercase; }
-.section-title .dot{ width:4px; height:4px; border-radius:50%; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.6); }
-.section-title .count{ color:var(--txt-4); font-weight:500; font-family:"JetBrains Mono",monospace; font-size:11px; }
-.section-hint{ font-size:10px; color:var(--txt-4); }
 
+/* ========== STAGE ========== */
 .stage{
-  background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
-  backdrop-filter:blur(32px);
-  border:1px solid rgba(255,255,255,.04); border-radius:var(--radius-lg);
-  padding:24px 26px 22px; position:relative; overflow:hidden;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 20px 60px rgba(0,0,0,.7);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  backdrop-filter:blur(32px) saturate(150%);
+  -webkit-backdrop-filter:blur(32px) saturate(150%);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:var(--radius-lg);
+  padding:24px 26px 22px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 20px 60px rgba(0,0,0,.7);
 }
-.stage-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:22px; }
-.stage-title{ font-size:12px; font-weight:600; color:var(--txt-2); letter-spacing:.4px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+.stage::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    radial-gradient(700px 220px at 50% -20%, rgba(255,255,255,.05), transparent 70%);
+  pointer-events:none;
+}
+.stage-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:22px;
+  position:relative;
+}
+.stage-title{
+  font-size:12px;
+  font-weight:600;
+  color:var(--txt-2);
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.stage-title .live-dot{
+  width:6px; height:6px; border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(255,255,255,.12);
+  animation:livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse{
+  0%,100%{ box-shadow:0 0 0 3px rgba(255,255,255,.12); }
+  50%{ box-shadow:0 0 0 6px rgba(255,255,255,.03); }
+}
 .stage-badge{
-  padding:4px 10px; border-radius:8px;
+  padding:4px 10px;
+  border-radius:8px;
   background:rgba(255,255,255,.05);
   border:1px solid rgba(255,255,255,.04);
-  font-size:9px; color:var(--txt-3); font-weight:600; letter-spacing:.6px;
+  font-size:9px;
+  color:var(--txt-3);
+  font-weight:600;
+  letter-spacing:.6px;
   font-family:"JetBrains Mono",monospace;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
 }
-.slot-row{ display:grid; grid-template-columns: 1fr 240px 1fr; align-items:center; gap:22px; }
-.slot-block{ display:flex; flex-direction:column; align-items:center; gap:11px; }
-.slot-label{ display:flex; align-items:center; gap:6px; font-size:10px; color:var(--txt-4); letter-spacing:.8px; font-weight:500; text-transform:uppercase; }
+
+.slot-row{
+  display:grid;
+  grid-template-columns: 1fr 240px 1fr;
+  align-items:center;
+  gap:22px;
+  position:relative;
+}
+.slot-block{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:11px;
+}
+.slot-label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:10px;
+  color:var(--txt-4);
+  letter-spacing:.8px;
+  font-weight:500;
+  text-transform:uppercase;
+}
+.slot-label .kbd{
+  font-size:9px;
+  color:var(--txt-5);
+  font-family:"JetBrains Mono",monospace;
+  padding:1px 6px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:5px;
+  background:rgba(255,255,255,.02);
+}
 .slot{
-  width:100%; height:132px; border:1px dashed rgba(255,255,255,.1); border-radius:var(--radius);
-  background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  width:100%;
+  height:132px;
+  border:1px dashed rgba(255,255,255,.1);
+  border-radius:var(--radius);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
   backdrop-filter:blur(20px);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
-  cursor:pointer; color:var(--txt-4); transition:.2s; position:relative; padding:10px 12px;
+  -webkit-backdrop-filter:blur(20px);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:6px;
+  cursor:pointer;
+  color:var(--txt-4);
+  transition:.2s;
+  position:relative;
+  padding:10px 12px;
   overflow:hidden;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.slot:hover{
+  border-color:rgba(255,255,255,.18);
+  color:var(--txt-2);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
 }
 .slot.selected{
-  border-style:solid; border-color:rgba(255,255,255,.22); color:#fff;
+  border-style:solid;
+  border-color:rgba(255,255,255,.22);
+  color:#fff;
   background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 0 40px rgba(255,255,255,.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.15),
+    0 0 40px rgba(255,255,255,.04);
 }
-.slot-plus{ font-size:26px; font-weight:300; opacity:.7; }
-.slot-empty-label{ font-size:10px; font-weight:500; color:inherit; }
-.slot-empty-sub{ font-size:9px; color:var(--txt-5); }
-.slot-item-img{ width:100%; height:100%; max-width:64px; max-height:64px; object-fit:contain; display:block; }
-.slot-item-name{ font-size:11px; color:var(--txt-2); font-weight:500; text-align:center; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.slot-item-price{ font-size:13px; color:#fff; font-weight:600; font-family:"JetBrains Mono",monospace; }
+.slot-plus{ font-size:26px; line-height:1; font-weight:300; opacity:.7; }
+.slot-empty-label{
+  font-size:10px; font-weight:500; letter-spacing:.4px; color:inherit;
+}
+.slot-empty-sub{ font-size:9px; color:var(--txt-5); letter-spacing:.2px; }
 
-.wheel-wrap{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+/* Slot item image — always fully contained */
+.slot-item-img{
+  width:100%;
+  height:100%;
+  max-width:64px;
+  max-height:64px;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  flex-shrink:0;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.slot-item-name{
+  font-size:11px;
+  color:var(--txt-2);
+  font-weight:500;
+  text-align:center;
+  line-height:1.2;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.slot-item-price{
+  font-size:13px;
+  color:#fff;
+  font-weight:600;
+  font-family:"JetBrains Mono",monospace;
+}
+
+.wheel-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
 .wheel{
-  width:220px; height:220px; border-radius:50%;
-  position:relative; --wheel-chance:30;
-  background:conic-gradient(var(--green) 0 calc(var(--wheel-chance) * 1%), var(--red) calc(var(--wheel-chance) * 1%) 100%);
+  width:220px; height:220px;
+  border-radius:50%;
+  position:relative;
+  --wheel-chance:30;
+  background:conic-gradient(
+    var(--green) 0 calc(var(--wheel-chance) * 1%),
+    var(--red) calc(var(--wheel-chance) * 1%) 100%
+  );
   border:3px solid #000;
-  box-shadow: 0 0 0 1px rgba(255,255,255,.06), inset 0 0 60px rgba(0,0,0,.5), 0 20px 50px rgba(0,0,0,.7);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.06),
+    inset 0 0 60px rgba(0,0,0,.5),
+    0 20px 50px rgba(0,0,0,.7);
 }
 .wheel::after{
-  content:""; position:absolute; inset:24px; border-radius:50%;
-  background: radial-gradient(circle, rgba(255,255,255,.04), transparent 70%), #000;
+  content:"";
+  position:absolute; inset:24px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,.04), transparent 70%),
+    #000;
   border:1px solid rgba(255,255,255,.05);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter:blur(10px);
 }
-.pointer-wrap{ position:absolute; z-index:4; inset:0; transform:rotate(0deg); transition:transform 1.9s cubic-bezier(.12,.78,.16,1); }
-.pointer{ position:absolute; left:50%; top:-9px; width:2px; height:40px; background:#fff; transform:translateX(-50%); box-shadow:0 0 12px rgba(255,255,255,.4); }
-.pointer::after{ content:""; position:absolute; left:50%; top:-4px; transform:translateX(-50%); border-left:6px solid transparent; border-right:6px solid transparent; border-top:9px solid #fff; }
-.wheel-center{ position:absolute; z-index:5; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; }
-.wheel-label{ font-size:9px; letter-spacing:3px; color:var(--txt-4); font-weight:500; }
-.wheel-chance{ font-size:34px; font-weight:600; color:#fff; line-height:1; }
-.wheel-sub{ font-size:9px; color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
+.pointer-wrap{
+  position:absolute; z-index:4; inset:0;
+  transform:rotate(0deg);
+  transition:transform 1.9s cubic-bezier(.12,.78,.16,1);
+}
+.pointer{
+  position:absolute; left:50%; top:-9px; width:2px; height:40px;
+  background:#fff;
+  transform:translateX(-50%);
+  border-radius:2px;
+  box-shadow:0 0 12px rgba(255,255,255,.4);
+}
+.pointer::after{
+  content:"";
+  position:absolute; left:50%; top:-4px;
+  transform:translateX(-50%);
+  border-left:6px solid transparent;
+  border-right:6px solid transparent;
+  border-top:9px solid #fff;
+}
+.wheel-center{
+  position:absolute; z-index:5; inset:0;
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  gap:4px;
+}
+.wheel-label{
+  font-size:9px; letter-spacing:3px; color:var(--txt-4); font-weight:500;
+}
+.wheel-chance{
+  font-size:34px; font-weight:600; color:#fff;
+  letter-spacing:-.04em;
+  line-height:1;
+}
+.wheel-sub{
+  font-size:9px;
+  color:var(--txt-4);
+  letter-spacing:.4px;
+  font-family:"JetBrains Mono",monospace;
+}
 
-.stage-controls{ display:grid; grid-template-columns: 1fr 50px; gap:10px; margin-top:22px; }
+.stage-controls{
+  display:grid;
+  grid-template-columns: 1fr 50px;
+  gap:10px;
+  margin-top:22px;
+}
 .upgrade{
   height:50px;
-  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  backdrop-filter:blur(24px);
-  color:#fff; font-size:12px; font-weight:600; letter-spacing:1.4px;
-  text-transform:uppercase; border-radius:12px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  transition:.2s;
+  border-radius:12px;
+  position:relative;
+  overflow:hidden;
   border:1px solid rgba(255,255,255,.04);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
-  transition:.2s;
 }
-.upgrade:hover{ transform:translateY(-1px); filter:brightness(1.15); }
-.upgrade:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
-.upgrade.locked{ color:var(--txt-4); }
+.upgrade::after{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  transform:translateX(-100%);
+  transition:transform .7s;
+}
+.upgrade:hover::after{ transform:translateX(100%); }
+.upgrade:hover{
+  background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+}
+.upgrade:disabled{ opacity:.35; cursor:not-allowed; }
+.upgrade.locked{
+  background:linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+  color:var(--txt-4);
+}
 .energy{
   width:50px; height:50px;
-  background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.04); color:#fff;
-  font-size:17px; display:flex; align-items:center; justify-content:center;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.04);
+  color:#fff;
+  font-size:17px;
+  display:flex; align-items:center; justify-content:center;
+  transition:.2s;
   border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
 }
-.energy:hover{ transform:translateY(-1px); filter:brightness(1.15); }
-.stage-hint{
-  margin-top:14px; padding:12px 14px;
-  background: linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.008));
-  border:1px dashed rgba(255,255,255,.06); border-radius:12px;
-  display:flex; align-items:center; gap:10px;
-  font-size:11px; color:var(--txt-3); font-family:"JetBrains Mono",monospace;
-  min-height:44px;
-}
-.hint-green{ color:var(--green); font-weight:500; }
-.hint-blue{ color:#fff; font-weight:500; }
-.hint-red{ color:var(--red); font-weight:500; }
+.energy:hover{ background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03)); }
 
-.stats-row{ display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:18px; padding-top:18px; border-top:1px solid rgba(255,255,255,.04); }
+.stage-hint{
+  margin-top:14px;
+  padding:12px 14px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px dashed rgba(255,255,255,.06);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+  color:var(--txt-3);
+  font-family:"JetBrains Mono",monospace;
+  min-height:44px;
+  position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.stage-hint .hint-arrow{ color:var(--txt-4); }
+.stage-hint .hint-green{ color:var(--green); font-weight:500; }
+.stage-hint .hint-blue{ color:#fff; font-weight:500; }
+.stage-hint .hint-red{ color:var(--red); font-weight:500; }
+
+.stats-row{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:10px;
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.04);
+}
 .stat{
   padding:12px 14px;
-  background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  border:1px solid rgba(255,255,255,.03); border-radius:12px;
-  display:flex; flex-direction:column; gap:4px;
-  transition:.2s;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
-.stat:hover{ border-color:rgba(255,255,255,.08); }
-.stat-label{ font-size:9px; color:var(--txt-4); letter-spacing:.6px; text-transform:uppercase; font-weight:500; }
-.stat-value{ font-size:16px; color:#fff; font-weight:500; }
+.stat-label{
+  font-size:9px;
+  color:var(--txt-4);
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  font-weight:500;
+}
+.stat-value{
+  font-size:16px;
+  color:#fff;
+  font-weight:500;
+  letter-spacing:-.02em;
+}
 
-/* INVENTORY */
+/* ========== INVENTORY ========== */
 .inv-list{ display:flex; flex-direction:column; gap:6px; }
 .inv-item{
-  padding:10px 11px; display:grid; grid-template-columns:48px 1fr auto;
-  gap:10px; align-items:center; cursor:pointer;
-  background: linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.03); border-radius:12px;
-  position:relative; transition:.15s;
+  padding:10px 11px;
+  display:grid;
+  grid-template-columns:48px 1fr auto;
+  gap:10px;
+  align-items:center;
+  cursor:pointer;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  transition:.18s;
+  position:relative;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
-.inv-item:hover{ border-color:rgba(255,255,255,.1); }
+.inv-item:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+}
 .inv-item.selected{
   border-color:rgba(255,255,255,.18);
   background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    0 0 30px rgba(255,255,255,.03);
 }
 .inv-item.selected::before{
-  content:""; position:absolute; left:0; top:10px; bottom:10px; width:2px;
-  background:#fff; border-radius:2px;
+  content:"";
+  position:absolute; left:0; top:10px; bottom:10px; width:2px;
+  background:#fff;
+  border-radius:2px;
+  box-shadow:0 0 8px rgba(255,255,255,.5);
 }
-.inv-item-img{ width:100%; height:100%; max-width:44px; max-height:44px; object-fit:contain; display:block; }
+.inv-item-img{
+  width:100%;
+  height:100%;
+  max-width:44px;
+  max-height:44px;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
 .inv-item-info{ min-width:0; display:flex; flex-direction:column; gap:2px; }
-.inv-item-name{ font-size:11px; color:var(--txt-2); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.inv-item-meta{ font-size:10px; color:var(--txt-4); display:flex; gap:6px; }
-.inv-item-meta .price{ color:#fff; font-weight:500; font-family:"JetBrains Mono",monospace; }
-.sell-btn{
-  height:28px; padding:0 11px;
-  background:var(--red-dim); color:var(--red);
-  border:1px solid rgba(239,68,68,.15);
-  font-size:10px; font-weight:500; border-radius:8px;
-  transition:.15s;
+.inv-item-name{
+  font-size:11px;
+  color:var(--txt-2);
+  font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.sell-btn:hover{ background:var(--red); color:#fff; }
+.inv-item-meta{
+  font-size:10px;
+  color:var(--txt-4);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.inv-item-meta .price{
+  color:#fff;
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+}
+.sell-btn{
+  height:28px;
+  padding:0 11px;
+  background:var(--red-dim);
+  color:var(--red);
+  border:1px solid rgba(239,68,68,.15);
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.3px;
+  border-radius:8px;
+  transition:.15s;
+  backdrop-filter:blur(10px);
+}
+.sell-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
 
-.empty{ padding:36px 20px; text-align:center; color:var(--txt-4); font-size:11px; display:flex; flex-direction:column; align-items:center; gap:10px; }
-.empty .ico{ width:48px; height:48px; border-radius:50%; background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015)); border:1px solid rgba(255,255,255,.04); display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--txt-4); }
+.empty{
+  padding:36px 20px;
+  text-align:center;
+  color:var(--txt-4);
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+.empty .ico{
+  width:48px; height:48px;
+  border-radius:50%;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.04);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px;
+  color:var(--txt-4);
+}
 .empty .lbl{ font-weight:500; color:var(--txt-3); }
 .empty .hint{ font-size:10px; color:var(--txt-5); }
 
-.search-row{ display:grid; grid-template-columns: 1fr auto; gap:6px; margin-bottom:10px; }
+/* ========== TARGETS ========== */
+.search-row{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  gap:6px;
+  margin-bottom:10px;
+}
 .search{
   height:36px;
-  background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  border:1px solid rgba(255,255,255,.04); border-radius:10px;
-  color:var(--txt); padding:0 12px; font-size:11px; outline:none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:10px;
+  color:var(--txt);
+  padding:0 12px;
+  font-size:11px;
+  outline:none;
   transition:.15s;
+  font-family:inherit;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .search::placeholder{ color:var(--txt-5); }
 .search:focus{ border-color:rgba(255,255,255,.15); }
+
 .sort-select{
   height:36px;
-  background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  border:1px solid rgba(255,255,255,.04); border-radius:10px;
-  color:var(--txt-2); padding:0 8px; font-size:11px; outline:none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:10px;
+  color:var(--txt-2);
+  padding:0 8px;
+  font-size:11px;
+  outline:none;
+  font-family:inherit;
   cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .sort-select:focus{ border-color:rgba(255,255,255,.15); }
 
-.items-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; }
-.item, .shop-item{
-  padding:11px 6px 9px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
-  cursor:pointer;
-  background: linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.03); border-radius:12px;
-  position:relative; min-height:150px; text-align:center;
-  transition:.2s;
+.items-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:8px;
 }
-.item:hover, .shop-item:hover{
-  border-color:rgba(255,255,255,.12);
-  transform:translateY(-2px);
-  box-shadow:0 10px 25px rgba(0,0,0,.4);
+.item{
+  padding:11px 6px 9px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  transition:.18s;
+  position:relative;
+  min-height:140px;
+  text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.item:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+  transform:translateY(-1px);
 }
 .item.selected{
-  border-color:rgba(255,255,255,.22);
-  background:linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+  border-color:rgba(255,255,255,.18);
+  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.15),
+    0 0 30px rgba(255,255,255,.03);
 }
 .item.selected::after{
-  content:"✓"; position:absolute; top:6px; right:7px;
-  width:14px; height:14px; border-radius:50%;
-  background:#fff; color:#000; font-size:9px;
-  display:flex; align-items:center; justify-content:center; font-weight:700;
+  content:"✓";
+  position:absolute; top:6px; right:7px;
+  width:14px; height:14px;
+  border-radius:50%;
+  background:#fff;
+  color:#000;
+  font-size:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700;
 }
-.item-img, .shop-item-img{
-  width:64px !important; height:64px !important;
-  max-width:100% !important; max-height:64px !important;
-  object-fit:contain; display:block;
+.item-img{
+  width:64px !important;
+  height:64px !important;
+  max-width:100% !important;
+  max-height:64px !important;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));
 }
-.item-name, .shop-item-name{
-  font-size:10px; color:var(--txt-2); font-weight:500;
-  line-height:1.2; min-height:24px;
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
-  overflow:hidden; word-break:break-word;
+.item-name{
+  font-size:10px;
+  color:var(--txt-2);
+  font-weight:500;
+  line-height:1.2;
+  min-height:24px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  word-break:break-word;
 }
-.item-price, .shop-item-price{ font-size:11px; color:#fff; font-weight:500; }
-.item-chance, .shop-item-chance{ font-size:9px; color:var(--green); font-weight:500; font-family:"JetBrains Mono",monospace; }
+.item-price{
+  font-size:11px;
+  color:#fff;
+  font-weight:500;
+}
+.item-chance{
+  font-size:9px;
+  color:var(--green);
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+}
 .item-chance.neg{ color:var(--txt-4); }
-.item-chance.zero, .shop-item-chance.zero{ color:var(--red); }
+.item-chance.zero{ color:var(--red); }
 
-.shop-buy{
-  width:100%; height:26px; margin-top:4px;
-  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  color:#fff; font-size:9px; font-weight:600;
-  border-radius:8px; border:1px solid rgba(255,255,255,.04);
-  transition:.15s;
+/* ========== SHOP ========== */
+.shop-items{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:8px;
 }
-.shop-buy:hover{ transform:translateY(-1px); filter:brightness(1.15); }
+.shop-item{
+  padding:11px 6px 9px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  transition:.18s;
+  position:relative;
+  min-height:150px;
+  text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.shop-item:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+  transform:translateY(-1px);
+}
+.shop-item-img{
+  width:64px !important;
+  height:64px !important;
+  max-width:100% !important;
+  max-height:64px !important;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));
+}
+.shop-item-name{
+  font-size:10px;
+  color:var(--txt-2);
+  font-weight:500;
+  line-height:1.2;
+  min-height:24px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  word-break:break-word;
+}
+.shop-item-price{
+  font-size:11px;
+  color:#fff;
+  font-weight:500;
+}
+.shop-item-chance{
+  font-size:9px;
+  color:var(--green);
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+}
+.shop-item-chance.zero{ color:var(--red); }
+.shop-buy{
+  width:100%;
+  height:26px;
+  margin-top:4px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  color:#fff;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.4px;
+  border-radius:8px;
+  transition:.15s;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+}
+.shop-buy:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 .shop-buy:disabled{ opacity:.3; cursor:not-allowed; }
 
-.shop-section{
-  margin-top:20px;
-  border-top:1px solid rgba(255,255,255,.04);
+/* ========== CASES ========== */
+.cases-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap:14px;
+}
+.case-card{
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius);
+  padding:16px;
+  display:flex; flex-direction:column; gap:14px;
+  transition:.25s;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 16px 44px rgba(0,0,0,.65);
+}
+.case-card::before{
+  content:"";
+  position:absolute;
+  top:-40%; right:-30%;
+  width:220px; height:220px;
+  background:radial-gradient(circle, rgba(255,255,255,.06), transparent 70%);
+  pointer-events:none;
+  transition:.4s;
+}
+.case-card:hover::before{ transform:scale(1.3); }
+.case-card:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  transform:translateY(-2px);
+}
+.case-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  position:relative; z-index:1;
+}
+.case-rarity{
+  font-size:9px;
+  padding:4px 9px;
+  border-radius:8px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.04);
+  color:var(--txt-3);
+  font-weight:600;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  font-family:"JetBrains Mono",monospace;
+  backdrop-filter:blur(10px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.case-idx{
+  font-size:9px;
+  color:var(--txt-4);
+  font-family:"JetBrains Mono",monospace;
+  letter-spacing:.4px;
+}
+.case-main-img{
+  width:100%; height:150px;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.03);
+  position:relative; z-index:1;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.case-main-img img{ max-width:70%; max-height:80%; object-fit:contain; }
+.case-main-emoji{ font-size:64px; }
+.case-meta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  position:relative; z-index:1;
+}
+.case-name{
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:-.01em;
+  flex:1; min-width:0;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.case-price{
+  padding:5px 11px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:8px;
+  color:#fff;
+  font-size:11px;
+  font-weight:600;
+  white-space:nowrap;
+  font-family:"JetBrains Mono",monospace;
+  backdrop-filter:blur(10px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.case-rewards{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:6px;
+  position:relative; z-index:1;
+}
+.case-reward{
+  aspect-ratio:1/1;
+  padding:8px 4px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.case-reward img{
+  width:70%;
+  height:70%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.case-reward-name{
+  font-size:9px;
+  color:var(--txt-3);
+  text-align:center;
+  font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  max-width:100%;
+}
+.case-reward-price{
+  font-size:9px;
+  color:#fff;
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+  opacity:.7;
+}
+.open-case{
+  width:100%; height:44px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  color:#fff;
+  font-size:11px; font-weight:600; letter-spacing:1.2px;
+  transition:.15s;
+  border-radius:10px;
+  position:relative; z-index:1;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+}
+.open-case:hover{
+  background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06));
+}
+.open-case:disabled{ opacity:.4; cursor:not-allowed; }
+
+.case-modal{
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,.94);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  display:none; align-items:center; justify-content:center; flex-direction:column;
+  padding:20px;
+}
+.case-modal.show{ display:flex; }
+.case-modal-title{
+  font-size:15px; font-weight:600; letter-spacing:2px;
+  color:#fff; margin-bottom:22px; text-align:center;
+  text-transform:uppercase;
+}
+.case-roulette{
+  position:relative;
+  width:100%; max-width:620px; height:150px;
+  overflow:hidden;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+}
+.case-roulette::before, .case-roulette::after{
+  content:""; position:absolute; top:0; bottom:0; width:80px;
+  z-index:3; pointer-events:none;
+}
+.case-roulette::before{ left:0; background:linear-gradient(90deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
+.case-roulette::after{ right:0; background:linear-gradient(270deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
+.case-marker{
+  position:absolute; top:0; bottom:0; left:50%;
+  transform:translateX(-50%); width:2px;
+  background:#fff;
+  z-index:5; pointer-events:none;
+  box-shadow:0 0 12px rgba(255,255,255,.5);
+}
+.case-marker::before{
+  content:"";
+  position:absolute; top:-6px; left:50%;
+  transform:translateX(-50%);
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:12px solid #fff;
+}
+.case-marker::after{
+  content:"";
+  position:absolute; bottom:-6px; left:50%;
+  transform:translateX(-50%);
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-bottom:12px solid #fff;
+}
+.case-strip{
+  position:absolute; top:50%; left:0;
+  transform:translateY(-50%);
+  display:flex; gap:12px; padding-left:20px;
+  will-change:transform;
+}
+.case-strip-item{
+  flex:0 0 auto;
+  width:110px; height:110px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  padding:10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.case-strip-item img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.case-result{
+  margin-top:22px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(10px);
+  transition:all .4s ease;
+  pointer-events:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.case-result.show{ opacity:1; transform:translateY(0); }
+.case-result-label{
+  font-size:10px; color:var(--txt-4); letter-spacing:2px; font-weight:500;
+  text-transform:uppercase;
+}
+.case-result-name{
+  font-size:17px; font-weight:600;
+  padding:9px 18px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+  color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+}
+.case-result-price{
+  font-size:11px;
+  color:var(--txt-3);
+  font-family:"JetBrains Mono",monospace;
+}
+.case-close-btn{
+  margin-top:22px;
+  height:44px;
+  min-width:180px;
+  padding:0 26px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  color:#fff;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  transition:.15s;
+  opacity:0;
+  pointer-events:none;
+  border-radius:12px;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+}
+.case-close-btn.show{ opacity:1; pointer-events:auto; }
+.case-close-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
+
+/* ========== ROCKET ========== */
+.rocket-grid{
+  display:grid;
+  grid-template-columns: 1fr 380px;
+  gap:16px;
+  align-items:start;
+}
+.rocket-stage{
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  position:relative;
+  min-height:440px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 16px 44px rgba(0,0,0,.65);
+}
+.rocket-chart{
+  position:relative;
+  width:100%;
+  height:440px;
+  overflow:hidden;
+  background:
+    radial-gradient(600px 300px at 50% 100%, rgba(255,255,255,.04), transparent 70%),
+    #000;
+}
+.rocket-chart::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center bottom;
+  pointer-events:none;
+}
+.rocket-svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.rocket-line{
+  fill:none;
+  stroke:#fff;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 12px rgba(255,255,255,.55));
+}
+.rocket-area{
+  fill:url(#rocketGrad);
+  opacity:.35;
+}
+.rocket-emoji{
+  font-size:28px;
+  filter:drop-shadow(0 0 10px rgba(255,255,255,.6));
+}
+.rocket-multiplier{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-family:"JetBrains Mono",monospace;
+  font-size:64px;
+  font-weight:600;
+  color:#fff;
+  text-shadow:0 0 30px rgba(255,255,255,.4);
+  letter-spacing:-.04em;
+  pointer-events:none;
+  transition:color .3s;
+}
+.rocket-multiplier.crashed{
+  color:var(--red);
+  text-shadow:0 0 30px rgba(239,68,68,.6);
+}
+.rocket-multiplier.cashed{
+  color:var(--green);
+  text-shadow:0 0 30px rgba(34,197,94,.6);
+}
+.rocket-status{
+  position:absolute;
+  top:16px;
+  left:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:10px;
+  font-size:10px;
+  color:var(--txt-3);
+  font-weight:500;
+  letter-spacing:.5px;
+  backdrop-filter:blur(16px);
+  z-index:5;
+}
+.rocket-status .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--txt-4);
+  transition:.2s;
+}
+.rocket-status.flying .dot{ background:var(--green); box-shadow:0 0 8px var(--green); animation:livePulse 1.5s ease-in-out infinite; }
+.rocket-status.crashed .dot{ background:var(--red); box-shadow:0 0 8px var(--red); }
+.rocket-status.cashed .dot{ background:var(--green); box-shadow:0 0 8px var(--green); }
+
+.rocket-history{
+  position:absolute;
+  top:16px;
+  right:16px;
+  display:flex;
+  gap:6px;
+  z-index:5;
+}
+.rocket-history-item{
+  padding:4px 10px;
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:8px;
+  font-size:10px;
+  font-weight:600;
+  font-family:"JetBrains Mono",monospace;
+  color:var(--txt-3);
+  backdrop-filter:blur(16px);
+}
+.rocket-history-item.crash{ color:var(--red); border-color:rgba(239,68,68,.2); }
+.rocket-history-item.cash{ color:var(--green); border-color:rgba(34,197,94,.2); }
+
+.rocket-controls{
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius-lg);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 16px 44px rgba(0,0,0,.65);
+}
+.rocket-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--txt-2);
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+.rocket-title .badge{
+  padding:4px 10px;
+  border-radius:8px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.04);
+  font-size:9px;
+  color:var(--txt-3);
+  font-weight:600;
+  letter-spacing:.6px;
+  font-family:"JetBrains Mono",monospace;
+}
+.rocket-mode-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+.rocket-mode-btn{
+  height:42px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  color:var(--txt-3);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.3px;
+  cursor:pointer;
+  transition:.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.rocket-mode-btn:hover{
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+  color:var(--txt-2);
+}
+.rocket-mode-btn.active{
+  border-color:rgba(255,255,255,.16);
+  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+  color:#fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    0 0 30px rgba(255,255,255,.04);
 }
 
-/* PROMO */
-.promo-wrap{
-  max-width:540px; margin:0 auto;
-  background: linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-  backdrop-filter:blur(28px);
-  border:1px solid rgba(255,255,255,.035); border-radius:16px; padding:28px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 16px 44px rgba(0,0,0,.65);
-}
-.promo-icon{
-  width:60px; height:60px; border-radius:18px; margin:0 auto 16px;
-  background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.02));
+.rocket-bet-row{ display:flex; gap:8px; }
+.rocket-bet-input{
+  flex:1;
+  height:50px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,.04);
-  display:flex; align-items:center; justify-content:center;
-  font-size:26px; color:#fff;
+  border-radius:12px;
+  padding:0 14px;
+  font-size:16px;
+  font-weight:500;
+  color:#fff;
+  outline:none;
+  transition:.15s;
+  font-family:"JetBrains Mono",monospace;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.rocket-bet-input:focus{ border-color:rgba(255,255,255,.15); }
+.rocket-shortcuts{ display:flex; gap:4px; }
+.rocket-shortcut{
+  height:50px;
+  padding:0 14px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  color:var(--txt-4);
+  font-size:10px;
+  font-weight:500;
+  transition:.15s;
+  border-radius:12px;
+  font-family:"JetBrains Mono",monospace;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.rocket-shortcut:hover{ background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012)); color:var(--txt-2); }
+
+.rocket-items-hint{
+  font-size:10px;
+  color:var(--txt-4);
+  margin-bottom:8px;
+  letter-spacing:.3px;
+}
+.rocket-items-list{
+  max-height:180px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding-right:4px;
+}
+.rocket-item{
+  padding:8px 10px;
+  display:grid;
+  grid-template-columns:36px 1fr auto;
+  gap:8px;
+  align-items:center;
+  cursor:pointer;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  transition:.15s;
+}
+.rocket-item:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+}
+.rocket-item.selected{
+  border-color:rgba(255,255,255,.18);
+  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
 }
-.promo-title{ font-size:17px; font-weight:600; color:#fff; text-align:center; margin-bottom:6px; }
-.promo-desc{ font-size:11px; color:var(--txt-4); text-align:center; margin-bottom:20px; }
+.rocket-item img{
+  width:100%;
+  height:100%;
+  max-width:32px;
+  max-height:32px;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  margin:0 auto;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.rocket-item-info{ min-width:0; }
+.rocket-item-name{
+  font-size:11px;
+  color:var(--txt-2);
+  font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.rocket-item-price{
+  font-size:10px;
+  color:#fff;
+  font-family:"JetBrains Mono",monospace;
+  font-weight:500;
+}
+
+.rocket-auto-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.rocket-auto-toggle{
+  flex:1;
+  height:40px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  color:var(--txt-3);
+  font-size:11px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  gap:8px;
+  cursor:pointer;
+  transition:.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.rocket-auto-toggle.on{
+  border-color:rgba(255,255,255,.16);
+  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+  color:#fff;
+}
+.rocket-auto-input{
+  width:90px;
+  height:40px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  padding:0 12px;
+  font-size:12px;
+  font-weight:500;
+  color:#fff;
+  outline:none;
+  font-family:"JetBrains Mono",monospace;
+  text-align:center;
+}
+.rocket-auto-input:focus{ border-color:rgba(255,255,255,.15); }
+.rocket-auto-x{ color:var(--txt-4); font-size:11px; }
+
+.rocket-play{
+  width:100%;
+  height:54px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:1.4px;
+  transition:.15s;
+  border-radius:12px;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+}
+.rocket-play:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
+.rocket-play:disabled{ opacity:.4; cursor:not-allowed; }
+.rocket-play.cashout{
+  background:linear-gradient(135deg, rgba(34,197,94,.25), rgba(34,197,94,.08));
+  border-color:rgba(34,197,94,.3);
+  color:#fff;
+}
+
+.rocket-result{
+  min-height:22px;
+  text-align:center;
+  font-size:12px;
+  font-weight:500;
+  color:var(--txt-4);
+  font-family:"JetBrains Mono",monospace;
+}
+.rocket-result.win{ color:var(--green); }
+.rocket-result.lose{ color:var(--red); }
+
+.rocket-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.rocket-stat{
+  padding:10px 12px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.rocket-stat-label{
+  font-size:9px;
+  color:var(--txt-4);
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  font-weight:500;
+}
+.rocket-stat-value{
+  font-size:14px;
+  color:#fff;
+  font-weight:500;
+  font-family:"JetBrains Mono",monospace;
+}
+
+/* ========== PROMO ========== */
+.promo-wrap{
+  max-width:540px;
+  margin:0 auto;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:16px;
+  padding:28px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 16px 44px rgba(0,0,0,.65);
+}
+.promo-icon{
+  width:60px; height:60px;
+  border-radius:18px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.02));
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.04);
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px;
+  color:#fff;
+  margin:0 auto 16px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+}
+.promo-title{
+  font-size:17px;
+  font-weight:600;
+  color:#fff;
+  text-align:center;
+  margin-bottom:6px;
+}
+.promo-desc{
+  font-size:11px; color:var(--txt-4); text-align:center; margin-bottom:20px;
+}
 .promo-input{
-  width:100%; height:46px; padding:0 14px;
-  border:1px solid rgba(255,255,255,.04); border-radius:12px;
-  background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  color:#fff; font-size:13px; outline:none;
-  font-family:"JetBrains Mono",monospace; letter-spacing:2px; text-align:center;
-  text-transform:uppercase; transition:.2s;
+  width:100%; height:46px;
+  padding:0 14px;
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  color:#fff;
+  font-size:13px;
+  outline:none;
+  transition:.15s;
+  font-family:"JetBrains Mono",monospace;
+  letter-spacing:2px;
+  text-align:center;
+  text-transform:uppercase;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .promo-input:focus{ border-color:rgba(255,255,255,.15); }
 .promo-input::placeholder{ letter-spacing:1px; font-family:inherit; color:var(--txt-5); }
 .promo-btn{
   width:100%; height:46px; margin-top:10px;
-  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  color:#fff; font-size:11px; font-weight:600; letter-spacing:1.5px;
-  border-radius:12px; border:1px solid rgba(255,255,255,.04);
-  text-transform:uppercase; transition:.2s;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  color:#fff;
+  font-size:11px; font-weight:600; letter-spacing:1.5px;
+  border-radius:12px;
+  transition:.15s;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
 }
-.promo-btn:hover{ transform:translateY(-1px); filter:brightness(1.15); }
+.promo-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 .promo-btn:disabled{ opacity:.5; cursor:not-allowed; }
-.promo-msg{ min-height:18px; margin-top:14px; text-align:center; font-size:11px; color:var(--txt-4); }
+.promo-msg{
+  min-height:18px; margin-top:14px; text-align:center;
+  font-size:11px; color:var(--txt-4);
+}
 .promo-msg.error{ color:var(--red); }
 .promo-msg.success{ color:var(--green); }
 
-/* PROFILE */
-.profile-grid{ display:grid; grid-template-columns: 400px 1fr; gap:16px; align-items:start; }
+/* ========== PROFILE ========== */
+.profile-grid{
+  display:grid;
+  grid-template-columns: 400px 1fr;
+  gap:16px;
+  align-items:start;
+}
 .profile-card{
-  background: linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-  backdrop-filter:blur(28px);
-  border:1px solid rgba(255,255,255,.035); border-radius:var(--radius-lg);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius-lg);
   overflow:hidden;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 16px 44px rgba(0,0,0,.65);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 16px 44px rgba(0,0,0,.65);
 }
 .profile-head{
-  padding:28px 20px 24px; display:flex; flex-direction:column; align-items:center; gap:12px;
-  background: radial-gradient(220px 120px at 50% 0%, rgba(255,255,255,.06), transparent 70%);
+  padding:28px 20px 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  background:
+    radial-gradient(220px 120px at 50% 0%, rgba(255,255,255,.06), transparent 70%);
   border-bottom:1px solid rgba(255,255,255,.04);
+  position:relative;
 }
 .smile-avatar{
-  width:96px; height:96px; border-radius:50%;
-  background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.06);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow: inset 0 2px 0 rgba(255,255,255,.18), 0 20px 50px rgba(0,0,0,.7);
+  width:96px; height:96px;
+  border-radius:50%;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
+  backdrop-filter:blur(30px) saturate(150%);
+  -webkit-backdrop-filter:blur(30px) saturate(150%);
+  border:1px solid rgba(255,255,255,.04);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.18),
+    inset 0 -6px 14px rgba(0,0,0,.4),
+    0 20px 50px rgba(0,0,0,.7);
+  overflow:hidden;
 }
 .smile-inner{ position:relative; width:64px; height:64px; }
-.smile-eye{ position:absolute; top:12px; width:10px; height:10px; border-radius:50%; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.6); }
+.smile-eye{
+  position:absolute;
+  top:12px;
+  width:10px; height:10px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 8px rgba(255,255,255,.6);
+}
 .smile-eye.left{ left:9px; }
 .smile-eye.right{ right:9px; }
-.smile-mouth{ position:absolute; bottom:10px; left:50%; transform:translateX(-50%); width:36px; height:4px; background:#fff; border-radius:3px; box-shadow:0 0 8px rgba(255,255,255,.5); }
+.smile-mouth{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:36px;
+  height:4px;
+  background:#fff;
+  border-radius:3px;
+  box-shadow:0 0 8px rgba(255,255,255,.5);
+}
 .profile-name{ font-size:17px; font-weight:600; color:#fff; }
-.profile-handle{ font-size:11px; color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
+.profile-handle{
+  font-size:11px;
+  color:var(--txt-4);
+  font-family:"JetBrains Mono",monospace;
+}
 .rank-badge{
-  padding:5px 12px; border-radius:20px;
-  font-size:10px; font-weight:600;
-  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-  border:1px solid rgba(255,255,255,.06); color:#fff;
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.4px;
   display:flex; align-items:center; gap:5px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.05);
+  color:#fff;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
 }
-.profile-progress{ padding:16px 22px; border-bottom:1px solid rgba(255,255,255,.04); }
-.progress-top{ display:flex; justify-content:space-between; font-size:10px; color:var(--txt-4); font-weight:500; margin-bottom:9px; }
-.progress-top .progress-count{ font-family:"JetBrains Mono",monospace; color:var(--txt-3); }
-.progress-track{ height:6px; background:rgba(255,255,255,.03); border-radius:99px; overflow:hidden; }
-.progress-fill{ height:100%; background:linear-gradient(90deg, rgba(255,255,255,.5), rgba(255,255,255,.9)); border-radius:99px; transition:width .6s; box-shadow:0 0 12px rgba(255,255,255,.3); }
-.profile-stats{ padding:16px 22px; display:grid; grid-template-columns:1fr 1fr; gap:10px; border-bottom:1px solid rgba(255,255,255,.04); }
-.pstat{ padding:12px 14px; background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008)); border:1px solid rgba(255,255,255,.03); border-radius:12px; display:flex; flex-direction:column; gap:4px; transition:.2s; }
-.pstat:hover{ border-color:rgba(255,255,255,.08); }
-.pstat-label{ font-size:9px; color:var(--txt-4); letter-spacing:.6px; text-transform:uppercase; font-weight:500; }
-.pstat-value{ font-size:17px; font-weight:500; color:#fff; font-family:"JetBrains Mono",monospace; }
+
+.profile-progress{
+  padding:16px 22px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.progress-top{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:9px;
+  font-size:10px;
+  color:var(--txt-4);
+  font-weight:500;
+}
+.progress-top .progress-count{
+  font-family:"JetBrains Mono",monospace;
+  color:var(--txt-3);
+}
+.progress-track{
+  height:6px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:99px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, rgba(255,255,255,.5), rgba(255,255,255,.9));
+  border-radius:99px;
+  transition:width .6s ease;
+  box-shadow:0 0 12px rgba(255,255,255,.3);
+}
+
+.profile-stats{
+  padding:16px 22px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.pstat{
+  padding:12px 14px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.pstat-label{
+  font-size:9px;
+  color:var(--txt-4);
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  font-weight:500;
+}
+.pstat-value{
+  font-size:17px;
+  font-weight:500;
+  color:#fff;
+  font-family:"JetBrains Mono",monospace;
+}
 .pstat-value.green{ color:var(--green); }
 
-/* ADMIN */
+.profile-actions{
+  padding:16px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.action-btn{
+  width:100%;
+  height:44px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.03);
+  color:var(--txt-2);
+  font-size:11px;
+  font-weight:500;
+  display:flex; align-items:center;
+  padding:0 16px;
+  border-radius:12px;
+  transition:.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+}
+.action-btn:hover{
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+  border-color:rgba(255,255,255,.08);
+  color:#fff;
+}
+.action-btn .left{ display:flex; align-items:center; gap:12px; }
+.action-btn .ico{ font-size:15px; color:var(--txt-3); }
+
+/* ========== ADMIN ========== */
 .admin-panel{
-  background: linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-  backdrop-filter:blur(28px);
-  border:1px solid rgba(255,255,255,.035); border-radius:var(--radius-lg);
-  margin-top:16px; overflow:hidden;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 16px 44px rgba(0,0,0,.65);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius-lg);
+  margin-top:16px;
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 16px 44px rgba(0,0,0,.65);
 }
-.admin-header{
-  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.04);
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
+.admin-tabs{
+  display:flex;
+  gap:2px;
+  padding:6px 8px 0;
+  background:rgba(255,255,255,.015);
+  border-bottom:1px solid rgba(255,255,255,.04);
+  overflow-x:auto;
+  scrollbar-width:none;
 }
-.admin-header-title{ display:flex; align-items:center; gap:10px; color:#fff; font-size:12px; font-weight:900; letter-spacing:1.5px; }
-.admin-header-icon{ width:28px; height:28px; border-radius:8px; background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:13px; }
-.admin-header-badge{ padding:4px 10px; border-radius:8px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); color:#fff; font-size:10px; font-weight:600; }
+.admin-tabs::-webkit-scrollbar{ display:none; }
+.admin-tab{
+  padding:10px 14px;
+  border-radius:10px 10px 0 0;
+  background:transparent;
+  color:var(--txt-4);
+  font-size:10px;
+  font-weight:500;
+  display:flex; align-items:center; gap:5px;
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:.15s;
+  letter-spacing:.3px;
+  border:1px solid transparent;
+}
+.admin-tab:hover{ color:var(--txt-2); }
+.admin-tab.active{
+  color:#fff;
+  background:rgba(255,255,255,.04);
+  border-color:rgba(255,255,255,.04);
+  border-bottom-color:transparent;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
 .admin-content{ padding:16px; }
+.admin-tab-panel{ display:none; }
+.admin-tab-panel.active{ display:block; }
 .admin-section{
-  padding:16px; margin-bottom:12px;
-  background: linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.03); border-radius:14px;
+  padding:16px;
+  margin-bottom:12px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .admin-section-title{
   display:flex; align-items:center; gap:8px;
   color:var(--txt-2); font-size:11px; font-weight:600;
   margin-bottom:14px; padding-bottom:10px;
-  border-bottom:1px solid rgba(255,255,255,.04); text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  letter-spacing:.3px;
+  text-transform:uppercase;
 }
-.admin-section-title-icon{ width:24px; height:24px; border-radius:8px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:11px; }
+.admin-section-title-icon{
+  width:24px; height:24px; border-radius:8px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
 .admin-field{ margin-bottom:12px; }
-.admin-field-label{ display:block; color:var(--txt-4); font-size:10px; font-weight:500; letter-spacing:.5px; text-transform:uppercase; margin-bottom:6px; }
+.admin-field-label{
+  display:block; color:var(--txt-4);
+  font-size:10px; font-weight:500; letter-spacing:.5px;
+  text-transform:uppercase; margin-bottom:6px;
+}
 .admin-input{
-  width:100%; height:40px; padding:0 14px; outline:none;
-  background: linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  border:1px solid rgba(255,255,255,.04); border-radius:10px; color:#fff; font-size:12px;
-  transition:.2s;
+  width:100%; height:40px; padding:0 14px;
+  outline:none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:10px;
+  color:#fff;
+  font-size:12px;
+  transition:.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .admin-input:focus{ border-color:rgba(255,255,255,.15); }
 .admin-btn{
   width:100%; height:44px; margin-top:8px;
-  background: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  color:#fff; font-size:11px; font-weight:600; letter-spacing:1px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  color:#fff;
+  font-size:11px; font-weight:600; letter-spacing:1px;
   display:flex; align-items:center; justify-content:center; gap:6px;
-  border-radius:12px; border:1px solid rgba(255,255,255,.04);
-  text-transform:uppercase; transition:.2s;
+  border-radius:12px;
+  transition:.15s;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.04);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
 }
-.admin-btn:hover{ transform:translateY(-1px); filter:brightness(1.15); }
+.admin-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 .admin-btn:disabled{ opacity:.5; cursor:not-allowed; }
-.admin-msg{ min-height:16px; margin-top:10px; color:var(--txt-4); font-size:11px; padding:9px 12px; border-radius:10px; background:rgba(255,255,255,.02); display:none; }
+.admin-msg{
+  min-height:16px; margin-top:10px;
+  color:var(--txt-4);
+  font-size:11px;
+  padding:9px 12px;
+  border-radius:10px;
+  background:rgba(255,255,255,.02);
+  display:none;
+}
 .admin-msg:not(:empty){ display:block; }
 .admin-msg.error{ color:var(--red); background:var(--red-dim); }
 .admin-msg.success{ color:var(--green); background:var(--green-dim); }
+
 .admin-list{ display:flex; flex-direction:column; gap:8px; }
-.admin-list-item{ padding:13px; background: linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005)); border:1px solid rgba(255,255,255,.03); border-radius:12px; cursor:pointer; transition:.2s; }
-.admin-list-item:hover{ border-color:rgba(255,255,255,.1); }
-.admin-list-item-header{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; }
-.admin-list-item-title{ color:var(--txt-2); font-size:11px; font-weight:500; }
-.admin-list-item-status{ padding:3px 9px; border-radius:8px; font-size:9px; font-weight:600; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.04); color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
+.admin-list-item{
+  padding:13px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  cursor:pointer;
+  transition:.15s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.admin-list-item:hover{
+  border-color:rgba(255,255,255,.1);
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+}
+.admin-list-item-header{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:8px; margin-bottom:6px;
+}
+.admin-list-item-title{
+  color:var(--txt-2); font-size:11px; font-weight:500;
+}
+.admin-list-item-status{
+  padding:3px 9px; border-radius:8px;
+  font-size:9px; font-weight:600;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.04);
+  color:var(--txt-4);
+  font-family:"JetBrains Mono",monospace;
+  letter-spacing:.4px;
+}
 .admin-list-item-status.active{ color:var(--green); border-color:rgba(34,197,94,.2); background:var(--green-dim); }
 .admin-list-item-status.exhausted{ color:var(--red); border-color:rgba(239,68,68,.2); background:var(--red-dim); }
-.admin-list-item-meta{ display:flex; flex-wrap:wrap; gap:10px; font-size:10px; color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
+.admin-list-item-status.pending{ color:#f59e0b; border-color:rgba(245,158,11,.2); background:rgba(245,158,11,.1); }
+.admin-list-item-meta{
+  display:flex; flex-wrap:wrap; gap:10px;
+  font-size:10px; color:var(--txt-4);
+  font-family:"JetBrains Mono",monospace;
+}
 .admin-list-item-actions{ display:flex; gap:6px; margin-top:10px; }
-.admin-action{ flex:1; height:32px; border-radius:10px; font-size:10px; font-weight:500; display:flex; align-items:center; justify-content:center; gap:4px; transition:.15s; }
-.admin-action.delete{ background:var(--red-dim); color:var(--red); border:1px solid rgba(239,68,68,.15); }
-.admin-action.delete:hover{ background:var(--red); color:#fff; }
-.admin-empty{ text-align:center; padding:28px 14px; color:var(--txt-4); font-size:11px; }
-.admin-empty-icon{ font-size:32px; margin-bottom:8px; opacity:.4; display:block; }
+.admin-action{
+  flex:1; height:32px; border-radius:10px;
+  font-size:10px; font-weight:500;
+  display:flex; align-items:center; justify-content:center; gap:4px;
+  transition:.15s;
+  letter-spacing:.3px;
+  backdrop-filter:blur(10px);
+}
+.admin-action.delete{
+  background:var(--red-dim); color:var(--red); border:1px solid rgba(239,68,68,.15);
+}
+.admin-action.delete:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+.admin-empty{
+  text-align:center;
+  padding:28px 14px;
+  color:var(--txt-4); font-size:11px;
+}
+.admin-empty-icon{
+  font-size:32px; margin-bottom:8px; opacity:.4; display:block;
+}
 
-.tab-panel[hidden]{ display:none!important; }
-
-/* TOASTS */
-.toast-stack{ position:fixed; top:16px; right:16px; z-index:10001; display:flex; flex-direction:column; gap:8px; pointer-events:none; }
+/* ========== TOASTS ========== */
+.toast-stack{
+  position:fixed; top:16px; right:16px;
+  z-index:10001;
+  display:flex; flex-direction:column; gap:8px;
+  pointer-events:none;
+}
 .toast{
-  min-width:260px; padding:13px 15px;
-  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-  backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.05); border-radius:12px;
-  display:flex; align-items:center; gap:11px;
-  color:var(--txt-2); font-size:11px; font-weight:500;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 12px 34px rgba(0,0,0,.7);
-  animation:toastIn .3s ease; pointer-events:auto;
+  min-width:260px;
+  padding:13px 15px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:var(--txt-2);
+  font-size:11px;
+  font-weight:500;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 12px 34px rgba(0,0,0,.7);
+  animation:toastIn .3s ease;
+  pointer-events:auto;
+}
+.toast .toast-ico{
+  width:26px; height:26px;
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px;
+  flex-shrink:0;
+  background:rgba(255,255,255,.05);
+  color:#fff;
 }
 .toast.success .toast-ico{ color:var(--green); }
 .toast.error .toast-ico{ color:var(--red); }
-.toast-ico{ width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; background:rgba(255,255,255,.05); color:#fff; }
-@keyframes toastIn{ from{ opacity:0; transform:translateX(30px); } to{ opacity:1; transform:translateX(0); } }
+@keyframes toastIn{
+  from{ opacity:0; transform:translateX(30px); }
+  to{ opacity:1; transform:translateX(0); }
+}
 .toast.out{ animation:toastOut .3s ease forwards; }
 @keyframes toastOut{ to{ opacity:0; transform:translateX(30px); } }
 
-.flash-effect{ position:absolute; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(0); animation:flashBoom .5s ease-out forwards; }
-@keyframes flashBoom{ 0%{ transform:translate(-50%,-50%) scale(0); opacity:1; } 100%{ transform:translate(-50%,-50%) scale(2.4); opacity:0; } }
-.particle{ position:absolute; pointer-events:none; border-radius:50%; transform:translate(-50%,-50%); animation:particleFly .9s cubic-bezier(.15,.7,.4,1) forwards; }
-@keyframes particleFly{ 0%{ transform:translate(-50%,-50%) scale(1); opacity:1; } 100%{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity:0; } }
+/* ========== EFFECTS ========== */
+.flash-effect{
+  position:absolute; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(0);
+  animation:flashBoom .5s ease-out forwards;
+}
+@keyframes flashBoom{
+  0%{ transform:translate(-50%,-50%) scale(0); opacity:1; }
+  100%{ transform:translate(-50%,-50%) scale(2.4); opacity:0; }
+}
+.particle{
+  position:absolute; pointer-events:none; border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation:particleFly .9s cubic-bezier(.15,.7,.4,1) forwards;
+}
+@keyframes particleFly{
+  0%{ transform:translate(-50%,-50%) scale(1); opacity:1; }
+  100%{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity:0; }
+}
 
+.tab-panel[hidden]{ display:none!important; }
+
+/* ========== RESPONSIVE ========== */
 @media(max-width:1100px){
   .layout{ grid-template-columns: 280px 1fr; }
   .layout > *:nth-child(3){ grid-column: 1 / -1; }
   .items-grid{ grid-template-columns: repeat(6, 1fr); }
-  .live-wrap{ width:210px; }
-}
-@media(max-width:900px){
-  .live-wrap{ top:60px; right:10px; width:180px; bottom:10px; }
+  .shop-items{ grid-template-columns: repeat(6, 1fr); }
+  .rocket-grid{ grid-template-columns:1fr; }
 }
 @media(max-width:820px){
   .layout{ grid-template-columns:1fr; }
   .layout > *{ grid-column:auto!important; }
   .items-grid{ grid-template-columns: repeat(4, 1fr); }
+  .shop-items{ grid-template-columns: repeat(4, 1fr); }
   .profile-grid{ grid-template-columns:1fr; }
+  .rocket-grid{ grid-template-columns:1fr; }
   .slot-row{ grid-template-columns:1fr 1fr 1fr; gap:12px; }
-  .live-wrap{ display:none !important; }
 }
 @media(max-width:520px){
   .app{ padding:12px 12px 34px; }
-  .topbar{ padding:10px 14px; }
   .slot-row{ grid-template-columns: 1fr 160px 1fr; gap:10px; }
   .wheel{ width:160px; height:160px; }
   .wheel-chance{ font-size:26px; }
   .items-grid{ grid-template-columns: repeat(3, 1fr); }
+  .shop-items{ grid-template-columns: repeat(3, 1fr); }
+  .cases-grid{ grid-template-columns:1fr; }
   .stats-row{ grid-template-columns:1fr; }
   .nav-btn{ padding:0 12px; font-size:10px; }
-  .brand-tag{ display:none; }
+  .profile-stats{ grid-template-columns:1fr 1fr; }
+  .brand-name{ font-size:16px; }
+  .rocket-multiplier{ font-size:48px; }
+  .rocket-chart{ height:340px; }
+  .item-img, .shop-item-img{ width:56px !important; height:56px !important; }
 }
+
 *{ scrollbar-color:rgba(255,255,255,.1) #000; scrollbar-width:thin; }
 ::-webkit-scrollbar{ width:8px; height:8px; }
 ::-webkit-scrollbar-track{ background:#000; }
 ::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.1); border-radius:8px; }
+::-webkit-scrollbar-thumb:hover{ background:rgba(255,255,255,.15); }
 </style>
 </head>
 
@@ -645,21 +2250,6 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
 <canvas id="snowCanvas"></canvas>
 <div id="effectLayer"></div>
 <div class="toast-stack" id="toastStack"></div>
-
-<div class="live-wrap" id="liveWrap">
-  <div class="live-card">
-    <div class="live-head">
-      <div class="live-head-left">
-        <span class="live-dot"></span>
-        <span>LIVE</span>
-      </div>
-      <div class="live-sub">upgrades</div>
-    </div>
-    <div class="live-list" id="liveList">
-      <div class="live-empty">Пока тихо...</div>
-    </div>
-  </div>
-</div>
 
 <div class="app">
 
@@ -679,7 +2269,7 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
     <div class="top-right">
       <div class="balance" id="balanceBox">
         <span class="ico">💎</span>
-        <b class="val" id="balance">0</b>
+        <b class="val" id="balance">10</b>
         <span class="lbl">кристалл</span>
       </div>
     </div>
@@ -689,14 +2279,21 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
     <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
       <span class="nav-icon">⌂</span><span>Апгрейдер</span>
     </button>
-    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">
-      <span class="nav-icon">◐</span><span>Профиль</span>
+    <button class="nav-btn" id="navRocket" type="button" onclick="showTab('rocket')">
+      <span class="nav-icon">▲</span><span>Ракетка</span>
+    </button>
+    <button class="nav-btn" id="navCases" type="button" onclick="showTab('cases')">
+      <span class="nav-icon">◈</span><span>Кейсы</span>
     </button>
     <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">
       <span class="nav-icon">%</span><span>Промо</span>
     </button>
+    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">
+      <span class="nav-icon">◐</span><span>Профиль</span>
+    </button>
   </nav>
 
+  <!-- ===== ИГРА ===== -->
   <section class="tab-panel active" data-tab="game">
     <div class="layout">
 
@@ -720,13 +2317,19 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
 
       <main class="stage">
         <div class="stage-top">
-          <div class="stage-title">Апгрейд предмета</div>
+          <div class="stage-title">
+            <span class="live-dot"></span>
+            Апгрейд предмета
+          </div>
           <div class="stage-badge" id="stageBadge">IDLE</div>
         </div>
 
         <div class="slot-row">
           <div class="slot-block">
-            <div class="slot-label">Твой предмет</div>
+            <div class="slot-label">
+              Твой предмет
+              <span class="kbd">1</span>
+            </div>
             <div class="slot" id="sourceSlot" onclick="focusInventory()">
               <div class="slot-plus">↓</div>
               <div class="slot-empty-label">Выбрать</div>
@@ -748,7 +2351,10 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
           </div>
 
           <div class="slot-block">
-            <div class="slot-label">Желаемый</div>
+            <div class="slot-label">
+              Желаемый
+              <span class="kbd">2</span>
+            </div>
             <div class="slot" id="targetSlot" onclick="focusTargets()">
               <div class="slot-plus">＋</div>
               <div class="slot-empty-label">Выбрать</div>
@@ -759,7 +2365,7 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
 
         <div class="stage-controls">
           <button class="upgrade" id="upgradeBtn" onclick="upgrade()">Прокачать предмет</button>
-          <button class="energy" id="fastUpgradeBtn" onclick="fastUpgrade()">⚡</button>
+          <button class="energy" id="fastUpgradeBtn" onclick="fastUpgrade()" title="Быстрый апгрейд (0.5с)">⚡</button>
         </div>
 
         <div class="stage-hint" id="instruction">
@@ -768,9 +2374,18 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
         </div>
 
         <div class="stats-row">
-          <div class="stat"><span class="stat-label">Апгрейдов</span><span class="stat-value" id="statUpgrades">0</span></div>
-          <div class="stat"><span class="stat-label">Успешных</span><span class="stat-value" id="statWins" style="color:var(--green)">0</span></div>
-          <div class="stat"><span class="stat-label">Винрейт</span><span class="stat-value" id="statWinrate">0%</span></div>
+          <div class="stat">
+            <span class="stat-label">Апгрейдов</span>
+            <span class="stat-value" id="statUpgrades">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Успешных</span>
+            <span class="stat-value" id="statWins" style="color:var(--green)">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Винрейт</span>
+            <span class="stat-value" id="statWinrate">0%</span>
+          </div>
         </div>
       </main>
 
@@ -784,11 +2399,12 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
         </div>
         <div class="panel-body tight">
           <div class="search-row">
-            <input class="search" id="search" placeholder="Поиск..." oninput="filterItems()">
+            <input class="search" id="search" placeholder="Поиск браинрота..." oninput="filterItems()">
             <select class="sort-select" id="sortSelect" onchange="filterItems()">
               <option value="default">Default</option>
               <option value="price-asc">↑ Цена</option>
               <option value="price-desc">↓ Цена</option>
+              <option value="name">А-Я</option>
             </select>
           </div>
           <div class="items-grid" id="items"></div>
@@ -797,7 +2413,7 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
 
     </div>
 
-    <div class="panel shop-section" id="shopPanel">
+    <div class="panel" id="shopPanel" style="margin-top:16px">
       <div class="panel-head">
         <div class="section-title">
           <span class="dot"></span>
@@ -807,11 +2423,112 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
         <div class="section-hint">цены в 💎</div>
       </div>
       <div class="panel-body tight">
-        <div class="items-grid" id="shopItems"></div>
+        <div class="shop-items" id="shopItems"></div>
       </div>
     </div>
   </section>
 
+  <!-- ===== РАКЕТКА ===== -->
+  <section class="tab-panel" data-tab="rocket" hidden>
+    <div class="rocket-grid">
+
+      <div class="rocket-stage">
+        <div class="rocket-chart" id="rocketChart">
+          <svg class="rocket-svg" viewBox="0 0 800 440" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="rocketGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fff" stop-opacity=".5"/>
+                <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path class="rocket-area" id="rocketArea" d="M 0 440 L 0 440 Z"/>
+            <path class="rocket-line" id="rocketLine" d="M 0 440"/>
+            <text class="rocket-emoji" id="rocketEmoji" x="40" y="400">🚀</text>
+          </svg>
+
+          <div class="rocket-status" id="rocketStatus">
+            <span class="dot"></span>
+            <span id="rocketStatusText">Готов к запуску</span>
+          </div>
+
+          <div class="rocket-history" id="rocketHistory"></div>
+
+          <div class="rocket-multiplier" id="rocketMultiplier">1.00×</div>
+        </div>
+      </div>
+
+      <div class="rocket-controls">
+        <div class="rocket-title">
+          <span>Ракетка</span>
+          <span class="badge" id="rocketBadge">IDLE</span>
+        </div>
+
+        <div class="rocket-mode-row">
+          <button class="rocket-mode-btn active" id="rocketModeCrystals" onclick="setRocketMode('crystals')">
+            💎 Кристаллы
+          </button>
+          <button class="rocket-mode-btn" id="rocketModeItems" onclick="setRocketMode('items')">
+            🎁 Браинрот
+          </button>
+        </div>
+
+        <div id="rocketCrystalsBlock">
+          <div class="rocket-bet-row">
+            <input class="rocket-bet-input" id="rocketBetInput" type="number" min="1" placeholder="Ставка" value="10">
+            <div class="rocket-shortcuts">
+              <button class="rocket-shortcut" onclick="setRocketBet('min')">MIN</button>
+              <button class="rocket-shortcut" onclick="setRocketBet('half')">½</button>
+              <button class="rocket-shortcut" onclick="setRocketBet('max')">MAX</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="rocketItemsBlock" style="display:none">
+          <div class="rocket-items-hint" id="rocketItemsHint">Выбери браинрота из инвентаря</div>
+          <div class="rocket-items-list" id="rocketItemsList"></div>
+        </div>
+
+        <div class="rocket-auto-row">
+          <div class="rocket-auto-toggle" id="rocketAutoToggle" onclick="toggleRocketAuto()">
+            <span id="rocketAutoIcon">○</span>
+            <span>Авто-вывод</span>
+          </div>
+          <input class="rocket-auto-input" id="rocketAutoInput" type="number" min="1.01" step="0.01" value="2.00">
+          <span class="rocket-auto-x">×</span>
+        </div>
+
+        <button class="rocket-play" id="rocketPlayBtn" onclick="rocketAction()">Поставить</button>
+        <div class="rocket-result" id="rocketResult">ставка списывается при запуске</div>
+
+        <div class="rocket-stats">
+          <div class="rocket-stat">
+            <div class="rocket-stat-label">Всего игр</div>
+            <div class="rocket-stat-value" id="rocketGames">0</div>
+          </div>
+          <div class="rocket-stat">
+            <div class="rocket-stat-label">Лучший ×</div>
+            <div class="rocket-stat-value" id="rocketBest">1.00×</div>
+          </div>
+          <div class="rocket-stat">
+            <div class="rocket-stat-label">Побед</div>
+            <div class="rocket-stat-value" style="color:var(--green)" id="rocketWins">0</div>
+          </div>
+          <div class="rocket-stat">
+            <div class="rocket-stat-label">Крашей</div>
+            <div class="rocket-stat-value" style="color:var(--red)" id="rocketLosses">0</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== КЕЙСЫ ===== -->
+  <section class="tab-panel" data-tab="cases" hidden>
+    <div class="cases-grid" id="casesList"></div>
+  </section>
+
+  <!-- ===== ПРОМО ===== -->
   <section class="tab-panel" data-tab="promo" hidden>
     <div class="promo-wrap">
       <div class="promo-icon">%</div>
@@ -823,11 +2540,13 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
     </div>
   </section>
 
+  <!-- ===== ПРОФИЛЬ ===== -->
   <section class="tab-panel" data-tab="profile" hidden>
     <div class="profile-grid">
+
       <div class="profile-card">
         <div class="profile-head">
-          <div class="smile-avatar">
+          <div class="smile-avatar" title="Saint UP">
             <div class="smile-inner">
               <div class="smile-eye left"></div>
               <div class="smile-eye right"></div>
@@ -838,80 +2557,139 @@ button{ border-radius:var(--radius-sm); cursor:pointer; border:0; font-family:in
           <div class="profile-handle" id="profileHandle">@user</div>
           <div class="rank-badge" id="rankBadge">· Новичок</div>
         </div>
+
         <div class="profile-progress">
           <div class="progress-top">
             <span>Прогресс ранга</span>
             <span class="progress-count" id="progressCount">0 / 10</span>
           </div>
-          <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+          </div>
         </div>
+
         <div class="profile-stats">
-          <div class="pstat"><div class="pstat-label">Апгрейдов</div><div class="pstat-value" id="pfUpgrades">0</div></div>
-          <div class="pstat"><div class="pstat-label">Винрейт</div><div class="pstat-value green" id="pfWinrate">0%</div></div>
-          <div class="pstat"><div class="pstat-label">Кристаллов</div><div class="pstat-value" id="pfCoins">0</div></div>
-          <div class="pstat"><div class="pstat-label">Инвентарь</div><div class="pstat-value" id="pfInv">0</div></div>
+          <div class="pstat">
+            <div class="pstat-label">Апгрейдов</div>
+            <div class="pstat-value" id="pfUpgrades">0</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-label">Винрейт</div>
+            <div class="pstat-value green" id="pfWinrate">0%</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-label">Кристаллов</div>
+            <div class="pstat-value" id="pfCoins">0</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-label">Инвентарь</div>
+            <div class="pstat-value" id="pfInv">0</div>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button class="action-btn" onclick="showTab('game')">
+            <span class="left"><span class="ico">⌂</span><span>Перейти в апгрейдер</span></span>
+          </button>
+          <button class="action-btn" onclick="showTab('rocket')">
+            <span class="left"><span class="ico">▲</span><span>Играть в ракетку</span></span>
+          </button>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-head">
-          <div class="section-title"><span class="dot"></span>О платформе</div>
-        </div>
-        <div class="panel-body">
-          <div style="display:flex;flex-direction:column;gap:14px;font-size:12px;color:var(--txt-3);line-height:1.6">
-            <div>
-              <div style="color:#fff;font-weight:600;margin-bottom:6px">Saint UP</div>
-              <div>Пополняй и делай up up. Апгрейди браинротов, собирай лучшие предметы и увеличивай свой баланс.</div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="section-title">
+              <span class="dot"></span>
+              О платформе
+            </div>
+          </div>
+          <div class="panel-body">
+            <div style="display:flex;flex-direction:column;gap:14px;font-size:12px;color:var(--txt-3);line-height:1.6">
+              <div>
+                <div style="color:#fff;font-weight:600;margin-bottom:6px">Saint UP</div>
+                <div>Пополняй и делай up up. Апгрейди браинротов, играй в ракетку, открывай кейсы — собирай лучшие предметы и увеличивай свой баланс.</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr;gap:10px">
+                <div class="pstat">
+                  <div class="pstat-label">Версия</div>
+                  <div class="pstat-value" style="font-size:14px">v 1.0</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="admin-panel" id="adminPanel" hidden>
-      <div class="admin-header">
-        <div class="admin-header-title">
-          <div class="admin-header-icon">⚓</div>
-          <span>АДМИН-ПАНЕЛЬ</span>
+      <div style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div class="admin-section-title" style="margin:0;padding:0;border:0">
+          <div class="admin-section-title-icon">⚓</div>
+          Админ-панель
         </div>
-        <div class="admin-header-badge" id="adminName">@saintezz7</div>
+        <div style="padding:4px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);border-radius:8px;color:#fff;font-size:10px;font-weight:600" id="adminName">@saintezz7</div>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" type="button" onclick="switchAdminTab('promos', this)">🎫 Промокоды</button>
+        <button class="admin-tab" type="button" onclick="switchAdminTab('withdrawals', this)">📤 Выводы</button>
+        <button class="admin-tab" type="button" onclick="switchAdminTab('settings', this)">⚙ Настройки</button>
       </div>
       <div class="admin-content">
-        <div class="admin-section">
-          <div class="admin-section-title">
-            <div class="admin-section-title-icon">➕</div>
-            СОЗДАТЬ ПРОМОКОД
+        <div class="admin-tab-panel active" data-admin-tab="promos">
+          <div class="admin-section">
+            <div class="admin-section-title"><div class="admin-section-title-icon">＋</div> Создать промокод</div>
+            <div class="admin-field"><label class="admin-field-label">Название</label>
+              <input class="admin-input" id="adminPromoCode" placeholder="PROMO10" maxlength="40"></div>
+            <div class="admin-field"><label class="admin-field-label">Активаций</label>
+              <input class="admin-input" id="adminPromoActivations" type="number" min="1" value="10"></div>
+            <div class="admin-field"><label class="admin-field-label">Минут до истечения</label>
+              <input class="admin-input" id="adminPromoMinutes" type="number" min="1" value="60"></div>
+            <div class="admin-field"><label class="admin-field-label">Награда (💎)</label>
+              <input class="admin-input" id="adminPromoReward" type="number" min="1" value="10"></div>
+            <button class="admin-btn" type="button" onclick="createPromoCode()">🎫 Создать</button>
+            <div class="admin-msg" id="adminMessage"></div>
           </div>
-          <div class="admin-field">
-            <label class="admin-field-label">Название</label>
-            <input class="admin-input" id="adminPromoCode" placeholder="PROMO10" maxlength="40">
+          <div class="admin-section">
+            <div class="admin-section-title"><div class="admin-section-title-icon">◈</div> Активные (<span id="adminPromoCount">0</span>)</div>
+            <div class="admin-list" id="adminPromoList"></div>
           </div>
-          <div class="admin-field">
-            <label class="admin-field-label">Активаций</label>
-            <input class="admin-input" id="adminPromoActivations" type="number" min="1" value="10">
-          </div>
-          <div class="admin-field">
-            <label class="admin-field-label">Минут до истечения</label>
-            <input class="admin-input" id="adminPromoMinutes" type="number" min="1" value="60">
-          </div>
-          <div class="admin-field">
-            <label class="admin-field-label">Награда (💎)</label>
-            <input class="admin-input" id="adminPromoReward" type="number" min="1" value="10">
-          </div>
-          <button class="admin-btn" type="button" onclick="createPromoCode()">🎫 Создать промокод</button>
-          <div class="admin-msg" id="adminMessage"></div>
         </div>
-
-        <div class="admin-section">
-          <div class="admin-section-title">
-            <div class="admin-section-title-icon">◈</div>
-            АКТИВНЫЕ (<span id="adminPromoCount">0</span>)
+        <div class="admin-tab-panel" data-admin-tab="withdrawals">
+          <div class="admin-section">
+            <div class="admin-section-title"><div class="admin-section-title-icon">📤</div> Заявки</div>
+            <div class="admin-list" id="adminWithdrawalsList"></div>
           </div>
-          <div class="admin-list" id="adminPromoList"></div>
+        </div>
+        <div class="admin-tab-panel" data-admin-tab="settings">
+          <div class="admin-section">
+            <div class="admin-section-title"><div class="admin-section-title-icon">⚙</div> Адрес сервера</div>
+            <div class="admin-field"><label class="admin-field-label">API URL</label>
+              <input class="admin-input" id="adminServerUrl" placeholder="https://ваш-проект.onrender.com"></div>
+            <button class="admin-btn" type="button" onclick="saveAdminServerUrl()">✓ Сохранить</button>
+            <div class="admin-msg" id="adminServerUrlMessage"></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+</div>
+
+<div class="case-modal" id="caseModal">
+  <div class="case-modal-title" id="caseModalTitle">КЕЙС</div>
+  <div class="case-roulette">
+    <div class="case-marker"></div>
+    <div class="case-strip" id="caseStrip"></div>
+  </div>
+  <div class="case-result" id="caseResult">
+    <div class="case-result-label">Ты получил</div>
+    <div class="case-result-name" id="caseResultName">—</div>
+    <div class="case-result-price" id="caseResultPrice"></div>
+  </div>
+  <button class="case-close-btn" id="caseCloseBtn" type="button" onclick="closeCaseModal()">Забрать</button>
 </div>
 
 <script>
@@ -940,16 +2718,28 @@ function showToast(message, type){
   const ctx = canvas.getContext('2d');
   let w = canvas.width = window.innerWidth;
   let h = canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
   const flakes = [];
   for(let i=0;i<26;i++){
-    flakes.push({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.1+0.3, sy: Math.random()*0.35+0.15, sx: (Math.random()-0.5)*0.25, a: Math.random()*0.18+0.06 });
+    flakes.push({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*1.1+0.3,
+      sy: Math.random()*0.35+0.15,
+      sx: (Math.random()-0.5)*0.25,
+      a: Math.random()*0.18+0.06
+    });
   }
   window.snowBurst = function(x,y,count,color){
     count = count||18; color = color||'255,255,255';
     for(let i=0;i<count;i++){
-      const a = Math.random()*Math.PI*2, s = Math.random()*6+2;
-      flakes.push({ x, y, r: Math.random()*3+1, sy: Math.sin(a)*s, sx: Math.cos(a)*s, a: 1, burst: true, life: 1, color });
+      const a = Math.random()*Math.PI*2;
+      const s = Math.random()*6+2;
+      flakes.push({ x, y, r: Math.random()*3+1,
+        sy: Math.sin(a)*s, sx: Math.cos(a)*s,
+        a: 1, burst: true, life: 1, color });
     }
   };
   function tick(){
@@ -957,7 +2747,8 @@ function showToast(message, type){
     for(let i=flakes.length-1;i>=0;i--){
       const f = flakes[i];
       if(f.burst){
-        f.x += f.sx; f.y += f.sy; f.sx *= 0.95; f.sy *= 0.95; f.sy += 0.15;
+        f.x += f.sx; f.y += f.sy;
+        f.sx *= 0.95; f.sy *= 0.95; f.sy += 0.15;
         f.life -= 0.02;
         if(f.life<=0){ flakes.splice(i,1); continue; }
         ctx.globalAlpha = Math.max(0,f.life);
@@ -998,7 +2789,8 @@ function showParticles(x,y,color,count){
   for(let i=0;i<count;i++){
     const p = document.createElement('div');
     p.className = 'particle';
-    const a = Math.random()*Math.PI*2, d = Math.random()*120+40;
+    const a = Math.random()*Math.PI*2;
+    const d = Math.random()*120+40;
     p.style.left = x+'px'; p.style.top = y+'px';
     p.style.width = (Math.random()*6+3)+'px';
     p.style.height = p.style.width;
@@ -1026,6 +2818,7 @@ const items = [
   { name:'capitano moby',            price:100,   img:'capitan.png' },
   { name:'Spooky and Pumpkin',       price:120,   img:'spooky.png' },
   { name:'Cerberus',                 price:140,   img:'Cerberus.png' },
+  { name:'La Craft Machine',         price:145,   img:'lacraft.png' },
   { name:'La Fuse Machine',          price:160,   img:'lafuse.png' },
   { name:'Gold and Diamond',         price:200,   img:'gold.png' },
   { name:'Ketupat Bros',             price:500,   img:'ketupatbros.png' },
@@ -1052,33 +2845,133 @@ function getItemImgHtml(item, extraClass='item-img'){
   const remoteSrc = IMG_BASE + item.img;
   return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';" class="${extraClass}" alt="">`;
 }
+function getCaseImgHtml(img){
+  if(!img) return '';
+  const localSrc = IMG_BASE_LOCAL + img;
+  const remoteSrc = IMG_BASE + img;
+  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';this.onerror=function(){this.style.display='none';if(this.parentElement){this.parentElement.innerHTML='<div class=\\'case-main-emoji\\'>◈</div>';}};" alt="">`;
+}
 
 /* =========================================================
    STATE
 ========================================================= */
-let balance = 0;
+let balance = 10;
 let inventory = [];
 let sourceItem = null;
 let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
 
-let stats = { upgrades:0, wins:0, losses:0, winrate:0 };
-
-const LOCAL_PROFILE_KEY = 'saintup_profile_v1';
-let profile = null;
-let myTelegramId = null;
-let isBrowser = false;
-let isAdminUser = false;
-
-let liveFeedTimer = null;
+const PROFILE_KEY = 'upgrader_profile_v9';
+const USERS_KEY = 'upgrader_users_v9';
+const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
+const STATS_KEY = 'upgrader_stats_v7';
+const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v7';
+let withdrawals = [];
 let promoCodes = [];
+let profile = null;
+let users = {};
+let stats = { upgrades:0, wins:0, losses:0, coins:0, coinWins:0, rocket:0, rocketWins:0, rocketLosses:0, rocketBest:1 };
+
+let rocketState = 'idle';
+let rocketCurrentMultiplier = 1;
+let rocketCrashAt = 0;
+let rocketRaf = null;
+let rocketBet = 0;
+let rocketStartTime = 0;
+let rocketAutoEnabled = false;
+let rocketHistory = [];
+let rocketChartPoints = [];
+let rocketMode = 'crystals';
+let rocketSelectedItemSlot = null;
+let rocketBetIsItem = false;
+let rocketBetItemName = '';
+
+const CASES = [
+  { id:'noobini', name:'КЕЙС НУБИНИ', img:'NOOBINI1CASE.png', price:17,
+    rewards:[{itemIndex:1},{itemIndex:3},{itemIndex:7}] }
+];
 
 /* =========================================================
-   PROFILE
+   PROFILE / STORAGE
 ========================================================= */
 function makeUsername(){ return 'user'+Math.floor(100000+Math.random()*900000); }
 function normalizeUsername(v){ return String(v||'').trim().replace(/^@+/,'').toLowerCase(); }
+
+function migrateInventory(arr){
+  if(!Array.isArray(arr)) return [];
+  return arr.map(e=>{
+    if(typeof e === 'number') return { itemIndex: e };
+    if(e && typeof e === 'object' && Number.isInteger(e.itemIndex))
+      return { itemIndex: e.itemIndex };
+    return null;
+  }).filter(Boolean);
+}
+
+function getInventoryItem(slot){
+  const entry = inventory[slot];
+  if(!entry) return null;
+  const base = items[entry.itemIndex];
+  if(!base) return null;
+  return { itemIndex: entry.itemIndex, name: base.name, price: base.price, img: base.img };
+}
+
+function removePendingUpgradeOnReload(){
+  let p = null;
+  try{ p = JSON.parse(localStorage.getItem(PENDING_UPGRADE_KEY)||'null'); }catch(e){ p = null; }
+  if(!p || !p.username || !Number.isInteger(p.slotIndex)){
+    localStorage.removeItem(PENDING_UPGRADE_KEY); return;
+  }
+  if(normalizeUsername(p.username) !== normalizeUsername(profile?.username || '')) return;
+  if(p.slotIndex>=0 && p.slotIndex<inventory.length){ inventory.splice(p.slotIndex,1); saveProfileData(); }
+  localStorage.removeItem(PENDING_UPGRADE_KEY);
+}
+
+function loadProfileData(){
+  try{ users = JSON.parse(localStorage.getItem(USERS_KEY)||'{}'); }catch(e){ users = {}; }
+  try{ profile = JSON.parse(localStorage.getItem(PROFILE_KEY)||'null'); }catch(e){ profile = null; }
+  try{ stats = JSON.parse(localStorage.getItem(STATS_KEY)||'{}') || {}; }catch(e){ stats = {}; }
+  stats.upgrades = stats.upgrades||0;
+  stats.wins = stats.wins||0;
+  stats.losses = stats.losses||0;
+  stats.coins = stats.coins||0;
+  stats.coinWins = stats.coinWins||0;
+  stats.rocket = stats.rocket||0;
+  stats.rocketWins = stats.rocketWins||0;
+  stats.rocketLosses = stats.rocketLosses||0;
+  stats.rocketBest = stats.rocketBest||1;
+
+  if(!profile || !profile.username){
+    const u = makeUsername();
+    profile = { username:u, telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'', createdAt: Date.now() };
+    users[u] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
+  } else if(!users[profile.username]){
+    users[profile.username] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
+  }
+
+  balance = Number(users[profile.username].balance ?? 10);
+  inventory = migrateInventory(users[profile.username].inventory);
+
+  try{ withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY)||'[]'); if(!Array.isArray(withdrawals)) withdrawals = []; }catch(e){ withdrawals = []; }
+
+  removePendingUpgradeOnReload();
+  saveProfileData();
+}
+
+function saveProfileData(){
+  if(!profile) return;
+  users[profile.username] = {
+    balance, inventory, normalInventory:[],
+    telegramUsername: normalizeUsername(profile?.telegramUsername||''),
+    telegramId: String(profile?.telegramId||''),
+    telegramFirstName: String(profile?.telegramFirstName||''),
+    telegramLastName: String(profile?.telegramLastName||'')
+  };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+function saveStats(){ localStorage.setItem(STATS_KEY, JSON.stringify(stats)); }
 
 function getTelegramUser(){
   const tg = window.Telegram?.WebApp;
@@ -1086,202 +2979,146 @@ function getTelegramUser(){
   try{ tg.ready(); tg.expand(); }catch(e){}
   return tg.initDataUnsafe?.user || null;
 }
-function getTelegramInitData(){ return window.Telegram?.WebApp?.initData || ''; }
-function detectBrowser(){
-  const tg = window.Telegram?.WebApp;
-  const user = tg?.initDataUnsafe?.user;
-  return !(tg && user && user.id);
-}
 
-function initProfile(){
-  isBrowser = detectBrowser();
-  const tgUser = getTelegramUser();
-
-  let saved = null;
-  try{ saved = JSON.parse(localStorage.getItem(LOCAL_PROFILE_KEY) || 'null'); }catch(e){ saved = null; }
-  if(!saved || !saved.username){
-    saved = { username: makeUsername(), telegramUsername:'', telegramId:'', telegramFirstName:'' };
-  }
-  if(tgUser && tgUser.id){
-    saved.telegramId = String(tgUser.id);
-    saved.telegramUsername = normalizeUsername(tgUser.username || '');
-    saved.telegramFirstName = String(tgUser.first_name || '');
-  }
-  profile = saved;
-  localStorage.setItem(LOCAL_PROFILE_KEY, JSON.stringify(profile));
-
-  if(tgUser && tgUser.id) myTelegramId = String(tgUser.id);
-  else myTelegramId = profile.username;
-
-  isAdminUser = (profile.telegramUsername === 'saintezz7') || (localStorage.getItem('saintup_is_admin') === 'true');
-
-  const liveWrap = document.getElementById('liveWrap');
-  if(liveWrap){
-    if(!isBrowser) liveWrap.classList.add('visible');
-    else liveWrap.classList.remove('visible');
-  }
-}
-
-/* =========================================================
-   API — без запроса адреса
-========================================================= */
-function getApiBaseUrl(){
-  const origin = window.location.origin;
-  if(origin && origin !== 'null' && !origin.startsWith('file:')) return origin.replace(/\/$/,'');
-  if(window.API_BASE_URL && String(window.API_BASE_URL).trim()) return String(window.API_BASE_URL).trim().replace(/\/$/,'');
-  return '';
-}
-
-async function apiRequest(path, options={}){
-  const baseUrl = getApiBaseUrl();
-  if(!baseUrl) throw new Error('Не удалось определить адрес сервера.');
-  const headers = { 'Content-Type':'application/json', ...(options.headers || {}) };
-  const initData = getTelegramInitData();
-  if(initData) headers['X-Telegram-Init-Data'] = initData;
-  const tgUser = getTelegramUser();
-  const userId = tgUser?.id ? String(tgUser.id) : (profile?.username || '');
-  if(userId) headers['X-User-Id'] = userId;
-
-  const fullUrl = baseUrl + path;
-  let response;
-  try{ response = await fetch(fullUrl, { ...options, headers }); }
-  catch(e){ throw new Error('Сервер недоступен'); }
-  const text = await response.text();
-  let data = null;
-  try{ data = text ? JSON.parse(text) : null; }catch(e){}
-  if(!response.ok){
-    if(data?.error){ const err = new Error(data.error); err.status = response.status; err.data = data; throw err; }
-    const err = new Error('HTTP ' + response.status); err.status = response.status; throw err;
-  }
-  if(data === null) throw new Error('Сервер вернул не JSON.');
-  return data;
-}
-
-/* =========================================================
-   СЕРВЕРНЫЕ ДАННЫЕ
-========================================================= */
-async function loadBalanceFromServer(){
-  try{
-    const tgUser = getTelegramUser();
-    const payload = {
-      telegram_id: myTelegramId,
-      username: tgUser?.username || profile.telegramUsername || '',
-      first_name: tgUser?.first_name || profile.telegramFirstName || ''
-    };
-    const data = await apiRequest('/api/user', { method:'POST', body: JSON.stringify(payload) });
-    if(data?.user){
-      balance = Number(data.user.balance) || 0;
-      balanceEl.textContent = balance;
+function getTelegramUsername(){
+  const u = getTelegramUser();
+  if(u){
+    const username = normalizeUsername(u.username||'');
+    profile.telegramUsername = username;
+    profile.telegramId = String(u.id||'');
+    profile.telegramFirstName = String(u.first_name||'');
+    profile.telegramLastName = String(u.last_name||'');
+    if(profile.username && users[profile.username]){
+      users[profile.username].telegramUsername = username;
+      users[profile.username].telegramId = String(u.id||'');
+      users[profile.username].telegramFirstName = String(u.first_name||'');
+      users[profile.username].telegramLastName = String(u.last_name||'');
     }
-  }catch(e){ console.warn('[balance]', e.message); }
+    localStorage.setItem('upgrader_telegram_username_v1', username);
+    localStorage.setItem('upgrader_telegram_id_v1', String(u.id||''));
+    return username;
+  }
+  return normalizeUsername(profile?.telegramUsername || localStorage.getItem('upgrader_telegram_username_v1') || '');
 }
 
-async function loadStatsFromServer(){
+function getMyTelegramId(){
+  const u = getTelegramUser();
+  if(u?.id) return String(u.id);
+  return profile?.username || 'browser_user';
+}
+
+function isAdmin(){
+  if(getTelegramUsername() === 'saintezz7') return true;
+  if(localStorage.getItem('upgrader_is_admin') === 'true') return true;
+  return false;
+}
+
+async function syncTelegramUserWithServer(){
+  const u = getTelegramUser();
+  if(!u?.id) return;
+  getTelegramUsername(); saveProfileData(); renderAll();
   try{
-    const data = await apiRequest('/api/stats/' + encodeURIComponent(myTelegramId));
-    if(data?.stats){
-      stats.upgrades = Number(data.stats.upgrades) || 0;
-      stats.wins = Number(data.stats.wins) || 0;
-      stats.losses = Number(data.stats.losses) || 0;
-      stats.winrate = Number(data.stats.winrate) || 0;
-      updateGameStats();
-      renderProfile();
+    const res = await apiRequest('/api/user', {
+      method:'POST',
+      body: JSON.stringify({ telegram_id: String(u.id), username: u.username||'', first_name: u.first_name||'' })
+    });
+    if(res?.user && res.user.balance !== undefined){
+      balance = Number(res.user.balance);
+      saveProfileData(); renderAll();
     }
-  }catch(e){ console.warn('[stats]', e.message); }
+  }catch(e){}
 }
 
-async function updateBalanceOnServer(delta){
+async function serverUpdateBalance(delta){
+  const u = getTelegramUser();
+  const telegramId = u?.id ? String(u.id) : (profile?.username || getMyTelegramId());
   try{
     const data = await apiRequest('/api/balance/update', {
       method:'POST',
-      body: JSON.stringify({ delta, telegram_id: myTelegramId })
+      body: JSON.stringify({ telegram_id: telegramId, username: u?.username || profile?.username || '', first_name: u?.first_name || '', delta })
     });
     if(data?.balance !== undefined){
-      balance = Number(data.balance);
-      balanceEl.textContent = balance;
+      balance = Number(data.balance); saveProfileData(); balanceEl.textContent = balance;
     }
     return data;
   }catch(e){
-    console.warn('[balance update]', e.message);
-    return null;
+    balance = Number(balance||0)+delta;
+    if(balance<0) balance = 0;
+    saveProfileData(); balanceEl.textContent = balance;
+    return { balance, delta };
   }
 }
 
-async function recordUpgradeOnServer(result, sourceData, targetData, chance){
-  try{
-    const payload = {
-      telegram_id: myTelegramId,
-      result,
-      source_name: sourceData?.name || null,
-      source_price: sourceData?.price || 0,
-      target_name: targetData?.name || null,
-      target_price: targetData?.price || 0,
-      chance: chance
-    };
-    const data = await apiRequest('/api/stats/upgrade', { method:'POST', body: JSON.stringify(payload) });
-    if(data?.stats){
-      stats.upgrades = Number(data.stats.upgrades) || 0;
-      stats.wins = Number(data.stats.wins) || 0;
-      stats.losses = Number(data.stats.losses) || 0;
-      stats.winrate = Number(data.stats.winrate) || 0;
-      updateGameStats();
-      renderProfile();
-    }
-    if(result === 'win') loadLiveFeed();
-  }catch(e){ console.warn('[stats upgrade]', e.message); }
+function getRankInfo(){
+  const u = stats.upgrades;
+  if(u >= 100) return { name:'Легенда', icon:'◆', next:200, prev:100 };
+  if(u >= 50)  return { name:'Алмаз', icon:'💎', next:100, prev:50 };
+  if(u >= 25)  return { name:'Платина', icon:'◈', next:50, prev:25 };
+  if(u >= 10)  return { name:'Золото', icon:'★', next:25, prev:10 };
+  if(u >= 3)   return { name:'Серебро', icon:'✦', next:10, prev:3 };
+  return { name:'Новичок', icon:'·', next:3, prev:0 };
 }
 
-/* =========================================================
-   LIVE FEED
-========================================================= */
-function getItemIndexByName(name){
-  if(!name) return -1;
-  const lower = String(name).toLowerCase().trim();
-  return items.findIndex(it => it.name.toLowerCase().trim() === lower);
-}
+function renderProfile(){
+  const tgUser = getTelegramUser();
+  const username = getTelegramUsername();
+  const usernameEl = document.getElementById('profileUsername');
+  const handleEl = document.getElementById('profileHandle');
+  const adminPanel = document.getElementById('adminPanel');
 
-function renderLiveFeed(feed){
-  const list = document.getElementById('liveList');
-  if(!list) return;
-  if(!feed || feed.length === 0){
-    list.innerHTML = `<div class="live-empty">Пока тихо...</div>`;
-    return;
+  if(tgUser){
+    const fn = String(tgUser.first_name||'').trim();
+    const ln = String(tgUser.last_name||'').trim();
+    const fullName = [fn,ln].filter(Boolean).join(' ') || 'Telegram';
+    if(usernameEl) usernameEl.textContent = fullName;
+    if(handleEl) handleEl.textContent = username ? '@'+username : 'ID: '+tgUser.id;
+  } else {
+    if(usernameEl) usernameEl.textContent = 'Saint UP';
+    if(handleEl) handleEl.textContent = '@' + (profile?.username || 'user');
   }
-  list.innerHTML = feed.map(top => {
-    const idx = getItemIndexByName(top.item_name);
-    const itemObj = idx >= 0 ? items[idx] : null;
-    const imgHtml = itemObj
-      ? getItemImgHtml(itemObj, 'live-item-img')
-      : `<div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:28px;opacity:.4">◈</div>`;
-    const chance = Number(top.chance || 0);
-    const chanceTxt = chance ? chance.toFixed(1) + '%' : '—';
-    return `
-      <div class="live-item">
-        ${imgHtml}
-        <div class="live-item-name">${escapeHtml(top.item_name || '—')}</div>
-        <div class="live-item-price">${Number(top.item_price) || 0} 💎</div>
-        <div class="live-item-chance">Шанс ${chanceTxt}</div>
-        ${top.username ? `<div class="live-item-user">@${escapeHtml(top.username)}</div>` : ''}
-      </div>
-    `;
-  }).join('');
+
+  const rank = getRankInfo();
+  const rankBadge = document.getElementById('rankBadge');
+  if(rankBadge){ rankBadge.textContent = `${rank.icon} ${rank.name}`; }
+
+  const cur = stats.upgrades;
+  const next = rank.next;
+  const prev = rank.prev;
+  const pct = next>prev ? Math.min(100, Math.round(((cur-prev)/(next-prev))*100)) : 100;
+  const fill = document.getElementById('progressFill');
+  const cnt = document.getElementById('progressCount');
+  if(fill) fill.style.width = Math.max(0,pct) + '%';
+  if(cnt) cnt.textContent = `${cur} / ${next}`;
+
+  document.getElementById('pfUpgrades').textContent = stats.upgrades;
+  const wr = stats.upgrades>0 ? Math.round((stats.wins/stats.upgrades)*100) : 0;
+  document.getElementById('pfWinrate').textContent = wr + '%';
+  document.getElementById('pfCoins').textContent = balance;
+  document.getElementById('pfInv').textContent = inventory.length;
+
+  if(isAdmin()){
+    adminPanel.hidden = false;
+    const adminName = document.getElementById('adminName');
+    if(adminName) adminName.textContent = '@'+(username||'saintezz7');
+  } else {
+    adminPanel.hidden = true;
+  }
+
+  renderAdminWithdrawals(); renderAdminPromos();
+  if(typeof renderServerUrlConfig === 'function') renderServerUrlConfig();
 }
 
-async function loadLiveFeed(){
-  try{
-    const data = await apiRequest('/api/live-feed?limit=15');
-    renderLiveFeed(data?.feed || []);
-  }catch(e){ console.warn('[live-feed]', e.message); }
-}
-
-function startLiveFeedPolling(){
-  if(isBrowser) return;
-  if(liveFeedTimer) clearInterval(liveFeedTimer);
-  liveFeedTimer = setInterval(loadLiveFeed, 5000);
+function switchAdminTab(tab, btn){
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.admin-tab-panel').forEach(p=>p.classList.toggle('active', p.dataset.adminTab === tab));
+  if(tab==='promos'){ loadPromoCodesFromServer(); renderAdminPromos(); }
+  if(tab==='withdrawals'){ renderAdminWithdrawals(); }
+  if(tab==='settings'){ renderServerUrlConfig(); }
 }
 
 /* =========================================================
-   CHANCES — макс. 75%
+   CHANCES
 ========================================================= */
 function calculateChance(fromP, toP){
   if(!fromP || !toP) return 0;
@@ -1289,7 +3126,7 @@ function calculateChance(fromP, toP){
   const ratio = toP / fromP;
   let c = 100 / ratio;
   if(c < 1) c = 1;
-  if(c > 75) c = 75; // ← максимум 75%
+  if(c > 95) c = 95;
   return Math.round(c * 10) / 10;
 }
 function getUpgradeChance(){
@@ -1298,13 +3135,6 @@ function getUpgradeChance(){
   const tgt = items[targetItem];
   if(!src || !tgt) return 0;
   return calculateChance(src.price, tgt.price);
-}
-function getInventoryItem(slot){
-  const entry = inventory[slot];
-  if(!entry) return null;
-  const base = items[entry.itemIndex];
-  if(!base) return null;
-  return { itemIndex: entry.itemIndex, name: base.name, price: base.price, img: base.img };
 }
 
 /* =========================================================
@@ -1331,12 +3161,15 @@ function renderShop(){
   shopGrid.innerHTML = '';
   const cnt = document.getElementById('shopCount');
   if(cnt) cnt.textContent = items.length;
+
   const srcItem = sourceItem !== null ? getInventoryItem(sourceItem) : null;
+
   items.forEach((item,index)=>{
     const affordable = balance >= item.price;
     const chance = srcItem ? calculateChance(srcItem.price, item.price) : null;
     let chanceCls = '';
     if(chance !== null && chance === 0) chanceCls = 'zero';
+
     const card = document.createElement('div');
     card.className = 'shop-item';
     card.innerHTML = `
@@ -1349,6 +3182,112 @@ function renderShop(){
     card.querySelector('.shop-buy').onclick = e => { e.stopPropagation(); buyItem(index); };
     shopGrid.appendChild(card);
   });
+}
+
+/* =========================================================
+   CASES
+========================================================= */
+function renderCases(){
+  const list = document.getElementById('casesList');
+  if(!list) return;
+  list.innerHTML = '';
+  CASES.forEach((c, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'case-card';
+    const rewards = c.rewards.map(r=>{
+      const it = items[r.itemIndex];
+      if(!it) return '';
+      return `
+        <div class="case-reward">
+          ${getItemImgHtml(it,'')}
+          <div class="case-reward-name">${escapeHtml(it.name).slice(0,14)}</div>
+          <div class="case-reward-price">${it.price} 💎</div>
+        </div>
+      `;
+    }).join('');
+    const mainImg = c.img ? `<div class="case-main-img">${getCaseImgHtml(c.img)}</div>` : `<div class="case-main-img"><div class="case-main-emoji">◈</div></div>`;
+    card.innerHTML = `
+      <div class="case-top">
+        <div class="case-rarity">Classic</div>
+        <div class="case-idx">#${String(idx+1).padStart(3,'0')}</div>
+      </div>
+      ${mainImg}
+      <div class="case-meta">
+        <div class="case-name">${escapeHtml(c.name)}</div>
+        <div class="case-price">${c.price} 💎</div>
+      </div>
+      <div class="case-rewards">${rewards}</div>
+      <button class="open-case" type="button">Открыть за ${c.price} 💎</button>
+    `;
+    card.querySelector('.open-case').onclick = e => { e.stopPropagation(); openCase(c.id); };
+    list.appendChild(card);
+  });
+}
+
+let caseRolling = false;
+async function openCase(caseId){
+  if(caseRolling || spinning) return;
+  const c = CASES.find(x=>x.id===caseId);
+  if(!c) return;
+  if(balance < c.price){ showToast('Недостаточно кристаллов', 'error'); return; }
+  const spend = await serverUpdateBalance(-c.price);
+  if(!spend || spend.balance === undefined){ showToast('Ошибка списания', 'error'); return; }
+
+  const reward = c.rewards[Math.floor(Math.random()*c.rewards.length)];
+  const modal = document.getElementById('caseModal');
+  const title = document.getElementById('caseModalTitle');
+  const strip = document.getElementById('caseStrip');
+  const result = document.getElementById('caseResult');
+  const resultName = document.getElementById('caseResultName');
+  const resultPrice = document.getElementById('caseResultPrice');
+  const closeBtn = document.getElementById('caseCloseBtn');
+
+  title.textContent = c.name;
+  result.classList.remove('show');
+  closeBtn.classList.remove('show');
+  resultName.textContent = '—';
+  resultPrice.textContent = '';
+
+  const TOTAL = 40, WIN_POS = 32;
+  const seq = [];
+  for(let i=0;i<TOTAL;i++){
+    if(i===WIN_POS) seq.push(reward.itemIndex);
+    else seq.push(c.rewards[Math.floor(Math.random()*c.rewards.length)].itemIndex);
+  }
+  strip.innerHTML = seq.map(idx=>`<div class="case-strip-item">${getItemImgHtml(items[idx],'')}</div>`).join('');
+
+  strip.style.transition = 'none';
+  strip.style.transform = 'translateY(-50%) translateX(0px)';
+  modal.classList.add('show');
+  caseRolling = true;
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const IW = 110, GAP = 12, STEP = IW+GAP;
+    const rw = strip.parentElement.clientWidth;
+    const center = 20 + WIN_POS*STEP + IW/2;
+    const offset = center - rw/2;
+    const jitter = (Math.random()-0.5)*(IW*0.6);
+    strip.style.transition = 'transform 3.6s cubic-bezier(.12,.75,.15,1)';
+    strip.style.transform = `translateY(-50%) translateX(${-(offset+jitter)}px)`;
+  }));
+
+  setTimeout(()=>{
+    inventory.push({ itemIndex: reward.itemIndex });
+    saveProfileData(); renderAll();
+    const it = items[reward.itemIndex];
+    resultName.textContent = it.name;
+    resultPrice.textContent = it.price + ' 💎';
+    result.classList.add('show');
+    closeBtn.classList.add('show');
+    caseRolling = false;
+    const cx = window.innerWidth/2, cy = window.innerHeight/2;
+    showFlash(cx, cy, 'rgba(255,255,255,.5)', 320);
+    showParticles(cx, cy, '#fff', 24);
+    if(window.snowBurst) window.snowBurst(cx, cy, 28, '255,255,255');
+  }, 3700);
+}
+function closeCaseModal(){
+  document.getElementById('caseModal').classList.remove('show');
 }
 
 /* =========================================================
@@ -1378,9 +3317,15 @@ function renderInventory(){
       ${getItemImgHtml(item,'inv-item-img')}
       <div class="inv-item-info">
         <div class="inv-item-name">${escapeHtml(item.name)}</div>
-        <div class="inv-item-meta"><span class="price">${item.price} 💎</span></div>
+        <div class="inv-item-meta">
+          <span class="price">${item.price} 💎</span>
+          <span>·</span>
+          <span>слот ${idx+1}</span>
+        </div>
       </div>
-      <div><button type="button" class="sell-btn">Продать</button></div>
+      <div class="inv-actions">
+        <button type="button" class="sell-btn">Продать</button>
+      </div>
     `;
     row.onclick = () => selectSource(idx);
     row.querySelector('.sell-btn').onclick = e => { e.stopPropagation(); sellItem(idx); };
@@ -1389,7 +3334,6 @@ function renderInventory(){
   body.innerHTML = '';
   body.appendChild(list);
 }
-
 async function sellItem(idx){
   if(spinning) return;
   const entry = inventory[idx];
@@ -1399,7 +3343,8 @@ async function sellItem(idx){
   inventory.splice(idx,1);
   if(sourceItem === idx){ sourceItem = null; clearSourceDisplay(); }
   else if(sourceItem !== null && sourceItem > idx) sourceItem--;
-  await updateBalanceOnServer(item.price);
+  saveProfileData();
+  await serverUpdateBalance(item.price);
   showToast('Продано за ' + item.price + ' 💎', 'success');
   renderAll(); updateTop();
 }
@@ -1414,20 +3359,26 @@ function renderTargets(){
   if(q) arr = arr.filter(x => x.it.name.toLowerCase().includes(q));
   if(sort === 'price-asc') arr.sort((a,b)=>a.it.price-b.it.price);
   else if(sort === 'price-desc') arr.sort((a,b)=>b.it.price-a.it.price);
+  else if(sort === 'name') arr.sort((a,b)=>a.it.name.localeCompare(b.it.name));
+
   const cnt = document.getElementById('targetCount');
   if(cnt) cnt.textContent = arr.length;
+
   itemGrid.innerHTML = '';
   arr.forEach(({it:item, i:index})=>{
     const b = document.createElement('button');
     b.className = 'item' + (targetItem === index ? ' selected' : '');
     b.type = 'button';
+
     let chance = null;
     if(sourceItem !== null){
       const src = getInventoryItem(sourceItem);
       if(src) chance = calculateChance(src.price, item.price);
     }
+
     let chanceCls = '';
     if(chance !== null && chance === 0) chanceCls = 'zero';
+
     b.innerHTML = `
       ${getItemImgHtml(item,'item-img')}
       <div class="item-name">${escapeHtml(item.name)}</div>
@@ -1442,18 +3393,34 @@ function renderTargets(){
 function renderAll(){
   balanceEl.textContent = balance;
   renderShop();
+  renderCases();
   renderInventory();
   renderTargets();
   renderProfile();
+  renderAdminWithdrawals();
+  renderAdminPromos();
   updateGameStats();
+  updateRocketStats();
+  if(rocketMode === 'items') renderRocketItems();
 }
+
 function updateGameStats(){
   const u = document.getElementById('statUpgrades');
   const w = document.getElementById('statWins');
   const wr = document.getElementById('statWinrate');
   if(u) u.textContent = stats.upgrades;
   if(w) w.textContent = stats.wins;
-  if(wr) wr.textContent = (stats.winrate || 0) + '%';
+  if(wr) wr.textContent = (stats.upgrades>0 ? Math.round((stats.wins/stats.upgrades)*100) : 0) + '%';
+}
+function updateRocketStats(){
+  const g = document.getElementById('rocketGames');
+  const w = document.getElementById('rocketWins');
+  const l = document.getElementById('rocketLosses');
+  const b = document.getElementById('rocketBest');
+  if(g) g.textContent = stats.rocket;
+  if(w) w.textContent = stats.rocketWins;
+  if(l) l.textContent = stats.rocketLosses;
+  if(b) b.textContent = (stats.rocketBest||1).toFixed(2) + '×';
 }
 
 /* =========================================================
@@ -1463,16 +3430,20 @@ async function buyItem(index){
   if(spinning) return;
   const item = items[index];
   if(!item) return;
-  if(balance < item.price){ showToast('Недостаточно кристаллов', 'error'); return; }
-  const res = await updateBalanceOnServer(-item.price);
-  if(!res) return;
+  if(balance < item.price){
+    showToast('Недостаточно кристаллов', 'error');
+    return;
+  }
+  const res = await serverUpdateBalance(-item.price);
+  if(!res || res.balance === undefined) return;
   inventory.push({ itemIndex: index });
+  saveProfileData();
   showToast('Куплено: ' + item.name, 'success');
   renderAll();
 }
 
 /* =========================================================
-   SELECT
+   SELECT SOURCE / TARGET
 ========================================================= */
 function updateSourceSlotDisplay(){
   if(sourceItem === null){ clearSourceDisplay(); return; }
@@ -1509,8 +3480,13 @@ function selectTarget(idx){
   targetItem = idx;
   updateTargetSlotDisplay();
   renderTargets(); updateTop();
+
   const targetPanel = document.getElementById('targetPanel');
-  if(targetPanel) setTimeout(()=>targetPanel.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
+  if(targetPanel){
+    setTimeout(()=>{
+      targetPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 80);
+  }
 }
 function clearSourceDisplay(){
   sourceSlot.classList.remove('selected');
@@ -1524,7 +3500,7 @@ function focusInventory(){ document.getElementById('upgraderInventoryPanel')?.sc
 function focusTargets(){ document.getElementById('targetPanel')?.scrollIntoView({behavior:'smooth',block:'nearest'}); search.focus(); }
 
 /* =========================================================
-   UPGRADE
+   CHANCE / UPGRADE
 ========================================================= */
 function updateDisplayedChance(){
   const c = getUpgradeChance();
@@ -1535,7 +3511,9 @@ function updateDisplayedChance(){
       const src = getInventoryItem(sourceItem);
       const tgt = items[targetItem];
       wheelSub.textContent = `${src.price} → ${tgt.price}`;
-    } else wheelSub.textContent = '—';
+    } else {
+      wheelSub.textContent = '—';
+    }
   }
 }
 function updateTop(){
@@ -1563,19 +3541,34 @@ function performUpgrade(durationMs){
   if(spinning) return;
   if(sourceItem === null){ showToast('Выбери свой предмет', 'error'); focusInventory(); return; }
   if(targetItem === null){ showToast('Выбери цель', 'error'); focusTargets(); return; }
+
   const srcIdx = sourceItem;
   const srcData = getInventoryItem(srcIdx);
   const tgtIdx = targetItem;
   const tgtBase = items[tgtIdx];
   if(!srcData || !tgtBase) return;
+
   const chance = getUpgradeChance();
-  if(chance === 0){ showToast('Нельзя апгрейдить на дешевле', 'error'); return; }
+  if(chance === 0){
+    showToast('Нельзя апгрейдить на дешевле или равное', 'error');
+    return;
+  }
+
   spinning = true;
+  stats.upgrades++;
+  saveStats();
+
+  localStorage.setItem(PENDING_UPGRADE_KEY, JSON.stringify({
+    username: profile?.username||'', slotIndex: srcIdx,
+    sourceIndex: srcData.itemIndex, targetIndex: tgtIdx, startedAt: Date.now()
+  }));
+
   pointerWrap.style.transition = `transform ${durationMs}ms cubic-bezier(.12,.78,.16,1)`;
   upgradeBtn.disabled = true;
   upgradeBtn.textContent = 'Прокачка...';
   wheel.classList.add('spinning');
   if(stageBadge) stageBadge.textContent = 'SPINNING';
+
   const win = Math.random()*100 < chance;
   const greenAngle = chance*3.6;
   let finalAngle;
@@ -1583,17 +3576,24 @@ function performUpgrade(durationMs){
   else if(chance<=0) finalAngle = greenAngle+8+Math.random()*344;
   else if(win) finalAngle = 3+Math.random()*Math.max(1,greenAngle-6);
   else finalAngle = greenAngle+3+Math.random()*Math.max(1,(360-greenAngle)-6);
+
   const extra = durationMs < 1000 ? 15 : 5;
   pointerRotation = Math.ceil(pointerRotation/360)*360 + extra*360 + finalAngle;
   pointerWrap.style.transform = 'rotate('+pointerRotation+'deg)';
-  setTimeout(async ()=>{
+
+  setTimeout(()=>{
+    localStorage.removeItem(PENDING_UPGRADE_KEY);
     wheel.classList.remove('spinning');
     const rect = wheel.getBoundingClientRect();
     const cx = rect.left + rect.width/2;
     const cy = rect.top + rect.height/2;
+
     if(win){
       inventory[srcIdx] = { itemIndex: tgtIdx };
       sourceItem = srcIdx;
+      stats.wins++;
+      saveStats();
+      saveProfileData();
       updateSourceSlotDisplay();
       showToast(`Успех! ${tgtBase.name}`, 'success');
       if(stageBadge) stageBadge.textContent = 'WIN';
@@ -1603,6 +3603,9 @@ function performUpgrade(durationMs){
     } else {
       inventory.splice(srcIdx, 1);
       sourceItem = null;
+      stats.losses++;
+      saveStats();
+      saveProfileData();
       clearSourceDisplay();
       showToast(`Провал. Потеряно: ${srcData.name}`, 'error');
       if(stageBadge) stageBadge.textContent = 'LOSE';
@@ -1611,8 +3614,8 @@ function performUpgrade(durationMs){
       if(window.snowBurst) window.snowBurst(cx, cy, 28, '150,150,150');
       renderAll();
     }
-    await recordUpgradeOnServer(win ? 'win' : 'lose', srcData, tgtBase, chance);
     updateTop();
+    updateGameStats();
     spinning = false;
     upgradeBtn.disabled = false;
     upgradeBtn.textContent = 'Прокачать предмет';
@@ -1623,119 +3626,490 @@ function fastUpgrade(){ performUpgrade(500); }
 function filterItems(){ renderTargets(); }
 
 /* =========================================================
-   PROFILE / RANK
+   ROCKET
 ========================================================= */
-function getRankInfo(){
-  const u = stats.upgrades;
-  if(u >= 100) return { name:'Легенда', icon:'◆', next:200, prev:100 };
-  if(u >= 50)  return { name:'Алмаз', icon:'💎', next:100, prev:50 };
-  if(u >= 25)  return { name:'Платина', icon:'◈', next:50, prev:25 };
-  if(u >= 10)  return { name:'Золото', icon:'★', next:25, prev:10 };
-  if(u >= 3)   return { name:'Серебро', icon:'✦', next:10, prev:3 };
-  return { name:'Новичок', icon:'·', next:3, prev:0 };
+function setRocketMode(mode){
+  if(rocketState !== 'idle') return;
+  rocketMode = mode;
+  document.getElementById('rocketModeCrystals').classList.toggle('active', mode === 'crystals');
+  document.getElementById('rocketModeItems').classList.toggle('active', mode === 'items');
+  document.getElementById('rocketCrystalsBlock').style.display = mode === 'crystals' ? 'block' : 'none';
+  document.getElementById('rocketItemsBlock').style.display = mode === 'items' ? 'block' : 'none';
+  if(mode === 'items') renderRocketItems();
 }
-function renderProfile(){
-  const tgUser = getTelegramUser();
-  const usernameEl = document.getElementById('profileUsername');
-  const handleEl = document.getElementById('profileHandle');
-  if(tgUser){
-    const fn = String(tgUser.first_name || '').trim();
-    const ln = String(tgUser.last_name || '').trim();
-    const fullName = [fn, ln].filter(Boolean).join(' ') || 'Telegram';
-    if(usernameEl) usernameEl.textContent = fullName;
-    if(handleEl) handleEl.textContent = profile.telegramUsername ? '@' + profile.telegramUsername : ('ID: ' + tgUser.id);
-  } else {
-    if(usernameEl) usernameEl.textContent = 'Browser';
-    if(handleEl) handleEl.textContent = '@' + (profile?.username || 'user');
-  }
-  const rank = getRankInfo();
-  const rankBadge = document.getElementById('rankBadge');
-  if(rankBadge) rankBadge.textContent = `${rank.icon} ${rank.name}`;
-  const cur = stats.upgrades;
-  const next = rank.next, prev = rank.prev;
-  const pct = next > prev ? Math.min(100, Math.round(((cur - prev) / (next - prev)) * 100)) : 100;
-  const fill = document.getElementById('progressFill');
-  const cnt = document.getElementById('progressCount');
-  if(fill) fill.style.width = Math.max(0, pct) + '%';
-  if(cnt) cnt.textContent = `${cur} / ${next}`;
-  document.getElementById('pfUpgrades').textContent = stats.upgrades;
-  document.getElementById('pfWinrate').textContent = (stats.winrate || 0) + '%';
-  document.getElementById('pfCoins').textContent = balance;
-  document.getElementById('pfInv').textContent = inventory.length;
 
-  const adminPanel = document.getElementById('adminPanel');
-  if(adminPanel){
-    if(isAdminUser) adminPanel.hidden = false;
-    else adminPanel.hidden = true;
+function renderRocketItems(){
+  const list = document.getElementById('rocketItemsList');
+  const hint = document.getElementById('rocketItemsHint');
+  if(!list) return;
+  if(inventory.length === 0){
+    list.innerHTML = '';
+    if(hint) hint.textContent = 'Инвентарь пуст';
+    return;
   }
-  renderAdminPromos();
+  if(hint) hint.textContent = 'Выбери браинрота из инвентаря';
+  list.innerHTML = inventory.map((e, idx)=>{
+    const it = getInventoryItem(idx);
+    if(!it) return '';
+    const sel = rocketSelectedItemSlot === idx ? ' selected' : '';
+    return `<div class="rocket-item${sel}" onclick="selectRocketItem(${idx})">
+      ${getItemImgHtml(it,'')}
+      <div class="rocket-item-info">
+        <div class="rocket-item-name">${escapeHtml(it.name)}</div>
+      </div>
+      <div class="rocket-item-price">${it.price} 💎</div>
+    </div>`;
+  }).join('');
+}
+
+function selectRocketItem(idx){
+  if(rocketState !== 'idle') return;
+  rocketSelectedItemSlot = idx;
+  renderRocketItems();
+}
+
+function setRocketBet(mode){
+  const input = document.getElementById('rocketBetInput');
+  if(mode === 'min') input.value = 1;
+  else if(mode === 'half') input.value = Math.max(1, Math.floor(balance/2));
+  else if(mode === 'max') input.value = Math.max(1, Math.floor(balance));
+}
+
+function toggleRocketAuto(){
+  rocketAutoEnabled = !rocketAutoEnabled;
+  const toggle = document.getElementById('rocketAutoToggle');
+  const icon = document.getElementById('rocketAutoIcon');
+  if(toggle) toggle.classList.toggle('on', rocketAutoEnabled);
+  if(icon) icon.textContent = rocketAutoEnabled ? '●' : '○';
+}
+
+function rocketAction(){
+  if(rocketState === 'idle'){
+    startRocket();
+  } else if(rocketState === 'flying'){
+    cashOutRocket();
+  }
+}
+
+async function startRocket(){
+  const resultEl = document.getElementById('rocketResult');
+  const playBtn = document.getElementById('rocketPlayBtn');
+
+  let bet = 0;
+  let isItemBet = false;
+  let itemName = '';
+
+  if(rocketMode === 'crystals'){
+    const betInput = document.getElementById('rocketBetInput');
+    bet = Math.floor(Number(betInput.value) || 0);
+    if(bet < 1){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Минимальная ставка 1 💎'; return; }
+    if(bet > balance){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Недостаточно кристаллов'; return; }
+  } else {
+    if(rocketSelectedItemSlot === null){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Выбери браинрота'; return; }
+    const item = getInventoryItem(rocketSelectedItemSlot);
+    if(!item){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Предмет не найден'; return; }
+    bet = item.price;
+    itemName = item.name;
+    isItemBet = true;
+  }
+
+  rocketBet = bet;
+  rocketBetIsItem = isItemBet;
+  rocketBetItemName = itemName;
+
+  if(isItemBet){
+    inventory.splice(rocketSelectedItemSlot, 1);
+    if(sourceItem === rocketSelectedItemSlot){ sourceItem = null; clearSourceDisplay(); }
+    else if(sourceItem !== null && sourceItem > rocketSelectedItemSlot) sourceItem--;
+    rocketSelectedItemSlot = null;
+    saveProfileData();
+    renderInventory(); renderRocketItems(); renderTargets();
+  } else {
+    const res = await serverUpdateBalance(-bet);
+    if(!res || res.balance === undefined){ resultEl.textContent = 'Ошибка списания'; return; }
+  }
+
+  rocketState = 'flying';
+  rocketCurrentMultiplier = 1;
+  rocketStartTime = performance.now();
+  rocketChartPoints = [];
+  rocketCrashAt = generateRocketCrash();
+
+  playBtn.textContent = 'Забрать';
+  playBtn.classList.add('cashout');
+  resultEl.className = 'rocket-result';
+  resultEl.textContent = isItemBet
+    ? `На кону: ${itemName} · ${bet} 💎`
+    : `Ставка ${bet} 💎 · ждём взлёт...`;
+
+  const status = document.getElementById('rocketStatus');
+  const statusText = document.getElementById('rocketStatusText');
+  status.className = 'rocket-status flying';
+  statusText.textContent = '🚀 Ракетка в полёте';
+  const mult = document.getElementById('rocketMultiplier');
+  mult.classList.remove('crashed','cashed');
+  mult.textContent = '1.00×';
+  const badge = document.getElementById('rocketBadge');
+  if(badge) badge.textContent = 'FLYING';
+
+  requestAnimationFrame(rocketTick);
+}
+
+function generateRocketCrash(){
+  const r = Math.random();
+  const crash = Math.max(1.01, Math.pow(1 - r, -1.15));
+  if(crash > 30) return 30;
+  return crash;
+}
+
+function rocketTick(){
+  if(rocketState !== 'flying') return;
+
+  const now = performance.now();
+  const elapsed = (now - rocketStartTime) / 1000;
+  rocketCurrentMultiplier = 1 + Math.pow(elapsed, 2) * 0.08 + elapsed * 0.05;
+
+  if(rocketCurrentMultiplier >= rocketCrashAt){
+    rocketCurrentMultiplier = rocketCrashAt;
+    updateRocketChart();
+    updateRocketMultiplierUI();
+    crashRocket();
+    return;
+  }
+
+  updateRocketChart();
+  updateRocketMultiplierUI();
+
+  if(rocketAutoEnabled){
+    const autoVal = Number(document.getElementById('rocketAutoInput').value);
+    if(autoVal && rocketCurrentMultiplier >= autoVal){
+      cashOutRocket();
+      return;
+    }
+  }
+
+  rocketRaf = requestAnimationFrame(rocketTick);
+}
+
+function updateRocketChart(){
+  const line = document.getElementById('rocketLine');
+  const area = document.getElementById('rocketArea');
+  const emoji = document.getElementById('rocketEmoji');
+  if(!line || !area) return;
+
+  const w = 800, h = 440;
+  const progress = Math.min(1, (rocketCurrentMultiplier - 1) / Math.max(0.5, rocketCrashAt - 1));
+  const x = 40 + progress * (w - 80);
+  const y = h - 40 - progress * (h - 100);
+
+  rocketChartPoints.push({ x, y });
+  if(rocketChartPoints.length > 600) rocketChartPoints.shift();
+
+  let d = 'M 40 ' + (h - 40);
+  for(let i=1;i<rocketChartPoints.length;i++){
+    d += ' L ' + rocketChartPoints[i].x + ' ' + rocketChartPoints[i].y;
+  }
+  line.setAttribute('d', d);
+  area.setAttribute('d', d + ' L ' + x + ' ' + (h - 40) + ' L 40 ' + (h - 40) + ' Z');
+
+  if(emoji){
+    emoji.setAttribute('x', x - 14);
+    emoji.setAttribute('y', y + 8);
+    const rot = -25 - progress * 15;
+    emoji.setAttribute('transform', `rotate(${rot} ${x} ${y})`);
+  }
+}
+
+function updateRocketMultiplierUI(){
+  const mult = document.getElementById('rocketMultiplier');
+  if(mult) mult.textContent = rocketCurrentMultiplier.toFixed(2) + '×';
+}
+
+function cashOutRocket(){
+  if(rocketState !== 'flying') return;
+  rocketState = 'cashed';
+  if(rocketRaf) cancelAnimationFrame(rocketRaf);
+
+  const total = Math.floor(rocketBet * rocketCurrentMultiplier);
+  const profit = total - rocketBet;
+
+  serverUpdateBalance(total);
+
+  stats.rocket++;
+  stats.rocketWins++;
+  if(rocketCurrentMultiplier > stats.rocketBest) stats.rocketBest = rocketCurrentMultiplier;
+  saveStats();
+
+  const mult = document.getElementById('rocketMultiplier');
+  if(mult) mult.classList.add('cashed');
+  const status = document.getElementById('rocketStatus');
+  const statusText = document.getElementById('rocketStatusText');
+  status.className = 'rocket-status cashed';
+  statusText.textContent = 'Забрал на ' + rocketCurrentMultiplier.toFixed(2) + '×';
+
+  const resultEl = document.getElementById('rocketResult');
+  resultEl.className = 'rocket-result win';
+  resultEl.textContent = `Забрал ${total} 💎 (+${profit})`;
+
+  showToast(`Ракетка: +${total} 💎`, 'success');
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  showFlash(cx, cy, 'rgba(34,197,94,.5)', 320);
+  showParticles(cx, cy, '#22c55e', 24);
+  if(window.snowBurst) window.snowBurst(cx, cy, 30, '34,197,94');
+
+  pushRocketHistory(rocketCurrentMultiplier, true);
+  resetRocketUI();
+  updateRocketStats();
+  renderProfile();
+  renderInventory(); renderTargets(); renderRocketItems(); renderShop();
+}
+
+function crashRocket(){
+  if(rocketState !== 'flying' && rocketState !== 'crashed') return;
+  rocketState = 'crashed';
+  if(rocketRaf) cancelAnimationFrame(rocketRaf);
+
+  stats.rocket++;
+  stats.rocketLosses++;
+  if(rocketCurrentMultiplier > stats.rocketBest) stats.rocketBest = rocketCurrentMultiplier;
+  saveStats();
+
+  const mult = document.getElementById('rocketMultiplier');
+  if(mult){ mult.classList.add('crashed'); mult.textContent = rocketCurrentMultiplier.toFixed(2) + '×'; }
+  const status = document.getElementById('rocketStatus');
+  const statusText = document.getElementById('rocketStatusText');
+  status.className = 'rocket-status crashed';
+  statusText.textContent = '💥 Краш на ' + rocketCurrentMultiplier.toFixed(2) + '×';
+
+  const resultEl = document.getElementById('rocketResult');
+  resultEl.className = 'rocket-result lose';
+  resultEl.textContent = `Краш на ${rocketCurrentMultiplier.toFixed(2)}× · -${rocketBet} 💎`;
+
+  showToast(`Ракетка: краш -${rocketBet} 💎`, 'error');
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  showFlash(cx, cy, 'rgba(239,68,68,.5)', 320);
+  showParticles(cx, cy, '#ef4444', 24);
+  if(window.snowBurst) window.snowBurst(cx, cy, 30, '239,68,68');
+
+  pushRocketHistory(rocketCurrentMultiplier, false);
+  resetRocketUI();
+  updateRocketStats();
+  renderProfile();
+  renderInventory(); renderTargets(); renderRocketItems(); renderShop();
+}
+
+function resetRocketUI(){
+  const playBtn = document.getElementById('rocketPlayBtn');
+  if(playBtn){
+    playBtn.classList.remove('cashout');
+    playBtn.textContent = 'Поставить';
+  }
+  const badge = document.getElementById('rocketBadge');
+  if(badge) badge.textContent = 'IDLE';
+  rocketState = 'idle';
+}
+
+function pushRocketHistory(mult, win){
+  rocketHistory.unshift({ mult, win });
+  if(rocketHistory.length > 6) rocketHistory.pop();
+  renderRocketHistory();
+}
+
+function renderRocketHistory(){
+  const el = document.getElementById('rocketHistory');
+  if(!el) return;
+  el.innerHTML = rocketHistory.map(h =>
+    `<div class="rocket-history-item ${h.win ? 'cash' : 'crash'}">${h.mult.toFixed(2)}×</div>`
+  ).join('');
 }
 
 /* =========================================================
-   ADMIN — PROMO CODES
+   TABS
 ========================================================= */
+function showTab(tab){
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.hidden = p.dataset.tab !== tab;
+    p.classList.toggle('active', p.dataset.tab === tab);
+  });
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const nav = document.getElementById(
+    tab === 'profile' ? 'navProfile' :
+    tab === 'promo' ? 'navPromo' :
+    tab === 'cases' ? 'navCases' :
+    tab === 'rocket' ? 'navRocket' : 'navGame'
+  );
+  if(nav) nav.classList.add('active');
+  if(tab === 'profile'){
+    renderProfile(); renderAdminWithdrawals(); renderAdminPromos();
+    loadPromoCodesFromServer();
+  }
+  if(tab === 'cases') renderCases();
+  if(tab === 'rocket'){
+    updateRocketStats();
+    renderRocketHistory();
+    renderRocketItems();
+  }
+}
+
+/* =========================================================
+   PROMO / API
+========================================================= */
+function getApiBaseUrl(){
+  if(window.API_BASE_URL && String(window.API_BASE_URL).trim()) return String(window.API_BASE_URL).trim().replace(/\/$/,'');
+  const saved = localStorage.getItem('api_base_url');
+  if(saved && saved.trim()) return saved.trim().replace(/\/$/,'');
+  const origin = window.location.origin;
+  if(origin && origin !== 'null' && !origin.startsWith('file:') && !origin.includes('github.io')) return origin.replace(/\/$/,'');
+  return '';
+}
+function setApiBaseUrl(url){
+  const clean = String(url||'').trim().replace(/\/$/,'');
+  if(clean) localStorage.setItem('api_base_url', clean);
+  else localStorage.removeItem('api_base_url');
+  renderServerUrlConfig();
+}
+function renderServerUrlConfig(){
+  const input = document.getElementById('adminServerUrl');
+  if(input) input.value = localStorage.getItem('api_base_url') || '';
+}
+function saveAdminServerUrl(){
+  const input = document.getElementById('adminServerUrl');
+  const msg = document.getElementById('adminServerUrlMessage');
+  const val = String(input?.value||'').trim();
+  setApiBaseUrl(val);
+  if(msg){ msg.textContent = val ? '✓ Сохранено: '+val : 'По умолчанию'; msg.className = 'admin-msg ' + (val?'success':''); }
+  showToast(val ? 'Адрес API сохранён' : 'Сброшено на умолчание', 'success');
+}
+function getTelegramInitData(){ return window.Telegram?.WebApp?.initData || ''; }
+async function apiRequest(path, options={}){
+  const baseUrl = getApiBaseUrl();
+  if(!baseUrl && (path.startsWith('/api/')||path.startsWith('/'))){
+    const entered = prompt('Укажи адрес Render бэкенда:');
+    if(entered && entered.trim()){ setApiBaseUrl(entered); return apiRequest(path, options); }
+    throw new Error('Не указан адрес сервера.');
+  }
+  const headers = { 'Content-Type':'application/json', ...(options.headers||{}) };
+  const initData = getTelegramInitData();
+  if(initData) headers['X-Telegram-Init-Data'] = initData;
+  const u = getTelegramUser();
+  const userId = u?.id ? String(u.id) : (profile?.username || '');
+  if(userId) headers['X-User-Id'] = userId;
+  const fullUrl = baseUrl + path;
+  let response;
+  try{ response = await fetch(fullUrl, { ...options, headers }); }
+  catch(e){ throw new Error('Не подключиться к '+fullUrl); }
+  const text = await response.text();
+  let data = null;
+  try{ data = text ? JSON.parse(text) : null; }catch(e){}
+  if(!response.ok){
+    if(data?.error){ const err = new Error(data.error); err.status = response.status; err.data = data; throw err; }
+    const err = new Error('HTTP '+response.status); err.status = response.status; throw err;
+  }
+  if(data === null) throw new Error('Сервер вернул не JSON.');
+  return data;
+}
+async function loadPromoCodesFromServer(){
+  if(!isAdmin()) return;
+  try{
+    const data = await apiRequest('/api/admin/promos');
+    promoCodes = Array.isArray(data?.promos) ? data.promos : (Array.isArray(data?.promoCodes) ? data.promoCodes : []);
+    renderAdminPromos();
+  }catch(e){}
+}
+async function redeemPromoCode(){
+  const input = document.getElementById('promoInput');
+  const msg = document.getElementById('promoMessage');
+  const btn = document.querySelector('.promo-btn');
+  const code = String(input?.value||'').trim().toUpperCase();
+  if(!code){ msg.className='promo-msg error'; msg.textContent='Введи промокод.'; return; }
+  const u = getTelegramUser();
+  const telegramId = u?.id ? String(u.id) : (profile?.username || '');
+  const username = u?.username || profile?.username || '';
+  if(btn) btn.disabled = true;
+  msg.className = 'promo-msg'; msg.textContent = 'Проверяем...';
+  try{
+    const data = await apiRequest('/api/promo/redeem',{
+      method:'POST',
+      body: JSON.stringify({ code, telegram_id: telegramId, username, first_name: u?.first_name||'', current_balance: balance })
+    });
+    const reward = Number(data?.reward||0);
+    if(data?.balance !== undefined && data.balance !== null) balance = Number(data.balance);
+    else balance = Number(balance||0) + reward;
+    saveProfileData(); renderAll(); updateTop();
+    msg.className='promo-msg success';
+    msg.textContent = `Промокод активирован! +${reward} 💎`;
+    input.value = '';
+    showToast(`Промокод +${reward} 💎`, 'success');
+    const cx = window.innerWidth/2, cy = window.innerHeight/2;
+    showFlash(cx, cy, 'rgba(255,255,255,.5)', 320);
+    showParticles(cx, cy, '#fff', 30);
+    if(window.snowBurst) window.snowBurst(cx, cy, 40, '255,255,255');
+  }catch(e){
+    msg.className='promo-msg error';
+    if(e.status===404) msg.textContent='Промокод не найден.';
+    else if(e.status===409) msg.textContent=e.data?.error||'Уже использован.';
+    else if(e.status===410) msg.textContent='Промокод истёк.';
+    else if(e.status===401) msg.textContent='Не подтверждён аккаунт.';
+    else msg.textContent = e.message || 'Ошибка.';
+  }finally{ if(btn) btn.disabled = false; }
+}
 async function createPromoCode(){
-  if(!isAdminUser) return;
+  if(!isAdmin()) return;
   const codeInput = document.getElementById('adminPromoCode');
   const actInput = document.getElementById('adminPromoActivations');
   const minInput = document.getElementById('adminPromoMinutes');
   const rewInput = document.getElementById('adminPromoReward');
   const msg = document.getElementById('adminMessage');
-  const code = String(codeInput?.value || '').trim().toUpperCase();
+  const btn = document.querySelector('.admin-tab-panel.active .admin-btn');
+  const code = String(codeInput?.value||'').trim().toUpperCase();
   const maxA = Math.floor(Number(actInput?.value));
   const mins = Math.floor(Number(minInput?.value));
   const rew = Math.floor(Number(rewInput?.value));
   if(!code){ msg.className='admin-msg error'; msg.textContent='Укажи название.'; return; }
   if(maxA<1 || mins<1 || rew<1){ msg.className='admin-msg error'; msg.textContent='Значения > 0.'; return; }
+  if(btn) btn.disabled = true;
   msg.className = 'admin-msg'; msg.textContent = 'Создание...';
   try{
-    const data = await apiRequest('/api/admin/promos', {
+    const data = await apiRequest('/api/admin/promos',{
       method:'POST',
-      body: JSON.stringify({ code, max_activations:maxA, expires_in_minutes:mins, reward:rew })
+      body: JSON.stringify({ code, max_activations:maxA, expires_in_minutes:mins, reward:rew, admin_username: getTelegramUsername() || 'saintezz7' })
     });
     msg.className='admin-msg success';
-    msg.textContent = `✓ Промокод ${data?.promo?.code || code} создан!`;
+    msg.textContent = `✓ Промокод ${data?.promo?.code||code} создан!`;
     codeInput.value=''; actInput.value=''; minInput.value=''; rewInput.value='10';
     await loadPromoCodesFromServer();
+    showToast('Промокод создан', 'success');
   }catch(e){
     msg.className='admin-msg error';
     msg.textContent = e.data?.error || e.message || 'Ошибка.';
-  }
+  }finally{ if(btn) btn.disabled = false; }
 }
 async function deletePromoCode(id){
   if(!confirm('Удалить промокод?')) return;
-  try{ await apiRequest('/api/admin/promos/' + id, { method:'DELETE' }); await loadPromoCodesFromServer(); }
+  try{ await apiRequest('/api/admin/promos/'+id, { method:'DELETE' }); await loadPromoCodesFromServer(); showToast('Промокод удалён','info'); }
   catch(e){ showToast(e.data?.error || e.message, 'error'); }
-}
-async function loadPromoCodesFromServer(){
-  if(!isAdminUser) return;
-  try{
-    const data = await apiRequest('/api/admin/promos');
-    promoCodes = Array.isArray(data?.promos) ? data.promos : (Array.isArray(data?.promoCodes) ? data.promoCodes : []);
-    renderAdminPromos();
-  }catch(e){ console.warn('[admin promos]', e.message); }
 }
 function renderAdminPromos(){
   const list = document.getElementById('adminPromoList');
   const countEl = document.getElementById('adminPromoCount');
   if(!list) return;
-  if(!isAdminUser){ list.innerHTML=''; return; }
+  if(!isAdmin()){ list.innerHTML=''; return; }
   if(countEl) countEl.textContent = promoCodes.length;
   if(!promoCodes.length){
     list.innerHTML = `<div class="admin-empty"><span class="admin-empty-icon">🎫</span>Промокодов пока нет</div>`;
     return;
   }
   list.innerHTML = promoCodes.map(p=>{
-    const expiresAt = Number(p.expires_at || 0);
-    const expired = expiresAt > 0 && Date.now() >= expiresAt;
-    const maxA = p.max_activations ?? 1;
-    const usedA = p.used_count ?? 0;
-    const exhausted = usedA >= maxA;
+    const expiresAt = Number(p.expires_at||0);
+    const expired = expiresAt>0 && Date.now()>=expiresAt;
+    const maxA = p.max_activations ?? p.activations ?? 1;
+    const usedA = p.used_count ?? p.used ?? 0;
+    const exhausted = usedA>=maxA;
     let sc='active', st='АКТИВЕН';
     if(expired){ sc='expired'; st='ИСТЁК'; }
     else if(exhausted){ sc='exhausted'; st='ИСЧЕРПАН'; }
-    const expireStr = expiresAt > 0 ? new Date(expiresAt).toLocaleString('ru-RU') : 'Бессрочный';
-    return `<div class="admin-list-item">
+    const expireStr = expiresAt>0 ? new Date(expiresAt).toLocaleString('ru-RU') : 'Бессрочный';
+    return `<div class="admin-list-item" onclick="this.classList.toggle('open')">
       <div class="admin-list-item-header">
         <div class="admin-list-item-title">🎫 ${escapeHtml(p.code)}</div>
         <div class="admin-list-item-status ${sc}">${st}</div>
@@ -1751,72 +4125,52 @@ function renderAdminPromos(){
     </div>`;
   }).join('');
 }
-
-/* =========================================================
-   PROMO REDEEM
-========================================================= */
-async function redeemPromoCode(){
-  const input = document.getElementById('promoInput');
-  const msg = document.getElementById('promoMessage');
-  const btn = document.querySelector('.promo-btn');
-  const code = String(input?.value || '').trim().toUpperCase();
-  if(!code){ msg.className='promo-msg error'; msg.textContent='Введи промокод.'; return; }
-  if(btn) btn.disabled = true;
-  msg.className = 'promo-msg'; msg.textContent = 'Проверяем...';
-  try{
-    const tgUser = getTelegramUser();
-    const data = await apiRequest('/api/promo/redeem', {
-      method:'POST',
-      body: JSON.stringify({
-        code,
-        telegram_id: myTelegramId,
-        username: tgUser?.username || profile.telegramUsername || '',
-        first_name: tgUser?.first_name || profile.telegramFirstName || ''
-      })
-    });
-    const reward = Number(data?.reward || 0);
-    if(data?.balance !== undefined) balance = Number(data.balance);
-    balanceEl.textContent = balance;
-    renderAll();
-    msg.className='promo-msg success';
-    msg.textContent = `Промокод активирован! +${reward} 💎`;
-    input.value = '';
-    showToast(`Промокод +${reward} 💎`, 'success');
-  }catch(e){
-    msg.className='promo-msg error';
-    msg.textContent = e.data?.error || e.message || 'Ошибка.';
-  }finally{
-    if(btn) btn.disabled = false;
+function renderAdminWithdrawals(){
+  const list = document.getElementById('adminWithdrawalsList');
+  if(!list) return;
+  if(!isAdmin()){ list.innerHTML=''; return; }
+  if(!withdrawals.length){
+    list.innerHTML = `<div class="admin-empty"><span class="admin-empty-icon">📭</span>Выводов нет</div>`;
+    return;
   }
-}
-
-/* =========================================================
-   TABS
-========================================================= */
-function showTab(tab){
-  document.querySelectorAll('.tab-panel').forEach(p=>{
-    p.hidden = p.dataset.tab !== tab;
-    p.classList.toggle('active', p.dataset.tab === tab);
+  list.innerHTML = '';
+  withdrawals.forEach(r=>{
+    const row = document.createElement('div');
+    row.className = 'admin-list-item';
+    const created = new Date(r.createdAt||Date.now()).toLocaleString('ru-RU');
+    const sc = r.status === 'pending' ? 'pending' : (r.status === 'completed' ? 'active' : 'expired');
+    const st = r.status === 'pending' ? 'НОВЫЙ' : (r.status||'—').toUpperCase();
+    row.innerHTML = `
+      <div class="admin-list-item-header">
+        <div class="admin-list-item-title">📦 ${escapeHtml(r.itemName||'Предмет')}</div>
+        <div class="admin-list-item-status ${sc}">${st}</div>
+      </div>
+      <div class="admin-list-item-meta">
+        <span>👤 ${escapeHtml(r.robloxUsername||'—')}</span>
+        <span>💎 ${r.itemPrice??0}</span>
+        <span>🕐 ${created}</span>
+      </div>
+    `;
+    row.onclick = () => row.classList.toggle('open');
+    list.appendChild(row);
   });
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  const nav = document.getElementById(tab === 'profile' ? 'navProfile' : tab === 'promo' ? 'navPromo' : 'navGame');
-  if(nav) nav.classList.add('active');
-  if(tab === 'profile'){ renderProfile(); loadStatsFromServer(); loadPromoCodesFromServer(); }
 }
 
 /* =========================================================
    START
 ========================================================= */
-initProfile();
-loadBalanceFromServer();
-loadStatsFromServer();
+if(window.Telegram?.WebApp){ try{ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }catch(e){} }
+
+loadProfileData();
+syncTelegramUserWithServer();
 renderAll();
 updateTop();
+renderRocketHistory();
+updateRocketStats();
+renderRocketItems();
 
-if(!isBrowser){
-  loadLiveFeed();
-  startLiveFeedPolling();
-}
+setTimeout(()=>loadPromoCodesFromServer(), 100);
+
 </script>
 
 </body>
