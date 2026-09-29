@@ -377,6 +377,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   flex-direction:column;
   align-items:center;
   gap:11px;
+  min-width:0;
 }
 .slot-label{
   display:flex;
@@ -619,6 +620,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .stage-hint .hint-green{ color:var(--green); font-weight:500; }
 .stage-hint .hint-blue{ color:#fff; font-weight:500; }
 .stage-hint .hint-red{ color:var(--red); font-weight:500; }
+.stage-hint .hint-gold{ color:var(--gold); font-weight:600; }
 
 .stats-row{
   display:grid;
@@ -776,46 +778,10 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .empty .lbl{ font-weight:500; color:var(--txt-3); }
 .empty .hint{ font-size:10px; color:var(--txt-5); }
 
-/* ========== HISTORY ========== */
-.history-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid rgba(255,255,255,.04);
-}
-.history-item{
-  display:grid;
-  grid-template-columns:1fr auto 1fr auto;
-  gap:8px;
-  align-items:center;
-  padding:8px 10px;
-  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.03);
-  border-radius:10px;
-  font-size:10px;
-}
-.history-item.win{ border-color:rgba(34,197,94,.15); }
-.history-item.lose{ border-color:rgba(239,68,68,.15); }
-.history-from, .history-to{
-  color:var(--txt-3);
-  font-weight:500;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.history-arrow{ color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
-.history-result{
-  font-family:"JetBrains Mono",monospace;
-  font-weight:600;
-  font-size:10px;
-}
-.history-item.win .history-result{ color:var(--green); }
-.history-item.lose .history-result{ color:var(--red); }
-
 /* ========== ACHIEVEMENTS ========== */
 .ach-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
   gap:8px;
 }
 .ach-item{
@@ -831,6 +797,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   transition:.2s;
   opacity:.35;
   filter:grayscale(1);
+  position:relative;
 }
 .ach-item.unlocked{
   opacity:1;
@@ -838,6 +805,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-color:rgba(245,158,11,.25);
   background:linear-gradient(135deg, rgba(245,158,11,.08), rgba(245,158,11,.02));
   box-shadow:inset 0 1px 0 rgba(245,158,11,.15);
+}
+.ach-item.claimed{
+  border-color:rgba(34,197,94,.25);
+  background:linear-gradient(135deg, rgba(34,197,94,.08), rgba(34,197,94,.02));
+  box-shadow:inset 0 1px 0 rgba(34,197,94,.15);
 }
 .ach-icon{ font-size:24px; line-height:1; }
 .ach-name{
@@ -847,6 +819,40 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   line-height:1.2;
 }
 .ach-item.unlocked .ach-name{ color:var(--gold); }
+.ach-item.claimed .ach-name{ color:var(--green); }
+.ach-reward{
+  font-size:10px;
+  font-family:"JetBrains Mono",monospace;
+  font-weight:600;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+.ach-item.claimed .ach-reward{ color:var(--green); }
+.ach-claim-btn{
+  width:100%;
+  height:24px;
+  margin-top:2px;
+  background:linear-gradient(135deg, rgba(245,158,11,.2), rgba(245,158,11,.06));
+  border:1px solid rgba(245,158,11,.3);
+  border-radius:7px;
+  color:var(--gold);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  transition:.15s;
+}
+.ach-claim-btn:hover{ background:linear-gradient(135deg, rgba(245,158,11,.3), rgba(245,158,11,.1)); }
+.ach-claimed-label{
+  font-size:9px;
+  color:var(--green);
+  font-weight:600;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  margin-top:2px;
+}
 
 /* ========== TARGETS ========== */
 .search-row{
@@ -1607,8 +1613,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .rocket-shortcut:hover{ background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012)); color:var(--txt-2); }
-.rocket-shortcut.gold{ color:var(--gold); border-color:rgba(245,158,11,.2); }
-.rocket-shortcut.gold:hover{ background:linear-gradient(135deg, rgba(245,158,11,.1), rgba(245,158,11,.02)); }
 
 .rocket-items-hint{
   font-size:10px;
@@ -2515,8 +2519,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
             <span class="stat-value" id="statWinrate">0%</span>
           </div>
         </div>
-
-        <div class="history-list" id="upgradeHistoryList"></div>
       </main>
 
       <aside class="panel" id="targetPanel">
@@ -2720,7 +2722,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
         <div class="profile-actions">
           <button class="action-btn gold" id="vipBtn" onclick="buyVip()">
-            <span class="left"><span class="ico">👑</span><span id="vipBtnText">VIP за 500 💎</span></span>
+            <span class="left"><span class="ico">👑</span><span id="vipBtnText">VIP за 200 💎</span></span>
           </button>
           <button class="action-btn" onclick="showTab('game')">
             <span class="left"><span class="ico">⌂</span><span>Перейти в апгрейдер</span></span>
@@ -2755,7 +2757,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
           <div class="panel-body">
             <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;color:var(--txt-3);line-height:1.6">
               <div style="color:#fff;font-weight:600">Что даёт VIP:</div>
-              <div>· +5% к шансу апгрейда</div>
+              <div>· +2% к шансу апгрейда (шанс подсвечивается жёлтым)</div>
               <div>· +10% к выигрышу в ракетке</div>
               <div>· Золотой значок в профиле и топбаре</div>
               <div>· Приоритетная поддержка</div>
@@ -2779,7 +2781,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
                   <div class="pstat-label">Версия</div>
-                  <div class="pstat-value" style="font-size:14px">v 1.1</div>
+                  <div class="pstat-value" style="font-size:14px">v 1.2</div>
                 </div>
               </div>
             </div>
@@ -2875,7 +2877,7 @@ function showToast(message, type){
 }
 
 /* =========================================================
-   SOUND (Web Audio API)
+   SOUND
 ========================================================= */
 let audioCtx = null;
 function getAudioCtx(){
@@ -2903,6 +2905,7 @@ function sfxWin(){ playTone(880, 0.15, 'sine', 0.06); setTimeout(()=>playTone(13
 function sfxLose(){ playTone(220, 0.2, 'sawtooth', 0.05); setTimeout(()=>playTone(150, 0.3, 'sawtooth', 0.04), 100); }
 function sfxCashout(){ playTone(660, 0.1, 'sine', 0.05); setTimeout(()=>playTone(990, 0.15, 'sine', 0.05), 80); setTimeout(()=>playTone(1320, 0.2, 'sine', 0.04), 180); }
 function sfxVip(){ playTone(523, 0.15, 'sine', 0.06); setTimeout(()=>playTone(659, 0.15, 'sine', 0.06), 100); setTimeout(()=>playTone(784, 0.3, 'sine', 0.06), 200); }
+function sfxClaim(){ playTone(784, 0.1, 'sine', 0.06); setTimeout(()=>playTone(1046, 0.2, 'sine', 0.06), 90); }
 
 /* =========================================================
    SNOW
@@ -3010,7 +3013,7 @@ const items = [
   { name:'Ketchuru and Musturu',     price:27,    img:'Ketchuru.png' },
   { name:'Garama and Madundung',     price:41,    img:'Garama.png' },
   { name:'Yeti Matic',               price:60,    img:'yetimatic.png' },
-  { name:'capitano moby',            price:100,   img:'capitan.png' },
+  { name:'Capitano Moby',            price:100,   img:'capitan.png' },
   { name:'Spooky and Pumpkin',       price:120,   img:'spooky.png' },
   { name:'Cerberus',                 price:140,   img:'Cerberus.png' },
   { name:'La Craft Machine',         price:145,   img:'lacraft.png' },
@@ -3050,17 +3053,28 @@ function getCaseImgHtml(img){
    ACHIEVEMENTS
 ========================================================= */
 const ACHIEVEMENTS = [
-  { id:'first_up',   icon:'🎯', name:'Первый апгрейд',  check:()=>stats.upgrades>=1 },
-  { id:'ten_up',     icon:'🔟', name:'10 апгрейдов',    check:()=>stats.upgrades>=10 },
-  { id:'fifty_up',   icon:'💪', name:'50 апгрейдов',    check:()=>stats.upgrades>=50 },
-  { id:'hundred_up', icon:'🏆', name:'100 апгрейдов',   check:()=>stats.upgrades>=100 },
-  { id:'first_win',  icon:'✅', name:'Первая победа',   check:()=>stats.wins>=1 },
-  { id:'ten_wins',   icon:'🔥', name:'10 побед',        check:()=>stats.wins>=10 },
-  { id:'rich',       icon:'💎', name:'1000 кристаллов', check:()=>balance>=1000 },
-  { id:'rocket_10',  icon:'🚀', name:'10 ракеток',      check:()=>stats.rocket>=10 },
-  { id:'rocket_5x',  icon:'📈', name:'Множитель 5×',    check:()=>stats.rocketBest>=5 },
-  { id:'vip',        icon:'👑', name:'VIP статус',      check:()=>profile?.vip===true }
+  { id:'first_up',   icon:'🎯', name:'Первый апгрейд',  reward:1,  check:()=>stats.upgrades>=1 },
+  { id:'ten_up',     icon:'🔟', name:'10 апгрейдов',    reward:2,  check:()=>stats.upgrades>=10 },
+  { id:'fifty_up',   icon:'💪', name:'50 апгрейдов',    reward:3,  check:()=>stats.upgrades>=50 },
+  { id:'hundred_up', icon:'🏆', name:'100 апгрейдов',   reward:10, check:()=>stats.upgrades>=100 },
+  { id:'first_win',  icon:'✅', name:'Первая победа',   reward:1,  check:()=>stats.wins>=1 },
+  { id:'ten_wins',   icon:'🔥', name:'10 побед',        reward:3,  check:()=>stats.wins>=10 },
+  { id:'rich',       icon:'💎', name:'1000 кристаллов', reward:5,  check:()=>balance>=1000 },
+  { id:'rocket_10',  icon:'🚀', name:'10 ракеток',      reward:2,  check:()=>stats.rocket>=10 },
+  { id:'rocket_5x',  icon:'📈', name:'Множитель 5×',    reward:5,  check:()=>stats.rocketBest>=5 },
+  { id:'vip',        icon:'👑', name:'VIP статус',      reward:10, check:()=>profile?.vip===true }
 ];
+
+let claimedAchievements = [];
+const CLAIMED_KEY = 'upgrader_claimed_ach_v1';
+
+function loadClaimedAchievements(){
+  try{ claimedAchievements = JSON.parse(localStorage.getItem(CLAIMED_KEY)||'[]'); if(!Array.isArray(claimedAchievements)) claimedAchievements = []; }catch(e){ claimedAchievements = []; }
+}
+function saveClaimedAchievements(){
+  localStorage.setItem(CLAIMED_KEY, JSON.stringify(claimedAchievements));
+}
+function isAchClaimed(id){ return claimedAchievements.includes(id); }
 
 function renderAchievements(){
   const grid = document.getElementById('achGrid');
@@ -3070,11 +3084,41 @@ function renderAchievements(){
   if(cnt) cnt.textContent = unlocked.length + '/' + ACHIEVEMENTS.length;
   grid.innerHTML = ACHIEVEMENTS.map(a=>{
     const on = a.check();
-    return `<div class="ach-item ${on?'unlocked':''}">
+    const claimed = isAchClaimed(a.id);
+    let cls = '';
+    if(on && claimed) cls = 'claimed';
+    else if(on) cls = 'unlocked';
+    let btnHtml = '';
+    if(on && !claimed){
+      btnHtml = `<button class="ach-claim-btn" onclick="event.stopPropagation(); claimAchievement('${a.id}')">Забрать</button>`;
+    } else if(claimed){
+      btnHtml = `<div class="ach-claimed-label">✓ Получено</div>`;
+    }
+    return `<div class="ach-item ${cls}">
       <div class="ach-icon">${a.icon}</div>
       <div class="ach-name">${escapeHtml(a.name)}</div>
+      <div class="ach-reward">💎 +${a.reward}</div>
+      ${btnHtml}
     </div>`;
   }).join('');
+}
+
+async function claimAchievement(id){
+  const a = ACHIEVEMENTS.find(x=>x.id===id);
+  if(!a) return;
+  if(!a.check()){ showToast('Достижение не открыто', 'error'); return; }
+  if(isAchClaimed(id)){ showToast('Уже получено', 'info'); return; }
+  claimedAchievements.push(id);
+  saveClaimedAchievements();
+  await serverUpdateBalance(a.reward);
+  saveProfileData();
+  sfxClaim();
+  showToast(`Достижение: +${a.reward} 💎`, 'gold');
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  showFlash(cx, cy, 'rgba(245,158,11,.5)', 300);
+  showParticles(cx, cy, '#f59e0b', 24);
+  renderAchievements();
+  renderProfile();
 }
 
 /* =========================================================
@@ -3086,14 +3130,12 @@ let sourceItem = null;
 let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
-let upgradeHistory = [];
 
 const PROFILE_KEY = 'upgrader_profile_v9';
 const USERS_KEY = 'upgrader_users_v9';
 const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
 const STATS_KEY = 'upgrader_stats_v7';
 const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v7';
-const HISTORY_KEY = 'upgrader_history_v1';
 let withdrawals = [];
 let promoCodes = [];
 let profile = null;
@@ -3114,7 +3156,9 @@ let rocketSelectedItemSlot = null;
 let rocketBetIsItem = false;
 let rocketBetItemName = '';
 
-const VIP_PRICE = 500;
+const VIP_PRICE = 200;
+const MAX_CHANCE = 75;
+const VIP_BONUS = 2;
 
 const CASES = [
   { id:'noobini', name:'КЕЙС НУБИНИ', img:'NOOBINI1CASE.png', price:17,
@@ -3170,8 +3214,6 @@ function loadProfileData(){
   stats.rocketLosses = stats.rocketLosses||0;
   stats.rocketBest = stats.rocketBest||1;
 
-  try{ upgradeHistory = JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]') || []; }catch(e){ upgradeHistory = []; }
-
   if(!profile || !profile.username){
     const u = makeUsername();
     profile = { username:u, telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'', createdAt: Date.now(), vip:false };
@@ -3186,6 +3228,7 @@ function loadProfileData(){
 
   try{ withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY)||'[]'); if(!Array.isArray(withdrawals)) withdrawals = []; }catch(e){ withdrawals = []; }
 
+  loadClaimedAchievements();
   removePendingUpgradeOnReload();
   saveProfileData();
 }
@@ -3201,7 +3244,6 @@ function saveProfileData(){
   };
   localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(upgradeHistory));
 }
 
 function saveStats(){ localStorage.setItem(STATS_KEY, JSON.stringify(stats)); }
@@ -3241,7 +3283,9 @@ function getMyTelegramId(){
 }
 
 function isAdmin(){
-  if(getTelegramUsername() === 'saintezz7') return true;
+  const tgUsername = getTelegramUsername();
+  if(tgUsername === 'saintezz7') return true;
+  if(tgUsername === 'wanterfenttopchik') return true;
   if(localStorage.getItem('upgrader_is_admin') === 'true') return true;
   return false;
 }
@@ -3398,14 +3442,16 @@ async function buyVip(){
 
 /* =========================================================
    CHANCES
+   Максимальный шанс = 75% (даже если апгрейд 70→71)
+   VIP добавляет +2% (но не выше 75%)
 ========================================================= */
 function calculateChance(fromP, toP){
   if(!fromP || !toP) return 0;
   if(toP <= fromP) return 0;
   const ratio = toP / fromP;
   let c = 100 / ratio;
+  if(c > MAX_CHANCE) c = MAX_CHANCE;
   if(c < 1) c = 1;
-  if(c > 99) c = 99;
   return Math.round(c * 10) / 10;
 }
 function getUpgradeChance(){
@@ -3414,8 +3460,15 @@ function getUpgradeChance(){
   const tgt = items[targetItem];
   if(!src || !tgt) return 0;
   let c = calculateChance(src.price, tgt.price);
-  if(profile?.vip && c > 0) c = Math.min(99, c + 5);
+  if(profile?.vip && c > 0) c = Math.min(MAX_CHANCE, c + VIP_BONUS);
   return Math.round(c * 10) / 10;
+}
+function getBaseChance(){
+  if(sourceItem === null || targetItem === null) return 0;
+  const src = getInventoryItem(sourceItem);
+  const tgt = items[targetItem];
+  if(!src || !tgt) return 0;
+  return calculateChance(src.price, tgt.price);
 }
 
 /* =========================================================
@@ -3450,7 +3503,7 @@ function renderShop(){
     let chance = null;
     if(srcItem){
       chance = calculateChance(srcItem.price, item.price);
-      if(profile?.vip && chance > 0) chance = Math.min(99, chance + 5);
+      if(profile?.vip && chance > 0) chance = Math.min(MAX_CHANCE, chance + VIP_BONUS);
       chance = Math.round(chance * 10) / 10;
     }
     let chanceCls = '';
@@ -3675,7 +3728,7 @@ function renderTargets(){
       const src = getInventoryItem(sourceItem);
       if(src){
         chance = calculateChance(src.price, item.price);
-        if(profile?.vip && chance > 0) chance = Math.min(99, chance + 5);
+        if(profile?.vip && chance > 0) chance = Math.min(MAX_CHANCE, chance + VIP_BONUS);
         chance = Math.round(chance * 10) / 10;
       }
     }
@@ -3694,20 +3747,6 @@ function renderTargets(){
   });
 }
 
-function renderUpgradeHistory(){
-  const el = document.getElementById('upgradeHistoryList');
-  if(!el) return;
-  if(upgradeHistory.length === 0){ el.innerHTML=''; return; }
-  el.innerHTML = upgradeHistory.map(h=>`
-    <div class="history-item ${h.win?'win':'lose'}">
-      <div class="history-from">${escapeHtml(h.fromName)}</div>
-      <div class="history-arrow">→</div>
-      <div class="history-to">${escapeHtml(h.toName)}</div>
-      <div class="history-result">${h.win?'+':'-'}</div>
-    </div>
-  `).join('');
-}
-
 function renderAll(){
   balanceEl.textContent = balance;
   renderShop();
@@ -3715,7 +3754,6 @@ function renderAll(){
   renderInventory();
   renderTargets();
   renderProfile();
-  renderUpgradeHistory();
   renderAdminWithdrawals();
   renderAdminPromos();
   updateGameStats();
@@ -3826,8 +3864,19 @@ function focusTargets(){ document.getElementById('targetPanel')?.scrollIntoView(
 ========================================================= */
 function updateDisplayedChance(){
   const c = getUpgradeChance();
+  const base = getBaseChance();
   wheelChance.textContent = c+'%';
   wheel.style.setProperty('--wheel-chance', c);
+  // VIP-подсветка: если есть VIP и шанс выше базового — золотой
+  if(profile?.vip && c > base){
+    wheelChance.classList.add('hint-gold');
+    wheelChance.style.color = 'var(--gold)';
+    wheelChance.style.textShadow = '0 0 20px rgba(245,158,11,.5)';
+  } else {
+    wheelChance.classList.remove('hint-gold');
+    wheelChance.style.color = '';
+    wheelChance.style.textShadow = '';
+  }
   if(wheelSub){
     if(sourceItem !== null && targetItem !== null){
       const src = getInventoryItem(sourceItem);
@@ -3845,11 +3894,15 @@ function updateTop(){
     const tgt = items[targetItem];
     if(!src || !tgt) return;
     const c = getUpgradeChance();
+    const base = getBaseChance();
     if(c === 0){
       instruction.innerHTML = `<span class="hint-red">Нельзя апгрейдить на дешевле или равное</span>`;
       upgradeBtn.classList.add('locked');
     } else {
-      instruction.innerHTML = `<span class="hint-blue">${escapeHtml(src.name)}</span> <span style="color:var(--txt-4)">→</span> <span class="hint-blue">${escapeHtml(tgt.name)}</span> · шанс <span class="hint-green">${c}%</span>`;
+      const vipPart = (profile?.vip && c > base)
+        ? ` <span class="hint-gold">(+${VIP_BONUS}% VIP)</span>`
+        : '';
+      instruction.innerHTML = `<span class="hint-blue">${escapeHtml(src.name)}</span> <span style="color:var(--txt-4)">→</span> <span class="hint-blue">${escapeHtml(tgt.name)}</span> · шанс <span class="hint-green">${c}%</span>${vipPart}`;
       upgradeBtn.classList.remove('locked');
     }
     if(stageBadge) stageBadge.textContent = c === 0 ? 'LOCKED' : 'READY';
@@ -3858,12 +3911,6 @@ function updateTop(){
     upgradeBtn.classList.remove('locked');
     if(stageBadge) stageBadge.textContent = 'IDLE';
   }
-}
-function pushUpgradeHistory(fromName, toName, win){
-  upgradeHistory.unshift({ fromName, toName, win, time:Date.now() });
-  if(upgradeHistory.length > 6) upgradeHistory.pop();
-  saveProfileData();
-  renderUpgradeHistory();
 }
 function performUpgrade(durationMs){
   if(spinning) return;
@@ -3929,7 +3976,6 @@ function performUpgrade(durationMs){
       showFlash(cx, cy, 'rgba(255,255,255,.5)', 300);
       showParticles(cx, cy, '#fff', 24);
       if(window.snowBurst) window.snowBurst(cx, cy, 28, '255,255,255');
-      pushUpgradeHistory(srcData.name, tgtBase.name, true);
     } else {
       inventory.splice(srcIdx, 1);
       sourceItem = null;
@@ -3943,7 +3989,6 @@ function performUpgrade(durationMs){
       showFlash(cx, cy, 'rgba(255,255,255,.3)', 300);
       showParticles(cx, cy, '#666', 24);
       if(window.snowBurst) window.snowBurst(cx, cy, 28, '150,150,150');
-      pushUpgradeHistory(srcData.name, tgtBase.name, false);
       renderAll();
     }
     updateTop();
@@ -4074,7 +4119,8 @@ async function startRocket(){
   playBtn.textContent = 'Забрать';
   playBtn.classList.add('cashout');
   resultEl.className = 'rocket-result';
-  resultEl.textContent = isItemBet    ? `На кону: ${itemName} · ${bet} 💎`
+  resultEl.textContent = isItemBet
+    ? `На кону: ${itemName} · ${bet} 💎`
     : `Ставка ${bet} 💎 · ждём взлёт...`;
 
   const status = document.getElementById('rocketStatus');
@@ -4508,7 +4554,6 @@ updateTop();
 renderRocketHistory();
 updateRocketStats();
 renderRocketItems();
-renderUpgradeHistory();
 renderAchievements();
 
 setTimeout(()=>loadPromoCodesFromServer(), 100);
