@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saint UP — Happy Halloween 🎃</title>
+<title>Saint UP — Happy Halloween</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,6 @@
   --red-dim:rgba(239,68,68,.12);
   --gold:#f59e0b;
   --gold-dim:rgba(245,158,11,.12);
-  /* HALLOWEEN */
   --hl-orange:#ff7a1a;
   --hl-orange-bright:#ff9d3d;
   --hl-orange-deep:#c2410c;
@@ -71,7 +70,6 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
-/* Призрачный туман снизу */
 body::after{
   content:"";
   position:fixed;
@@ -104,13 +102,12 @@ body::after{
   z-index:9998; pointer-events:none; overflow:hidden;
 }
 
-/* ===== ЛЕТУЧИЕ МЫШИ ===== */
+/* ===== ЛЕТУЧИЕ МЫШИ (SVG) ===== */
 .bat{
   position:fixed;
   z-index:9994;
   pointer-events:none;
   color:#1a0f0a;
-  font-size:22px;
   filter:drop-shadow(0 0 6px rgba(255,122,26,.35));
   opacity:.85;
 }
@@ -137,7 +134,7 @@ body::after{
   100%{ transform:translateX(110vw) translateY(0); }
 }
 
-/* ===== ТЫКВЫ ПО УГЛАМ ===== */
+/* ===== ТЫКВЫ ПО УГЛАМ (только сверху — картинка) ===== */
 .pumpkin{
   position:fixed;
   z-index:9995;
@@ -145,10 +142,16 @@ body::after{
   filter:drop-shadow(0 6px 20px rgba(255,122,26,.35)) drop-shadow(0 0 40px rgba(255,122,26,.15));
   user-select:none;
 }
-.pumpkin.tl{ top:56px; left:14px; font-size:38px; animation:pumpkinBob 4s ease-in-out infinite; }
-.pumpkin.tr{ top:56px; right:14px; font-size:34px; animation:pumpkinBob 5s ease-in-out infinite reverse; }
-.pumpkin.bl{ bottom:14px; left:14px; font-size:30px; animation:pumpkinBob 4.5s ease-in-out infinite; opacity:.85; }
-.pumpkin.br{ bottom:14px; right:14px; font-size:36px; animation:pumpkinBob 5.5s ease-in-out infinite reverse; opacity:.85; }
+.pumpkin img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.pumpkin.tl{ top:56px; left:14px; width:48px; height:48px; animation:pumpkinBob 4s ease-in-out infinite; }
+.pumpkin.tr{ top:56px; right:14px; width:44px; height:44px; animation:pumpkinBob 5s ease-in-out infinite reverse; }
 
 @keyframes pumpkinBob{
   0%,100%{ transform:translateY(0) rotate(-4deg); }
@@ -168,7 +171,7 @@ body::after{
 .spider-web.tr{ top:0; right:0; transform:scaleX(-1); }
 .spider-web svg{ width:120px; height:120px; }
 
-/* ===== ПРИЗРАЧНЫЕ ОГНИ (Flickering candles) ===== */
+/* ===== ПРИЗРАЧНЫЕ ОГНИ ===== */
 .ghost-light{
   position:fixed;
   z-index:9992;
@@ -191,7 +194,7 @@ body::after{
   60%{ opacity:.85; transform:scale(1.05); }
 }
 
-/* ===== КРАСНЫЕ ГЛАЗА В ТЕМНОТЕ ===== */
+/* ===== КРАСНЫЕ ГЛАЗА ===== */
 .spooky-eyes{
   position:fixed;
   z-index:9994;
@@ -263,63 +266,12 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 }
 .brand-wrap{ display:flex; align-items:center; gap:14px; }
 
-.brand-mark{
-  width:58px; height:58px;
-  border-radius:16px;
-  background:
-    linear-gradient(135deg, rgba(255,122,26,.22), rgba(139,92,246,.1));
-  backdrop-filter:blur(24px) saturate(150%);
-  -webkit-backdrop-filter:blur(24px) saturate(150%);
-  display:flex; align-items:center; justify-content:center;
-  border:1px solid rgba(255,122,26,.25);
-  box-shadow:
-    inset 0 1px 0 rgba(255,157,61,.3),
-    inset 0 -8px 20px rgba(0,0,0,.5),
-    0 12px 30px rgba(0,0,0,.7),
-    0 0 30px rgba(255,122,26,.25);
-  overflow:hidden;
-  flex-shrink:0;
-  font-size:22px; font-weight:700; color:#fff;
-  position:relative;
-}
-.brand-mark::before{
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0;
-  height:50%;
-  background:linear-gradient(180deg, rgba(255,157,61,.2), transparent);
-  border-radius:16px 16px 0 0;
-  pointer-events:none;
-}
-.brand-mark::after{
-  content:"🎃";
-  position:absolute;
-  bottom:-4px; right:-4px;
-  font-size:18px;
-  filter:drop-shadow(0 0 8px rgba(255,122,26,.9));
-  transform:rotate(-15deg);
-  animation:pumpkinBob 3s ease-in-out infinite;
-}
-.brand-mark img{
-  width:100%; height:100%;
-  object-fit:contain;
-  object-position:center;
-  display:block;
-  padding:5px;
-  box-sizing:border-box;
-  filter:drop-shadow(0 0 8px rgba(255,122,26,.35));
-  user-select:none;
-  -webkit-user-drag:none;
-  position:relative;
-  z-index:1;
-}
-
 .brand{ display:flex; flex-direction:column; gap:4px; }
 .brand-name{
   font-family:"Creepster", "Manrope", sans-serif;
-  font-size:32px;
+  font-size:36px;
   font-weight:400;
-  letter-spacing:.5px;
+  letter-spacing:1px;
   color:#fff;
   line-height:1;
   text-shadow:
@@ -328,37 +280,21 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
     0 2px 0 rgba(194,65,12,.6);
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
 }
 .brand-name .accent{
   color:var(--hl-orange-bright);
   font-weight:400;
-  letter-spacing:.5px;
+  letter-spacing:1px;
   text-shadow:
     0 0 20px rgba(255,157,61,.7),
     0 0 40px rgba(255,122,26,.4);
 }
-.brand-name .xmas-star{
-  font-size:22px;
-  animation:pumpkinBob 2.5s ease-in-out infinite;
+.brand-name .pumpkin-icon{
+  width:32px; height:32px;
+  object-fit:contain;
   filter:drop-shadow(0 0 10px rgba(255,122,26,.9));
-}
-.brand-tag{
-  font-size:10px;
-  color:var(--hl-orange-bright);
-  letter-spacing:1.5px;
-  font-weight:600;
-  text-transform:uppercase;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  opacity:.85;
-}
-.brand-tag::before{
-  content:"🕷";
-  font-size:11px;
-  filter:drop-shadow(0 0 6px rgba(255,122,26,.5));
-  animation:pumpkinBob 3s ease-in-out infinite;
+  animation:pumpkinBob 2.5s ease-in-out infinite;
 }
 
 .top-right{
@@ -394,10 +330,19 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   pointer-events:none;
 }
 .balance .ico{
-  font-size:15px;
-  filter:drop-shadow(0 0 8px rgba(255,122,26,.7));
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px; height:18px;
   position:relative;
   z-index:1;
+}
+.balance .ico img{
+  width:100%; height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 0 8px rgba(255,122,26,.7));
+  user-select:none;
+  -webkit-user-drag:none;
 }
 .balance .val{
   font-size:18px;
@@ -493,8 +438,8 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 /* ========== LAYOUT ========== */
 .layout{
   display:grid;
-  grid-template-columns: 300px 1fr 340px;
-  gap:16px;
+  grid-template-columns: 300px 1fr 300px;
+  gap:14px;
   align-items:start;
 }
 
@@ -618,9 +563,9 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 
 .slot-row{
   display:grid;
-  grid-template-columns: 1fr 240px 1fr;
+  grid-template-columns: 1fr 220px 1fr;
   align-items:center;
-  gap:22px;
+  gap:18px;
   position:relative;
 }
 .slot-block{
@@ -693,8 +638,8 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 .slot-item-img{
   width:100%;
   height:100%;
-  max-width:64px;
-  max-height:64px;
+  max-width:56px;
+  max-height:56px;
   object-fit:contain;
   object-position:center;
   display:block;
@@ -708,17 +653,30 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   color:var(--txt-2);
   font-weight:500;
   text-align:center;
-  line-height:1.2;
+  line-height:1.25;
   max-width:100%;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
   overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  word-break:break-word;
 }
 .slot-item-price{
-  font-size:13px;
+  font-size:12px;
   color:#fff;
   font-weight:600;
   font-family:"JetBrains Mono",monospace;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.slot-item-price img{
+  width:14px; height:14px;
+  object-fit:contain;
+  display:inline-block;
+  vertical-align:middle;
+  filter:drop-shadow(0 0 5px rgba(255,122,26,.6));
 }
 
 .wheel-wrap{
@@ -987,6 +945,15 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   color:#fff;
   font-weight:500;
   font-family:"JetBrains Mono",monospace;
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+}
+.inv-item-meta .price img{
+  width:11px; height:11px;
+  object-fit:contain;
+  display:inline-block;
+  vertical-align:middle;
 }
 .sell-btn{
   height:28px;
@@ -1034,7 +1001,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   backdrop-filter:blur(16px);
   border:1px solid rgba(255,122,26,.15);
   display:flex; align-items:center; justify-content:center;
-  font-size:18px;
+  font-size:22px;
   color:var(--hl-orange-bright);
 }
 .empty .lbl{ font-weight:500; color:var(--txt-3); }
@@ -1090,6 +1057,11 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   display:flex;
   align-items:center;
   gap:3px;
+}
+.ach-reward img{
+  width:11px; height:11px;
+  object-fit:contain;
+  display:inline-block;
 }
 .ach-item.claimed .ach-reward{ color:var(--hl-green-toxic); }
 .ach-claim-btn{
@@ -1162,7 +1134,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 
 .items-grid{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap:8px;
 }
 .item{
@@ -1179,7 +1151,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   border-radius:12px;
   transition:.18s;
   position:relative;
-  min-height:140px;
+  min-height:160px;
   text-align:center;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
@@ -1209,10 +1181,10 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   box-shadow:0 0 10px rgba(255,122,26,.8);
 }
 .item-img{
-  width:64px !important;
-  height:64px !important;
+  width:60px !important;
+  height:60px !important;
   max-width:100% !important;
-  max-height:64px !important;
+  max-height:60px !important;
   object-fit:contain;
   object-position:center;
   display:block;
@@ -1225,18 +1197,29 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-size:10px;
   color:var(--txt-2);
   font-weight:500;
-  line-height:1.2;
-  min-height:24px;
+  line-height:1.25;
+  min-height:36px;
   display:-webkit-box;
-  -webkit-line-clamp:2;
+  -webkit-line-clamp:3;
   -webkit-box-orient:vertical;
   overflow:hidden;
   word-break:break-word;
+  padding:0 2px;
 }
 .item-price{
   font-size:11px;
   color:#fff;
   font-weight:500;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.item-price img{
+  width:12px; height:12px;
+  object-fit:contain;
+  display:inline-block;
+  filter:drop-shadow(0 0 5px rgba(255,122,26,.5));
 }
 .item-chance{
   font-size:9px;
@@ -1250,7 +1233,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 /* ========== SHOP ========== */
 .shop-items{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap:8px;
 }
 .shop-item{
@@ -1267,7 +1250,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   border-radius:12px;
   transition:.18s;
   position:relative;
-  min-height:150px;
+  min-height:160px;
   text-align:center;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
@@ -1278,10 +1261,10 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   box-shadow:inset 0 1px 0 rgba(255,157,61,.15), 0 0 24px rgba(255,122,26,.1);
 }
 .shop-item-img{
-  width:64px !important;
-  height:64px !important;
+  width:60px !important;
+  height:60px !important;
   max-width:100% !important;
-  max-height:64px !important;
+  max-height:60px !important;
   object-fit:contain;
   object-position:center;
   display:block;
@@ -1294,18 +1277,29 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-size:10px;
   color:var(--txt-2);
   font-weight:500;
-  line-height:1.2;
-  min-height:24px;
+  line-height:1.25;
+  min-height:36px;
   display:-webkit-box;
-  -webkit-line-clamp:2;
+  -webkit-line-clamp:3;
   -webkit-box-orient:vertical;
   overflow:hidden;
   word-break:break-word;
+  padding:0 2px;
 }
 .shop-item-price{
   font-size:11px;
   color:#fff;
   font-weight:500;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.shop-item-price img{
+  width:12px; height:12px;
+  object-fit:contain;
+  display:inline-block;
+  filter:drop-shadow(0 0 5px rgba(255,122,26,.5));
 }
 .shop-item-chance{
   font-size:9px;
@@ -1429,6 +1423,11 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   position:relative; z-index:1;
   display:flex; align-items:center; gap:6px;
   box-shadow:inset 0 1px 0 rgba(255,157,61,.15);
+}
+.case-tile-price img{
+  width:14px; height:14px;
+  object-fit:contain;
+  display:inline-block;
 }
 
 .case-view{
@@ -1614,6 +1613,15 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-weight:600;
   font-family:"JetBrains Mono",monospace;
   text-shadow:0 0 12px rgba(255,122,26,.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+.case-info-value img{
+  width:16px; height:16px;
+  object-fit:contain;
+  display:inline-block;
 }
 
 .case-open-btn{
@@ -1652,6 +1660,11 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
     0 0 60px rgba(255,122,26,.4);
 }
 .case-open-btn:disabled{ opacity:.5; cursor:not-allowed; }
+.case-open-btn img{
+  width:20px; height:20px;
+  object-fit:contain;
+  display:inline-block;
+}
 
 .case-drops-section{
   margin-top:6px;
@@ -1676,7 +1689,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 }
 .case-drops-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));
+  grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
   gap:8px;
 }
 .drop-item{
@@ -1712,7 +1725,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 .drop-chance.low{ color:var(--hl-orange-bright); border-color:rgba(255,122,26,.4); }
 .drop-chance.rare{ color:var(--red); border-color:rgba(239,68,68,.4); }
 .drop-img{
-  width:64px; height:64px;
+  width:60px; height:60px;
   object-fit:contain;
   user-select:none;
   -webkit-user-drag:none;
@@ -1722,13 +1735,14 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-size:10px;
   color:var(--txt-2);
   font-weight:500;
-  line-height:1.2;
-  min-height:24px;
+  line-height:1.25;
+  min-height:36px;
   display:-webkit-box;
-  -webkit-line-clamp:2;
+  -webkit-line-clamp:3;
   -webkit-box-orient:vertical;
   overflow:hidden;
   word-break:break-word;
+  padding:0 2px;
 }
 .drop-price{
   font-size:10px;
@@ -1736,6 +1750,11 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-weight:500;
   font-family:"JetBrains Mono",monospace;
   display:flex; align-items:center; gap:3px;
+}
+.drop-price img{
+  width:11px; height:11px;
+  object-fit:contain;
+  display:inline-block;
 }
 
 .case-result-inline{
@@ -1770,6 +1789,10 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   object-fit:contain;
   filter:drop-shadow(0 0 24px rgba(255,122,26,.7));
 }
+.case-result-inline .res-img img{
+  width:100%; height:100%;
+  object-fit:contain;
+}
 .case-result-inline .res-name{
   font-size:17px;
   font-weight:700;
@@ -1782,6 +1805,13 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   color:var(--hl-orange-bright);
   font-family:"JetBrains Mono",monospace;
   font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.case-result-inline .res-price img{
+  width:14px; height:14px;
+  object-fit:contain;
 }
 
 /* ========== ROCKET ========== */
@@ -1975,6 +2005,12 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   cursor:pointer;
   transition:.15s;
   box-shadow:inset 0 1px 0 rgba(255,157,61,.08);
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.rocket-mode-btn img{
+  width:14px; height:14px;
+  object-fit:contain;
+  display:inline-block;
 }
 .rocket-mode-btn:hover{
   background:linear-gradient(135deg, rgba(255,122,26,.08), rgba(139,92,246,.03));
@@ -2087,6 +2123,14 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   color:#fff;
   font-family:"JetBrains Mono",monospace;
   font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+.rocket-item-price img{
+  width:11px; height:11px;
+  object-fit:contain;
+  display:inline-block;
 }
 
 .rocket-auto-row{
@@ -2180,6 +2224,15 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-weight:500;
   color:var(--txt-4);
   font-family:"JetBrains Mono",monospace;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.rocket-result img{
+  width:12px; height:12px;
+  object-fit:contain;
+  display:inline-block;
 }
 .rocket-result.win{ color:var(--hl-green-toxic); }
 .rocket-result.lose{ color:var(--red); }
@@ -2237,10 +2290,14 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   backdrop-filter:blur(24px);
   border:1px solid rgba(255,122,26,.3);
   display:flex; align-items:center; justify-content:center;
-  font-size:26px;
-  color:var(--hl-orange-bright);
   margin:0 auto 16px;
   box-shadow:inset 0 1px 0 rgba(255,157,61,.25), 0 0 30px rgba(255,122,26,.2);
+  overflow:hidden;
+}
+.promo-icon img{
+  width:70%; height:70%;
+  object-fit:contain;
+  filter:drop-shadow(0 0 8px rgba(255,122,26,.6));
 }
 .promo-title{
   font-size:17px;
@@ -2294,6 +2351,15 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 .promo-msg{
   min-height:18px; margin-top:14px; text-align:center;
   font-size:11px; color:var(--txt-4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.promo-msg img{
+  width:12px; height:12px;
+  object-fit:contain;
+  display:inline-block;
 }
 .promo-msg.error{ color:var(--red); }
 .promo-msg.success{ color:var(--hl-green-toxic); }
@@ -2503,6 +2569,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 }
 .action-btn .left{ display:flex; align-items:center; gap:12px; }
 .action-btn .ico{ font-size:15px; color:var(--txt-3); }
+.action-btn .ico img{ width:15px; height:15px; object-fit:contain; vertical-align:middle; }
 .action-btn.gold .ico{ color:var(--hl-orange-bright); }
 
 /* ========== ADMIN ========== */
@@ -2676,6 +2743,12 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   font-size:10px; color:var(--txt-4);
   font-family:"JetBrains Mono",monospace;
 }
+.admin-list-item-meta img{
+  width:11px; height:11px;
+  object-fit:contain;
+  display:inline-block;
+  vertical-align:middle;
+}
 .admin-list-item-actions{ display:flex; gap:6px; margin-top:10px; }
 .admin-action{
   flex:1; height:32px; border-radius:10px;
@@ -2734,6 +2807,11 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   flex-shrink:0;
   background:rgba(255,122,26,.1);
   color:var(--hl-orange-bright);
+  overflow:hidden;
+}
+.toast .toast-ico img{
+  width:70%; height:70%;
+  object-fit:contain;
 }
 .toast.success .toast-ico{ color:var(--hl-green-toxic); background:rgba(132,204,22,.12); }
 .toast.error .toast-ico{ color:var(--red); background:var(--red-dim); }
@@ -2771,7 +2849,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 @media(max-width:1100px){
   .layout{ grid-template-columns: 280px 1fr; }
   .layout > *:nth-child(3){ grid-column: 1 / -1; }
-  .items-grid{ grid-template-columns: repeat(6, 1fr); }
+  .items-grid{ grid-template-columns: repeat(5, 1fr); }
   .shop-items{ grid-template-columns: repeat(6, 1fr); }
   .rocket-grid{ grid-template-columns:1fr; }
 }
@@ -2783,8 +2861,8 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   .profile-grid{ grid-template-columns:1fr; }
   .rocket-grid{ grid-template-columns:1fr; }
   .slot-row{ grid-template-columns:1fr 1fr 1fr; gap:12px; }
-  .brand-mark{ width:50px; height:50px; }
-  .brand-name{ font-size:26px; }
+  .brand-name{ font-size:30px; }
+  .brand-name .pumpkin-icon{ width:28px; height:28px; }
   .case-hero-img{ width:160px; height:160px; }
   .case-roulette-inline .case-strip-item{ width:110px; height:110px; }
   .case-roulette-inline .case-strip-item img{ width:60px; height:60px; }
@@ -2792,19 +2870,19 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 }
 @media(max-width:520px){
   .app{ padding:50px 12px 34px; }
-  .slot-row{ grid-template-columns: 1fr 160px 1fr; gap:10px; }
-  .wheel{ width:160px; height:160px; }
-  .wheel-chance{ font-size:26px; }
+  .slot-row{ grid-template-columns: 1fr 150px 1fr; gap:8px; }
+  .wheel{ width:150px; height:150px; }
+  .wheel-chance{ font-size:24px; }
   .items-grid{ grid-template-columns: repeat(3, 1fr); }
   .shop-items{ grid-template-columns: repeat(3, 1fr); }
   .stats-row{ grid-template-columns:1fr; }
   .nav-btn{ padding:0 12px; font-size:10px; }
   .profile-stats{ grid-template-columns:1fr 1fr; }
-  .brand-name{ font-size:22px; }
-  .brand-mark{ width:46px; height:46px; }
+  .brand-name{ font-size:24px; }
+  .brand-name .pumpkin-icon{ width:22px; height:22px; }
   .rocket-multiplier{ font-size:48px; }
   .rocket-chart{ height:340px; }
-  .item-img, .shop-item-img{ width:56px !important; height:56px !important; }
+  .item-img, .shop-item-img{ width:52px !important; height:52px !important; }
   .case-list-grid{ grid-template-columns:repeat(2, 1fr); }
   .case-tile-img{ height:120px; }
   .case-hero-img{ width:140px; height:140px; }
@@ -2815,8 +2893,8 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   .case-roulette-inline .case-strip-item img{ width:50px; height:50px; }
   .case-drops-grid{ grid-template-columns:repeat(3, 1fr); }
   .spider-web svg{ width:70px; height:70px; }
-  .pumpkin.tl, .pumpkin.tr{ font-size:26px; }
-  .pumpkin.bl, .pumpkin.br{ font-size:22px; }
+  .pumpkin.tl, .pumpkin.tr{ width:34px; height:34px; }
+  .item-name, .shop-item-name, .drop-name{ -webkit-line-clamp:2; min-height:26px; }
 }
 
 *{ scrollbar-color:rgba(255,122,26,.2) #08060a; scrollbar-width:thin; }
@@ -2830,10 +2908,8 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 <body>
 
 <!-- HALLOWEEN DECOR -->
-<div class="pumpkin tl">🎃</div>
-<div class="pumpkin tr">🎃</div>
-<div class="pumpkin bl">👻</div>
-<div class="pumpkin br">🦇</div>
+<div class="pumpkin tl"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></div>
+<div class="pumpkin tr"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></div>
 
 <div class="spider-web tl">
   <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -2903,21 +2979,15 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 
   <header class="topbar">
     <div class="brand-wrap">
-      <div class="brand-mark">
-        <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/logoforsp.png"
-             onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='S';this.parentElement.style.fontSize='22px';this.parentElement.style.fontWeight='700';this.parentElement.style.color='#fff';"
-             alt="Saint Up">
-      </div>
       <div class="brand">
-        <div class="brand-name">Saint <span class="accent">Up</span> <span class="xmas-star">🎃</span></div>
-        <div class="brand-tag">Trick or Upgrade</div>
+        <div class="brand-name">Saint <span class="accent">Up</span> <img class="pumpkin-icon" src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></div>
       </div>
     </div>
 
     <div class="top-right">
       <div class="vip-badge" id="vipTopBadge" onclick="showTab('profile')" style="display:none">👑 VIP</div>
       <div class="balance" id="balanceBox">
-        <span class="ico">🎃</span>
+        <span class="ico"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></span>
         <b class="val" id="balance">10</b>
         <span class="lbl">кристалл</span>
       </div>
@@ -2957,7 +3027,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
         </div>
         <div class="panel-body tight" id="inventoryBody">
           <div class="empty">
-            <div class="ico">👻</div>
+            <div class="ico">◌</div>
             <div class="lbl">Инвентарь пуст</div>
             <div class="hint">купи или выбей предмет</div>
           </div>
@@ -3069,7 +3139,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
           Магазин
           <span class="count" id="shopCount">0</span>
         </div>
-        <div class="section-hint">цены в 🎃</div>
+        <div class="section-hint">цены в кристаллах</div>
       </div>
       <div class="panel-body tight">
         <div class="shop-items" id="shopItems"></div>
@@ -3114,7 +3184,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 
         <div class="rocket-mode-row">
           <button class="rocket-mode-btn active" id="rocketModeCrystals" onclick="setRocketMode('crystals')">
-            🎃 Кристаллы
+            <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""> Кристаллы
           </button>
           <button class="rocket-mode-btn" id="rocketModeItems" onclick="setRocketMode('items')">
             🎁 Браинрот
@@ -3181,7 +3251,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   <!-- ===== ПРОМО ===== -->
   <section class="tab-panel" data-tab="promo" hidden>
     <div class="promo-wrap">
-      <div class="promo-icon">🎃</div>
+      <div class="promo-icon"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></div>
       <div class="promo-title">Активировать промокод</div>
       <div class="promo-desc">Введи код и получи кристаллы на баланс</div>
       <input class="promo-input" id="promoInput" maxlength="40" placeholder="HALLOWEEN">
@@ -3239,7 +3309,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 
         <div class="profile-actions">
           <button class="action-btn gold" id="vipBtn" onclick="buyVip()">
-            <span class="left"><span class="ico">👑</span><span id="vipBtnText">VIP за 200 🎃</span></span>
+            <span class="left"><span class="ico">👑</span><span id="vipBtnText">VIP за 200</span></span>
           </button>
           <button class="action-btn" onclick="showTab('game')">
             <span class="left"><span class="ico">⌂</span><span>Перейти в апгрейдер</span></span>
@@ -3292,7 +3362,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
           <div class="panel-body">
             <div style="display:flex;flex-direction:column;gap:14px;font-size:12px;color:var(--txt-3);line-height:1.6">
               <div>
-                <div style="color:#fff;font-weight:600;margin-bottom:6px">Saint UP 🎃</div>
+                <div style="color:#fff;font-weight:600;margin-bottom:6px">Saint UP</div>
                 <div>Пополняй и делай up up. Апгрейди браинротов, играй в ракетку, открывай кейсы — собирай лучшие предметы и увеличивай свой баланс.</div>
               </div>
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
@@ -3331,7 +3401,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
               <input class="admin-input" id="adminPromoActivations" type="number" min="1" value="10"></div>
             <div class="admin-field"><label class="admin-field-label">Минут до истечения</label>
               <input class="admin-input" id="adminPromoMinutes" type="number" min="1" value="60"></div>
-            <div class="admin-field"><label class="admin-field-label">Награда (🎃)</label>
+            <div class="admin-field"><label class="admin-field-label">Награда</label>
               <input class="admin-input" id="adminPromoReward" type="number" min="1" value="10"></div>
             <button class="admin-btn" type="button" onclick="createPromoCode()">🎫 Создать</button>
             <div class="admin-msg" id="adminMessage"></div>
@@ -3365,13 +3435,20 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 <script>
 
 /* =========================================================
+   HALLOWEEN CURRENCY ICON (картинка с фоллбэком)
+========================================================= */
+const HALLOWEEN_IMG = 'https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png';
+const HALLOWEEN_ICON = `<img src="${HALLOWEEN_IMG}" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="" style="width:1em;height:1em;object-fit:contain;vertical-align:-0.15em;display:inline-block;filter:drop-shadow(0 0 5px rgba(255,122,26,.5));">`;
+const HALLOWEEN_ICON_SM = `<img src="${HALLOWEEN_IMG}" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="" style="width:11px;height:11px;object-fit:contain;vertical-align:middle;display:inline-block;">`;
+
+/* =========================================================
    TOASTS
 ========================================================= */
 function showToast(message, type){
   type = type || 'info';
   const stack = document.getElementById('toastStack');
   if(!stack) return;
-  const icons = { success:'✓', error:'✕', info:'ℹ', gold:'🎃' };
+  const icons = { success:'✓', error:'✕', info:'ℹ', gold: HALLOWEEN_ICON };
   const t = document.createElement('div');
   t.className = 'toast ' + type;
   t.innerHTML = `<div class="toast-ico">${icons[type]||'ℹ'}</div><div>${escapeHtml(message)}</div>`;
@@ -3411,7 +3488,7 @@ function sfxVip(){ playTone(523, 0.15, 'sine', 0.06); setTimeout(()=>playTone(65
 function sfxClaim(){ playTone(784, 0.1, 'sine', 0.06); setTimeout(()=>playTone(1046, 0.2, 'sine', 0.06), 90); }
 
 /* =========================================================
-   SPOOKY PARTICLES (вместо снежинок — оранжевые искры)
+   SPOOKY PARTICLES
 ========================================================= */
 (function initSnow(){
   const canvas = document.getElementById('snowCanvas');
@@ -3571,7 +3648,7 @@ const ACHIEVEMENTS = [
   { id:'hundred_up', icon:'🏆', name:'100 апгрейдов',   reward:10, check:()=>stats.upgrades>=100 },
   { id:'first_win',  icon:'✅', name:'Первая победа',   reward:1,  check:()=>stats.wins>=1 },
   { id:'ten_wins',   icon:'🔥', name:'10 побед',        reward:3,  check:()=>stats.wins>=10 },
-  { id:'rich',       icon:'🎃', name:'1000 кристаллов', reward:5,  check:()=>balance>=1000 },
+  { id:'rich',       icon:'💎', name:'1000 кристаллов', reward:5,  check:()=>balance>=1000 },
   { id:'rocket_10',  icon:'🚀', name:'10 ракеток',      reward:2,  check:()=>stats.rocket>=10 },
   { id:'rocket_5x',  icon:'📈', name:'Множитель 5×',    reward:5,  check:()=>stats.rocketBest>=5 },
   { id:'vip',        icon:'👑', name:'VIP статус',      reward:10, check:()=>profile?.vip===true }
@@ -3609,7 +3686,7 @@ function renderAchievements(){
     return `<div class="ach-item ${cls}">
       <div class="ach-icon">${a.icon}</div>
       <div class="ach-name">${escapeHtml(a.name)}</div>
-      <div class="ach-reward">🎃 +${a.reward}</div>
+      <div class="ach-reward">${HALLOWEEN_ICON} +${a.reward}</div>
       ${btnHtml}
     </div>`;
   }).join('');
@@ -3625,7 +3702,7 @@ async function claimAchievement(id){
   await serverUpdateBalance(a.reward);
   saveProfileData();
   sfxClaim();
-  showToast(`Достижение: +${a.reward} 🎃`, 'gold');
+  showToast(`Достижение: +${a.reward}`, 'gold');
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(255,122,26,.6)', 300);
   showParticles(cx, cy, '#ff7a1a', 24);
@@ -3934,7 +4011,7 @@ function renderProfile(){
       vipBtn.disabled = true;
       vipBtn.style.opacity = '.6';
     } else {
-      vipBtnText.textContent = `VIP за ${VIP_PRICE} 🎃`;
+      vipBtnText.innerHTML = `VIP за ${VIP_PRICE} ${HALLOWEEN_ICON}`;
       vipBtn.disabled = false;
       vipBtn.style.opacity = '1';
     }
@@ -3983,8 +4060,8 @@ function switchAdminTab(tab, btn){
 async function buyVip(){
   if(purchaseLock) return;
   if(profile?.vip){ showToast('VIP уже активен', 'info'); return; }
-  if(balance < VIP_PRICE){ showToast(`Нужно ${VIP_PRICE} 🎃`, 'error'); return; }
-  if(!confirm(`Купить VIP за ${VIP_PRICE} 🎃?`)) return;
+  if(balance < VIP_PRICE){ showToast(`Нужно ${VIP_PRICE}`, 'error'); return; }
+  if(!confirm(`Купить VIP за ${VIP_PRICE}?`)) return;
   purchaseLock = true;
   const res = await serverUpdateBalance(-VIP_PRICE);
   purchaseLock = false;
@@ -4072,7 +4149,7 @@ function renderShop(){
     card.innerHTML = `
       ${getItemImgHtml(item,'shop-item-img')}
       <div class="shop-item-name">${escapeHtml(item.name)}</div>
-      <div class="shop-item-price">${item.price} 🎃</div>
+      <div class="shop-item-price">${item.price} ${HALLOWEEN_ICON_SM}</div>
       <div class="shop-item-chance ${chanceCls}">${chance === null ? '— %' : chance + '%'}</div>
       <button class="shop-buy" ${affordable ? '' : 'disabled'}>Купить</button>
     `;
@@ -4099,7 +4176,7 @@ function renderCases(){
     tile.innerHTML = `
       <div class="case-tile-img">${getCaseImgHtml(c.img)}</div>
       <div class="case-tile-name">${escapeHtml(c.name)}</div>
-      <div class="case-tile-price">🎃 ${c.price}</div>
+      <div class="case-tile-price">${HALLOWEEN_ICON_SM} ${c.price}</div>
     `;
     tile.onclick = () => { sfxClick(); currentCaseId = c.id; renderCases(); };
     grid.appendChild(tile);
@@ -4121,7 +4198,7 @@ function renderCaseView(){
       <div class="drop-chance ${chCls}">${d.chance}%</div>
       ${getItemImgHtml(it,'drop-img')}
       <div class="drop-name">${escapeHtml(it.name)}</div>
-      <div class="drop-price">🎃 ${it.price}</div>
+      <div class="drop-price">${HALLOWEEN_ICON_SM} ${it.price}</div>
     </div>`;
   }).join('');
 
@@ -4135,7 +4212,7 @@ function renderCaseView(){
     const it = items[idx];
     return `<div class="case-strip-item">
       ${getItemImgHtml(it,'')}
-      <div class="pv-price">🎃 ${it.price}</div>
+      <div class="pv-price">${it.price}</div>
     </div>`;
   }).join('');
 
@@ -4158,7 +4235,7 @@ function renderCaseView(){
       <div class="case-info-row">
         <div class="case-info-cell">
           <div class="case-info-label">Цена</div>
-          <div class="case-info-value">🎃 ${c.price}</div>
+          <div class="case-info-value">${HALLOWEEN_ICON_SM} ${c.price}</div>
         </div>
         <div class="case-info-cell">
           <div class="case-info-label">Предметов</div>
@@ -4166,11 +4243,11 @@ function renderCaseView(){
         </div>
         <div class="case-info-cell">
           <div class="case-info-label">Макс. дроп</div>
-          <div class="case-info-value">🎃 ${Math.max(...c.drops.map(d=>items[d.itemIndex].price))}</div>
+          <div class="case-info-value">${HALLOWEEN_ICON_SM} ${Math.max(...c.drops.map(d=>items[d.itemIndex].price))}</div>
         </div>
       </div>
 
-      <button class="case-open-btn" id="openCaseBtn">🎃 Открыть кейс — ${c.price} 🎃</button>
+      <button class="case-open-btn" id="openCaseBtn">${HALLOWEEN_ICON} Открыть кейс — ${c.price}</button>
 
       <div class="case-result-inline" id="caseResultInline">
         <div class="res-label">Ты получил</div>
@@ -4214,7 +4291,7 @@ async function openCase(caseId){
   if(!spend || spend.balance === undefined){
     showToast('Ошибка списания', 'error');
     purchaseLock = false;
-    if(openBtn){ openBtn.disabled = false; openBtn.textContent = `🎃 Открыть кейс — ${c.price} 🎃`; }
+    if(openBtn){ openBtn.disabled = false; openBtn.innerHTML = `${HALLOWEEN_ICON} Открыть кейс — ${c.price}`; }
     return;
   }
 
@@ -4245,7 +4322,7 @@ async function openCase(caseId){
     const it = items[idx];
     return `<div class="case-strip-item">
       ${getItemImgHtml(it,'')}
-      <div class="pv-price">🎃 ${it.price}</div>
+      <div class="pv-price">${it.price}</div>
     </div>`;
   }).join('');
 
@@ -4271,7 +4348,7 @@ async function openCase(caseId){
     const it = items[reward.itemIndex];
     if(resImg) resImg.innerHTML = getItemImgHtml(it,'');
     if(resName) resName.textContent = it.name;
-    if(resPrice) resPrice.textContent = '+' + it.price + ' 🎃';
+    if(resPrice) resPrice.innerHTML = '+' + it.price + ' ' + HALLOWEEN_ICON_SM;
     if(resultInline) resultInline.classList.add('show');
 
     caseRolling = false;
@@ -4281,7 +4358,7 @@ async function openCase(caseId){
     showFlash(cx, cy, 'rgba(255,122,26,.6)', 320);
     showParticles(cx, cy, '#ff7a1a', 30);
     if(window.snowBurst) window.snowBurst(cx, cy, 36, '255,122,26');
-    if(openBtn){ openBtn.disabled = false; openBtn.textContent = `🎃 Открыть кейс — ${c.price} 🎃`; }
+    if(openBtn){ openBtn.disabled = false; openBtn.innerHTML = `${HALLOWEEN_ICON} Открыть кейс — ${c.price}`; }
   }, 3900);
 }
 
@@ -4295,7 +4372,7 @@ function renderInventory(){
   if(inventory.length === 0){
     body.innerHTML = `
       <div class="empty">
-        <div class="ico">👻</div>
+        <div class="ico">◌</div>
         <div class="lbl">Инвентарь пуст</div>
         <div class="hint">купи или выбей предмет</div>
       </div>`;
@@ -4313,7 +4390,7 @@ function renderInventory(){
       <div class="inv-item-info">
         <div class="inv-item-name">${escapeHtml(item.name)}</div>
         <div class="inv-item-meta">
-          <span class="price">${item.price} 🎃</span>
+          <span class="price">${item.price} ${HALLOWEEN_ICON_SM}</span>
           <span>·</span>
           <span>слот ${idx+1}</span>
         </div>
@@ -4343,7 +4420,7 @@ async function sellItem(idx){
   await serverUpdateBalance(item.price);
   purchaseLock = false;
   sfxClick();
-  showToast('Продано за ' + item.price + ' 🎃', 'success');
+  showToast('Продано за ' + item.price, 'success');
   renderAll(); updateTop();
 }
 async function sellAll(){
@@ -4357,7 +4434,7 @@ async function sellAll(){
   await serverUpdateBalance(total);
   purchaseLock = false;
   sfxClick();
-  showToast(`Продано всё за ${total} 🎃`, 'success');
+  showToast(`Продано всё за ${total}`, 'success');
   renderAll(); updateTop();
 }
 
@@ -4398,7 +4475,7 @@ function renderTargets(){
     b.innerHTML = `
       ${getItemImgHtml(item,'item-img')}
       <div class="item-name">${escapeHtml(item.name)}</div>
-      <div class="item-price">${item.price} 🎃</div>
+      <div class="item-price">${item.price} ${HALLOWEEN_ICON_SM}</div>
       <div class="item-chance ${chance === null ? 'neg' : chanceCls}">${chance === null ? '— %' : chance + '%'}</div>
     `;
     b.onclick = () => selectTarget(index);
@@ -4472,7 +4549,7 @@ function updateSourceSlotDisplay(){
   sourceSlot.innerHTML = `
     ${getItemImgHtml(item,'slot-item-img')}
     <div class="slot-item-name">${escapeHtml(item.name)}</div>
-    <div class="slot-item-price">${item.price} 🎃</div>
+    <div class="slot-item-price">${item.price} ${HALLOWEEN_ICON_SM}</div>
   `;
 }
 function updateTargetSlotDisplay(){
@@ -4483,7 +4560,7 @@ function updateTargetSlotDisplay(){
   targetSlot.innerHTML = `
     ${getItemImgHtml(item,'slot-item-img')}
     <div class="slot-item-name">${escapeHtml(item.name)}</div>
-    <div class="slot-item-price">${item.price} 🎃</div>
+    <div class="slot-item-price">${item.price} ${HALLOWEEN_ICON_SM}</div>
   `;
 }
 function selectSource(idx){
@@ -4690,7 +4767,7 @@ function renderRocketItems(){
       <div class="rocket-item-info">
         <div class="rocket-item-name">${escapeHtml(it.name)}</div>
       </div>
-      <div class="rocket-item-price">${it.price} 🎃</div>
+      <div class="rocket-item-price">${it.price} ${HALLOWEEN_ICON_SM}</div>
     </div>`;
   }).join('');
 }
@@ -4739,7 +4816,7 @@ async function startRocket(){
   if(rocketMode === 'crystals'){
     const betInput = document.getElementById('rocketBetInput');
     bet = Math.floor(Number(betInput.value) || 0);
-    if(bet < 1){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Минимальная ставка 1 🎃'; return; }
+    if(bet < 1){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Минимальная ставка 1'; return; }
     if(bet > balance){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Недостаточно кристаллов'; return; }
   } else {
     if(rocketSelectedItemSlot === null){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Выбери браинрота'; return; }
@@ -4777,9 +4854,9 @@ async function startRocket(){
   playBtn.textContent = 'Забрать';
   playBtn.classList.add('cashout');
   resultEl.className = 'rocket-result';
-  resultEl.textContent = isItemBet
-    ? `На кону: ${itemName} · ${bet} 🎃`
-    : `Ставка ${bet} 🎃 · ждём взлёт...`;
+  resultEl.innerHTML = isItemBet
+    ? `На кону: ${escapeHtml(itemName)} · ${bet} ${HALLOWEEN_ICON_SM}`
+    : `Ставка ${bet} ${HALLOWEEN_ICON_SM} · ждём взлёт...`;
 
   const status = document.getElementById('rocketStatus');
   const statusText = document.getElementById('rocketStatusText');
@@ -4877,8 +4954,8 @@ function cashOutRocket(){
   statusText.textContent = 'Забрал на ' + rocketCurrentMultiplier.toFixed(2) + '×';
   const resultEl = document.getElementById('rocketResult');
   resultEl.className = 'rocket-result win';
-  resultEl.textContent = `Забрал ${total} 🎃 (+${profit})${profile?.vip?' 👑':''}`;
-  showToast(`Ракетка: +${total} 🎃`, 'success');
+  resultEl.innerHTML = `Забрал ${total} ${HALLOWEEN_ICON_SM} (+${profit})${profile?.vip?' 👑':''}`;
+  showToast(`Ракетка: +${total}`, 'success');
   sfxCashout();
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(163,230,53,.6)', 320);
@@ -4909,8 +4986,8 @@ function crashRocket(){
   statusText.textContent = '💥 Краш на ' + rocketCurrentMultiplier.toFixed(2) + '×';
   const resultEl = document.getElementById('rocketResult');
   resultEl.className = 'rocket-result lose';
-  resultEl.textContent = `Краш на ${rocketCurrentMultiplier.toFixed(2)}× · -${rocketBet} 🎃`;
-  showToast(`Ракетка: краш -${rocketBet} 🎃`, 'error');
+  resultEl.innerHTML = `Краш на ${rocketCurrentMultiplier.toFixed(2)}× · -${rocketBet} ${HALLOWEEN_ICON_SM}`;
+  showToast(`Ракетка: краш -${rocketBet}`, 'error');
   sfxLose();
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(220,38,38,.6)', 320);
@@ -5060,9 +5137,9 @@ async function redeemPromoCode(){
     else balance = Number(balance||0) + reward;
     saveProfileData(); renderAll(); updateTop();
     msg.className='promo-msg success';
-    msg.textContent = `Промокод активирован! +${reward} 🎃`;
+    msg.innerHTML = `Промокод активирован! +${reward} ${HALLOWEEN_ICON_SM}`;
     input.value = '';
-    showToast(`Промокод +${reward} 🎃`, 'success');
+    showToast(`Промокод +${reward}`, 'success');
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     showFlash(cx, cy, 'rgba(255,122,26,.7)', 320);
     showParticles(cx, cy, '#ff7a1a', 30);
@@ -5138,7 +5215,7 @@ function renderAdminPromos(){
         <div class="admin-list-item-status ${sc}">${st}</div>
       </div>
       <div class="admin-list-item-meta">
-        <span>🎃 ${p.reward}</span>
+        <span>${HALLOWEEN_ICON_SM} ${p.reward}</span>
         <span>👥 ${usedA}/${maxA}</span>
         <span>🕐 ${expireStr}</span>
       </div>
@@ -5170,7 +5247,7 @@ function renderAdminWithdrawals(){
       </div>
       <div class="admin-list-item-meta">
         <span>👤 ${escapeHtml(r.robloxUsername||'—')}</span>
-        <span>🎃 ${r.itemPrice??0}</span>
+        <span>${HALLOWEEN_ICON_SM} ${r.itemPrice??0}</span>
         <span>🕐 ${created}</span>
       </div>
     `;
