@@ -134,7 +134,7 @@ body::after{
   100%{ transform:translateX(110vw) translateY(0); }
 }
 
-/* ===== ТЫКВЫ ПО УГЛАМ (только сверху — картинка) ===== */
+/* ===== ТЫКВЫ ПО УГЛАМ ===== */
 .pumpkin{
   position:fixed;
   z-index:9995;
@@ -410,14 +410,14 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 .top-nav::-webkit-scrollbar{ display:none; }
 .nav-btn{
   height:38px;
-  padding:0 18px;
+  padding:0 22px;
   border-radius:10px;
   background:transparent;
   color:var(--txt-4);
-  font-size:11px;
-  font-weight:500;
-  letter-spacing:.3px;
-  display:flex; align-items:center; gap:7px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.4px;
+  display:flex; align-items:center; justify-content:center;
   transition:.18s;
   white-space:nowrap;
   flex-shrink:0;
@@ -433,7 +433,6 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
     inset 0 1px 0 rgba(255,157,61,.25),
     0 0 20px rgba(255,122,26,.2);
 }
-.nav-btn .nav-icon{ font-size:13px; opacity:.9; }
 
 /* ========== LAYOUT ========== */
 .layout{
@@ -1229,6 +1228,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 }
 .item-chance.neg{ color:var(--txt-4); }
 .item-chance.zero{ color:var(--red); }
+.item-chance.epic{ color:var(--hl-blood); font-weight:700; }
 
 /* ========== SHOP ========== */
 .shop-items{
@@ -2876,7 +2876,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
   .items-grid{ grid-template-columns: repeat(3, 1fr); }
   .shop-items{ grid-template-columns: repeat(3, 1fr); }
   .stats-row{ grid-template-columns:1fr; }
-  .nav-btn{ padding:0 12px; font-size:10px; }
+  .nav-btn{ padding:0 14px; font-size:11px; }
   .profile-stats{ grid-template-columns:1fr 1fr; }
   .brand-name{ font-size:24px; }
   .brand-name .pumpkin-icon{ width:22px; height:22px; }
@@ -2989,27 +2989,17 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
       <div class="balance" id="balanceBox">
         <span class="ico"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></span>
         <b class="val" id="balance">10</b>
-        <span class="lbl">кристалл</span>
+        <span class="lbl">Pumpkins</span>
       </div>
     </div>
   </header>
 
   <nav class="top-nav" aria-label="Навигация">
-    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">
-      <span class="nav-icon">⌂</span><span>Апгрейдер</span>
-    </button>
-    <button class="nav-btn" id="navRocket" type="button" onclick="showTab('rocket')">
-      <span class="nav-icon">▲</span><span>Ракетка</span>
-    </button>
-    <button class="nav-btn" id="navCases" type="button" onclick="showTab('cases')">
-      <span class="nav-icon">◈</span><span>Кейсы</span>
-    </button>
-    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">
-      <span class="nav-icon">%</span><span>Промо</span>
-    </button>
-    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">
-      <span class="nav-icon">◐</span><span>Профиль</span>
-    </button>
+    <button class="nav-btn active" id="navGame" type="button" onclick="showTab('game')">Апгрейдер</button>
+    <button class="nav-btn" id="navRocket" type="button" onclick="showTab('rocket')">Ракетка</button>
+    <button class="nav-btn" id="navCases" type="button" onclick="showTab('cases')">Кейсы</button>
+    <button class="nav-btn" id="navPromo" type="button" onclick="showTab('promo')">Промо</button>
+    <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">Профиль</button>
   </nav>
 
   <!-- ===== ИГРА ===== -->
@@ -3139,7 +3129,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
           Магазин
           <span class="count" id="shopCount">0</span>
         </div>
-        <div class="section-hint">цены в кристаллах</div>
+        <div class="section-hint">цены в Pumpkins</div>
       </div>
       <div class="panel-body tight">
         <div class="shop-items" id="shopItems"></div>
@@ -3184,7 +3174,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 
         <div class="rocket-mode-row">
           <button class="rocket-mode-btn active" id="rocketModeCrystals" onclick="setRocketMode('crystals')">
-            <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""> Кристаллы
+            <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""> Pumpkins
           </button>
           <button class="rocket-mode-btn" id="rocketModeItems" onclick="setRocketMode('items')">
             🎁 Браинрот
@@ -3253,7 +3243,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
     <div class="promo-wrap">
       <div class="promo-icon"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt=""></div>
       <div class="promo-title">Активировать промокод</div>
-      <div class="promo-desc">Введи код и получи кристаллы на баланс</div>
+      <div class="promo-desc">Введи код и получи Pumpkins на баланс</div>
       <input class="promo-input" id="promoInput" maxlength="40" placeholder="HALLOWEEN">
       <button class="promo-btn" type="button" onclick="redeemPromoCode()">Активировать</button>
       <div class="promo-msg" id="promoMessage"></div>
@@ -3326,7 +3316,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
             <div class="section-title">
               <span class="dot"></span>
               Достижения
-              <span class="count" id="achCount">0/10</span>
+              <span class="count" id="achCount">0/0</span>
             </div>
           </div>
           <div class="panel-body">
@@ -3368,7 +3358,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
                   <div class="pstat-label">Версия</div>
-                  <div class="pstat-value" style="font-size:14px">v 1.5 — Halloween</div>
+                  <div class="pstat-value" style="font-size:13px">v 1.0 HAPPY HALLOWEEN</div>
                 </div>
               </div>
             </div>
@@ -3401,7 +3391,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
               <input class="admin-input" id="adminPromoActivations" type="number" min="1" value="10"></div>
             <div class="admin-field"><label class="admin-field-label">Минут до истечения</label>
               <input class="admin-input" id="adminPromoMinutes" type="number" min="1" value="60"></div>
-            <div class="admin-field"><label class="admin-field-label">Награда</label>
+            <div class="admin-field"><label class="admin-field-label">Награда (Pumpkins)</label>
               <input class="admin-input" id="adminPromoReward" type="number" min="1" value="10"></div>
             <button class="admin-btn" type="button" onclick="createPromoCode()">🎫 Создать</button>
             <div class="admin-msg" id="adminMessage"></div>
@@ -3435,7 +3425,7 @@ button:focus-visible{ outline:1px solid rgba(255,122,26,.5); outline-offset:2px;
 <script>
 
 /* =========================================================
-   HALLOWEEN CURRENCY ICON (картинка с фоллбэком)
+   HALLOWEEN CURRENCY ICON
 ========================================================= */
 const HALLOWEEN_IMG = 'https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png';
 const HALLOWEEN_ICON = `<img src="${HALLOWEEN_IMG}" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="" style="width:1em;height:1em;object-fit:contain;vertical-align:-0.15em;display:inline-block;filter:drop-shadow(0 0 5px rgba(255,122,26,.5));">`;
@@ -3639,19 +3629,52 @@ function getCaseImgHtml(img){
 }
 
 /* =========================================================
-   ACHIEVEMENTS
+   ACHIEVEMENTS (много, макс награда 5)
 ========================================================= */
 const ACHIEVEMENTS = [
-  { id:'first_up',   icon:'🎯', name:'Первый апгрейд',  reward:1,  check:()=>stats.upgrades>=1 },
-  { id:'ten_up',     icon:'🔟', name:'10 апгрейдов',    reward:2,  check:()=>stats.upgrades>=10 },
-  { id:'fifty_up',   icon:'💪', name:'50 апгрейдов',    reward:3,  check:()=>stats.upgrades>=50 },
-  { id:'hundred_up', icon:'🏆', name:'100 апгрейдов',   reward:10, check:()=>stats.upgrades>=100 },
-  { id:'first_win',  icon:'✅', name:'Первая победа',   reward:1,  check:()=>stats.wins>=1 },
-  { id:'ten_wins',   icon:'🔥', name:'10 побед',        reward:3,  check:()=>stats.wins>=10 },
-  { id:'rich',       icon:'💎', name:'1000 кристаллов', reward:5,  check:()=>balance>=1000 },
-  { id:'rocket_10',  icon:'🚀', name:'10 ракеток',      reward:2,  check:()=>stats.rocket>=10 },
-  { id:'rocket_5x',  icon:'📈', name:'Множитель 5×',    reward:5,  check:()=>stats.rocketBest>=5 },
-  { id:'vip',        icon:'👑', name:'VIP статус',      reward:10, check:()=>profile?.vip===true }
+  // === Апгрейды ===
+  { id:'up_1',     icon:'🎯', name:'Первый апгрейд',    reward:1, check:()=>stats.upgrades>=1 },
+  { id:'up_5',     icon:'🔰', name:'5 апгрейдов',       reward:1, check:()=>stats.upgrades>=5 },
+  { id:'up_10',    icon:'🔟', name:'10 апгрейдов',      reward:2, check:()=>stats.upgrades>=10 },
+  { id:'up_25',    icon:'⚔', name:'25 апгрейдов',      reward:2, check:()=>stats.upgrades>=25 },
+  { id:'up_50',    icon:'💪', name:'50 апгрейдов',      reward:3, check:()=>stats.upgrades>=50 },
+  { id:'up_100',   icon:'🏆', name:'100 апгрейдов',     reward:4, check:()=>stats.upgrades>=100 },
+  { id:'up_250',   icon:'👑', name:'250 апгрейдов',     reward:5, check:()=>stats.upgrades>=250 },
+
+  // === Победы ===
+  { id:'w_1',      icon:'✅', name:'Первая победа',     reward:1, check:()=>stats.wins>=1 },
+  { id:'w_10',     icon:'🔥', name:'10 побед',          reward:2, check:()=>stats.wins>=10 },
+  { id:'w_50',     icon:'💥', name:'50 побед',          reward:3, check:()=>stats.wins>=50 },
+  { id:'w_100',    icon:'🌟', name:'100 побед',         reward:5, check:()=>stats.wins>=100 },
+
+  // === Баланс ===
+  { id:'bal_100',  icon:'💰', name:'100 Pumpkins',      reward:1, check:()=>balance>=100 },
+  { id:'bal_500',  icon:'💵', name:'500 Pumpkins',      reward:2, check:()=>balance>=500 },
+  { id:'bal_1000', icon:'💎', name:'1000 Pumpkins',     reward:3, check:()=>balance>=1000 },
+  { id:'bal_5000', icon:'👑', name:'5000 Pumpkins',     reward:5, check:()=>balance>=5000 },
+
+  // === Ракетка ===
+  { id:'r_1',      icon:'🚀', name:'Первый запуск',     reward:1, check:()=>stats.rocket>=1 },
+  { id:'r_10',     icon:'🛸', name:'10 ракеток',        reward:2, check:()=>stats.rocket>=10 },
+  { id:'r_50',     icon:'🛰', name:'50 ракеток',        reward:3, check:()=>stats.rocket>=50 },
+  { id:'r_2x',     icon:'📈', name:'Множитель 2×',      reward:1, check:()=>stats.rocketBest>=2 },
+  { id:'r_5x',     icon:'📊', name:'Множитель 5×',      reward:3, check:()=>stats.rocketBest>=5 },
+  { id:'r_10x',    icon:'⚡', name:'Множитель 10×',     reward:5, check:()=>stats.rocketBest>=10 },
+  { id:'r_win_10', icon:'🎖', name:'10 побед в ракетке',reward:2, check:()=>stats.rocketWins>=10 },
+
+  // === VIP ===
+  { id:'vip',      icon:'👑', name:'VIP статус',        reward:5, check:()=>profile?.vip===true },
+
+  // === Инвентарь ===
+  { id:'inv_5',    icon:'🎒', name:'5 предметов',       reward:1, check:()=>inventory.length>=5 },
+  { id:'inv_10',   icon:'📦', name:'10 предметов',      reward:2, check:()=>inventory.length>=10 },
+  { id:'inv_25',   icon:'🏛', name:'25 предметов',      reward:3, check:()=>inventory.length>=25 },
+
+  // === Редкие предметы ===
+  { id:'rare_dragon', icon:'🐲', name:'Dragon Cannelloni',     reward:3, check:()=>inventory.some(e=>e.itemIndex===IDX.Dragon) },
+  { id:'rare_kraken', icon:'🦑', name:'Kraken в инвентаре',    reward:4, check:()=>inventory.some(e=>e.itemIndex===IDX.Kraken) },
+  { id:'rare_skibidi',icon:'🚽', name:'Skibidi toilet',        reward:5, check:()=>inventory.some(e=>e.itemIndex===IDX.Skibidi) },
+  { id:'rare_straw',  icon:'🍓', name:'Strawberry Elephant',   reward:5, check:()=>inventory.some(e=>e.itemIndex===IDX.Strawberry) }
 ];
 
 let claimedAchievements = [];
@@ -4079,22 +4102,44 @@ async function buyVip(){
 
 /* =========================================================
    CHANCES
+   - Обычный апгрейд: макс 75%
+   - Skibidi toilet и Strawberry Elephant: шанс только с Kraken = 5%,
+     потом по нарастающей (чем дороже цель, тем больше %)
 ========================================================= */
-function calculateChance(fromP, toP){
+const EPIC_ITEMS = [IDX.Skibidi, IDX.Strawberry]; // предметы "эпические"
+const EPIC_BASE_IDX = IDX.Kraken;                   // апгрейд на них только с Kraken
+
+function calculateChance(fromP, toP, srcIdx, tgtIdx){
   if(!fromP || !toP) return 0;
   if(toP <= fromP) return 0;
+
+  // Особое правило для Skibidi и Strawberry Elephant: апгрейд только с Kraken
+  if(EPIC_ITEMS.includes(tgtIdx)){
+    if(srcIdx !== EPIC_BASE_IDX) return 0; // только с Kraken
+    // С Kraken (3000) на Skibidi (13000) = 5%, на Strawberry (25000) — больше (по нарастающей)
+    // Базовая формула: 5% + бонус за разницу в цене относительно Skibidi
+    // 3000 → 13000: 5%
+    // 3000 → 25000: 5 + (25000-13000)/(25000-13000)*X ≈ 8-10%
+    const base = 5;
+    const extra = Math.floor(((toP - 13000) / 12000) * 5); // 0..5 дополнительно
+    return Math.max(5, Math.min(15, base + extra));
+  }
+
+  // Обычная формула
   const ratio = toP / fromP;
   let c = 100 / ratio;
   if(c > MAX_CHANCE) c = MAX_CHANCE;
   if(c < 1) c = 1;
   return Math.round(c * 10) / 10;
 }
+
 function getUpgradeChance(){
   if(sourceItem === null || targetItem === null) return 0;
   const src = getInventoryItem(sourceItem);
   const tgt = items[targetItem];
   if(!src || !tgt) return 0;
-  let c = calculateChance(src.price, tgt.price);
+  let c = calculateChance(src.price, tgt.price, src.itemIndex, targetItem);
+  if(c === 0) return 0;
   if(profile?.vip && c > 0) c = Math.min(MAX_CHANCE, c + VIP_BONUS);
   return Math.round(c * 10) / 10;
 }
@@ -4103,7 +4148,7 @@ function getBaseChance(){
   const src = getInventoryItem(sourceItem);
   const tgt = items[targetItem];
   if(!src || !tgt) return 0;
-  return calculateChance(src.price, tgt.price);
+  return calculateChance(src.price, tgt.price, src.itemIndex, targetItem);
 }
 
 /* =========================================================
@@ -4137,8 +4182,8 @@ function renderShop(){
     const affordable = balance >= item.price;
     let chance = null;
     if(srcItem){
-      chance = calculateChance(srcItem.price, item.price);
-      if(profile?.vip && chance > 0) chance = Math.min(MAX_CHANCE, chance + VIP_BONUS);
+      chance = calculateChance(srcItem.price, item.price, srcItem.itemIndex, index);
+      if(chance > 0 && profile?.vip) chance = Math.min(MAX_CHANCE, chance + VIP_BONUS);
       chance = Math.round(chance * 10) / 10;
     }
     let chanceCls = '';
@@ -4281,7 +4326,7 @@ async function openCase(caseId){
   if(caseRolling || spinning || purchaseLock) return;
   const c = getCase(caseId);
   if(!c) return;
-  if(balance < c.price){ showToast('Недостаточно кристаллов', 'error'); return; }
+  if(balance < c.price){ showToast('Недостаточно Pumpkins', 'error'); return; }
 
   purchaseLock = true;
   const openBtn = document.getElementById('openCaseBtn');
@@ -4460,17 +4505,19 @@ function renderTargets(){
     b.type = 'button';
 
     let chance = null;
+    let isEpic = EPIC_ITEMS.includes(index);
     if(sourceItem !== null){
       const src = getInventoryItem(sourceItem);
       if(src){
-        chance = calculateChance(src.price, item.price);
-        if(profile?.vip && chance > 0) chance = Math.min(MAX_CHANCE, chance + VIP_BONUS);
+        chance = calculateChance(src.price, item.price, src.itemIndex, index);
+        if(chance > 0 && profile?.vip) chance = Math.min(MAX_CHANCE, chance + VIP_BONUS);
         chance = Math.round(chance * 10) / 10;
       }
     }
 
     let chanceCls = '';
     if(chance !== null && chance === 0) chanceCls = 'zero';
+    if(isEpic && chance !== null && chance > 0 && chance <= 10) chanceCls = 'epic';
 
     b.innerHTML = `
       ${getItemImgHtml(item,'item-img')}
@@ -4524,7 +4571,7 @@ async function buyItem(index){
   const item = items[index];
   if(!item) return;
   if(balance < item.price){
-    showToast('Недостаточно кристаллов', 'error');
+    showToast('Недостаточно Pumpkins', 'error');
     return;
   }
   purchaseLock = true;
@@ -4628,7 +4675,12 @@ function updateTop(){
     const c = getUpgradeChance();
     const base = getBaseChance();
     if(c === 0){
-      instruction.innerHTML = `<span class="hint-red">Нельзя апгрейдить на дешевле или равное</span>`;
+      // Особое сообщение для Skibidi/Strawberry
+      if(EPIC_ITEMS.includes(targetItem)){
+        instruction.innerHTML = `<span class="hint-red">На ${escapeHtml(tgt.name)} можно апгрейдить только с Kraken</span>`;
+      } else {
+        instruction.innerHTML = `<span class="hint-red">Нельзя апгрейдить на дешевле или равное</span>`;
+      }
       upgradeBtn.classList.add('locked');
     } else {
       const vipPart = (profile?.vip && c > base)
@@ -4657,7 +4709,11 @@ function performUpgrade(durationMs){
 
   const chance = getUpgradeChance();
   if(chance === 0){
-    showToast('Нельзя апгрейдить на дешевле или равное', 'error');
+    if(EPIC_ITEMS.includes(tgtIdx)){
+      showToast('На этот предмет только с Kraken', 'error');
+    } else {
+      showToast('Нельзя апгрейдить на дешевле или равное', 'error');
+    }
     return;
   }
 
@@ -4817,7 +4873,7 @@ async function startRocket(){
     const betInput = document.getElementById('rocketBetInput');
     bet = Math.floor(Number(betInput.value) || 0);
     if(bet < 1){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Минимальная ставка 1'; return; }
-    if(bet > balance){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Недостаточно кристаллов'; return; }
+    if(bet > balance){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Недостаточно Pumpkins'; return; }
   } else {
     if(rocketSelectedItemSlot === null){ resultEl.className = 'rocket-result lose'; resultEl.textContent = 'Выбери браинрота'; return; }
     const item = getInventoryItem(rocketSelectedItemSlot);
