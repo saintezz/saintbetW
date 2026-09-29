@@ -28,6 +28,8 @@
   --green-dim:rgba(34,197,94,.12);
   --red:#ef4444;
   --red-dim:rgba(239,68,68,.12);
+  --gold:#f59e0b;
+  --gold-dim:rgba(245,158,11,.12);
   --radius:14px;
   --radius-sm:10px;
   --radius-lg:18px;
@@ -104,8 +106,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .brand-wrap{ display:flex; align-items:center; gap:14px; }
 
 .brand-mark{
-  width:44px; height:44px;
-  border-radius:12px;
+  width:56px; height:56px;
+  border-radius:14px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
   backdrop-filter:blur(20px) saturate(140%);
@@ -115,14 +117,14 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
   overflow:hidden;
   flex-shrink:0;
-  font-size:16px; font-weight:700; color:#fff;
+  font-size:20px; font-weight:700; color:#fff;
 }
 .brand-mark img{
   width:100%; height:100%;
   object-fit:contain;
   object-position:center;
   display:block;
-  padding:5px;
+  padding:4px;
   box-sizing:border-box;
   filter:drop-shadow(0 0 6px rgba(255,255,255,.2));
   user-select:none;
@@ -131,7 +133,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
 .brand{ display:flex; flex-direction:column; gap:3px; }
 .brand-name{
-  font-size:20px;
+  font-size:24px;
   font-weight:700;
   letter-spacing:-.02em;
   color:#fff;
@@ -160,11 +162,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border:1px solid rgba(255,255,255,.04);
   border-radius:12px;
   white-space:nowrap;
-  height:40px;
+  height:44px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
 }
 .balance .ico{ font-size:14px; opacity:.8; }
-.balance .val{ font-size:15px; font-weight:600; color:#fff; line-height:1; }
+.balance .val{ font-size:16px; font-weight:600; color:#fff; line-height:1; }
 .balance .lbl{
   font-size:9px;
   color:var(--txt-4);
@@ -172,6 +174,24 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   text-transform:uppercase;
   font-weight:500;
 }
+.vip-badge{
+  display:flex; align-items:center; gap:5px;
+  padding:0 12px;
+  height:44px;
+  border-radius:12px;
+  background:linear-gradient(135deg, rgba(245,158,11,.18), rgba(245,158,11,.06));
+  border:1px solid rgba(245,158,11,.25);
+  color:var(--gold);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  box-shadow:inset 0 1px 0 rgba(245,158,11,.2);
+  cursor:pointer;
+  transition:.15s;
+}
+.vip-badge:hover{ background:linear-gradient(135deg, rgba(245,158,11,.28), rgba(245,158,11,.1)); }
+.vip-badge.active{ background:linear-gradient(135deg, rgba(245,158,11,.3), rgba(245,158,11,.12)); }
 
 /* ========== NAV ========== */
 .top-nav{
@@ -417,7 +437,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .slot-empty-sub{ font-size:9px; color:var(--txt-5); letter-spacing:.2px; }
 
-/* Slot item image — always fully contained */
 .slot-item-img{
   width:100%;
   height:100%;
@@ -719,6 +738,20 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .sell-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
 
+.sell-all-btn{
+  height:26px;
+  padding:0 10px;
+  background:var(--red-dim);
+  color:var(--red);
+  border:1px solid rgba(239,68,68,.15);
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.3px;
+  border-radius:8px;
+  transition:.15s;
+}
+.sell-all-btn:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+
 .empty{
   padding:36px 20px;
   text-align:center;
@@ -742,6 +775,78 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .empty .lbl{ font-weight:500; color:var(--txt-3); }
 .empty .hint{ font-size:10px; color:var(--txt-5); }
+
+/* ========== HISTORY ========== */
+.history-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.history-item{
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto;
+  gap:8px;
+  align-items:center;
+  padding:8px 10px;
+  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:10px;
+  font-size:10px;
+}
+.history-item.win{ border-color:rgba(34,197,94,.15); }
+.history-item.lose{ border-color:rgba(239,68,68,.15); }
+.history-from, .history-to{
+  color:var(--txt-3);
+  font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.history-arrow{ color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
+.history-result{
+  font-family:"JetBrains Mono",monospace;
+  font-weight:600;
+  font-size:10px;
+}
+.history-item.win .history-result{ color:var(--green); }
+.history-item.lose .history-result{ color:var(--red); }
+
+/* ========== ACHIEVEMENTS ========== */
+.ach-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
+  gap:8px;
+}
+.ach-item{
+  padding:12px 10px;
+  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.03);
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-align:center;
+  transition:.2s;
+  opacity:.35;
+  filter:grayscale(1);
+}
+.ach-item.unlocked{
+  opacity:1;
+  filter:none;
+  border-color:rgba(245,158,11,.25);
+  background:linear-gradient(135deg, rgba(245,158,11,.08), rgba(245,158,11,.02));
+  box-shadow:inset 0 1px 0 rgba(245,158,11,.15);
+}
+.ach-icon{ font-size:24px; line-height:1; }
+.ach-name{
+  font-size:10px;
+  color:var(--txt-2);
+  font-weight:500;
+  line-height:1.2;
+}
+.ach-item.unlocked .ach-name{ color:var(--gold); }
 
 /* ========== TARGETS ========== */
 .search-row{
@@ -1488,7 +1593,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .rocket-shortcuts{ display:flex; gap:4px; }
 .rocket-shortcut{
   height:50px;
-  padding:0 14px;
+  padding:0 12px;
   background:
     linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
   backdrop-filter:blur(16px);
@@ -1502,6 +1607,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
 }
 .rocket-shortcut:hover{ background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.012)); color:var(--txt-2); }
+.rocket-shortcut.gold{ color:var(--gold); border-color:rgba(245,158,11,.2); }
+.rocket-shortcut.gold:hover{ background:linear-gradient(135deg, rgba(245,158,11,.1), rgba(245,158,11,.02)); }
 
 .rocket-items-hint{
   font-size:10px;
@@ -1849,6 +1956,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   color:#fff;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
 }
+.rank-badge.vip{
+  background:linear-gradient(135deg, rgba(245,158,11,.2), rgba(245,158,11,.05));
+  border-color:rgba(245,158,11,.3);
+  color:var(--gold);
+}
 
 .profile-progress{
   padding:16px 22px;
@@ -1913,6 +2025,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   font-family:"JetBrains Mono",monospace;
 }
 .pstat-value.green{ color:var(--green); }
+.pstat-value.gold{ color:var(--gold); }
 
 .profile-actions{
   padding:16px 22px;
@@ -1942,8 +2055,18 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-color:rgba(255,255,255,.08);
   color:#fff;
 }
+.action-btn.gold{
+  background:linear-gradient(135deg, rgba(245,158,11,.12), rgba(245,158,11,.03));
+  border-color:rgba(245,158,11,.25);
+  color:var(--gold);
+}
+.action-btn.gold:hover{
+  background:linear-gradient(135deg, rgba(245,158,11,.2), rgba(245,158,11,.06));
+  border-color:rgba(245,158,11,.4);
+}
 .action-btn .left{ display:flex; align-items:center; gap:12px; }
 .action-btn .ico{ font-size:15px; color:var(--txt-3); }
+.action-btn.gold .ico{ color:var(--gold); }
 
 /* ========== ADMIN ========== */
 .admin-panel{
@@ -2107,7 +2230,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .admin-list-item-status.active{ color:var(--green); border-color:rgba(34,197,94,.2); background:var(--green-dim); }
 .admin-list-item-status.exhausted{ color:var(--red); border-color:rgba(239,68,68,.2); background:var(--red-dim); }
-.admin-list-item-status.pending{ color:#f59e0b; border-color:rgba(245,158,11,.2); background:rgba(245,158,11,.1); }
+.admin-list-item-status.pending{ color:var(--gold); border-color:rgba(245,158,11,.2); background:rgba(245,158,11,.1); }
 .admin-list-item-meta{
   display:flex; flex-wrap:wrap; gap:10px;
   font-size:10px; color:var(--txt-4);
@@ -2174,6 +2297,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .toast.success .toast-ico{ color:var(--green); }
 .toast.error .toast-ico{ color:var(--red); }
+.toast.gold .toast-ico{ color:var(--gold); }
 @keyframes toastIn{
   from{ opacity:0; transform:translateX(30px); }
   to{ opacity:1; transform:translateX(0); }
@@ -2219,6 +2343,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .profile-grid{ grid-template-columns:1fr; }
   .rocket-grid{ grid-template-columns:1fr; }
   .slot-row{ grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .brand-mark{ width:48px; height:48px; }
+  .brand-name{ font-size:20px; }
 }
 @media(max-width:520px){
   .app{ padding:12px 12px 34px; }
@@ -2231,7 +2357,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .stats-row{ grid-template-columns:1fr; }
   .nav-btn{ padding:0 12px; font-size:10px; }
   .profile-stats{ grid-template-columns:1fr 1fr; }
-  .brand-name{ font-size:16px; }
+  .brand-name{ font-size:18px; }
+  .brand-mark{ width:44px; height:44px; }
   .rocket-multiplier{ font-size:48px; }
   .rocket-chart{ height:340px; }
   .item-img, .shop-item-img{ width:56px !important; height:56px !important; }
@@ -2257,7 +2384,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     <div class="brand-wrap">
       <div class="brand-mark">
         <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/logoforsp.png"
-             onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='S';this.parentElement.style.fontSize='16px';this.parentElement.style.fontWeight='700';this.parentElement.style.color='#fff';"
+             onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='S';this.parentElement.style.fontSize='20px';this.parentElement.style.fontWeight='700';this.parentElement.style.color='#fff';"
              alt="Saint Up">
       </div>
       <div class="brand">
@@ -2267,6 +2394,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     </div>
 
     <div class="top-right">
+      <div class="vip-badge" id="vipTopBadge" onclick="showTab('profile')" style="display:none">👑 VIP</div>
       <div class="balance" id="balanceBox">
         <span class="ico">💎</span>
         <b class="val" id="balance">10</b>
@@ -2304,7 +2432,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
             Инвентарь
             <span class="count" id="invCount">0</span>
           </div>
-          <div class="section-hint">клик = выбрать</div>
+          <button class="sell-all-btn" type="button" onclick="sellAll()" title="Продать всё">Продать всё</button>
         </div>
         <div class="panel-body tight" id="inventoryBody">
           <div class="empty">
@@ -2387,6 +2515,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
             <span class="stat-value" id="statWinrate">0%</span>
           </div>
         </div>
+
+        <div class="history-list" id="upgradeHistoryList"></div>
       </main>
 
       <aside class="panel" id="targetPanel">
@@ -2478,6 +2608,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
             <div class="rocket-shortcuts">
               <button class="rocket-shortcut" onclick="setRocketBet('min')">MIN</button>
               <button class="rocket-shortcut" onclick="setRocketBet('half')">½</button>
+              <button class="rocket-shortcut" onclick="setRocketBet('double')">×2</button>
               <button class="rocket-shortcut" onclick="setRocketBet('max')">MAX</button>
             </div>
           </div>
@@ -2588,6 +2719,9 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
         </div>
 
         <div class="profile-actions">
+          <button class="action-btn gold" id="vipBtn" onclick="buyVip()">
+            <span class="left"><span class="ico">👑</span><span id="vipBtnText">VIP за 500 💎</span></span>
+          </button>
           <button class="action-btn" onclick="showTab('game')">
             <span class="left"><span class="ico">⌂</span><span>Перейти в апгрейдер</span></span>
           </button>
@@ -2598,6 +2732,37 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
       </div>
 
       <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="section-title">
+              <span class="dot"></span>
+              Достижения
+              <span class="count" id="achCount">0/10</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="ach-grid" id="achGrid"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div class="section-title">
+              <span class="dot"></span>
+              VIP статус
+            </div>
+          </div>
+          <div class="panel-body">
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:12px;color:var(--txt-3);line-height:1.6">
+              <div style="color:#fff;font-weight:600">Что даёт VIP:</div>
+              <div>· +5% к шансу апгрейда</div>
+              <div>· +10% к выигрышу в ракетке</div>
+              <div>· Золотой значок в профиле и топбаре</div>
+              <div>· Приоритетная поддержка</div>
+            </div>
+          </div>
+        </div>
+
         <div class="panel">
           <div class="panel-head">
             <div class="section-title">
@@ -2614,7 +2779,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
                   <div class="pstat-label">Версия</div>
-                  <div class="pstat-value" style="font-size:14px">v 1.0</div>
+                  <div class="pstat-value" style="font-size:14px">v 1.1</div>
                 </div>
               </div>
             </div>
@@ -2701,13 +2866,43 @@ function showToast(message, type){
   type = type || 'info';
   const stack = document.getElementById('toastStack');
   if(!stack) return;
-  const icons = { success:'✓', error:'✕', info:'ℹ' };
+  const icons = { success:'✓', error:'✕', info:'ℹ', gold:'👑' };
   const t = document.createElement('div');
   t.className = 'toast ' + type;
   t.innerHTML = `<div class="toast-ico">${icons[type]||'ℹ'}</div><div>${escapeHtml(message)}</div>`;
   stack.appendChild(t);
   setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),300); }, 2800);
 }
+
+/* =========================================================
+   SOUND (Web Audio API)
+========================================================= */
+let audioCtx = null;
+function getAudioCtx(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+  }
+  return audioCtx;
+}
+function playTone(freq, duration, type='sine', vol=0.06){
+  const ctx = getAudioCtx();
+  if(!ctx) return;
+  try{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.value = vol;
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + duration);
+  }catch(e){}
+}
+function sfxClick(){ playTone(440, 0.06, 'sine', 0.04); }
+function sfxWin(){ playTone(880, 0.15, 'sine', 0.06); setTimeout(()=>playTone(1320, 0.25, 'sine', 0.05), 120); }
+function sfxLose(){ playTone(220, 0.2, 'sawtooth', 0.05); setTimeout(()=>playTone(150, 0.3, 'sawtooth', 0.04), 100); }
+function sfxCashout(){ playTone(660, 0.1, 'sine', 0.05); setTimeout(()=>playTone(990, 0.15, 'sine', 0.05), 80); setTimeout(()=>playTone(1320, 0.2, 'sine', 0.04), 180); }
+function sfxVip(){ playTone(523, 0.15, 'sine', 0.06); setTimeout(()=>playTone(659, 0.15, 'sine', 0.06), 100); setTimeout(()=>playTone(784, 0.3, 'sine', 0.06), 200); }
 
 /* =========================================================
    SNOW
@@ -2832,7 +3027,6 @@ const items = [
   { name:'Strawberry Elephant',      price:25000, img:'strawberry.png' }
 ];
 
-function getCrystalHtml(){ return `<span style="font-size:11px;opacity:.7;">💎</span>`; }
 function escapeHtml(v){ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 
 const IMG_BASE = 'https://raw.githubusercontent.com/saintezz/saintbetW/main/image/';
@@ -2853,6 +3047,37 @@ function getCaseImgHtml(img){
 }
 
 /* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+const ACHIEVEMENTS = [
+  { id:'first_up',   icon:'🎯', name:'Первый апгрейд',  check:()=>stats.upgrades>=1 },
+  { id:'ten_up',     icon:'🔟', name:'10 апгрейдов',    check:()=>stats.upgrades>=10 },
+  { id:'fifty_up',   icon:'💪', name:'50 апгрейдов',    check:()=>stats.upgrades>=50 },
+  { id:'hundred_up', icon:'🏆', name:'100 апгрейдов',   check:()=>stats.upgrades>=100 },
+  { id:'first_win',  icon:'✅', name:'Первая победа',   check:()=>stats.wins>=1 },
+  { id:'ten_wins',   icon:'🔥', name:'10 побед',        check:()=>stats.wins>=10 },
+  { id:'rich',       icon:'💎', name:'1000 кристаллов', check:()=>balance>=1000 },
+  { id:'rocket_10',  icon:'🚀', name:'10 ракеток',      check:()=>stats.rocket>=10 },
+  { id:'rocket_5x',  icon:'📈', name:'Множитель 5×',    check:()=>stats.rocketBest>=5 },
+  { id:'vip',        icon:'👑', name:'VIP статус',      check:()=>profile?.vip===true }
+];
+
+function renderAchievements(){
+  const grid = document.getElementById('achGrid');
+  const cnt = document.getElementById('achCount');
+  if(!grid) return;
+  const unlocked = ACHIEVEMENTS.filter(a=>a.check());
+  if(cnt) cnt.textContent = unlocked.length + '/' + ACHIEVEMENTS.length;
+  grid.innerHTML = ACHIEVEMENTS.map(a=>{
+    const on = a.check();
+    return `<div class="ach-item ${on?'unlocked':''}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-name">${escapeHtml(a.name)}</div>
+    </div>`;
+  }).join('');
+}
+
+/* =========================================================
    STATE
 ========================================================= */
 let balance = 10;
@@ -2861,12 +3086,14 @@ let sourceItem = null;
 let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
+let upgradeHistory = [];
 
 const PROFILE_KEY = 'upgrader_profile_v9';
 const USERS_KEY = 'upgrader_users_v9';
 const WITHDRAWALS_KEY = 'upgrader_withdrawals_v1';
 const STATS_KEY = 'upgrader_stats_v7';
 const PENDING_UPGRADE_KEY = 'upgrader_pending_upgrade_v7';
+const HISTORY_KEY = 'upgrader_history_v1';
 let withdrawals = [];
 let promoCodes = [];
 let profile = null;
@@ -2886,6 +3113,8 @@ let rocketMode = 'crystals';
 let rocketSelectedItemSlot = null;
 let rocketBetIsItem = false;
 let rocketBetItemName = '';
+
+const VIP_PRICE = 500;
 
 const CASES = [
   { id:'noobini', name:'КЕЙС НУБИНИ', img:'NOOBINI1CASE.png', price:17,
@@ -2941,13 +3170,16 @@ function loadProfileData(){
   stats.rocketLosses = stats.rocketLosses||0;
   stats.rocketBest = stats.rocketBest||1;
 
+  try{ upgradeHistory = JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]') || []; }catch(e){ upgradeHistory = []; }
+
   if(!profile || !profile.username){
     const u = makeUsername();
-    profile = { username:u, telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'', createdAt: Date.now() };
+    profile = { username:u, telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'', createdAt: Date.now(), vip:false };
     users[u] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
   } else if(!users[profile.username]){
     users[profile.username] = { balance:10, inventory:[], normalInventory:[], telegramUsername:'', telegramId:'', telegramFirstName:'', telegramLastName:'' };
   }
+  if(profile.vip === undefined) profile.vip = false;
 
   balance = Number(users[profile.username].balance ?? 10);
   inventory = migrateInventory(users[profile.username].inventory);
@@ -2969,6 +3201,7 @@ function saveProfileData(){
   };
   localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(upgradeHistory));
 }
 
 function saveStats(){ localStorage.setItem(STATS_KEY, JSON.stringify(stats)); }
@@ -3079,7 +3312,32 @@ function renderProfile(){
 
   const rank = getRankInfo();
   const rankBadge = document.getElementById('rankBadge');
-  if(rankBadge){ rankBadge.textContent = `${rank.icon} ${rank.name}`; }
+  if(rankBadge){
+    if(profile?.vip){
+      rankBadge.textContent = `👑 VIP · ${rank.name}`;
+      rankBadge.classList.add('vip');
+    } else {
+      rankBadge.textContent = `${rank.icon} ${rank.name}`;
+      rankBadge.classList.remove('vip');
+    }
+  }
+
+  const vipTopBadge = document.getElementById('vipTopBadge');
+  if(vipTopBadge) vipTopBadge.style.display = profile?.vip ? 'flex' : 'none';
+
+  const vipBtnText = document.getElementById('vipBtnText');
+  const vipBtn = document.getElementById('vipBtn');
+  if(vipBtnText && vipBtn){
+    if(profile?.vip){
+      vipBtnText.textContent = 'VIP активен';
+      vipBtn.disabled = true;
+      vipBtn.style.opacity = '.6';
+    } else {
+      vipBtnText.textContent = `VIP за ${VIP_PRICE} 💎`;
+      vipBtn.disabled = false;
+      vipBtn.style.opacity = '1';
+    }
+  }
 
   const cur = stats.upgrades;
   const next = rank.next;
@@ -3104,6 +3362,7 @@ function renderProfile(){
     adminPanel.hidden = true;
   }
 
+  renderAchievements();
   renderAdminWithdrawals(); renderAdminPromos();
   if(typeof renderServerUrlConfig === 'function') renderServerUrlConfig();
 }
@@ -3118,6 +3377,26 @@ function switchAdminTab(tab, btn){
 }
 
 /* =========================================================
+   VIP
+========================================================= */
+async function buyVip(){
+  if(profile?.vip){ showToast('VIP уже активен', 'info'); return; }
+  if(balance < VIP_PRICE){ showToast(`Нужно ${VIP_PRICE} 💎`, 'error'); return; }
+  if(!confirm(`Купить VIP за ${VIP_PRICE} 💎?`)) return;
+  const res = await serverUpdateBalance(-VIP_PRICE);
+  if(!res || res.balance === undefined) return;
+  profile.vip = true;
+  saveProfileData();
+  sfxVip();
+  showToast('👑 VIP активирован!', 'gold');
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  showFlash(cx, cy, 'rgba(245,158,11,.6)', 360);
+  showParticles(cx, cy, '#f59e0b', 30);
+  if(window.snowBurst) window.snowBurst(cx, cy, 40, '245,158,11');
+  renderAll();
+}
+
+/* =========================================================
    CHANCES
 ========================================================= */
 function calculateChance(fromP, toP){
@@ -3126,7 +3405,7 @@ function calculateChance(fromP, toP){
   const ratio = toP / fromP;
   let c = 100 / ratio;
   if(c < 1) c = 1;
-  if(c > 95) c = 95;
+  if(c > 99) c = 99;
   return Math.round(c * 10) / 10;
 }
 function getUpgradeChance(){
@@ -3134,7 +3413,9 @@ function getUpgradeChance(){
   const src = getInventoryItem(sourceItem);
   const tgt = items[targetItem];
   if(!src || !tgt) return 0;
-  return calculateChance(src.price, tgt.price);
+  let c = calculateChance(src.price, tgt.price);
+  if(profile?.vip && c > 0) c = Math.min(99, c + 5);
+  return Math.round(c * 10) / 10;
 }
 
 /* =========================================================
@@ -3166,7 +3447,12 @@ function renderShop(){
 
   items.forEach((item,index)=>{
     const affordable = balance >= item.price;
-    const chance = srcItem ? calculateChance(srcItem.price, item.price) : null;
+    let chance = null;
+    if(srcItem){
+      chance = calculateChance(srcItem.price, item.price);
+      if(profile?.vip && chance > 0) chance = Math.min(99, chance + 5);
+      chance = Math.round(chance * 10) / 10;
+    }
     let chanceCls = '';
     if(chance !== null && chance === 0) chanceCls = 'zero';
 
@@ -3280,6 +3566,7 @@ async function openCase(caseId){
     result.classList.add('show');
     closeBtn.classList.add('show');
     caseRolling = false;
+    sfxWin();
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     showFlash(cx, cy, 'rgba(255,255,255,.5)', 320);
     showParticles(cx, cy, '#fff', 24);
@@ -3345,7 +3632,20 @@ async function sellItem(idx){
   else if(sourceItem !== null && sourceItem > idx) sourceItem--;
   saveProfileData();
   await serverUpdateBalance(item.price);
+  sfxClick();
   showToast('Продано за ' + item.price + ' 💎', 'success');
+  renderAll(); updateTop();
+}
+async function sellAll(){
+  if(spinning || inventory.length === 0) return;
+  if(!confirm('Продать все предметы?')) return;
+  const total = inventory.reduce((s,e)=>s+(items[e.itemIndex]?.price||0), 0);
+  inventory = [];
+  sourceItem = null; clearSourceDisplay();
+  saveProfileData();
+  await serverUpdateBalance(total);
+  sfxClick();
+  showToast(`Продано всё за ${total} 💎`, 'success');
   renderAll(); updateTop();
 }
 
@@ -3373,7 +3673,11 @@ function renderTargets(){
     let chance = null;
     if(sourceItem !== null){
       const src = getInventoryItem(sourceItem);
-      if(src) chance = calculateChance(src.price, item.price);
+      if(src){
+        chance = calculateChance(src.price, item.price);
+        if(profile?.vip && chance > 0) chance = Math.min(99, chance + 5);
+        chance = Math.round(chance * 10) / 10;
+      }
     }
 
     let chanceCls = '';
@@ -3390,6 +3694,20 @@ function renderTargets(){
   });
 }
 
+function renderUpgradeHistory(){
+  const el = document.getElementById('upgradeHistoryList');
+  if(!el) return;
+  if(upgradeHistory.length === 0){ el.innerHTML=''; return; }
+  el.innerHTML = upgradeHistory.map(h=>`
+    <div class="history-item ${h.win?'win':'lose'}">
+      <div class="history-from">${escapeHtml(h.fromName)}</div>
+      <div class="history-arrow">→</div>
+      <div class="history-to">${escapeHtml(h.toName)}</div>
+      <div class="history-result">${h.win?'+':'-'}</div>
+    </div>
+  `).join('');
+}
+
 function renderAll(){
   balanceEl.textContent = balance;
   renderShop();
@@ -3397,6 +3715,7 @@ function renderAll(){
   renderInventory();
   renderTargets();
   renderProfile();
+  renderUpgradeHistory();
   renderAdminWithdrawals();
   renderAdminPromos();
   updateGameStats();
@@ -3438,6 +3757,7 @@ async function buyItem(index){
   if(!res || res.balance === undefined) return;
   inventory.push({ itemIndex: index });
   saveProfileData();
+  sfxClick();
   showToast('Куплено: ' + item.name, 'success');
   renderAll();
 }
@@ -3472,12 +3792,14 @@ function selectSource(idx){
   const item = getInventoryItem(idx);
   if(!item) return;
   sourceItem = idx;
+  sfxClick();
   updateSourceSlotDisplay();
   renderInventory(); renderTargets(); renderShop(); updateTop();
 }
 function selectTarget(idx){
   if(spinning) return;
   targetItem = idx;
+  sfxClick();
   updateTargetSlotDisplay();
   renderTargets(); updateTop();
 
@@ -3536,6 +3858,12 @@ function updateTop(){
     upgradeBtn.classList.remove('locked');
     if(stageBadge) stageBadge.textContent = 'IDLE';
   }
+}
+function pushUpgradeHistory(fromName, toName, win){
+  upgradeHistory.unshift({ fromName, toName, win, time:Date.now() });
+  if(upgradeHistory.length > 6) upgradeHistory.pop();
+  saveProfileData();
+  renderUpgradeHistory();
 }
 function performUpgrade(durationMs){
   if(spinning) return;
@@ -3597,9 +3925,11 @@ function performUpgrade(durationMs){
       updateSourceSlotDisplay();
       showToast(`Успех! ${tgtBase.name}`, 'success');
       if(stageBadge) stageBadge.textContent = 'WIN';
+      sfxWin();
       showFlash(cx, cy, 'rgba(255,255,255,.5)', 300);
       showParticles(cx, cy, '#fff', 24);
       if(window.snowBurst) window.snowBurst(cx, cy, 28, '255,255,255');
+      pushUpgradeHistory(srcData.name, tgtBase.name, true);
     } else {
       inventory.splice(srcIdx, 1);
       sourceItem = null;
@@ -3609,13 +3939,16 @@ function performUpgrade(durationMs){
       clearSourceDisplay();
       showToast(`Провал. Потеряно: ${srcData.name}`, 'error');
       if(stageBadge) stageBadge.textContent = 'LOSE';
+      sfxLose();
       showFlash(cx, cy, 'rgba(255,255,255,.3)', 300);
       showParticles(cx, cy, '#666', 24);
       if(window.snowBurst) window.snowBurst(cx, cy, 28, '150,150,150');
+      pushUpgradeHistory(srcData.name, tgtBase.name, false);
       renderAll();
     }
     updateTop();
     updateGameStats();
+    renderAchievements();
     spinning = false;
     upgradeBtn.disabled = false;
     upgradeBtn.textContent = 'Прокачать предмет';
@@ -3665,6 +3998,7 @@ function renderRocketItems(){
 function selectRocketItem(idx){
   if(rocketState !== 'idle') return;
   rocketSelectedItemSlot = idx;
+  sfxClick();
   renderRocketItems();
 }
 
@@ -3672,6 +4006,7 @@ function setRocketBet(mode){
   const input = document.getElementById('rocketBetInput');
   if(mode === 'min') input.value = 1;
   else if(mode === 'half') input.value = Math.max(1, Math.floor(balance/2));
+  else if(mode === 'double') input.value = Math.max(1, Math.floor((Number(input.value)||0)*2));
   else if(mode === 'max') input.value = Math.max(1, Math.floor(balance));
 }
 
@@ -3681,6 +4016,7 @@ function toggleRocketAuto(){
   const icon = document.getElementById('rocketAutoIcon');
   if(toggle) toggle.classList.toggle('on', rocketAutoEnabled);
   if(icon) icon.textContent = rocketAutoEnabled ? '●' : '○';
+  sfxClick();
 }
 
 function rocketAction(){
@@ -3738,8 +4074,7 @@ async function startRocket(){
   playBtn.textContent = 'Забрать';
   playBtn.classList.add('cashout');
   resultEl.className = 'rocket-result';
-  resultEl.textContent = isItemBet
-    ? `На кону: ${itemName} · ${bet} 💎`
+  resultEl.textContent = isItemBet    ? `На кону: ${itemName} · ${bet} 💎`
     : `Ставка ${bet} 💎 · ждём взлёт...`;
 
   const status = document.getElementById('rocketStatus');
@@ -3830,7 +4165,8 @@ function cashOutRocket(){
   rocketState = 'cashed';
   if(rocketRaf) cancelAnimationFrame(rocketRaf);
 
-  const total = Math.floor(rocketBet * rocketCurrentMultiplier);
+  let total = Math.floor(rocketBet * rocketCurrentMultiplier);
+  if(profile?.vip) total = Math.floor(total * 1.1);
   const profit = total - rocketBet;
 
   serverUpdateBalance(total);
@@ -3849,9 +4185,10 @@ function cashOutRocket(){
 
   const resultEl = document.getElementById('rocketResult');
   resultEl.className = 'rocket-result win';
-  resultEl.textContent = `Забрал ${total} 💎 (+${profit})`;
+  resultEl.textContent = `Забрал ${total} 💎 (+${profit})${profile?.vip?' 👑':''}`;
 
   showToast(`Ракетка: +${total} 💎`, 'success');
+  sfxCashout();
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(34,197,94,.5)', 320);
   showParticles(cx, cy, '#22c55e', 24);
@@ -3862,6 +4199,7 @@ function cashOutRocket(){
   updateRocketStats();
   renderProfile();
   renderInventory(); renderTargets(); renderRocketItems(); renderShop();
+  renderAchievements();
 }
 
 function crashRocket(){
@@ -3886,6 +4224,7 @@ function crashRocket(){
   resultEl.textContent = `Краш на ${rocketCurrentMultiplier.toFixed(2)}× · -${rocketBet} 💎`;
 
   showToast(`Ракетка: краш -${rocketBet} 💎`, 'error');
+  sfxLose();
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(239,68,68,.5)', 320);
   showParticles(cx, cy, '#ef4444', 24);
@@ -3896,6 +4235,7 @@ function crashRocket(){
   updateRocketStats();
   renderProfile();
   renderInventory(); renderTargets(); renderRocketItems(); renderShop();
+  renderAchievements();
 }
 
 function resetRocketUI(){
@@ -4168,6 +4508,8 @@ updateTop();
 renderRocketHistory();
 updateRocketStats();
 renderRocketItems();
+renderUpgradeHistory();
+renderAchievements();
 
 setTimeout(()=>loadPromoCodesFromServer(), 100);
 
