@@ -30,7 +30,6 @@
   --red-dim:rgba(239,68,68,.12);
   --gold:#f59e0b;
   --gold-dim:rgba(245,158,11,.12);
-  --blue:#3b82f6;
   --radius:14px;
   --radius-sm:10px;
   --radius-lg:18px;
@@ -100,52 +99,92 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   grid-template-columns:1fr auto;
   align-items:center;
   gap:16px;
-  padding:14px 0 22px;
+  padding:16px 0 22px;
   border-bottom:1px solid var(--border);
   margin-bottom:22px;
+  position:relative;
+}
+.topbar::after{
+  content:"";
+  position:absolute;
+  bottom:-1px; left:0;
+  width:140px; height:1px;
+  background:linear-gradient(90deg, rgba(255,255,255,.5), transparent);
+  box-shadow:0 0 14px rgba(255,255,255,.35);
 }
 .brand-wrap{ display:flex; align-items:center; gap:14px; }
 
 .brand-mark{
-  width:56px; height:56px;
-  border-radius:14px;
+  width:58px; height:58px;
+  border-radius:16px;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
-  backdrop-filter:blur(20px) saturate(140%);
-  -webkit-backdrop-filter:blur(20px) saturate(140%);
+    linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+  backdrop-filter:blur(24px) saturate(150%);
+  -webkit-backdrop-filter:blur(24px) saturate(150%);
   display:flex; align-items:center; justify-content:center;
-  border:1px solid rgba(255,255,255,.04);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.2),
+    inset 0 -8px 20px rgba(0,0,0,.4),
+    0 12px 30px rgba(0,0,0,.6);
   overflow:hidden;
   flex-shrink:0;
-  font-size:20px; font-weight:700; color:#fff;
+  font-size:22px; font-weight:700; color:#fff;
+  position:relative;
+}
+.brand-mark::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0;
+  height:50%;
+  background:linear-gradient(180deg, rgba(255,255,255,.14), transparent);
+  border-radius:16px 16px 0 0;
+  pointer-events:none;
 }
 .brand-mark img{
   width:100%; height:100%;
   object-fit:contain;
   object-position:center;
   display:block;
-  padding:4px;
+  padding:5px;
   box-sizing:border-box;
-  filter:drop-shadow(0 0 6px rgba(255,255,255,.2));
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.25));
   user-select:none;
   -webkit-user-drag:none;
+  position:relative;
+  z-index:1;
 }
 
-.brand{ display:flex; flex-direction:column; gap:3px; }
+.brand{ display:flex; flex-direction:column; gap:4px; }
 .brand-name{
-  font-size:24px;
+  font-size:26px;
   font-weight:700;
-  letter-spacing:-.02em;
+  letter-spacing:-.03em;
   color:#fff;
   line-height:1;
+  text-shadow:0 0 30px rgba(255,255,255,.15);
 }
-.brand-name .accent{ color:var(--txt-3); font-weight:400; }
+.brand-name .accent{
+  color:var(--txt-3);
+  font-weight:300;
+  letter-spacing:-.02em;
+}
 .brand-tag{
-  font-size:11px;
+  font-size:10px;
   color:var(--txt-4);
-  letter-spacing:.3px;
-  font-weight:400;
+  letter-spacing:.6px;
+  font-weight:500;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.brand-tag::before{
+  content:"";
+  width:4px; height:4px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px rgba(34,197,94,.8);
 }
 
 .top-right{
@@ -155,43 +194,78 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .balance{
   display:flex; align-items:center; gap:10px;
-  padding:9px 16px;
+  padding:10px 18px;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+    linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
   backdrop-filter:blur(24px) saturate(150%);
   -webkit-backdrop-filter:blur(24px) saturate(150%);
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:12px;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:14px;
   white-space:nowrap;
-  height:44px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+  height:48px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -4px 12px rgba(0,0,0,.3),
+    0 8px 24px rgba(0,0,0,.5);
+  position:relative;
 }
-.balance .ico{ font-size:14px; opacity:.8; }
-.balance .val{ font-size:16px; font-weight:600; color:#fff; line-height:1; }
+.balance::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0;
+  height:50%;
+  background:linear-gradient(180deg, rgba(255,255,255,.08), transparent);
+  border-radius:14px 14px 0 0;
+  pointer-events:none;
+}
+.balance .ico{
+  font-size:15px;
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.4));
+  position:relative;
+  z-index:1;
+}
+.balance .val{
+  font-size:18px;
+  font-weight:700;
+  color:#fff;
+  line-height:1;
+  letter-spacing:-.02em;
+  position:relative;
+  z-index:1;
+}
 .balance .lbl{
   font-size:9px;
   color:var(--txt-4);
   letter-spacing:.8px;
   text-transform:uppercase;
-  font-weight:500;
+  font-weight:600;
+  position:relative;
+  z-index:1;
 }
 .vip-badge{
-  display:flex; align-items:center; gap:5px;
-  padding:0 12px;
-  height:44px;
-  border-radius:12px;
-  background:linear-gradient(135deg, rgba(245,158,11,.18), rgba(245,158,11,.06));
-  border:1px solid rgba(245,158,11,.25);
+  display:flex; align-items:center; gap:6px;
+  padding:0 14px;
+  height:48px;
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(245,158,11,.2), rgba(245,158,11,.05));
+  border:1px solid rgba(245,158,11,.3);
   color:var(--gold);
-  font-size:10px;
+  font-size:11px;
   font-weight:700;
   letter-spacing:.8px;
   text-transform:uppercase;
-  box-shadow:inset 0 1px 0 rgba(245,158,11,.2);
+  box-shadow:
+    inset 0 1px 0 rgba(245,158,11,.25),
+    0 8px 24px rgba(245,158,11,.15);
   cursor:pointer;
   transition:.15s;
 }
-.vip-badge:hover{ background:linear-gradient(135deg, rgba(245,158,11,.28), rgba(245,158,11,.1)); }
+.vip-badge:hover{
+  background:linear-gradient(135deg, rgba(245,158,11,.3), rgba(245,158,11,.1));
+  box-shadow:
+    inset 0 1px 0 rgba(245,158,11,.35),
+    0 10px 28px rgba(245,158,11,.25);
+}
 
 /* ========== NAV ========== */
 .top-nav{
@@ -244,13 +318,29 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   align-items:start;
 }
 
-.section-head{
+.panel{
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(255,255,255,.035);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 12px 40px rgba(0,0,0,.6);
+}
+.panel-head{
+  padding:13px 15px;
+  border-bottom:1px solid rgba(255,255,255,.03);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
-  margin-bottom:12px;
+  gap:10px;
 }
+.panel-body{ padding:14px; }
+.panel-body.tight{ padding:10px; }
+
 .section-title{
   display:flex;
   align-items:center;
@@ -278,29 +368,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   font-weight:400;
   letter-spacing:.2px;
 }
-
-.panel{
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
-  backdrop-filter:blur(28px) saturate(150%);
-  -webkit-backdrop-filter:blur(28px) saturate(150%);
-  border:1px solid rgba(255,255,255,.035);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.06),
-    0 12px 40px rgba(0,0,0,.6);
-}
-.panel-head{
-  padding:13px 15px;
-  border-bottom:1px solid rgba(255,255,255,.03);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-.panel-body{ padding:14px; }
-.panel-body.tight{ padding:10px; }
 
 /* ========== STAGE ========== */
 .stage{
@@ -1068,7 +1135,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .shop-buy:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 .shop-buy:disabled{ opacity:.3; cursor:not-allowed; }
 
-/* ========== CASES (НОВЫЙ ДИЗАЙН) ========== */
+/* ========== CASES (чёрно-белый стиль) ========== */
 .cases-container{
   display:flex;
   flex-direction:column;
@@ -1077,8 +1144,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
 .case-list-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
-  gap:14px;
+  grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+  gap:16px;
 }
 
 .case-tile{
@@ -1086,12 +1153,12 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   backdrop-filter:blur(28px) saturate(150%);
   -webkit-backdrop-filter:blur(28px) saturate(150%);
   border:1px solid rgba(255,255,255,.035);
-  border-radius:var(--radius);
-  padding:16px;
+  border-radius:var(--radius-lg);
+  padding:20px;
   display:flex; flex-direction:column;
-  align-items:center; gap:12px;
+  align-items:center; gap:14px;
   cursor:pointer;
-  transition:.25s;
+  transition:.3s;
   position:relative;
   overflow:hidden;
   box-shadow:
@@ -1102,61 +1169,71 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   content:"";
   position:absolute;
   top:-40%; right:-30%;
-  width:200px; height:200px;
-  background:radial-gradient(circle, rgba(255,255,255,.06), transparent 70%);
+  width:240px; height:240px;
+  background:radial-gradient(circle, rgba(255,255,255,.07), transparent 70%);
   pointer-events:none;
-  transition:.4s;
+  transition:.5s;
 }
-.case-tile:hover::before{ transform:scale(1.3); }
+.case-tile:hover::before{ transform:scale(1.4); }
 .case-tile:hover{
-  border-color:rgba(255,255,255,.12);
-  background:linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
-  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.14);
+  background:linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.022));
+  transform:translateY(-4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 24px 60px rgba(0,0,0,.75);
 }
 .case-tile-img{
   width:100%;
-  height:140px;
+  height:180px;
   display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
-  border-radius:12px;
+  background:
+    radial-gradient(200px 120px at 50% 50%, rgba(255,255,255,.06), transparent 70%),
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  border-radius:14px;
   border:1px solid rgba(255,255,255,.03);
   position:relative; z-index:1;
   overflow:hidden;
 }
 .case-tile-img img{
-  max-width:80%;
+  max-width:75%;
   max-height:85%;
   object-fit:contain;
-  filter:drop-shadow(0 8px 24px rgba(0,0,0,.6));
+  filter:drop-shadow(0 12px 30px rgba(0,0,0,.8)) drop-shadow(0 0 20px rgba(255,255,255,.15));
   user-select:none;
   -webkit-user-drag:none;
+  transition:.3s;
+}
+.case-tile:hover .case-tile-img img{
+  transform:scale(1.08) translateY(-4px);
 }
 .case-tile-name{
-  font-size:13px;
-  font-weight:600;
+  font-size:15px;
+  font-weight:700;
   color:#fff;
   text-align:center;
   position:relative; z-index:1;
-  letter-spacing:-.01em;
+  letter-spacing:-.02em;
 }
 .case-tile-price{
-  padding:5px 14px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.05);
-  border-radius:8px;
+  padding:6px 16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:9px;
   color:#fff;
-  font-size:12px;
+  font-size:13px;
   font-weight:600;
   font-family:"JetBrains Mono",monospace;
   position:relative; z-index:1;
-  display:flex; align-items:center; gap:5px;
+  display:flex; align-items:center; gap:6px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
 }
 
-/* ====== ПРОСМОТР КЕЙСА (как на фото) ====== */
+/* ====== ПРОСМОТР КЕЙСА ====== */
 .case-view{
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:16px;
 }
 .case-view-header{
   display:flex;
@@ -1188,7 +1265,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 
 .case-hero{
   background:
-    radial-gradient(600px 250px at 50% 0%, rgba(59,130,246,.1), transparent 70%),
+    radial-gradient(600px 250px at 50% 0%, rgba(255,255,255,.06), transparent 70%),
     linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
   border:1px solid rgba(255,255,255,.04);
   border-radius:18px;
@@ -1205,7 +1282,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   width:200px; height:200px;
   display:flex; align-items:center; justify-content:center;
   position:relative;
-  filter:drop-shadow(0 12px 40px rgba(59,130,246,.35));
+  filter:drop-shadow(0 12px 40px rgba(255,255,255,.15));
 }
 .case-hero-img img{
   width:100%; height:100%;
@@ -1226,23 +1303,25 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   text-align:center;
 }
 
-/* Рулетка-превью со стрелкой */
-.case-preview{
+/* Рулетка внутри страницы */
+.case-roulette-inline{
   position:relative;
   width:100%;
+  height:170px;
   overflow:hidden;
-  padding:14px 0;
-  background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.04);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  border:1px solid rgba(255,255,255,.05);
   border-radius:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
 }
-.case-preview::before, .case-preview::after{
+.case-roulette-inline::before, .case-roulette-inline::after{
   content:""; position:absolute; top:0; bottom:0; width:100px;
   z-index:3; pointer-events:none;
 }
-.case-preview::before{ left:0; background:linear-gradient(90deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
-.case-preview::after{ right:0; background:linear-gradient(270deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
-.case-preview-marker{
+.case-roulette-inline::before{ left:0; background:linear-gradient(90deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
+.case-roulette-inline::after{ right:0; background:linear-gradient(270deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
+.case-roulette-inline .case-marker{
   position:absolute;
   top:0; bottom:0; left:50%;
   transform:translateX(-50%);
@@ -1251,7 +1330,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   z-index:5; pointer-events:none;
   box-shadow:0 0 14px rgba(255,255,255,.8);
 }
-.case-preview-marker::before{
+.case-roulette-inline .case-marker::before{
   content:"";
   position:absolute; top:-5px; left:50%;
   transform:translateX(-50%);
@@ -1259,7 +1338,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-right:9px solid transparent;
   border-top:13px solid #fff;
 }
-.case-preview-marker::after{
+.case-roulette-inline .case-marker::after{
   content:"";
   position:absolute; bottom:-5px; left:50%;
   transform:translateX(-50%);
@@ -1267,46 +1346,38 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   border-right:9px solid transparent;
   border-bottom:13px solid #fff;
 }
-.case-preview-strip{
-  display:flex; gap:10px; padding-left:20px;
+.case-roulette-inline .case-strip{
+  position:absolute; top:50%; left:0;
+  transform:translateY(-50%);
+  display:flex; gap:12px; padding-left:20px;
   will-change:transform;
 }
-.case-preview-item{
+.case-roulette-inline .case-strip-item{
   flex:0 0 auto;
-  width:96px; height:110px;
+  width:130px; height:130px;
   background:linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.005));
   border:1px solid rgba(255,255,255,.04);
   border-radius:12px;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   gap:4px;
-  padding:8px 4px;
+  padding:10px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
-.case-preview-item img{
-  width:60px; height:60px;
+.case-roulette-inline .case-strip-item img{
+  width:70px; height:70px;
   object-fit:contain;
   user-select:none;
   -webkit-user-drag:none;
 }
-.case-preview-item .pv-name{
-  font-size:9px;
+.case-roulette-inline .case-strip-item .pv-price{
+  font-size:10px;
   color:var(--txt-3);
-  text-align:center;
-  font-weight:500;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  max-width:100%;
-  width:100%;
-}
-.case-preview-item .pv-price{
-  font-size:9px;
-  color:#fff;
   font-family:"JetBrains Mono",monospace;
   font-weight:500;
-  display:flex; align-items:center; gap:3px;
 }
 
-/* Инфо-плашки под превью */
+/* Инфо-плашки */
 .case-info-row{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
@@ -1314,10 +1385,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 }
 .case-info-cell{
   padding:14px 12px;
-  background:linear-gradient(135deg, rgba(59,130,246,.12), rgba(59,130,246,.03));
-  border:1px solid rgba(59,130,246,.2);
+  background:linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.008));
+  border:1px solid rgba(255,255,255,.04);
   border-radius:12px;
   text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
 }
 .case-info-label{
   font-size:9px;
@@ -1337,8 +1409,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .case-open-btn{
   width:100%;
   height:56px;
-  background:linear-gradient(135deg, #3b82f6, #1d4ed8);
-  border:1px solid rgba(59,130,246,.4);
+  background:linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.05);
   border-radius:14px;
   color:#fff;
   font-size:13px;
@@ -1347,8 +1419,8 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   text-transform:uppercase;
   transition:.2s;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.25),
-    0 12px 32px rgba(59,130,246,.35);
+    inset 0 1px 0 rgba(255,255,255,.2),
+    0 12px 32px rgba(0,0,0,.5);
   position:relative;
   overflow:hidden;
   display:flex; align-items:center; justify-content:center; gap:8px;
@@ -1356,16 +1428,16 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
 .case-open-btn::after{
   content:"";
   position:absolute; inset:0;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
   transform:translateX(-100%);
-  transition:transform .6s;
+  transition:transform .7s;
 }
 .case-open-btn:hover::after{ transform:translateX(100%); }
 .case-open-btn:hover{
-  background:linear-gradient(135deg, #4f8ff7, #2563eb);
+  background:linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.07));
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.3),
-    0 16px 40px rgba(59,130,246,.5);
+    0 16px 40px rgba(0,0,0,.6);
 }
 .case-open-btn:disabled{ opacity:.5; cursor:not-allowed; }
 
@@ -1417,17 +1489,16 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   position:absolute;
   top:5px; right:5px;
   padding:2px 6px;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.7);
   border:1px solid rgba(255,255,255,.06);
   border-radius:6px;
   font-size:9px;
   font-weight:600;
   font-family:"JetBrains Mono",monospace;
-  color:var(--green);
-  backdrop-filter:blur(8px);
+  color:var(--txt-2);
 }
 .drop-chance.low{ color:var(--gold); }
-.drop-chance.rare{ color:#ef4444; }
+.drop-chance.rare{ color:var(--red); }
 .drop-img{
   width:64px; height:64px;
   object-fit:contain;
@@ -1455,142 +1526,50 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   display:flex; align-items:center; gap:3px;
 }
 
-/* ====== МОДАЛКА ВЫПАДЕНИЯ ====== */
-.case-modal{
-  position:fixed; inset:0; z-index:9999;
-  background:rgba(0,0,0,.94);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  display:none; align-items:center; justify-content:center; flex-direction:column;
-  padding:20px;
-}
-.case-modal.show{ display:flex; }
-.case-modal-title{
-  font-size:15px; font-weight:600; letter-spacing:2px;
-  color:#fff; margin-bottom:22px; text-align:center;
-  text-transform:uppercase;
-}
-.case-roulette{
-  position:relative;
-  width:100%; max-width:620px; height:150px;
-  overflow:hidden;
+/* Результат inline */
+.case-result-inline{
+  padding:16px;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.008));
-  border:1px solid rgba(255,255,255,.05);
+    radial-gradient(300px 100px at 50% 0%, rgba(34,197,94,.1), transparent 70%),
+    linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border:1px solid rgba(34,197,94,.2);
   border-radius:14px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-}
-.case-roulette::before, .case-roulette::after{
-  content:""; position:absolute; top:0; bottom:0; width:80px;
-  z-index:3; pointer-events:none;
-}
-.case-roulette::before{ left:0; background:linear-gradient(90deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
-.case-roulette::after{ right:0; background:linear-gradient(270deg, #000 0%, rgba(0,0,0,.85) 40%, transparent 100%); }
-.case-marker{
-  position:absolute; top:0; bottom:0; left:50%;
-  transform:translateX(-50%); width:2px;
-  background:#fff;
-  z-index:5; pointer-events:none;
-  box-shadow:0 0 12px rgba(255,255,255,.5);
-}
-.case-marker::before{
-  content:"";
-  position:absolute; top:-6px; left:50%;
-  transform:translateX(-50%);
-  border-left:8px solid transparent;
-  border-right:8px solid transparent;
-  border-top:12px solid #fff;
-}
-.case-marker::after{
-  content:"";
-  position:absolute; bottom:-6px; left:50%;
-  transform:translateX(-50%);
-  border-left:8px solid transparent;
-  border-right:8px solid transparent;
-  border-bottom:12px solid #fff;
-}
-.case-strip{
-  position:absolute; top:50%; left:0;
-  transform:translateY(-50%);
-  display:flex; gap:12px; padding-left:20px;
-  will-change:transform;
-}
-.case-strip-item{
-  flex:0 0 auto;
-  width:110px; height:110px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.005));
-  border:1px solid rgba(255,255,255,.04);
-  border-radius:12px;
-  display:flex; align-items:center; justify-content:center;
-  padding:10px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
-}
-.case-strip-item img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  object-position:center;
-  display:block;
-  user-select:none;
-  -webkit-user-drag:none;
-}
-.case-result{
-  margin-top:22px;
   text-align:center;
-  opacity:0;
-  transform:translateY(10px);
-  transition:all .4s ease;
-  pointer-events:none;
-  display:flex;
+  display:none;
   flex-direction:column;
   align-items:center;
   gap:8px;
+  animation:resultIn .4s ease;
 }
-.case-result.show{ opacity:1; transform:translateY(0); }
-.case-result-label{
-  font-size:10px; color:var(--txt-4); letter-spacing:2px; font-weight:500;
+.case-result-inline.show{ display:flex; }
+@keyframes resultIn{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+.case-result-inline .res-label{
+  font-size:10px;
+  color:var(--txt-4);
+  letter-spacing:2px;
+  font-weight:500;
   text-transform:uppercase;
 }
-.case-result-name{
-  font-size:17px; font-weight:600;
-  padding:9px 18px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:12px;
-  color:#fff;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+.case-result-inline .res-img{
+  width:80px; height:80px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 20px rgba(34,197,94,.5));
 }
-.case-result-price{
-  font-size:11px;
-  color:var(--txt-3);
+.case-result-inline .res-name{
+  font-size:17px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:-.01em;
+}
+.case-result-inline .res-price{
+  font-size:12px;
+  color:var(--green);
   font-family:"JetBrains Mono",monospace;
-}
-.case-close-btn{
-  margin-top:22px;
-  height:44px;
-  min-width:180px;
-  padding:0 26px;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-  color:#fff;
-  font-size:11px;
   font-weight:600;
-  letter-spacing:1.5px;
-  transition:.15s;
-  opacity:0;
-  pointer-events:none;
-  border-radius:12px;
-  text-transform:uppercase;
-  border:1px solid rgba(255,255,255,.04);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
 }
-.case-close-btn.show{ opacity:1; pointer-events:auto; }
-.case-close-btn:hover{ background:linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); }
 
 /* ========== ROCKET ========== */
 .rocket-grid{
@@ -2565,11 +2544,11 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .profile-grid{ grid-template-columns:1fr; }
   .rocket-grid{ grid-template-columns:1fr; }
   .slot-row{ grid-template-columns:1fr 1fr 1fr; gap:12px; }
-  .brand-mark{ width:48px; height:48px; }
-  .brand-name{ font-size:20px; }
+  .brand-mark{ width:50px; height:50px; }
+  .brand-name{ font-size:22px; }
   .case-hero-img{ width:160px; height:160px; }
-  .case-preview-item{ width:80px; height:96px; }
-  .case-preview-item img{ width:50px; height:50px; }
+  .case-roulette-inline .case-strip-item{ width:110px; height:110px; }
+  .case-roulette-inline .case-strip-item img{ width:60px; height:60px; }
 }
 @media(max-width:520px){
   .app{ padding:12px 12px 34px; }
@@ -2582,17 +2561,18 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
   .nav-btn{ padding:0 12px; font-size:10px; }
   .profile-stats{ grid-template-columns:1fr 1fr; }
   .brand-name{ font-size:18px; }
-  .brand-mark{ width:44px; height:44px; }
+  .brand-mark{ width:46px; height:46px; }
   .rocket-multiplier{ font-size:48px; }
   .rocket-chart{ height:340px; }
   .item-img, .shop-item-img{ width:56px !important; height:56px !important; }
   .case-list-grid{ grid-template-columns:repeat(2, 1fr); }
-  .case-tile-img{ height:100px; }
+  .case-tile-img{ height:120px; }
   .case-hero-img{ width:140px; height:140px; }
   .case-hero-name{ font-size:18px; }
   .case-info-row{ grid-template-columns:1fr 1fr; }
-  .case-preview-item{ width:72px; height:88px; }
-  .case-preview-item img{ width:44px; height:44px; }
+  .case-roulette-inline{ height:130px; }
+  .case-roulette-inline .case-strip-item{ width:90px; height:90px; }
+  .case-roulette-inline .case-strip-item img{ width:50px; height:50px; }
   .case-drops-grid{ grid-template-columns:repeat(3, 1fr); }
 }
 
@@ -2616,7 +2596,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     <div class="brand-wrap">
       <div class="brand-mark">
         <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/logoforsp.png"
-             onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='S';this.parentElement.style.fontSize='20px';this.parentElement.style.fontWeight='700';this.parentElement.style.color='#fff';"
+             onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='S';this.parentElement.style.fontSize='22px';this.parentElement.style.fontWeight='700';this.parentElement.style.color='#fff';"
              alt="Saint Up">
       </div>
       <div class="brand">
@@ -3009,7 +2989,7 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
               <div style="display:grid;grid-template-columns:1fr;gap:10px">
                 <div class="pstat">
                   <div class="pstat-label">Версия</div>
-                  <div class="pstat-value" style="font-size:14px">v 1.3</div>
+                  <div class="pstat-value" style="font-size:14px">v 1.4</div>
                 </div>
               </div>
             </div>
@@ -3071,20 +3051,6 @@ button:focus-visible{ outline:1px solid rgba(255,255,255,.25); outline-offset:2p
     </div>
   </section>
 
-</div>
-
-<div class="case-modal" id="caseModal">
-  <div class="case-modal-title" id="caseModalTitle">КЕЙС</div>
-  <div class="case-roulette">
-    <div class="case-marker"></div>
-    <div class="case-strip" id="caseStrip"></div>
-  </div>
-  <div class="case-result" id="caseResult">
-    <div class="case-result-label">Ты получил</div>
-    <div class="case-result-name" id="caseResultName">—</div>
-    <div class="case-result-price" id="caseResultPrice"></div>
-  </div>
-  <button class="case-close-btn" id="caseCloseBtn" type="button" onclick="closeCaseModal()">Забрать</button>
 </div>
 
 <script>
@@ -3258,32 +3224,11 @@ const items = [
   { name:'Strawberry Elephant',      price:25000, img:'strawberry.png' }
 ];
 
-// Индексы предметов для кейсов
 const IDX = {
-  Grande: 0,
-  Mops: 1,
-  Bananchik: 2,
-  TangTang: 3,
-  Ketupat: 4,
-  Tictac: 5,
-  Ketchuru: 6,
-  Garama: 7,
-  Yeti: 8,
-  Capitano: 9,
-  Spooky: 10,
-  Cerberus: 11,
-  LaCraft: 12,
-  LaFuse: 13,
-  Gold: 14,
-  KetupatBros: 15,
-  Serpent: 16,
-  Dragon: 17,
-  HydraDragon: 18,
-  DragonAqua: 19,
-  Kraken: 20,
-  DragonGinger: 21,
-  Skibidi: 22,
-  Strawberry: 23
+  Grande: 0, Mops: 1, Bananchik: 2, TangTang: 3, Ketupat: 4, Tictac: 5,
+  Ketchuru: 6, Garama: 7, Yeti: 8, Capitano: 9, Spooky: 10, Cerberus: 11,
+  LaCraft: 12, LaFuse: 13, Gold: 14, KetupatBros: 15, Serpent: 16, Dragon: 17,
+  HydraDragon: 18, DragonAqua: 19, Kraken: 20, DragonGinger: 21, Skibidi: 22, Strawberry: 23
 };
 
 function escapeHtml(v){ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
@@ -3386,7 +3331,7 @@ let sourceItem = null;
 let targetItem = null;
 let spinning = false;
 let pointerRotation = 0;
-let purchaseLock = false; // защита от дюпа
+let purchaseLock = false;
 
 const PROFILE_KEY = 'upgrader_profile_v9';
 const USERS_KEY = 'upgrader_users_v9';
@@ -3413,7 +3358,7 @@ let rocketSelectedItemSlot = null;
 let rocketBetIsItem = false;
 let rocketBetItemName = '';
 
-let currentCaseId = null; // открытый кейс
+let currentCaseId = null;
 let caseRolling = false;
 
 const VIP_PRICE = 200;
@@ -3421,20 +3366,9 @@ const MAX_CHANCE = 75;
 const VIP_BONUS = 2;
 
 /* =========================================================
-   CASES (новые)
+   CASES
 ========================================================= */
 const CASES = [
-  {
-    id:'noobini',
-    name:'Нубини',
-    img:'NOOBINI1CASE.png',
-    price:17,
-    drops:[
-      { itemIndex: IDX.Mops,       chance: 60 },
-      { itemIndex: IDX.Bananchik,  chance: 30 },
-      { itemIndex: IDX.TangTang,   chance: 10 }
-    ]
-  },
   {
     id:'cannelloni',
     name:'Cannelloni Case',
@@ -3466,7 +3400,6 @@ const CASES = [
 
 function getCase(id){ return CASES.find(c=>c.id===id); }
 
-// Взвешенный выбор дропа по шансам
 function pickCaseDrop(c){
   const total = c.drops.reduce((s,d)=>s+d.chance,0);
   let r = Math.random() * total;
@@ -3846,10 +3779,7 @@ function renderCases(){
     renderCaseView();
     return;
   }
-  // Список кейсов
-  container.innerHTML = `
-    <div class="case-list-grid" id="caseListGrid"></div>
-  `;
+  container.innerHTML = `<div class="case-list-grid" id="caseListGrid"></div>`;
   const grid = document.getElementById('caseListGrid');
   CASES.forEach(c=>{
     const tile = document.createElement('div');
@@ -3883,17 +3813,17 @@ function renderCaseView(){
     </div>`;
   }).join('');
 
-  // Превью-рулетка: просто показываем несколько случайных дропов для красоты
-  const previewItems = [];
-  for(let i=0;i<14;i++){
+  // Изначально показываем ленту со случайных предметов
+  const INITIAL = 30;
+  const initialSeq = [];
+  for(let i=0;i<INITIAL;i++){
     const d = c.drops[i % c.drops.length];
-    previewItems.push(d.itemIndex);
+    initialSeq.push(d.itemIndex);
   }
-  const previewHtml = previewItems.map(idx=>{
+  const stripHtml = initialSeq.map(idx=>{
     const it = items[idx];
-    return `<div class="case-preview-item">
+    return `<div class="case-strip-item">
       ${getItemImgHtml(it,'')}
-      <div class="pv-name">${escapeHtml(it.name).slice(0,12)}</div>
       <div class="pv-price">💎 ${it.price}</div>
     </div>`;
   }).join('');
@@ -3909,9 +3839,9 @@ function renderCaseView(){
         <div class="case-hero-name">${escapeHtml(c.name)}</div>
       </div>
 
-      <div class="case-preview">
-        <div class="case-preview-marker"></div>
-        <div class="case-preview-strip">${previewHtml}</div>
+      <div class="case-roulette-inline" id="caseRouletteInline">
+        <div class="case-marker"></div>
+        <div class="case-strip" id="caseStripInline">${stripHtml}</div>
       </div>
 
       <div class="case-info-row">
@@ -3930,6 +3860,13 @@ function renderCaseView(){
       </div>
 
       <button class="case-open-btn" id="openCaseBtn">🎁 Открыть кейс — ${c.price} 💎</button>
+
+      <div class="case-result-inline" id="caseResultInline">
+        <div class="res-label">Ты получил</div>
+        <div class="res-img" id="caseResImg"></div>
+        <div class="res-name" id="caseResName">—</div>
+        <div class="res-price" id="caseResPrice"></div>
+      </div>
 
       <div class="case-drops-section">
         <div class="case-drops-head">
@@ -3950,7 +3887,7 @@ function backToCases(){
 }
 
 /* =========================================================
-   OPEN CASE (с защитой от дюпа)
+   OPEN CASE (рулетка крутится прямо на странице)
 ========================================================= */
 async function openCase(caseId){
   if(caseRolling || spinning || purchaseLock) return;
@@ -3970,24 +3907,22 @@ async function openCase(caseId){
     return;
   }
 
-  // Взвешенный выбор по шансам
   const reward = pickCaseDrop(c);
 
-  const modal = document.getElementById('caseModal');
-  const title = document.getElementById('caseModalTitle');
-  const strip = document.getElementById('caseStrip');
-  const result = document.getElementById('caseResult');
-  const resultName = document.getElementById('caseResultName');
-  const resultPrice = document.getElementById('caseResultPrice');
-  const closeBtn = document.getElementById('caseCloseBtn');
+  const strip = document.getElementById('caseStripInline');
+  const resultInline = document.getElementById('caseResultInline');
+  const resImg = document.getElementById('caseResImg');
+  const resName = document.getElementById('caseResName');
+  const resPrice = document.getElementById('caseResPrice');
 
-  title.textContent = c.name;
-  result.classList.remove('show');
-  closeBtn.classList.remove('show');
-  resultName.textContent = '—';
-  resultPrice.textContent = '';
+  if(!strip) { purchaseLock = false; return; }
 
-  // Строим ленту с выигрышем в позиции WIN_POS
+  // Сброс результата
+  if(resultInline) resultInline.classList.remove('show');
+  if(resName) resName.textContent = '—';
+  if(resPrice) resPrice.textContent = '';
+
+  // Строим ленту заново: 50 предметов, выигрыш на позиции 42
   const TOTAL = 50, WIN_POS = 42;
   const seq = [];
   for(let i=0;i<TOTAL;i++){
@@ -3997,16 +3932,25 @@ async function openCase(caseId){
       seq.push(d.itemIndex);
     }
   }
-  strip.innerHTML = seq.map(idx=>`<div class="case-strip-item">${getItemImgHtml(items[idx],'')}</div>`).join('');
+  strip.innerHTML = seq.map(idx=>{
+    const it = items[idx];
+    return `<div class="case-strip-item">
+      ${getItemImgHtml(it,'')}
+      <div class="pv-price">💎 ${it.price}</div>
+    </div>`;
+  }).join('');
 
+  // Стартовая позиция — левый край
   strip.style.transition = 'none';
   strip.style.transform = 'translateY(-50%) translateX(0px)';
-  modal.classList.add('show');
+
   caseRolling = true;
 
+  // Через RAF запускаем анимацию
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    const IW = 110, GAP = 12, STEP = IW+GAP;
-    const rw = strip.parentElement.clientWidth;
+    const IW = 130, GAP = 12, STEP = IW+GAP;
+    const parent = strip.parentElement;
+    const rw = parent.clientWidth;
     const center = 20 + WIN_POS*STEP + IW/2;
     const offset = center - rw/2;
     const jitter = (Math.random()-0.5)*(IW*0.6);
@@ -4014,14 +3958,16 @@ async function openCase(caseId){
     strip.style.transform = `translateY(-50%) translateX(${-(offset+jitter)}px)`;
   }));
 
+  // Финал через 3.9с
   setTimeout(()=>{
     inventory.push({ itemIndex: reward.itemIndex });
     saveProfileData(); renderAll();
     const it = items[reward.itemIndex];
-    resultName.textContent = it.name;
-    resultPrice.textContent = it.price + ' 💎';
-    result.classList.add('show');
-    closeBtn.classList.add('show');
+    if(resImg) resImg.innerHTML = getItemImgHtml(it,'');
+    if(resName) resName.textContent = it.name;
+    if(resPrice) resPrice.textContent = '+' + it.price + ' 💎';
+    if(resultInline) resultInline.classList.add('show');
+
     caseRolling = false;
     purchaseLock = false;
     sfxWin();
@@ -4031,9 +3977,6 @@ async function openCase(caseId){
     if(window.snowBurst) window.snowBurst(cx, cy, 28, '255,255,255');
     if(openBtn){ openBtn.disabled = false; openBtn.textContent = `🎁 Открыть кейс — ${c.price} 💎`; }
   }, 3900);
-}
-function closeCaseModal(){
-  document.getElementById('caseModal').classList.remove('show');
 }
 
 /* =========================================================
@@ -4191,7 +4134,7 @@ function updateRocketStats(){
 }
 
 /* =========================================================
-   BUY (с защитой от дюпа)
+   BUY
 ========================================================= */
 async function buyItem(index){
   if(spinning || purchaseLock) return;
@@ -4714,7 +4657,10 @@ function showTab(tab){
     renderProfile(); renderAdminWithdrawals(); renderAdminPromos();
     loadPromoCodesFromServer();
   }
-  if(tab === 'cases') renderCases();
+  if(tab === 'cases'){
+    currentCaseId = null;
+    renderCases();
+  }
   if(tab === 'rocket'){
     updateRocketStats();
     renderRocketHistory();
