@@ -171,7 +171,19 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .upgrade:hover{ background:linear-gradient(135deg, rgba(255,122,26,.45), rgba(194,65,12,.22)); }
 .upgrade:disabled{ opacity:.35; cursor:not-allowed; }
 .upgrade.locked{ background:linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); color:var(--txt-4); }
-.energy{ width:52px; height:52px; background:linear-gradient(135deg, rgba(255,122,26,.15), rgba(255,122,26,.04)); border:1px solid rgba(255,122,26,.3); color:var(--hl-orange-bright); font-size:18px; display:flex; align-items:center; justify-content:center; border-radius:13px; }
+.energy{ width:52px; height:52px; background:linear-gradient(135deg, rgba(255,122,26,.15), rgba(255,122,26,.04)); border:1px solid rgba(255,122,26,.3); color:var(--hl-orange-bright); font-size:18px; display:flex; align-items:center; justify-content:center; border-radius:13px; transition:.2s; position:relative; }
+.energy:hover{ background:linear-gradient(135deg, rgba(255,122,26,.25), rgba(255,122,26,.1)); }
+.energy.active{
+  background:linear-gradient(135deg, rgba(163,230,53,.4), rgba(132,204,22,.15));
+  border-color:rgba(163,230,53,.7);
+  color:#fff;
+  box-shadow:0 0 24px rgba(163,230,53,.6), inset 0 1px 0 rgba(255,255,255,.3);
+  animation:energyPulse 1.5s ease-in-out infinite;
+}
+@keyframes energyPulse{
+  0%,100%{ box-shadow:0 0 24px rgba(163,230,53,.6), inset 0 1px 0 rgba(255,255,255,.3); }
+  50%{ box-shadow:0 0 40px rgba(163,230,53,.9), inset 0 1px 0 rgba(255,255,255,.4); }
+}
 
 .stage-hint{ margin-top:12px; padding:12px 14px; background:linear-gradient(135deg, rgba(255,122,26,.05), rgba(139,92,246,.02)); border:1px dashed rgba(255,122,26,.25); border-radius:12px; display:flex; align-items:center; gap:10px; font-size:11px; color:var(--txt-3); font-family:"JetBrains Mono",monospace; min-height:44px; }
 .stage-hint .hint-green{ color:var(--hl-green-toxic); font-weight:600; }
@@ -318,7 +330,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .case-result-inline .res-price{ font-size:12px; color:var(--hl-orange-bright); font-family:"JetBrains Mono",monospace; font-weight:700; display:flex; align-items:center; gap:5px; }
 .case-result-inline .res-price img{ width:14px; height:14px; }
 
-/* DICE */
 .dice-page{ display:grid; grid-template-columns:1fr 360px; gap:14px; align-items:start; }
 .dice-stage{ background:linear-gradient(135deg, rgba(255,122,26,.07), rgba(139,92,246,.03)); border:1px solid rgba(255,122,26,.18); border-radius:var(--radius-xl); padding:30px 24px; }
 .dice-title{ font-family:"Creepster","Manrope",sans-serif; font-size:34px; letter-spacing:2.5px; color:#fff; text-align:center; margin-bottom:6px; }
@@ -382,7 +393,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .dice-info-label{ font-size:9px; color:var(--txt-4); letter-spacing:.7px; text-transform:uppercase; font-weight:800; margin-bottom:4px; }
 .dice-info-value{ font-size:15px; color:#fff; font-weight:800; font-family:"JetBrains Mono",monospace; }
 
-/* PROMO */
 .promo-page{ max-width:640px; margin:0 auto; }
 .promo-hero{ background:radial-gradient(600px 300px at 50% 0%, rgba(255,122,26,.2), transparent 70%); border:1px solid rgba(255,122,26,.22); border-radius:24px; padding:40px 28px 30px; }
 .promo-hero-icon{ width:80px; height:80px; border-radius:22px; background:linear-gradient(135deg, rgba(255,122,26,.3), rgba(255,122,26,.08)); border:1px solid rgba(255,122,26,.4); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
@@ -407,46 +417,16 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .promo-msg.success{ color:var(--hl-green-toxic); background:rgba(163,230,53,.1); border:1px solid rgba(163,230,53,.3); }
 .promo-msg.error{ color:var(--red); background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.3); }
 
-/* BONUS ROW (внутри вкладки ПОПОЛНЕНИЕ) */
-.bonus-row{
-  margin-top:16px;
-  padding:16px;
-  background:linear-gradient(135deg, rgba(163,230,53,.08), rgba(132,204,22,.02));
-  border:1px solid rgba(163,230,53,.3);
-  border-radius:14px;
-}
-.bonus-row-title{
-  font-size:10px;
-  color:var(--hl-green-toxic);
-  letter-spacing:1px;
-  text-transform:uppercase;
-  font-weight:800;
-  margin-bottom:10px;
-  text-align:center;
-}
-.bonus-row-desc{
-  font-size:11px;
-  color:var(--txt-4);
-  text-align:center;
-  margin-bottom:12px;
-  line-height:1.5;
-}
-.bonus-active{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 14px;
-  background:linear-gradient(135deg, rgba(163,230,53,.12), rgba(132,204,22,.04));
-  border:1px solid rgba(163,230,53,.4);
-  border-radius:12px;
-}
+.bonus-row{ margin-top:16px; padding:16px; background:linear-gradient(135deg, rgba(163,230,53,.08), rgba(132,204,22,.02)); border:1px solid rgba(163,230,53,.3); border-radius:14px; }
+.bonus-row-title{ font-size:10px; color:var(--hl-green-toxic); letter-spacing:1px; text-transform:uppercase; font-weight:800; margin-bottom:10px; text-align:center; }
+.bonus-row-desc{ font-size:11px; color:var(--txt-4); text-align:center; margin-bottom:12px; line-height:1.5; }
+.bonus-active{ display:flex; align-items:center; gap:10px; padding:12px 14px; background:linear-gradient(135deg, rgba(163,230,53,.12), rgba(132,204,22,.04)); border:1px solid rgba(163,230,53,.4); border-radius:12px; }
 .bonus-active .ba-icon{ font-size:20px; }
 .bonus-active .ba-text{ flex:1; font-size:12px; color:var(--hl-green-toxic); font-weight:700; }
 .bonus-active .ba-text b{ color:#fff; font-family:"JetBrains Mono",monospace; font-size:15px; }
 .bonus-active .ba-clear{ width:24px; height:24px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:var(--txt-3); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
 .bonus-active .ba-clear:hover{ background:rgba(239,68,68,.3); color:#fff; }
 
-/* PROFILE */
 .profile-page-new{ width:100%; display:flex; flex-direction:column; gap:14px; }
 .profile-top-header{ display:flex; align-items:center; justify-content:space-between; padding:0 4px; }
 .profile-title{ font-size:18px; font-weight:800; color:#fff; letter-spacing:2px; text-transform:uppercase; }
@@ -496,7 +476,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .pb-action-btn{ height:26px; padding:0 12px; background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.1); border-radius:8px; color:var(--txt-2); font-size:10px; font-weight:700; }
 .pb-action-btn:hover{ color:#fff; background:rgba(255,255,255,.1); }
 
-/* ADMIN */
 .admin-panel{ background:linear-gradient(135deg, rgba(220,38,38,.06), rgba(139,92,246,.03)); border:1px solid rgba(220,38,38,.25); border-radius:var(--radius-xl); overflow:hidden; margin-top:16px; }
 .admin-head{ padding:16px 20px; border-bottom:1px solid rgba(220,38,38,.15); display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .admin-head-left{ display:flex; align-items:center; gap:12px; }
@@ -617,7 +596,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
     <button class="nav-btn" id="navProfile" type="button" onclick="showTab('profile')">Профиль</button>
   </nav>
 
-  <!-- GAME -->
   <section class="tab-panel active" data-tab="game">
     <div class="layout">
       <aside class="panel" id="upgraderInventoryPanel">
@@ -661,7 +639,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
         </div>
         <div class="stage-controls">
           <button class="upgrade" id="upgradeBtn" onclick="upgrade()">Прокачать предмет</button>
-          <button class="energy" id="fastUpgradeBtn" onclick="fastUpgrade()">⚡</button>
+          <button class="energy" id="fastUpgradeBtn" onclick="toggleFastMode()" title="Быстрый режим (1с)">⚡</button>
         </div>
         <div class="stage-hint" id="instruction">
           <span style="color:var(--txt-4)">→</span><span>Выбери предмет слева и цель справа</span>
@@ -703,7 +681,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
     </div>
   </section>
 
-  <!-- DICE -->
   <section class="tab-panel" data-tab="dice" hidden>
     <div class="dice-page">
       <div class="dice-stage">
@@ -740,12 +717,10 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
     </div>
   </section>
 
-  <!-- CASES -->
   <section class="tab-panel" data-tab="cases" hidden>
     <div class="cases-container" id="casesContainer"></div>
   </section>
 
-  <!-- PROMO -->
   <section class="tab-panel" data-tab="promo" hidden>
     <div class="promo-page">
       <div class="promo-hero">
@@ -766,7 +741,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
         </div>
         <div class="promo-msg" id="promoMessage"></div>
 
-        <!-- БОНУС К ПОПОЛНЕНИЮ — показывается только во вкладке ПОПОЛНЕНИЕ -->
         <div class="bonus-row" id="bonusRow" style="display:none;">
           <div class="bonus-row-title">Бонус к пополнению</div>
           <div class="bonus-row-desc" id="bonusRowDesc">Введи бонусный код для получения +5% к следующему пополнению</div>
@@ -786,7 +760,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
     </div>
   </section>
 
-  <!-- PROFILE -->
   <section class="tab-panel" data-tab="profile" hidden>
     <div class="profile-page-new">
       <div class="profile-top-header">
@@ -897,7 +870,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 
 </div>
 
-<!-- MODAL MUTATIONS -->
 <div class="mutation-modal" id="mutationModal" onclick="if(event.target===this) closeMutationModal()">
   <div class="mutation-dialog">
     <div class="mutation-head">
@@ -908,7 +880,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   </div>
 </div>
 
-<!-- MODAL DICE PICK -->
 <div class="mutation-modal" id="dicePickModal" onclick="if(event.target===this) closeDicePickModal()">
   <div class="mutation-dialog">
     <div class="mutation-head">
@@ -924,6 +895,11 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 const HALLOWEEN_IMG = 'https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png';
 const HALLOWEEN_ICON = `<img src="${HALLOWEEN_IMG}" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="" style="width:1em;height:1em;object-fit:contain;vertical-align:-0.15em;display:inline-block;">`;
 const HALLOWEEN_ICON_SM = `<img src="${HALLOWEEN_IMG}" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="" style="width:11px;height:11px;object-fit:contain;vertical-align:middle;display:inline-block;">`;
+
+/* Время прокрута */
+const SPIN_DURATION_LONG = 6000;   // 6 секунд — обычный
+const SPIN_DURATION_FAST = 1000;   // 1 секунда — быстрый режим
+let fastModeEnabled = false;
 
 const MOBY_MUTATIONS = [
   { id:'none', name:'Без мутации', file:'capitan', price:91 },
@@ -1343,7 +1319,7 @@ function switchAdminTab(tab, btn){
   if(tab==='settings'){ renderServerUrlConfig(); }
 }
 
-/* CHANCES — 100/ratio, кап 70 */
+/* CHANCES — обычная формула 100/ratio, кап 70%. Ограничения по источнику для эпиков */
 const EPIC_TARGETS_KRAKEN = [IDX.Skibidi, IDX.Strawberry];
 const EPIC_TARGETS_GINGER = [IDX.JohnPork, IDX.Meowl];
 const EPIC_TARGETS_LOSDRAGONS = [IDX.SignoreCarapace];
@@ -1357,15 +1333,10 @@ function calculateChance(fromP, toP, srcIdx, tgtIdx){
 
   if(EPIC_TARGETS_KRAKEN.includes(tgtIdx)){
     if(!KRAKEN_AND_UP.includes(srcIdx)) return 0;
-    return 5;
-  }
-  if(EPIC_TARGETS_GINGER.includes(tgtIdx)){
+  } else if(EPIC_TARGETS_GINGER.includes(tgtIdx)){
     if(!GINGER_AND_UP.includes(srcIdx)) return 0;
-    return 5;
-  }
-  if(EPIC_TARGETS_LOSDRAGONS.includes(tgtIdx)){
+  } else if(EPIC_TARGETS_LOSDRAGONS.includes(tgtIdx)){
     if(!LOSDRAGONS_AND_UP.includes(srcIdx)) return 0;
-    return 5;
   }
 
   const ratio = toP / fromP;
@@ -1394,6 +1365,18 @@ const upgradeBtn = document.getElementById('upgradeBtn');
 const instruction = document.getElementById('instruction');
 const balanceEl = document.getElementById('balance');
 const stageBadge = document.getElementById('stageBadge');
+
+/* === TOGGLE FAST MODE === */
+function toggleFastMode(){
+  fastModeEnabled = !fastModeEnabled;
+  const btn = document.getElementById('fastUpgradeBtn');
+  if(btn){
+    btn.classList.toggle('active', fastModeEnabled);
+    btn.title = fastModeEnabled ? 'Быстрый режим включён' : 'Быстрый режим выключен';
+  }
+  sfxClick();
+  showToast(fastModeEnabled ? '⚡ Быстрый режим включён' : 'Обычный режим', fastModeEnabled ? 'success' : 'info');
+}
 
 function renderShop(){
   shopGrid.innerHTML = '';
@@ -1834,7 +1817,7 @@ function performUpgrade(durationMs){
   let finalAngle;
   if(win) finalAngle = 3+Math.random()*Math.max(1,greenAngle-6);
   else finalAngle = greenAngle+3+Math.random()*Math.max(1,(360-greenAngle)-6);
-  const extra = durationMs < 1000 ? 15 : 5;
+  const extra = durationMs < 2000 ? 15 : 8;
   pointerRotation = Math.ceil(pointerRotation/360)*360 + extra*360 + finalAngle;
   pointerWrap.style.transform = 'rotate('+pointerRotation+'deg)';
   setTimeout(()=>{
@@ -1871,8 +1854,14 @@ function performUpgrade(durationMs){
     spinning = false; upgradeBtn.disabled = false; upgradeBtn.textContent = 'Прокачать предмет';
   }, durationMs);
 }
-function upgrade(){ performUpgrade(1800); }
-function fastUpgrade(){ performUpgrade(500); }
+function upgrade(){
+  if(fastModeEnabled){
+    performUpgrade(SPIN_DURATION_FAST);
+  } else {
+    performUpgrade(SPIN_DURATION_LONG);
+  }
+}
+function fastUpgrade(){ performUpgrade(SPIN_DURATION_FAST); }
 function filterItems(){ renderTargets(); }
 
 /* DICE */
