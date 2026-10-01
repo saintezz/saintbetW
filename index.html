@@ -16,7 +16,7 @@
   --bg:#08060a;
   --txt:#f4f5f7; --txt-2:#c7ccd3; --txt-3:#8b919b; --txt-4:#6b7280; --txt-5:#3f434a;
   --red:#ef4444; --red-dim:rgba(239,68,68,.12);
-  --hl-orange:#ff7a1a; --hl-orange-bright:#ff9d3d; --hl-orange-deep:#c2410c;
+  --hl-orange:#ff7a1a; --hl-orange-bright:#ff9d3d;
   --hl-purple:#8b5cf6; --hl-green-toxic:#a3e635; --hl-blood:#dc2626;
   --radius:14px; --radius-sm:10px; --radius-lg:18px; --radius-xl:24px;
 }
@@ -33,12 +33,6 @@ body{
   position:relative; overflow-x:hidden; font-size:13px;
   -webkit-font-smoothing:antialiased;
 }
-body::after{
-  content:""; position:fixed; left:0; right:0; bottom:0; height:200px;
-  background:linear-gradient(180deg, transparent, rgba(139,92,246,.06) 50%, rgba(255,122,26,.05) 100%);
-  pointer-events:none; z-index:0;
-}
-.mono{ font-family:"JetBrains Mono",monospace; }
 #snowCanvas{ position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:0; pointer-events:none; opacity:.55; }
 #effectLayer{ position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9998; pointer-events:none; overflow:hidden; }
 
@@ -53,20 +47,17 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 
 .app{ width:100%; max-width:1240px; min-height:100vh; padding:24px 20px 40px; position:relative; z-index:1; margin:0 auto; }
 
-/* TOPBAR */
 .topbar{
   display:flex; align-items:center; justify-content:space-between; gap:16px;
   padding:16px 22px; margin-bottom:18px;
   background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.03));
-  backdrop-filter:blur(28px) saturate(150%);
+  backdrop-filter:blur(28px);
   border:1px solid rgba(255,122,26,.15);
   border-radius:var(--radius-xl);
-  box-shadow:inset 0 1px 0 rgba(255,157,61,.15), 0 16px 44px rgba(0,0,0,.7);
 }
 .brand-name{
   font-family:"Creepster","Manrope",sans-serif;
   font-size:34px; letter-spacing:1.5px; color:#fff;
-  text-shadow:0 0 20px rgba(255,122,26,.55), 0 2px 0 rgba(194,65,12,.6);
   display:flex; align-items:center; gap:10px;
 }
 .brand-name .accent{ color:var(--hl-orange-bright); }
@@ -85,10 +76,8 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   display:flex; align-items:center; gap:10px;
   padding:11px 18px;
   background:linear-gradient(135deg, rgba(255,122,26,.15), rgba(139,92,246,.08));
-  backdrop-filter:blur(24px);
   border:1px solid rgba(255,122,26,.25);
   border-radius:14px; height:48px;
-  box-shadow:inset 0 1px 0 rgba(255,157,61,.3), 0 8px 24px rgba(0,0,0,.6), 0 0 30px rgba(255,122,26,.2);
 }
 .balance .ico{ width:18px; height:18px; }
 .balance .ico img{ width:100%; height:100%; object-fit:contain; }
@@ -99,7 +88,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   display:flex; align-items:center; gap:4px;
   padding:6px; margin-bottom:18px;
   background:linear-gradient(135deg, rgba(255,122,26,.05), rgba(139,92,246,.025));
-  backdrop-filter:blur(24px);
   border:1px solid rgba(255,122,26,.12);
   border-radius:16px;
   overflow-x:auto;
@@ -117,17 +105,14 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   color:#fff;
   background:linear-gradient(135deg, rgba(255,122,26,.25), rgba(139,92,246,.12));
   border:1px solid rgba(255,122,26,.35);
-  box-shadow:inset 0 1px 0 rgba(255,157,61,.3), 0 0 24px rgba(255,122,26,.25);
 }
 
 .layout{ display:grid; grid-template-columns:240px 1fr 340px; gap:12px; align-items:start; }
 .panel{
   background:linear-gradient(135deg, rgba(255,122,26,.05), rgba(139,92,246,.02));
-  backdrop-filter:blur(28px);
   border:1px solid rgba(255,122,26,.1);
   border-radius:var(--radius-lg);
   overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,157,61,.1), 0 12px 40px rgba(0,0,0,.7);
 }
 .panel-head{ padding:13px 15px; border-bottom:1px solid rgba(255,122,26,.1); display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .panel-body{ padding:12px; }
@@ -137,16 +122,14 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 
 .stage{
   background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.03));
-  backdrop-filter:blur(32px);
   border:1px solid rgba(255,122,26,.15);
   border-radius:var(--radius-xl);
   padding:22px 24px 20px;
-  box-shadow:inset 0 1px 0 rgba(255,157,61,.15), 0 20px 60px rgba(0,0,0,.8);
 }
 .stage-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
 .stage-title{ font-size:12px; font-weight:800; color:var(--hl-orange-bright); letter-spacing:.6px; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
-.stage-title .live-dot{ width:7px; height:7px; border-radius:50%; background:var(--hl-orange); box-shadow:0 0 0 3px rgba(255,122,26,.25); }
-.stage-badge{ padding:5px 12px; border-radius:9px; background:rgba(255,122,26,.12); border:1px solid rgba(255,122,26,.25); font-size:9px; color:var(--hl-orange-bright); font-weight:800; letter-spacing:.8px; font-family:"JetBrains Mono",monospace; }
+.stage-title .live-dot{ width:7px; height:7px; border-radius:50%; background:var(--hl-orange); }
+.stage-badge{ padding:5px 12px; border-radius:9px; background:rgba(255,122,26,.12); border:1px solid rgba(255,122,26,.25); font-size:9px; color:var(--hl-orange-bright); font-weight:800; font-family:"JetBrains Mono",monospace; }
 
 .slot-row{ display:grid; grid-template-columns:1fr 200px 1fr; align-items:center; gap:16px; }
 .slot-block{ display:flex; flex-direction:column; align-items:center; gap:10px; min-width:0; }
@@ -157,11 +140,10 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   border-radius:var(--radius-lg);
   background:linear-gradient(135deg, rgba(255,122,26,.05), rgba(139,92,246,.02));
   display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
-  cursor:pointer; color:var(--txt-4); transition:.25s;
-  padding:10px;
+  cursor:pointer; color:var(--txt-4); transition:.25s; padding:10px;
 }
-.slot:hover{ border-color:rgba(255,122,26,.55); color:var(--hl-orange-bright); transform:translateY(-2px); }
-.slot.selected{ border-style:solid; border-color:rgba(255,122,26,.7); color:#fff; background:linear-gradient(135deg, rgba(255,122,26,.18), rgba(139,92,246,.06)); }
+.slot:hover{ border-color:rgba(255,122,26,.55); color:var(--hl-orange-bright); }
+.slot.selected{ border-style:solid; border-color:rgba(255,122,26,.7); color:#fff; }
 .slot-plus{ font-size:26px; font-weight:300; opacity:.75; }
 .slot-empty-label{ font-size:10px; font-weight:700; }
 .slot-empty-sub{ font-size:9px; color:var(--txt-5); }
@@ -173,19 +155,19 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .wheel{ width:200px; height:200px; border-radius:50%; position:relative; --wheel-chance:30;
   background:conic-gradient(var(--hl-orange) 0 calc(var(--wheel-chance) * 1%), rgba(139,92,246,.4) calc(var(--wheel-chance) * 1%) 100%);
   border:3px solid #000;
-  box-shadow:0 0 0 1px rgba(255,122,26,.35), inset 0 0 60px rgba(0,0,0,.6), 0 20px 50px rgba(0,0,0,.8);
+  box-shadow:0 0 0 1px rgba(255,122,26,.35), inset 0 0 60px rgba(0,0,0,.6);
 }
 .wheel::after{ content:""; position:absolute; inset:22px; border-radius:50%; background:radial-gradient(circle, rgba(255,122,26,.08), transparent 70%), #08060a; border:1px solid rgba(255,122,26,.2); }
 .pointer-wrap{ position:absolute; z-index:4; inset:0; transform:rotate(0deg); transition:transform 1.9s cubic-bezier(.12,.78,.16,1); }
-.pointer{ position:absolute; left:50%; top:-9px; width:2px; height:38px; background:var(--hl-orange-bright); transform:translateX(-50%); border-radius:2px; box-shadow:0 0 16px rgba(255,122,26,.9); }
+.pointer{ position:absolute; left:50%; top:-9px; width:2px; height:38px; background:var(--hl-orange-bright); transform:translateX(-50%); border-radius:2px; }
 .pointer::after{ content:""; position:absolute; left:50%; top:-4px; transform:translateX(-50%); border-left:6px solid transparent; border-right:6px solid transparent; border-top:9px solid var(--hl-orange-bright); }
 .wheel-center{ position:absolute; z-index:5; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px; }
-.wheel-label{ font-size:9px; letter-spacing:3px; color:var(--hl-orange-bright); font-weight:700; opacity:.85; }
-.wheel-chance{ font-size:32px; font-weight:800; color:#fff; letter-spacing:-.04em; line-height:1; }
+.wheel-label{ font-size:9px; letter-spacing:3px; color:var(--hl-orange-bright); font-weight:700; }
+.wheel-chance{ font-size:32px; font-weight:800; color:#fff; line-height:1; }
 .wheel-sub{ font-size:9px; color:var(--txt-4); font-family:"JetBrains Mono",monospace; }
 
 .stage-controls{ display:grid; grid-template-columns:1fr 50px; gap:10px; margin-top:20px; }
-.upgrade{ height:52px; background:linear-gradient(135deg, rgba(255,122,26,.3), rgba(194,65,12,.12)); backdrop-filter:blur(24px); color:#fff; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; border-radius:13px; border:1px solid rgba(255,122,26,.35); transition:.2s; }
+.upgrade{ height:52px; background:linear-gradient(135deg, rgba(255,122,26,.3), rgba(194,65,12,.12)); color:#fff; font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; border-radius:13px; border:1px solid rgba(255,122,26,.35); transition:.2s; }
 .upgrade:hover{ background:linear-gradient(135deg, rgba(255,122,26,.45), rgba(194,65,12,.22)); }
 .upgrade:disabled{ opacity:.35; cursor:not-allowed; }
 .upgrade.locked{ background:linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); color:var(--txt-4); }
@@ -254,13 +236,13 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .shop-buy:hover{ background:linear-gradient(135deg, rgba(255,122,26,.45), rgba(194,65,12,.2)); }
 .shop-buy:disabled{ opacity:.3; cursor:not-allowed; }
 
-.star-btn{ position:absolute; top:6px; left:6px; width:18px; height:18px; display:flex; align-items:center; justify-content:center; font-size:14px; line-height:1; color:rgba(255,255,255,.6); background:transparent; border:0; padding:0; text-shadow:0 0 6px rgba(0,0,0,.8); font-weight:700; transition:.2s; z-index:5; }
+.star-btn{ position:absolute; top:6px; left:6px; width:18px; height:18px; display:flex; align-items:center; justify-content:center; font-size:14px; line-height:1; color:rgba(255,255,255,.6); background:transparent; border:0; padding:0; font-weight:700; transition:.2s; z-index:5; }
 .star-btn:hover{ transform:scale(1.3); color:#fff; }
-.star-btn.active{ color:#fff; text-shadow:0 0 12px rgba(255,255,255,1); }
+.star-btn.active{ color:#fff; }
 
-.mutation-modal{ position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.88); backdrop-filter:blur(14px); display:none; align-items:center; justify-content:center; padding:20px; }
+.mutation-modal{ position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.88); display:none; align-items:center; justify-content:center; padding:20px; }
 .mutation-modal.show{ display:flex; }
-.mutation-dialog{ width:100%; max-width:680px; max-height:85vh; background:linear-gradient(135deg, rgba(255,122,26,.1), rgba(139,92,246,.04)); backdrop-filter:blur(28px); border:1px solid rgba(255,122,26,.3); border-radius:20px; display:flex; flex-direction:column; overflow:hidden; }
+.mutation-dialog{ width:100%; max-width:680px; max-height:85vh; background:linear-gradient(135deg, rgba(255,122,26,.1), rgba(139,92,246,.04)); border:1px solid rgba(255,122,26,.3); border-radius:20px; display:flex; flex-direction:column; overflow:hidden; }
 .mutation-head{ padding:18px 22px; border-bottom:1px solid rgba(255,122,26,.2); display:flex; align-items:center; justify-content:space-between; }
 .mutation-title{ font-family:"Creepster","Manrope",sans-serif; font-size:24px; letter-spacing:1.5px; color:#fff; }
 .mutation-close{ width:34px; height:34px; border-radius:10px; background:rgba(255,122,26,.12); border:1px solid rgba(255,122,26,.3); color:var(--hl-orange-bright); font-size:16px; font-weight:700; }
@@ -277,7 +259,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 
 .cases-container{ display:flex; flex-direction:column; gap:14px; }
 .case-list-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px; }
-.case-tile{ background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.02)); backdrop-filter:blur(28px); border:1px solid rgba(255,122,26,.18); border-radius:20px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:14px; cursor:pointer; transition:.3s; }
+.case-tile{ background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.02)); border:1px solid rgba(255,122,26,.18); border-radius:20px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:14px; cursor:pointer; transition:.3s; }
 .case-tile:hover{ border-color:rgba(255,122,26,.4); transform:translateY(-5px); }
 .case-tile-img{ width:100%; height:170px; display:flex; align-items:center; justify-content:center; background:radial-gradient(200px 120px at 50% 50%, rgba(255,122,26,.12), transparent 70%); border-radius:16px; border:1px solid rgba(255,122,26,.18); overflow:hidden; }
 .case-tile-img img{ max-width:75%; max-height:85%; object-fit:contain; }
@@ -338,12 +320,12 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 
 /* DICE */
 .dice-page{ display:grid; grid-template-columns:1fr 360px; gap:14px; align-items:start; }
-.dice-stage{ background:linear-gradient(135deg, rgba(255,122,26,.07), rgba(139,92,246,.03)); backdrop-filter:blur(32px); border:1px solid rgba(255,122,26,.18); border-radius:var(--radius-xl); padding:30px 24px; }
+.dice-stage{ background:linear-gradient(135deg, rgba(255,122,26,.07), rgba(139,92,246,.03)); border:1px solid rgba(255,122,26,.18); border-radius:var(--radius-xl); padding:30px 24px; }
 .dice-title{ font-family:"Creepster","Manrope",sans-serif; font-size:34px; letter-spacing:2.5px; color:#fff; text-align:center; margin-bottom:6px; }
 .dice-subtitle{ font-size:11px; color:var(--txt-4); text-align:center; letter-spacing:.8px; margin-bottom:24px; text-transform:uppercase; font-weight:700; }
 .dice-row{ display:flex; justify-content:center; gap:18px; margin-bottom:28px; flex-wrap:wrap; }
 .dice{ width:92px; height:92px; border-radius:18px; position:relative; background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.1); transition:.3s; overflow:hidden; }
-.dice::before{ content:""; position:absolute; inset:7px; border-radius:14px; background:var(--dice-color, linear-gradient(135deg, #4b5563, #1f2937)); box-shadow:inset 0 -6px 14px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.35); }
+.dice::before{ content:""; position:absolute; inset:7px; border-radius:14px; background:var(--dice-color, linear-gradient(135deg, #4b5563, #1f2937)); }
 .dice::after{ content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:16px; height:16px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff 0%, #e8e8e8 60%, #b8b8b8 100%); z-index:2; }
 .dice.color-red { --dice-color:linear-gradient(135deg, #ef4444, #991b1b); }
 .dice.color-blue { --dice-color:linear-gradient(135deg, #3b82f6, #1e40af); }
@@ -362,7 +344,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .color-pick-cube{ width:56px; height:56px; border-radius:15px; position:relative; background:var(--dice-color); display:flex; align-items:center; justify-content:center; }
 .color-pick-cube::after{ content:""; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:12px; height:12px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff, #b8b8b8); }
 .color-pick-name{ font-size:10px; color:var(--txt-3); font-weight:800; letter-spacing:.5px; text-transform:uppercase; }
-.color-pick.selected .color-pick-cube{ transform:scale(1.12); box-shadow:0 0 0 2.5px #fff, 0 0 30px rgba(255,255,255,.65); }
+.color-pick.selected .color-pick-cube{ transform:scale(1.12); box-shadow:0 0 0 2.5px #fff; }
 .color-pick.selected .color-pick-name{ color:#fff; }
 .color-red { --dice-color:linear-gradient(135deg, #ef4444, #991b1b); }
 .color-blue { --dice-color:linear-gradient(135deg, #3b82f6, #1e40af); }
@@ -411,7 +393,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .promo-tabs{ display:flex; gap:6px; margin-bottom:20px; padding:5px; background:rgba(255,255,255,.03); border-radius:12px; }
 .promo-tab{ flex:1; height:42px; border-radius:9px; font-size:11px; font-weight:800; color:var(--txt-4); text-transform:uppercase; letter-spacing:.5px; transition:.2s; }
 .promo-tab:hover{ color:var(--txt-2); }
-.promo-tab.active{ color:#fff; background:linear-gradient(135deg, rgba(255,122,26,.25), rgba(139,92,246,.12)); box-shadow:inset 0 1px 0 rgba(255,157,61,.3); }
+.promo-tab.active{ color:#fff; background:linear-gradient(135deg, rgba(255,122,26,.25), rgba(139,92,246,.12)); }
 
 .promo-input-wrap{ display:grid; grid-template-columns:1fr auto; gap:10px; }
 .promo-input{ width:100%; height:52px; padding:0 18px; border:1px solid rgba(255,122,26,.3); border-radius:14px; background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.02)); color:#fff; font-size:14px; outline:none; font-family:"JetBrains Mono",monospace; letter-spacing:2px; text-align:center; text-transform:uppercase; font-weight:700; }
@@ -425,27 +407,44 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .promo-msg.success{ color:var(--hl-green-toxic); background:rgba(163,230,53,.1); border:1px solid rgba(163,230,53,.3); }
 .promo-msg.error{ color:var(--red); background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.3); }
 
-/* BONUS INDICATOR */
-.deposit-bonus-indicator{
+/* BONUS ROW (внутри вкладки ПОПОЛНЕНИЕ) */
+.bonus-row{
+  margin-top:16px;
+  padding:16px;
+  background:linear-gradient(135deg, rgba(163,230,53,.08), rgba(132,204,22,.02));
+  border:1px solid rgba(163,230,53,.3);
+  border-radius:14px;
+}
+.bonus-row-title{
+  font-size:10px;
+  color:var(--hl-green-toxic);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  font-weight:800;
+  margin-bottom:10px;
+  text-align:center;
+}
+.bonus-row-desc{
+  font-size:11px;
+  color:var(--txt-4);
+  text-align:center;
+  margin-bottom:12px;
+  line-height:1.5;
+}
+.bonus-active{
   display:flex;
   align-items:center;
   gap:10px;
-  padding:12px 16px;
-  margin-bottom:16px;
-  background:linear-gradient(135deg, rgba(163,230,53,.15), rgba(132,204,22,.05));
+  padding:12px 14px;
+  background:linear-gradient(135deg, rgba(163,230,53,.12), rgba(132,204,22,.04));
   border:1px solid rgba(163,230,53,.4);
   border-radius:12px;
-  animation:depositPulse 2s ease-in-out infinite;
 }
-@keyframes depositPulse{
-  0%,100%{ box-shadow:inset 0 1px 0 rgba(163,230,53,.2), 0 0 30px rgba(163,230,53,.2); }
-  50%{ box-shadow:inset 0 1px 0 rgba(163,230,53,.3), 0 0 50px rgba(163,230,53,.35); }
-}
-.deposit-bonus-indicator .dbi-icon{ font-size:18px; }
-.deposit-bonus-indicator .dbi-text{ flex:1; font-size:12px; color:var(--hl-green-toxic); font-weight:700; }
-.deposit-bonus-indicator .dbi-text b{ color:#fff; font-family:"JetBrains Mono",monospace; font-size:14px; }
-.deposit-bonus-indicator .dbi-clear{ width:24px; height:24px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:var(--txt-3); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
-.deposit-bonus-indicator .dbi-clear:hover{ background:rgba(239,68,68,.3); color:#fff; }
+.bonus-active .ba-icon{ font-size:20px; }
+.bonus-active .ba-text{ flex:1; font-size:12px; color:var(--hl-green-toxic); font-weight:700; }
+.bonus-active .ba-text b{ color:#fff; font-family:"JetBrains Mono",monospace; font-size:15px; }
+.bonus-active .ba-clear{ width:24px; height:24px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:var(--txt-3); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.bonus-active .ba-clear:hover{ background:rgba(239,68,68,.3); color:#fff; }
 
 /* PROFILE */
 .profile-page-new{ width:100%; display:flex; flex-direction:column; gap:14px; }
@@ -454,7 +453,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .profile-logout{ height:32px; padding:0 16px; background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.1); border-radius:8px; color:var(--txt-3); font-size:11px; font-weight:700; }
 .profile-logout:hover{ color:#fff; background:rgba(255,255,255,.1); }
 
-.profile-user-bar{ display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center; background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.03)); backdrop-filter:blur(28px); border:1px solid rgba(255,122,26,.15); border-radius:18px; padding:18px 22px; }
+.profile-user-bar{ display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center; background:linear-gradient(135deg, rgba(255,122,26,.06), rgba(139,92,246,.03)); border:1px solid rgba(255,122,26,.15); border-radius:18px; padding:18px 22px; }
 .pubb-left{ display:flex; align-items:center; gap:16px; }
 .pubb-avatar{ width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg, #6366f1, #8b5cf6); display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; font-weight:800; }
 .pubb-info{ display:flex; flex-direction:column; gap:2px; }
@@ -467,16 +466,8 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .pubb-balance-value{ display:flex; align-items:center; gap:6px; font-size:24px; font-weight:800; color:#fff; font-family:"JetBrains Mono",monospace; }
 .pubb-balance-value img{ width:20px; height:20px; object-fit:contain; }
 
-.pubb-withdraw-status{ min-width:240px; padding:12px 16px; background:linear-gradient(135deg, rgba(139,92,246,.12), rgba(99,102,241,.05)); border:1px solid rgba(139,92,246,.3); border-radius:12px; display:flex; flex-direction:column; gap:6px; position:relative; }
-.pws-label{ font-size:10px; color:var(--txt-3); font-weight:600; }
-.pws-percent{ position:absolute; top:12px; right:16px; font-size:11px; font-weight:800; color:#fff; font-family:"JetBrains Mono",monospace; }
-.pws-bar{ height:8px; border-radius:4px; background:rgba(255,255,255,.1); overflow:hidden; }
-.pws-bar-fill{ height:100%; border-radius:4px; background:linear-gradient(90deg, #22c55e, #a3e635); transition:width .5s; }
-.pws-text{ display:flex; align-items:center; gap:5px; font-size:10px; color:var(--txt-3); font-weight:600; }
-.pws-text img{ width:11px; height:11px; }
-
 .profile-row-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-.profile-block{ background:linear-gradient(135deg, rgba(255,122,26,.05), rgba(139,92,246,.02)); backdrop-filter:blur(28px); border:1px solid rgba(255,122,26,.12); border-radius:18px; padding:18px 20px; }
+.profile-block{ background:linear-gradient(135deg, rgba(255,122,26,.05), rgba(139,92,246,.02)); border:1px solid rgba(255,122,26,.12); border-radius:18px; padding:18px 20px; }
 .pb-title{ font-size:11px; font-weight:800; color:var(--txt-3); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
 
 .pb-bestdrop{ display:flex; align-items:center; gap:12px; padding:14px; background:rgba(255,255,255,.02); border-radius:12px; border:1px solid rgba(255,255,255,.04); min-height:100px; }
@@ -506,7 +497,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .pb-action-btn:hover{ color:#fff; background:rgba(255,255,255,.1); }
 
 /* ADMIN */
-.admin-panel{ background:linear-gradient(135deg, rgba(220,38,38,.06), rgba(139,92,246,.03)); backdrop-filter:blur(28px); border:1px solid rgba(220,38,38,.25); border-radius:var(--radius-xl); overflow:hidden; margin-top:16px; }
+.admin-panel{ background:linear-gradient(135deg, rgba(220,38,38,.06), rgba(139,92,246,.03)); border:1px solid rgba(220,38,38,.25); border-radius:var(--radius-xl); overflow:hidden; margin-top:16px; }
 .admin-head{ padding:16px 20px; border-bottom:1px solid rgba(220,38,38,.15); display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .admin-head-left{ display:flex; align-items:center; gap:12px; }
 .admin-head-icon{ width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg, rgba(220,38,38,.3), rgba(220,38,38,.08)); border:1px solid rgba(220,38,38,.4); display:flex; align-items:center; justify-content:center; font-size:15px; color:#ff8080; }
@@ -548,7 +539,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .admin-empty{ text-align:center; padding:28px 14px; color:var(--txt-4); font-size:11px; }
 
 .toast-stack{ position:fixed; top:16px; right:16px; z-index:10001; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
-.toast{ min-width:260px; padding:13px 15px; background:linear-gradient(135deg, rgba(255,122,26,.18), rgba(139,92,246,.06)); backdrop-filter:blur(24px); border:1px solid rgba(255,122,26,.25); border-radius:14px; display:flex; align-items:center; gap:12px; color:var(--txt-2); font-size:12px; font-weight:600; animation:toastIn .3s ease; pointer-events:auto; }
+.toast{ min-width:260px; padding:13px 15px; background:linear-gradient(135deg, rgba(255,122,26,.18), rgba(139,92,246,.06)); border:1px solid rgba(255,122,26,.25); border-radius:14px; display:flex; align-items:center; gap:12px; color:var(--txt-2); font-size:12px; font-weight:600; animation:toastIn .3s ease; pointer-events:auto; }
 .toast .toast-ico{ width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:13px; background:rgba(255,122,26,.12); color:var(--hl-orange-bright); }
 .toast .toast-ico img{ width:70%; height:70%; object-fit:contain; }
 .toast.success .toast-ico{ color:var(--hl-green-toxic); }
@@ -765,13 +756,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
         <div class="promo-tabs">
           <button class="promo-tab active" data-promo-tab="public" onclick="switchPromoTab('public', this)">ХАЛЯВА</button>
           <button class="promo-tab" data-promo-tab="deposit" onclick="switchPromoTab('deposit', this)">ПОПОЛНЕНИЕ</button>
-          <button class="promo-tab" data-promo-tab="bonus" onclick="switchPromoTab('bonus', this)">БОНУС +5%</button>
-        </div>
-
-        <div id="depositBonusIndicator" class="deposit-bonus-indicator" style="display:none;">
-          <span class="dbi-icon">💎</span>
-          <span class="dbi-text">Активен промокод: <b>+5%</b> к пополнению</span>
-          <button class="dbi-clear" onclick="clearDepositBonus()" title="Убрать">✕</button>
         </div>
 
         <div id="promoInputWrap" class="promo-input-wrap">
@@ -782,13 +766,21 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
         </div>
         <div class="promo-msg" id="promoMessage"></div>
 
-        <div id="bonusBlock" style="display:none;">
-          <div style="font-size:11px;color:var(--txt-3);margin-bottom:12px;text-align:center;">Введи промокод бонуса к пополнению</div>
-          <div class="promo-input-wrap">
-            <input class="promo-input" id="bonusInput" maxlength="40" placeholder="SAINT / WANTERFENT">
-            <button class="promo-btn" type="button" onclick="redeemBonusCode()">✓ АКТИВИРОВАТЬ</button>
+        <!-- БОНУС К ПОПОЛНЕНИЮ — показывается только во вкладке ПОПОЛНЕНИЕ -->
+        <div class="bonus-row" id="bonusRow" style="display:none;">
+          <div class="bonus-row-title">Бонус к пополнению</div>
+          <div class="bonus-row-desc" id="bonusRowDesc">Введи бонусный код для получения +5% к следующему пополнению</div>
+          <div id="bonusInputWrap" class="promo-input-wrap">
+            <input class="promo-input" id="bonusInput" maxlength="40" placeholder="БОНУСНЫЙ КОД">
+            <button class="promo-btn" type="button" onclick="redeemBonusCode()">АКТИВИРОВАТЬ</button>
           </div>
           <div class="promo-msg" id="bonusMessage"></div>
+
+          <div class="bonus-active" id="bonusActiveBlock" style="display:none;">
+            <span class="ba-icon">💎</span>
+            <span class="ba-text">Активен бонус: <b>+5%</b> к пополнению</span>
+            <button class="ba-clear" onclick="clearDepositBonus()" title="Убрать">✕</button>
+          </div>
         </div>
       </div>
     </div>
@@ -817,16 +809,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
             <div class="pubb-balance-value">
               <span id="profileBalance">10</span>
               <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="">
-            </div>
-          </div>
-          <div class="pubb-withdraw-status">
-            <div class="pws-label">отыгрыш</div>
-            <div class="pws-percent" id="wageringPercent">100%</div>
-            <div class="pws-bar"><div class="pws-bar-fill" id="wageringBar" style="width:100%"></div></div>
-            <div class="pws-text">
-              <span id="wageringAmount">0/0</span>
-              <img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png" onerror="this.replaceWith(document.createTextNode('🎃'))" alt="">
-              <span id="wageringText">Нет активного отыгрыша</span>
             </div>
           </div>
         </div>
@@ -869,8 +851,8 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
           <div class="admin-head-name" id="adminName">@saintezz7</div>
         </div>
         <div class="admin-tabs">
-          <button class="admin-tab active" type="button" onclick="switchAdminTab('promos', this)">🎫 Промокоды</button>
-          <button class="admin-tab" type="button" onclick="switchAdminTab('settings', this)">⚙ Настройки</button>
+          <button class="admin-tab active" type="button" onclick="switchAdminTab('promos', this)">Промокоды</button>
+          <button class="admin-tab" type="button" onclick="switchAdminTab('settings', this)">Настройки</button>
         </div>
         <div class="admin-content">
           <div class="admin-tab-panel active" data-admin-tab="promos">
@@ -891,7 +873,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
                 <input class="admin-input" id="adminPromoMinutes" type="number" min="1" value="60"></div>
               <div class="admin-field"><label class="admin-field-label">Награда (Pumpkins)</label>
                 <input class="admin-input" id="adminPromoReward" type="number" min="1" value="10"></div>
-              <button class="admin-btn" type="button" onclick="createPromoCode()">🎫 Создать</button>
+              <button class="admin-btn" type="button" onclick="createPromoCode()">Создать</button>
               <div class="admin-msg" id="adminMessage"></div>
             </div>
             <div class="admin-section">
@@ -904,7 +886,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
               <div class="admin-section-title"><div class="admin-section-title-icon">⚙</div> Адрес сервера</div>
               <div class="admin-field"><label class="admin-field-label">API URL</label>
                 <input class="admin-input" id="adminServerUrl" placeholder="https://ваш-проект.onrender.com"></div>
-              <button class="admin-btn" type="button" onclick="saveAdminServerUrl()">✓ Сохранить</button>
+              <button class="admin-btn" type="button" onclick="saveAdminServerUrl()">Сохранить</button>
               <div class="admin-msg" id="adminServerUrlMessage"></div>
             </div>
           </div>
@@ -1074,18 +1056,14 @@ const IMG_BASE_LOCAL = 'image/';
 function getItemImgHtml(item, extraClass='item-img'){
   if(typeof item === 'number') item = items[item];
   if(!item || !item.img) return '';
-  const localSrc = IMG_BASE_LOCAL + item.img;
-  const remoteSrc = IMG_BASE + item.img;
-  return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';" class="${extraClass}" alt="">`;
+  return `<img src="${IMG_BASE_LOCAL + item.img}" onerror="this.onerror=null;this.src='${IMG_BASE + item.img}';" class="${extraClass}" alt="">`;
 }
 function getItemImgWithMutation(itemIndex, entry){
   const it = items[itemIndex]; if(!it) return '';
   if(itemIndex === IDX.Moby && entry && entry.mutation && entry.mutation !== 'none'){
     const mut = getMutationById(entry.mutation);
     const file = mut.file + '.webp';
-    const localSrc = IMG_BASE_LOCAL + file;
-    const remoteSrc = IMG_BASE + file;
-    return `<img src="${localSrc}" onerror="this.onerror=null;this.src='${remoteSrc}';" class="item-img" alt="">`;
+    return `<img src="${IMG_BASE_LOCAL + file}" onerror="this.onerror=null;this.src='${IMG_BASE + file}';" class="item-img" alt="">`;
   }
   return getItemImgHtml(it, 'item-img');
 }
@@ -1133,46 +1111,15 @@ const DEPOSIT_PROMO_CODES = ['SAINT', 'WANTERFENT'];
 const DEPOSIT_PROMO_BONUS_PERCENT = 5;
 let activeDepositPromoCode = localStorage.getItem('saintup_deposit_promo') || null;
 
-/* WAGERING */
-let wagering = { required: 0, progress: 0, active: false, depositAmount: 0 };
-function saveWagering(){ localStorage.setItem('saintup_wagering', JSON.stringify(wagering)); }
-function loadWagering(){ try{ const w = JSON.parse(localStorage.getItem('saintup_wagering')||'null'); if(w) wagering = w; }catch(e){} }
-function startWagering(amount){
-  const required = Math.ceil(amount * 1.3);
-  wagering = { required, progress: 0, active: true, depositAmount: amount };
-  saveWagering(); updateWageringUI();
-}
-function addWageringProgress(amount){
-  if(!wagering.active || amount <= 0) return;
-  wagering.progress = Math.min(wagering.required, wagering.progress + amount);
-  if(wagering.progress >= wagering.required){
-    wagering.active = false;
-    showToast('Отыгрыш завершён!', 'success');
-  }
-  saveWagering(); updateWageringUI();
-}
-function updateWageringUI(){
-  const pctEl = document.getElementById('wageringPercent');
-  const barEl = document.getElementById('wageringBar');
-  const amtEl = document.getElementById('wageringAmount');
-  const txtEl = document.getElementById('wageringText');
-  if(!pctEl) return;
-  if(!wagering.active || wagering.required === 0){
-    pctEl.textContent = '100%';
-    barEl.style.width = '100%';
-    amtEl.textContent = '0/0';
-    txtEl.textContent = 'Нет активного отыгрыша';
-    return;
-  }
-  const pct = Math.min(100, Math.round((wagering.progress / wagering.required) * 100));
-  pctEl.textContent = pct + '%';
-  barEl.style.width = pct + '%';
-  amtEl.textContent = `${wagering.progress}/${wagering.required}`;
-  txtEl.textContent = `Отыграно ${wagering.progress} из ${wagering.required}`;
-}
-
-/* CASES */
 const CASES = [
+  { id:'saint', name:'Saint Case', img:'saintcase.png', price:109,
+    drops:[
+      { itemIndex: IDX.Yeti, chance: 60 },
+      { itemIndex: IDX.Garama, chance: 30 },
+      { itemIndex: IDX.Gold, chance: 5 },
+      { itemIndex: IDX.LaFuse, chance: 5 }
+    ]
+  },
   { id:'cannelloni', name:'Cannelloni Case', img:'dragoncase.png', price:799,
     drops:[
       { itemIndex: IDX.KetupatBros, chance: 45 },
@@ -1258,7 +1205,6 @@ function loadProfileData(){
 
   balance = Number(users[profile.username].balance ?? 10);
   inventory = migrateInventory(users[profile.username].inventory);
-  loadWagering();
   removePendingUpgradeOnReload();
   saveProfileData();
 }
@@ -1383,7 +1329,6 @@ function renderProfile(){
   } else {
     adminPanel.hidden = true;
   }
-  updateWageringUI();
   renderAdminPromos();
   if(typeof renderServerUrlConfig === 'function') renderServerUrlConfig();
 }
@@ -1398,7 +1343,7 @@ function switchAdminTab(tab, btn){
   if(tab==='settings'){ renderServerUrlConfig(); }
 }
 
-/* CHANCES — ПРОСТАЯ ФОРМУЛА 100/ratio, кап 90 */
+/* CHANCES — 100/ratio, кап 70 */
 const EPIC_TARGETS_KRAKEN = [IDX.Skibidi, IDX.Strawberry];
 const EPIC_TARGETS_GINGER = [IDX.JohnPork, IDX.Meowl];
 const EPIC_TARGETS_LOSDRAGONS = [IDX.SignoreCarapace];
@@ -1425,7 +1370,7 @@ function calculateChance(fromP, toP, srcIdx, tgtIdx){
 
   const ratio = toP / fromP;
   let c = 100 / ratio;
-  if(c > 90) c = 90;
+  if(c > 70) c = 70;
   if(c < 1) c = 1;
   return Math.round(c * 10) / 10;
 }
@@ -1596,7 +1541,6 @@ async function openCase(caseId){
     if(openBtn){ openBtn.disabled = false; openBtn.innerHTML = `${HALLOWEEN_ICON} Открыть — ${c.price}`; }
     return;
   }
-  addWageringProgress(c.price);
   const reward = pickCaseDrop(c);
   let rewardEntry = { itemIndex: reward.itemIndex };
   if(reward.itemIndex === IDX.Moby && Math.random() < 0.25){
@@ -1701,7 +1645,6 @@ async function sellItem(idx){
   else if(sourceItem !== null && sourceItem > idx) sourceItem--;
   saveProfileData();
   await serverUpdateBalance(item.price);
-  addWageringProgress(item.price);
   purchaseLock = false;
   sfxClick();
   showToast('Продано за ' + item.price, 'success');
@@ -1716,7 +1659,6 @@ async function sellAll(){
   inventory = []; sourceItem = null; clearSourceDisplay();
   saveProfileData();
   await serverUpdateBalance(total);
-  addWageringProgress(total);
   purchaseLock = false;
   sfxClick();
   showToast(`Продано всё за ${total}`, 'success');
@@ -1906,7 +1848,6 @@ function performUpgrade(durationMs){
       inventory[srcIdx] = newEntry;
       sourceItem = srcIdx;
       stats.wins++; saveStats(); saveProfileData();
-      addWageringProgress(srcData.price);
       updateSourceSlotDisplay();
       showToast(`Успех! ${tgtBase.name}`, 'success');
       if(stageBadge) stageBadge.textContent = 'WIN';
@@ -2001,7 +1942,6 @@ async function startDice(){
   const startBtn = document.getElementById('diceStartBtn'); if(startBtn) startBtn.disabled = true;
   const betItemIndex = it.itemIndex;
   const betMutation = inventory[diceSelectedSlot]?.mutation || null;
-  const betPrice = it.price;
   inventory.splice(diceSelectedSlot, 1);
   diceSelectedSlot = null;
   saveProfileData();
@@ -2038,7 +1978,6 @@ async function startDice(){
         diceRolling = false; purchaseLock = false;
         if(startBtn) startBtn.disabled = false;
         stats.diceGames++;
-        addWageringProgress(betPrice);
         if(isWin){
           stats.diceWins++;
           const newEntry1 = { itemIndex: betItemIndex };
@@ -2090,11 +2029,10 @@ function switchPromoTab(tab, btn){
   document.querySelectorAll('.promo-tab').forEach(t=>t.classList.remove('active'));
   if(btn) btn.classList.add('active');
   const input = document.getElementById('promoInput');
-  const inputWrap = document.getElementById('promoInputWrap');
-  const bonusBlock = document.getElementById('bonusBlock');
-  if(tab === 'public'){ input.placeholder = 'ВВЕДИ ПРОМОКОД ХАЛЯВЫ'; inputWrap.style.display = 'grid'; bonusBlock.style.display = 'none'; }
-  else if(tab === 'deposit'){ input.placeholder = 'ВВЕДИ ПРОМОКОД ПОПОЛНЕНИЯ'; inputWrap.style.display = 'grid'; bonusBlock.style.display = 'none'; }
-  else if(tab === 'bonus'){ inputWrap.style.display = 'none'; bonusBlock.style.display = 'block'; }
+  const bonusRow = document.getElementById('bonusRow');
+  if(tab === 'public'){ input.placeholder = 'ВВЕДИ ПРОМОКОД ХАЛЯВЫ'; bonusRow.style.display = 'none'; }
+  else if(tab === 'deposit'){ input.placeholder = 'ВВЕДИ ПРОМОКОД ПОПОЛНЕНИЯ'; bonusRow.style.display = 'block'; }
+  updateBonusVisibility();
 }
 
 function getDepositBonusPercent(){
@@ -2116,35 +2054,44 @@ function clearDepositPromoCode(){
   activeDepositPromoCode = null;
   localStorage.removeItem('saintup_deposit_promo');
 }
-function updateDepositBonusIndicator(){
-  const el = document.getElementById('depositBonusIndicator');
-  if(!el) return;
-  if(activeDepositPromoCode && getDepositBonusPercent() > 0) el.style.display = 'flex';
-  else el.style.display = 'none';
+function updateBonusVisibility(){
+  const inputWrap = document.getElementById('bonusInputWrap');
+  const desc = document.getElementById('bonusRowDesc');
+  const activeBlock = document.getElementById('bonusActiveBlock');
+  if(!inputWrap || !activeBlock) return;
+  if(activeDepositPromoCode && getDepositBonusPercent() > 0){
+    inputWrap.style.display = 'none';
+    if(desc) desc.style.display = 'none';
+    activeBlock.style.display = 'flex';
+  } else {
+    inputWrap.style.display = 'grid';
+    if(desc) desc.style.display = 'block';
+    activeBlock.style.display = 'none';
+  }
 }
 function clearDepositBonus(){
   clearDepositPromoCode();
-  updateDepositBonusIndicator();
-  showToast('Промокод пополнения убран', 'info');
+  updateBonusVisibility();
+  showToast('Бонус убран', 'info');
 }
 async function redeemBonusCode(){
   const input = document.getElementById('bonusInput');
   const msg = document.getElementById('bonusMessage');
   const code = String(input?.value||'').trim().toUpperCase();
-  if(!code){ msg.className='promo-msg error'; msg.textContent='Введи код.'; return; }
+  if(!code){ msg.className='promo-msg error'; msg.textContent='Введи бонусный код.'; return; }
   if(applyDepositPromoCode(code)){
     msg.className='promo-msg success';
-    msg.innerHTML = `Активирован! +${DEPOSIT_PROMO_BONUS_PERCENT}% к пополнению`;
+    msg.innerHTML = `Бонус активирован! +${DEPOSIT_PROMO_BONUS_PERCENT}% к пополнению`;
     input.value = '';
-    showToast(`+${DEPOSIT_PROMO_BONUS_PERCENT}% активировано!`, 'success');
-    updateDepositBonusIndicator();
+    showToast(`+${DEPOSIT_PROMO_BONUS_PERCENT}% к пополнению!`, 'success');
+    updateBonusVisibility();
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     showFlash(cx, cy, 'rgba(163,230,53,.7)', 400);
     showParticles(cx, cy, '#a3e635', 40);
     if(window.snowBurst) window.snowBurst(cx, cy, 50, '163,230,53');
   } else {
     msg.className='promo-msg error';
-    msg.textContent='Неверный промокод';
+    msg.textContent='Неверный бонусный код';
   }
 }
 
@@ -2305,6 +2252,7 @@ function showTab(tab){
   if(tab === 'profile'){ renderProfile(); loadPromoCodesFromServer(); }
   if(tab === 'cases'){ currentCaseId = null; renderCases(); }
   if(tab === 'dice'){ renderColorPicker(); renderDiceBetSlot(); renderDiceStats(); renderDicePreview(); }
+  if(tab === 'promo'){ updateBonusVisibility(); }
 }
 
 if(window.Telegram?.WebApp){ try{ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }catch(e){} }
@@ -2317,7 +2265,7 @@ renderColorPicker();
 renderDiceBetSlot();
 renderDiceStats();
 renderDicePreview();
-updateDepositBonusIndicator();
+updateBonusVisibility();
 
 setTimeout(()=>loadPromoCodesFromServer(), 100);
 
