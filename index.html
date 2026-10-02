@@ -121,6 +121,19 @@ body::after{
 .spooky-eyes.e3{ top:44%; right:4%; animation-delay:7s; }
 @keyframes eyesGlow{ 0%,82%,100%{ opacity:0; } 86%,94%{ opacity:1; } }
 
+/* Приведение */
+.ghost{ position:fixed; z-index:9996; pointer-events:none; user-select:none; filter:drop-shadow(0 0 30px rgba(139,92,246,.6)); opacity:.85; animation:ghostFloat 8s ease-in-out infinite; }
+.ghost img{ display:block; width:100%; height:100%; object-fit:contain; }
+.ghost.g1{ top:12%; right:8%; width:90px; height:90px; animation-delay:0s; }
+.ghost.g2{ top:50%; left:5%; width:70px; height:70px; animation-delay:2s; }
+.ghost.g3{ bottom:12%; right:15%; width:80px; height:80px; animation-delay:4s; }
+@keyframes ghostFloat{
+  0%,100%{ transform:translateY(0) translateX(0) rotate(-3deg); }
+  25%{ transform:translateY(-18px) translateX(8px) rotate(3deg); }
+  50%{ transform:translateY(-8px) translateX(-8px) rotate(-2deg); }
+  75%{ transform:translateY(-22px) translateX(5px) rotate(2deg); }
+}
+
 button, input, select{ font:inherit; }
 button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background:transparent; }
 
@@ -1079,11 +1092,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .promo-hero-title{ font-family:"Creepster","Manrope",sans-serif; font-size:38px; letter-spacing:3px; text-align:center; color:#fff; margin-bottom:8px; text-shadow:0 0 25px rgba(255,122,26,.85), 0 0 50px rgba(255,122,26,.5); }
 .promo-hero-desc{ font-size:12px; color:var(--txt-3); text-align:center; margin-bottom:20px; }
 
-.promo-tabs{ display:flex; gap:6px; margin-bottom:20px; padding:5px; background:rgba(0,0,0,.4); border-radius:12px; }
-.promo-tab{ flex:1; height:42px; border-radius:9px; font-size:11px; font-weight:800; color:var(--txt-4); text-transform:uppercase; letter-spacing:.6px; transition:.2s; }
-.promo-tab:hover{ color:var(--txt-2); }
-.promo-tab.active{ color:#fff; background:linear-gradient(135deg, rgba(255,122,26,.4), rgba(139,92,246,.2)); box-shadow:inset 0 1px 0 rgba(255,157,61,.4), 0 0 20px rgba(255,122,26,.25); }
-
 .promo-input-wrap{ display:grid; grid-template-columns:1fr auto; gap:10px; }
 .promo-input{ width:100%; height:52px; padding:0 18px; border:1px solid rgba(255,122,26,.4); border-radius:14px; background:linear-gradient(135deg, rgba(255,122,26,.08), rgba(139,92,246,.03)); color:#fff; font-size:14px; outline:none; font-family:"JetBrains Mono",monospace; letter-spacing:2px; text-align:center; text-transform:uppercase; font-weight:700; transition:.2s; }
 .promo-input:focus{ border-color:rgba(255,122,26,.8); box-shadow:0 0 25px rgba(255,122,26,.3); }
@@ -1095,16 +1103,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 .promo-msg{ min-height:24px; margin-top:16px; text-align:center; font-size:12px; color:var(--txt-3); font-weight:700; display:flex; align-items:center; justify-content:center; gap:6px; padding:11px 16px; border-radius:12px; }
 .promo-msg.success{ color:var(--hl-green-toxic); background:rgba(163,230,53,.15); border:1px solid rgba(163,230,53,.4); text-shadow:0 0 8px rgba(163,230,53,.5); }
 .promo-msg.error{ color:var(--red); background:rgba(239,68,68,.15); border:1px solid rgba(239,68,68,.4); text-shadow:0 0 8px rgba(239,68,68,.5); }
-
-.bonus-row{ margin-top:16px; padding:16px; background:linear-gradient(135deg, rgba(163,230,53,.12), rgba(132,204,22,.04)); border:1px solid rgba(163,230,53,.4); border-radius:14px; box-shadow:0 0 30px rgba(163,230,53,.15); }
-.bonus-row-title{ font-size:10px; color:var(--hl-green-toxic); letter-spacing:1.2px; text-transform:uppercase; font-weight:800; margin-bottom:10px; text-align:center; text-shadow:0 0 10px rgba(163,230,53,.6); }
-.bonus-row-desc{ font-size:11px; color:var(--txt-4); text-align:center; margin-bottom:12px; line-height:1.5; }
-.bonus-active{ display:flex; align-items:center; gap:10px; padding:12px 14px; background:linear-gradient(135deg, rgba(163,230,53,.2), rgba(132,204,22,.06)); border:1px solid rgba(163,230,53,.5); border-radius:12px; box-shadow:0 0 25px rgba(163,230,53,.25); animation:adminTagPulse 2.5s ease-in-out infinite; }
-.bonus-active .ba-icon{ font-size:22px; filter:drop-shadow(0 0 10px rgba(163,230,53,.7)); }
-.bonus-active .ba-text{ flex:1; font-size:12px; color:var(--hl-green-toxic); font-weight:700; text-shadow:0 0 10px rgba(163,230,53,.5); }
-.bonus-active .ba-text b{ color:#fff; font-family:"JetBrains Mono",monospace; font-size:15px; }
-.bonus-active .ba-clear{ width:26px; height:26px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:var(--txt-3); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; transition:.2s; }
-.bonus-active .ba-clear:hover{ background:rgba(239,68,68,.5); color:#fff; border-color:rgba(239,68,68,.7); }
 
 /* PROFILE */
 .profile-page-new{ width:100%; display:flex; flex-direction:column; gap:14px; }
@@ -1249,6 +1247,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   .pumpkin.tl, .pumpkin.tr{ width:36px; height:36px; }
   .spider-web svg{ width:90px; height:90px; }
   .bat svg{ width:28px; height:18px; }
+  .ghost.g1, .ghost.g2, .ghost.g3{ width:50px; height:50px; }
 }
 </style>
 </head>
@@ -1291,6 +1290,11 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
 <div class="spooky-eyes e1"></div>
 <div class="spooky-eyes e2"></div>
 <div class="spooky-eyes e3"></div>
+
+<!-- Приведения -->
+<div class="ghost g1"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/Privedenie.png" onerror="this.replaceWith(document.createTextNode('👻'))" alt=""></div>
+<div class="ghost g2"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/Privedenie.png" onerror="this.replaceWith(document.createTextNode('👻'))" alt=""></div>
+<div class="ghost g3"><img src="https://raw.githubusercontent.com/saintezz/saintbetW/main/image/Privedenie.png" onerror="this.replaceWith(document.createTextNode('👻'))" alt=""></div>
 
 <canvas id="snowCanvas"></canvas>
 <div id="effectLayer"></div>
@@ -1475,11 +1479,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
         <div class="promo-hero-title">Промокоды</div>
         <div class="promo-hero-desc">Введи код и получи Pumpkins</div>
 
-        <div class="promo-tabs">
-          <button class="promo-tab active" data-promo-tab="public" onclick="switchPromoTab('public', this)">ХАЛЯВА</button>
-          <button class="promo-tab" data-promo-tab="deposit" onclick="switchPromoTab('deposit', this)">ПОПОЛНЕНИЕ</button>
-        </div>
-
         <div id="promoInputWrap" class="promo-input-wrap">
           <input class="promo-input" id="promoInput" maxlength="40" placeholder="ВВЕДИ ПРОМОКОД">
           <button class="promo-btn" type="button" onclick="redeemPromoCode()">
@@ -1487,26 +1486,6 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
           </button>
         </div>
         <div class="promo-msg" id="promoMessage"></div>
-
-        <div class="bonus-row" id="bonusRow" style="display:none;">
-          <div class="bonus-row-title">Бонус к пополнению</div>
-          <div class="bonus-row-desc" id="bonusRowDesc">Введи бонусный код для получения +5% к следующему пополнению</div>
-          <div id="bonusInputWrap" class="promo-input-wrap">
-            <input class="promo-input" id="bonusInput" maxlength="40" placeholder="БОНУСНЫЙ КОД">
-            <button class="promo-btn" type="button" onclick="redeemBonusCode()">АКТИВИРОВАТЬ</button>
-          </div>
-          <div class="promo-msg" id="bonusMessage"></div>
-
-          <div class="bonus-active" id="bonusActiveBlock" style="display:none;">
-            <span class="ba-icon">🎃</span>
-            <span class="ba-text">Активен бонус: <b>+5%</b> к пополнению</span>
-            <button class="ba-clear" onclick="clearDepositBonus()" title="Убрать">✕</button>
-          </div>
-
-          <button class="promo-btn" type="button" onclick="simulateDeposit()" style="margin-top:14px;width:100%;justify-content:center;">
-            💰 ПОПОЛНИТЬ
-          </button>
-        </div>
       </div>
     </div>
   </section>
@@ -1832,9 +1811,6 @@ let users = {};
 let stats = { upgrades:0, wins:0, losses:0, diceGames:0, diceWins:0, diceLosses:0, casesOpened:0, rocketLosses:0 };
 let currentCaseId = null;
 let caseRolling = false;
-let currentPromoTab = 'public';
-
-let activeDepositPromoCode = localStorage.getItem('saintup_deposit_promo') || null;
 
 const CASES = [
   { id:'saint', name:'Saint Case', img:'saintcase.png', price:109,
@@ -2802,96 +2778,6 @@ function renderDiceStats(){
 /* PROMO */
 let promoCodes = [];
 
-function switchPromoTab(tab, btn){
-  currentPromoTab = tab;
-  document.querySelectorAll('.promo-tab').forEach(t=>t.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  const input = document.getElementById('promoInput');
-  const bonusRow = document.getElementById('bonusRow');
-  if(tab === 'public'){ input.placeholder = 'ВВЕДИ ПРОМОКОД ХАЛЯВЫ'; bonusRow.style.display = 'none'; }
-  else if(tab === 'deposit'){ input.placeholder = 'ВВЕДИ ПРОМОКОД ПОПОЛНЕНИЯ'; bonusRow.style.display = 'block'; }
-  updateBonusVisibility();
-}
-
-function applyDepositPromoCode(code){
-  if(!code) return false;
-  // Заглушка, реальная логика на сервере
-  return false;
-}
-function clearDepositPromoCode(){
-  activeDepositPromoCode = null;
-  localStorage.removeItem('saintup_deposit_promo');
-}
-function updateBonusVisibility(){
-  const inputWrap = document.getElementById('bonusInputWrap');
-  const desc = document.getElementById('bonusRowDesc');
-  const activeBlock = document.getElementById('bonusActiveBlock');
-  if(!inputWrap || !activeBlock) return;
-  if(activeDepositPromoCode && activeDepositPromoCode !== ''){
-    inputWrap.style.display = 'none';
-    if(desc) desc.style.display = 'none';
-    activeBlock.style.display = 'flex';
-  } else {
-    inputWrap.style.display = 'grid';
-    if(desc) desc.style.display = 'block';
-    activeBlock.style.display = 'none';
-  }
-}
-function clearDepositBonus(){
-  clearDepositPromoCode();
-  updateBonusVisibility();
-  showToast('Бонус убран', 'info');
-}
-async function redeemBonusCode(){
-  const input = document.getElementById('bonusInput');
-  const msg = document.getElementById('bonusMessage');
-  const code = String(input?.value||'').trim().toUpperCase();
-  if(!code){ msg.className='promo-msg error'; msg.textContent='Введи бонусный код.'; return; }
-  // Серверная проверка промокода
-  const u = getTelegramUser();
-  const telegramId = u?.id ? String(u.id) : (profile?.username || '');
-  try{
-    const data = await apiRequest('/api/promo/redeem', { method:'POST', body: JSON.stringify({ code, telegram_id: telegramId, username: u?.username||'', first_name: u?.first_name||'', current_balance: balance }) });
-    if(data && data.reward){
-      // Если бонусный промокод - активируем
-      activeDepositPromoCode = code;
-      localStorage.setItem('saintup_deposit_promo', code);
-      msg.className='promo-msg success';
-      msg.textContent = 'Бонус активирован!';
-      input.value = '';
-      updateBonusVisibility();
-      const cx = window.innerWidth/2, cy = window.innerHeight/2;
-      showFlash(cx, cy, 'rgba(163,230,53,.7)', 400);
-      showParticles(cx, cy, '#a3e635', 40);
-      if(window.snowBurst) window.snowBurst(cx, cy, 50, '163,230,53');
-    } else {
-      msg.className='promo-msg error';
-      msg.textContent = data.error || 'Неверный бонусный код';
-    }
-  }catch(e){
-    msg.className='promo-msg error';
-    if(e.status===404) msg.textContent='Промокод не найден.';
-    else if(e.status===409) msg.textContent='Уже использован.';
-    else if(e.status===410) msg.textContent='Промокод истёк.';
-    else msg.textContent = e.message || 'Ошибка.';
-  }
-}
-
-async function simulateDeposit(){
-  const input = prompt('Введи сумму пополнения:');
-  if(input === null) return;
-  const amount = Math.floor(Number(input));
-  if(!amount || amount < 1){ showToast('Минимальная сумма — 1', 'error'); return; }
-  // Здесь должна быть логика пополнения с бонусом на сервере
-  // Но для простоты - просто начисляем
-  await serverUpdateBalance(amount);
-  showToast(`Пополнено ${amount} 💎`, 'success');
-  const cx = window.innerWidth/2, cy = window.innerHeight/2;
-  showFlash(cx, cy, 'rgba(163,230,53,.7)', 400);
-  showParticles(cx, cy, '#a3e635', 40);
-  if(window.snowBurst) window.snowBurst(cx, cy, 50, '163,230,53');
-}
-
 async function redeemPromoCode(){
   const input = document.getElementById('promoInput');
   const msg = document.getElementById('promoMessage');
@@ -3049,7 +2935,6 @@ function showTab(tab){
   if(tab === 'profile'){ renderProfile(); loadPromoCodesFromServer(); }
   if(tab === 'cases'){ currentCaseId = null; renderCases(); }
   if(tab === 'dice'){ renderColorPicker(); renderDiceBetSlot(); renderDiceStats(); renderDicePreview(); }
-  if(tab === 'promo'){ updateBonusVisibility(); }
 }
 
 if(window.Telegram?.WebApp){ try{ window.Telegram.WebApp.ready(); window.Telegram.WebApp.expand(); }catch(e){} }
@@ -3062,7 +2947,6 @@ renderColorPicker();
 renderDiceBetSlot();
 renderDiceStats();
 renderDicePreview();
-updateBonusVisibility();
 
 setTimeout(()=>loadPromoCodesFromServer(), 100);
 
