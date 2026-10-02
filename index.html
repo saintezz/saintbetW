@@ -195,7 +195,7 @@ button{ cursor:pointer; border:0; font-family:inherit; color:inherit; background
   text-shadow:0 0 10px rgba(220,38,38,.8);
   animation:adminTagPulse 2.5s ease-in-out infinite;
 }
-.admin-tag::before{ content:"🎃"; font-size:10px; }
+.admin-tag::before{ content:""; font-size:10px; width:12px; height:12px; background:url('https://raw.githubusercontent.com/saintezz/saintbetW/main/image/halloweenT.png') center/contain no-repeat; display:inline-block; }
 @keyframes adminTagPulse{
   0%,100%{ box-shadow:inset 0 1px 0 rgba(220,38,38,.4), 0 0 20px rgba(220,38,38,.4); }
   50%{ box-shadow:inset 0 1px 0 rgba(220,38,38,.5), 0 0 32px rgba(220,38,38,.65); }
@@ -1834,8 +1834,6 @@ let currentCaseId = null;
 let caseRolling = false;
 let currentPromoTab = 'public';
 
-const DEPOSIT_PROMO_CODES = ['SAINT', 'WANTERFENT'];
-const DEPOSIT_PROMO_BONUS_PERCENT = 5;
 let activeDepositPromoCode = localStorage.getItem('saintup_deposit_promo') || null;
 
 const CASES = [
@@ -2815,19 +2813,9 @@ function switchPromoTab(tab, btn){
   updateBonusVisibility();
 }
 
-function getDepositBonusPercent(){
-  if(!activeDepositPromoCode) return 0;
-  if(DEPOSIT_PROMO_CODES.includes(activeDepositPromoCode)) return DEPOSIT_PROMO_BONUS_PERCENT;
-  return 0;
-}
 function applyDepositPromoCode(code){
   if(!code) return false;
-  const upper = String(code).trim().toUpperCase();
-  if(DEPOSIT_PROMO_CODES.includes(upper)){
-    activeDepositPromoCode = upper;
-    localStorage.setItem('saintup_deposit_promo', upper);
-    return true;
-  }
+  // Заглушка, реальная логика на сервере
   return false;
 }
 function clearDepositPromoCode(){
@@ -2839,7 +2827,7 @@ function updateBonusVisibility(){
   const desc = document.getElementById('bonusRowDesc');
   const activeBlock = document.getElementById('bonusActiveBlock');
   if(!inputWrap || !activeBlock) return;
-  if(activeDepositPromoCode && getDepositBonusPercent() > 0){
+  if(activeDepositPromoCode && activeDepositPromoCode !== ''){
     inputWrap.style.display = 'none';
     if(desc) desc.style.display = 'none';
     activeBlock.style.display = 'flex';
@@ -2859,30 +2847,34 @@ async function redeemBonusCode(){
   const msg = document.getElementById('bonusMessage');
   const code = String(input?.value||'').trim().toUpperCase();
   if(!code){ msg.className='promo-msg error'; msg.textContent='Введи бонусный код.'; return; }
-  if(applyDepositPromoCode(code)){
-    msg.className='promo-msg success';
-    msg.innerHTML = `Бонус активирован! +${DEPOSIT_PROMO_BONUS_PERCENT}% к пополнению`;
-    input.value = '';
-    showToast(`+${DEPOSIT_PROMO_BONUS_PERCENT}% к пополнению!`, 'success');
-    updateBonusVisibility();
-    const cx = window.innerWidth/2, cy = window.innerHeight/2;
-    showFlash(cx, cy, 'rgba(163,230,53,.7)', 400);
-    showParticles(cx, cy, '#a3e635', 40);
-    if(window.snowBurst) window.snowBurst(cx, cy, 50, '163,230,53');
-  } else {
+  // Серверная проверка промокода
+  const u = getTelegramUser();
+  const telegramId = u?.id ? String(u.id) : (profile?.username || '');
+  try{
+    const data = await apiRequest('/api/promo/redeem', { method:'POST', body: JSON.stringify({ code, telegram_id: telegramId, username: u?.username||'', first_name: u?.first_name||'', current_balance: balance }) });
+    if(data && data.reward){
+      // Если бонусный промокод - активируем
+      activeDepositPromoCode = code;
+      localStorage.setItem('saintup_deposit_promo', code);
+      msg.className='promo-msg success';
+      msg.textContent = 'Бонус активирован!';
+      input.value = '';
+      updateBonusVisibility();
+      const cx = window.innerWidth/2, cy = window.innerHeight/2;
+      showFlash(cx, cy, 'rgba(163,230,53,.7)', 400);
+      showParticles(cx, cy, '#a3e635', 40);
+      if(window.snowBurst) window.snowBurst(cx, cy, 50, '163,230,53');
+    } else {
+      msg.className='promo-msg error';
+      msg.textContent = data.error || 'Неверный бонусный код';
+    }
+  }catch(e){
     msg.className='promo-msg error';
-    msg.textContent='Неверный бонусный код';
+    if(e.status===404) msg.textContent='Промокод не найден.';
+    else if(e.status===409) msg.textContent='Уже использован.';
+    else if(e.status===410) msg.textContent='Промокод истёк.';
+    else msg.textContent = e.message || 'Ошибка.';
   }
-}
-
-function applyDepositBonus(amount){
-  const percent = getDepositBonusPercent();
-  if(percent <= 0) return { total: amount, bonus: 0, percent: 0 };
-  const bonus = Math.floor(amount * percent / 100);
-  const total = amount + bonus;
-  clearDepositPromoCode();
-  updateBonusVisibility();
-  return { total, bonus, percent };
 }
 
 async function simulateDeposit(){
@@ -2890,14 +2882,10 @@ async function simulateDeposit(){
   if(input === null) return;
   const amount = Math.floor(Number(input));
   if(!amount || amount < 1){ showToast('Минимальная сумма — 1', 'error'); return; }
-  const { total, bonus, percent } = applyDepositBonus(amount);
-  await serverUpdateBalance(total);
-  saveProfileData(); renderAll(); updateTop();
-  if(bonus > 0){
-    showToast(`Пополнено ${amount} + бонус ${bonus} (${percent}%) = ${total} 💎`, 'success');
-  } else {
-    showToast(`Пополнено ${total} 💎`, 'success');
-  }
+  // Здесь должна быть логика пополнения с бонусом на сервере
+  // Но для простоты - просто начисляем
+  await serverUpdateBalance(amount);
+  showToast(`Пополнено ${amount} 💎`, 'success');
   const cx = window.innerWidth/2, cy = window.innerHeight/2;
   showFlash(cx, cy, 'rgba(163,230,53,.7)', 400);
   showParticles(cx, cy, '#a3e635', 40);
