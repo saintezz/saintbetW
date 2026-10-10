@@ -38,7 +38,6 @@
             50% { transform: translate(-5%, -5%) rotate(8deg); }
         }
 
-        /* ===== ОСНОВНАЯ СЕТКА: LIVE BOARD + ИГРА ===== */
         .game-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
@@ -48,15 +47,13 @@
             align-items: start;
         }
 
-        /* ===== LIVE BOARD (левая колонка) ===== */
+        /* ===== LIVE BOARD ===== */
         .live-board {
             background: linear-gradient(180deg, rgba(30, 30, 38, 0.95) 0%, rgba(18, 18, 22, 0.95) 100%);
             border: 1px solid rgba(255, 140, 0, 0.25);
             border-radius: 20px;
             padding: 15px;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.7),
-                0 0 40px rgba(255, 140, 0, 0.08);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255, 140, 0, 0.08);
             backdrop-filter: blur(20px);
             position: sticky;
             top: 20px;
@@ -75,12 +72,16 @@
         }
 
         .live-dot {
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             background: #ff4d4d;
             border-radius: 50%;
             box-shadow: 0 0 12px rgba(255, 77, 77, 1);
             animation: livePulse 1.5s ease-in-out infinite;
+        }
+        .live-dot.offline {
+            background: #555;
+            box-shadow: 0 0 12px rgba(85, 85, 85, 0.5);
+            animation: none;
         }
         @keyframes livePulse {
             0%, 100% { opacity: 1; transform: scale(1); }
@@ -89,14 +90,23 @@
 
         .live-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 14px;
-            font-weight: 900;
+            font-size: 14px; font-weight: 900;
             letter-spacing: 2px;
             background: linear-gradient(135deg, #ff4d4d, #ff8c00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            flex: 1;
         }
+
+        .live-status {
+            font-size: 9px;
+            font-weight: 700;
+            color: #7ed88a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .live-status.offline { color: #ff4d4d; }
 
         .live-list {
             display: flex;
@@ -111,7 +121,6 @@
         .live-list::-webkit-scrollbar-track { background: transparent; }
         .live-list::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ff8c00, #cc7000); border-radius: 2px; }
 
-        /* ===== ЭЛЕМЕНТ LIVE BOARD ===== */
         .live-item {
             display: flex;
             align-items: center;
@@ -145,8 +154,7 @@
         }
 
         .live-item .live-img {
-            width: 42px;
-            height: 42px;
+            width: 42px; height: 42px;
             object-fit: contain;
             filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.5));
             flex-shrink: 0;
@@ -162,8 +170,7 @@
 
         .live-item .live-name {
             font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: 800;
+            font-size: 11px; font-weight: 800;
             color: #fff;
             white-space: nowrap;
             overflow: hidden;
@@ -181,8 +188,7 @@
         }
 
         .live-item .live-coin {
-            width: 12px;
-            height: 12px;
+            width: 12px; height: 12px;
             object-fit: contain;
         }
 
@@ -219,8 +225,7 @@
 
         .logo-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            font-weight: 900;
+            font-size: 28px; font-weight: 900;
             letter-spacing: 1px;
             background: linear-gradient(135deg, #d0d0d0 0%, #ff8c00 50%, #ffaa33 100%);
             background-size: 200% 200%;
@@ -242,11 +247,8 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 16px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 16px; font-weight: 800;
+            display: flex; align-items: center; gap: 8px;
             color: #fff;
             font-family: 'Orbitron', sans-serif;
         }
@@ -391,30 +393,6 @@
             50% { transform: scale(1.15); opacity: 1; }
         }
 
-        .multipliers {
-            display: flex; justify-content: center;
-            gap: 8px; padding: 0 30px 20px;
-        }
-
-        .mult-btn {
-            flex: 1; max-width: 80px;
-            padding: 12px 0;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-            color: #8a8d9b;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700; font-size: 14px;
-            cursor: pointer; transition: all 0.3s;
-        }
-
-        .mult-btn:hover { background: rgba(255, 140, 0, 0.1); border-color: rgba(255, 140, 0, 0.4); color: #ffaa33; }
-        .mult-btn.active {
-            background: linear-gradient(135deg, #ff8c00, #cc7000);
-            border-color: transparent; color: #fff;
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-        }
-
         .upgrade-btn {
             width: calc(100% - 60px);
             margin: 0 auto;
@@ -555,31 +533,15 @@
 
         .locked { pointer-events: none !important; opacity: 0.4 !important; filter: grayscale(0.5) !important; }
 
-        /* ===== АДАПТИВ ===== */
         @media (max-width: 1100px) {
             .game-layout { grid-template-columns: 240px 1fr; gap: 15px; }
         }
 
         @media (max-width: 900px) {
-            .game-layout {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .live-board {
-                position: relative;
-                top: 0;
-                max-height: 200px;
-                order: -1;
-            }
-            .live-list {
-                flex-direction: row;
-                overflow-x: auto;
-                overflow-y: hidden;
-            }
-            .live-item {
-                flex-shrink: 0;
-                min-width: 180px;
-            }
+            .game-layout { grid-template-columns: 1fr; gap: 15px; }
+            .live-board { position: relative; top: 0; max-height: 200px; order: -1; }
+            .live-list { flex-direction: row; overflow-x: auto; overflow-y: hidden; }
+            .live-item { flex-shrink: 0; min-width: 180px; }
         }
 
         @media (max-width: 600px) {
@@ -594,13 +556,11 @@
             .arrow-pointer::after { top: -30px; left: -5px; width: 10px; height: 10px; }
             .item-box { min-width: 120px; padding: 12px; }
             .item-box img { width: 60px; height: 60px; }
-            .mult-btn { font-size: 11px; padding: 10px 0; }
             .upgrade-btn { font-size: 15px; padding: 15px; letter-spacing: 2px; }
             .inv-card, .target-card, .shop-card { width: 95px; padding: 8px; }
             .inv-card img, .target-card img, .shop-card img { width: 48px; height: 48px; }
             .section-title, .target-row, .shop-row, .inventory-row { padding-left: 15px; padding-right: 15px; }
             .items-row { padding: 15px 15px; gap: 10px; }
-            .multipliers { padding: 0 15px 15px; }
             .upgrade-btn { width: calc(100% - 30px); }
             .top-bar { padding: 12px 15px; }
             .logo-text { font-size: 22px; }
@@ -611,21 +571,19 @@
 
 <div class="bg-layer"></div>
 
-<!-- ===== ОСНОВНАЯ СЕТКА ===== -->
 <div class="game-layout">
 
-    <!-- ===== LIVE BOARD (левая колонка) ===== -->
     <div class="live-board">
         <div class="live-header">
-            <div class="live-dot"></div>
+            <div class="live-dot" id="liveDot"></div>
             <div class="live-title">LIVE BOARD</div>
+            <div class="live-status" id="liveStatus">...</div>
         </div>
         <div class="live-list" id="liveList">
             <div class="live-empty">Пока нет дропов...<br>Играй и попади сюда!</div>
         </div>
     </div>
 
-    <!-- ===== ИГРА ===== -->
     <div class="app">
         <div class="top-bar">
             <div class="logo-text">GGbrainX</div>
@@ -676,14 +634,6 @@
             </div>
         </div>
 
-        <div class="multipliers">
-            <button class="mult-btn" data-mult="1.5">x1.5</button>
-            <button class="mult-btn" data-mult="2">x2</button>
-            <button class="mult-btn active" data-mult="3">x3</button>
-            <button class="mult-btn" data-mult="5">x5</button>
-            <button class="mult-btn" data-mult="10">x10</button>
-        </div>
-
         <button class="upgrade-btn" id="upgradeBtn" disabled>Апгрейд - 0%</button>
 
         <div class="section-block">
@@ -708,31 +658,44 @@
 <script>
     const COIN_IMG = 'https://github.com/saintezz/saintbetW/blob/main/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0.png?raw=true';
 
-    // ===== НАСТРОЙКА WEBSOCKET =====
-    // Если открываешь через server.js — используем ws:// текущего хоста
-    // Если открываешь через file:// — подключаемся к localhost:3000
+    // ===== WEBSOCKET =====
     const WS_URL = (location.protocol === 'file:' || location.hostname === '')
         ? 'ws://localhost:3000'
-        : `ws://${location.host}`;
+        : `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}`;
 
     let ws = null;
-    let wsConnected = false;
     let myNickname = 'Игрок_' + Math.floor(Math.random() * 9000 + 1000);
 
+    const liveDot = document.getElementById('liveDot');
+    const liveStatus = document.getElementById('liveStatus');
+
+    function setStatus(online, text) {
+        if (online) {
+            liveDot.classList.remove('offline');
+            liveStatus.classList.remove('offline');
+            liveStatus.textContent = 'ONLINE';
+        } else {
+            liveDot.classList.add('offline');
+            liveStatus.classList.add('offline');
+            liveStatus.textContent = text || 'OFFLINE';
+        }
+    }
+
     function connectWS() {
+        setStatus(false, 'CONNECT...');
+        console.log('Подключаюсь к', WS_URL);
+
         try {
             ws = new WebSocket(WS_URL);
 
             ws.onopen = () => {
-                wsConnected = true;
-                console.log('✅ WebSocket подключён:', WS_URL);
+                console.log('✅ WebSocket подключён');
+                setStatus(true);
             };
 
             ws.onmessage = (event) => {
                 try {
                     const msg = JSON.parse(event.data);
-
-                    // История дропов при подключении
                     if (msg.type === 'history') {
                         const list = document.getElementById('liveList');
                         list.innerHTML = '';
@@ -742,34 +705,36 @@
                             msg.drops.slice().reverse().forEach(drop => addLiveDrop(drop, false));
                         }
                     }
-
-                    // Новый дроп в реальном времени
                     if (msg.type === 'new_drop') {
                         addLiveDrop(msg.drop, true);
                     }
                 } catch (err) {
-                    console.error('Ошибка обработки сообщения:', err);
+                    console.error('Ошибка сообщения:', err);
                 }
             };
 
             ws.onclose = () => {
-                wsConnected = false;
-                console.log('❌ WebSocket отключён. Переподключение через 3 сек...');
+                console.log('❌ WebSocket отключён');
+                setStatus(false);
                 setTimeout(connectWS, 3000);
             };
 
             ws.onerror = (err) => {
                 console.error('WebSocket ошибка:', err);
+                setStatus(false, 'ERROR');
             };
         } catch (err) {
-            console.error('Не удалось подключиться к WebSocket:', err);
+            console.error('Не удалось подключиться:', err);
+            setStatus(false, 'ERROR');
             setTimeout(connectWS, 3000);
         }
     }
 
-    // Отправка события о выигрыше на сервер
     function sendWin(item) {
-        if (!ws || ws.readyState !== WebSocket.OPEN) return;
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+            console.warn('⚠️ WebSocket не подключён, дроп не отправлен');
+            return;
+        }
         ws.send(JSON.stringify({
             type: 'upgrade_win',
             nickname: myNickname,
@@ -778,9 +743,9 @@
             itemImg: item.img,
             price: item.price
         }));
+        console.log('📤 Отправлен дроп:', item.name);
     }
 
-    // ===== ДОБАВЛЕНИЕ В LIVE BOARD =====
     function addLiveDrop(drop, animate) {
         const list = document.getElementById('liveList');
         const empty = list.querySelector('.live-empty');
@@ -802,14 +767,10 @@
         `;
 
         list.prepend(item);
-
-        // Ограничиваем 30 элементами
-        while (list.children.length > 30) {
-            list.removeChild(list.lastChild);
-        }
+        while (list.children.length > 30) list.removeChild(list.lastChild);
     }
 
-    // ===== ОСНОВНАЯ ЛОГИКА ИГРЫ =====
+    // ===== ИГРА =====
     const ITEMS = [
         { id: 'cupid', name: 'Cupid Wings', price: 34, img: 'https://github.com/forerer-afk/brainroterX/blob/main/cupid-wings.png?raw=true' },
         { id: 'garama', name: 'Garama and Madundung', price: 41, img: 'https://github.com/forerer-afk/brainroterX/blob/main/garama.png?raw=true' },
@@ -832,7 +793,6 @@
     let inventory = [];
     let selectedSourceId = null;
     let selectedTargetId = null;
-    let currentMultiplier = 3;
     let isSpinning = false;
 
     const balanceDisplay = document.getElementById('balanceDisplay');
@@ -861,16 +821,6 @@
             el.scrollLeft += e.deltaY > 0 ? 300 : -300;
         }, { passive: false });
     }
-
-    document.querySelectorAll('.mult-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (isSpinning) return;
-            document.querySelectorAll('.mult-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentMultiplier = parseFloat(btn.dataset.mult);
-            updateUpgradeScreen();
-        });
-    });
 
     function renderShop() {
         shopRow.innerHTML = ITEMS.map(item => `
@@ -981,7 +931,6 @@
         if (!sourceItem || !targetItem || targetItem.price <= sourceItem.price) return 0;
         
         let chance = (sourceItem.price / targetItem.price) * 100;
-        chance = chance / currentMultiplier * 3;
         if (chance > MAX_CHANCE) chance = MAX_CHANCE;
         if (chance < 0) chance = 0;
         return chance;
@@ -1118,7 +1067,6 @@
         enableWheelScroll(shopRow);
         enableWheelScroll(inventoryRow);
 
-        // Подключаемся к WebSocket
         connectWS();
     }
 
